@@ -50,10 +50,11 @@ const SierpinskiHexagon: React.FC = () => {
             .attr("stroke", "black")
             .attr("stroke-width", "0.4")
             .attr("fill", "#603b61")
-            .style("filter", "drop-shadow(0 4px 8px rgba(143, 107, 143, 0.2)) drop-shadow(0 6px 20px rgba(143, 107, 143, 0.1))");
+            .style("filter", "drop-shadow(0 4px 8px rgba(143, 107, 143, 0.2)) drop-shadow(0 6px 20px rgba(143, 107, 143, 0.1))")
+            .style("pointer-events", "none"); // Ensure these are not interactive
         }
 
-        if (level === targetLevel + 1) {
+        if (level === targetLevel + 2) {
           const hexagon = createHexagon(x, y, size);
           const group = svg.append("g").attr("class", "hexagon-group");
           const currentHexagonId = hexagonCounter;
@@ -63,7 +64,8 @@ const SierpinskiHexagon: React.FC = () => {
             .attr("points", hexagon.map((p) => p.join(",")).join(" "))
             .attr("fill", "transparent")
             .attr("id", `hexagon-${currentHexagonId}`)
-            .style("cursor", "pointer");
+            .style("cursor", "pointer")
+            .style("pointer-events", "all");  // Enable pointer events for these
 
           const [centerX, centerY] = getHexagonCenter(hexagon);
 
@@ -87,7 +89,7 @@ const SierpinskiHexagon: React.FC = () => {
           hexagonCounter++;
         }
 
-        if (level === targetLevel + 2) {
+        if (level === targetLevel + 3) {
           const hexagon = createHexagon(x, y, size);
           const group = svg.append("g").attr("class", "hexagon-group");
           const currentHexagonId = hexagonCounter;
@@ -97,7 +99,8 @@ const SierpinskiHexagon: React.FC = () => {
             .attr("points", hexagon.map((p) => p.join(",")).join(" "))
             .attr("fill", "transparent")
             .attr("id", `hexagon-${currentHexagonId}`)
-            .style("cursor", "pointer");
+            .style("cursor", "pointer")
+            .style("pointer-events", "none");  // Disable pointer events for these
 
           const [centerX, centerY] = getHexagonCenter(hexagon);
 
@@ -125,7 +128,7 @@ const SierpinskiHexagon: React.FC = () => {
       const centerX = width / 2;
       const centerY = height / 2;
 
-      drawHexagon(centerX, centerY, hexagonWidth / 2, 3, 1);
+      drawHexagon(centerX, centerY, hexagonWidth / 2, 4, 1);
     }
   }, []);
 
