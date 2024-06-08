@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useState } from "react";
+import SierpinskiHexagon from "./components/SierpinskiHexagon";
+import MarkdownPage from "./components/MarkdownPage";
 
-function App() {
-  return (
-    <div className="flex items-center justify-center h-screen">
-      <h1 className="text-4xl font-bold">Hello, React with Tailwind CSS and TypeScript!</h1>
-    </div>
-  );
-}
+const App: React.FC = () => {
+  const [page, setPage] = useState<string | null>(null);
+
+  const handleSectionClick = (x: number, y: number, size: number) => {
+    // Logic to determine which section was clicked
+    // For demonstration, we'll just set a static markdown page
+    setPage("content/Test.md");
+  };
+
+  return <SierpinskiHexagon />;
+};
 
 export default App;
