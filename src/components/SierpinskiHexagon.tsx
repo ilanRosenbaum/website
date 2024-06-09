@@ -12,6 +12,15 @@ const SierpinskiHexagon: React.FC = () => {
       const hexagonWidth = window.innerHeight;
       let hexagonCounter = 1;
 
+      const targetLevels: Record<string, number> = {
+        right: 3,
+        bottomRight: 3,
+        bottomLeft: 3,
+        left: 3,
+        topLeft: 1,
+        topRight: 2
+      };
+
       const createHexagon = (x: number, y: number, size: number): [number, number][] => {
         const points: [number, number][] = d3.range(6).map((i) => {
           const angle = (i * Math.PI) / 3;
@@ -26,8 +35,11 @@ const SierpinskiHexagon: React.FC = () => {
         return [x, y];
       };
 
-      const drawHexagon = (x: number, y: number, size: number, level: number, targetLevel: number) => {
-        if (level === 0) return;
+      const drawHexagon = (x: number, y: number, size: number, level: number, section: string) => {
+        const group = svg.append("g").attr("class", "hexagon-group");
+        const currentHexagonId = hexagonCounter;
+
+        if (level <= 0) return;
 
         const offsets = [
           [size / 1.5, 0],
@@ -38,35 +50,36 @@ const SierpinskiHexagon: React.FC = () => {
           [size / 3, -(Math.sqrt(3) / 3) * size]
         ];
 
-        offsets.forEach(([dx, dy]) => {
-          drawHexagon(x + dx, y + dy, size / 3, level - 1, targetLevel);
-        });
+        if (level > 3) {
+          offsets.forEach(([dx, dy], index) => {
+            const newSection = Object.keys(targetLevels)[index];
+            drawHexagon(x + dx, y + dy, size / 3, level - 1, newSection);
+          });
+        } else {
+          offsets.forEach(([dx, dy], index) => {
+            drawHexagon(x + dx, y + dy, size / 3, level - 1, section);
+          });
+        }
+
+        const targetLevel = targetLevels[section];
 
         if (level === targetLevel) {
           const hexagon = createHexagon(x, y, size);
-          svg
-            .append("polygon")
-            .attr("points", hexagon.map((p) => p.join(",")).join(" "))
-            .attr("stroke", "black")
-            .attr("stroke-width", "0.4")
-            .attr("fill", "#603b61")
-            .style("filter", "drop-shadow(0 0px 0.5em rgba(75, 0, 130, 0.5))")
-            .style("pointer-events", "none");
-        }
-
-        if (level === targetLevel + 2) {
-          const hexagon = createHexagon(x, y, size);
-          const group = svg.append("g").attr("class", "hexagon-group");
-          const currentHexagonId = hexagonCounter;
 
           group
             .append("polygon")
             .attr("points", hexagon.map((p) => p.join(",")).join(" "))
-            .attr("fill", "transparent")
+            .attr("stroke", "black")
+            .attr("stroke-width", "0.4")
+            .attr("fill", level === targetLevel ? "#603b61" : "transparent")
             .attr("id", `hexagon-${currentHexagonId}`)
-            .style("cursor", "pointer")
-            .style("pointer-events", "all");
+            .style("filter", "drop-shadow(0 0px 0.5em rgba(75, 0, 130, 0.5))")
+            .style("cursor", level === targetLevel + 2 ? "pointer" : "default")
+            .style("pointer-events", level === targetLevel ? "all" : "none");
+        }
 
+        if (level === 3) {
+          const hexagon = createHexagon(x, y, size);
           const [centerX, centerY] = getHexagonCenter(hexagon);
 
           group
@@ -80,6 +93,7 @@ const SierpinskiHexagon: React.FC = () => {
             .style("font-size", "1.5em")
             .style("font-family", "Courier New, monospace")
             .style("font-weight", "500")
+            .style("cursor", "pointer")
             .text(`Hex ${currentHexagonId}`);
 
           group.on("click", () => {
@@ -89,10 +103,9 @@ const SierpinskiHexagon: React.FC = () => {
           hexagonCounter++;
         }
 
-        if (level === targetLevel + 3) {
+        if (level === 4) {
           const hexagon = createHexagon(x, y, size);
-          const group = svg.append("g").attr("class", "hexagon-group");
-          const currentHexagonId = hexagonCounter;
+          const [centerX, centerY] = getHexagonCenter(hexagon);
 
           group
             .append("polygon")
@@ -101,8 +114,6 @@ const SierpinskiHexagon: React.FC = () => {
             .attr("id", `hexagon-${currentHexagonId}`)
             .style("cursor", "pointer")
             .style("pointer-events", "none");
-
-          const [centerX, centerY] = getHexagonCenter(hexagon);
 
           group
             .append("text")
@@ -120,18 +131,16 @@ const SierpinskiHexagon: React.FC = () => {
         }
       };
 
-      svg
-        .attr("viewBox", `0 0 ${width} ${height}`)
-        .attr("width", width)
-        .attr("height", height);
-
-      const centerX = width / 2;
-      const centerY = height / 2;
-
       // Clear SVG content before drawing
       svg.selectAll("*").remove();
 
-      drawHexagon(centerX, centerY, hexagonWidth / 2, 4, 1);
+      // Update the initial draw call to use the maximum target level + 2
+      const maxTargetLevel = 4;
+      svg.attr("viewBox", `0 0 ${width} ${height}`).attr("width", width).attr("height", height);
+
+      const centerX = width / 2;
+      const centerY = height / 2;
+      drawHexagon(centerX, centerY, hexagonWidth / 2, maxTargetLevel, "center");
     }
   }, []);
 
