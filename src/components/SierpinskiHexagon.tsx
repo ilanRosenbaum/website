@@ -50,8 +50,8 @@ const SierpinskiHexagon: React.FC = () => {
             .attr("stroke", "black")
             .attr("stroke-width", "0.4")
             .attr("fill", "#603b61")
-            .style("filter", "drop-shadow(0 4px 8px rgba(143, 107, 143, 0.2)) drop-shadow(0 6px 20px rgba(143, 107, 143, 0.1))")
-            .style("pointer-events", "none"); // Ensure these are not interactive
+            .style("filter", "drop-shadow(0 0px 0.5em rgba(75, 0, 130, 0.5))")
+            .style("pointer-events", "none");
         }
 
         if (level === targetLevel + 2) {
@@ -65,7 +65,7 @@ const SierpinskiHexagon: React.FC = () => {
             .attr("fill", "transparent")
             .attr("id", `hexagon-${currentHexagonId}`)
             .style("cursor", "pointer")
-            .style("pointer-events", "all");  // Enable pointer events for these
+            .style("pointer-events", "all");
 
           const [centerX, centerY] = getHexagonCenter(hexagon);
 
@@ -100,7 +100,7 @@ const SierpinskiHexagon: React.FC = () => {
             .attr("fill", "transparent")
             .attr("id", `hexagon-${currentHexagonId}`)
             .style("cursor", "pointer")
-            .style("pointer-events", "none");  // Disable pointer events for these
+            .style("pointer-events", "none");
 
           const [centerX, centerY] = getHexagonCenter(hexagon);
 
@@ -127,6 +127,9 @@ const SierpinskiHexagon: React.FC = () => {
 
       const centerX = width / 2;
       const centerY = height / 2;
+
+      // Clear SVG content before drawing
+      svg.selectAll("*").remove();
 
       drawHexagon(centerX, centerY, hexagonWidth / 2, 4, 1);
     }
