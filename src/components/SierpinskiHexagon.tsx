@@ -137,7 +137,7 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
             .attr("dominant-baseline", "middle")
             .attr("fill", "#ffebcd")
             .style("pointer-events", "none")
-            .style("font-size", "3em")
+            .style("font-size", "2.5em")
             .style("font-family", "Courier New, monospace")
             .style("font-weight", "500")
             .style("text-shadow", "0em 0em 0.2em rgba(143, 107, 143, 1)")
