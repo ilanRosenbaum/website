@@ -3,13 +3,12 @@ import SierpinskiHexagon from "./components/SierpinskiHexagon";
 
 const hexagonConfig = {
   targetLevels: {
-    right: 3,
+    right: 2,
     bottomRight: 3,
     bottomLeft: 3,
     left: 3,
     topLeft: 1,
     topRight: 2,
-    center: 3
   },
   styles: {
     bottomRight: {
@@ -31,17 +30,18 @@ const hexagonConfig = {
   },
   images: {
     bottomRight: "./assets/ceramics/garlic.jpg",
-    bottomLeft: "./assets/photography/ducks.jpg",
+    bottomLeft: "./assets/photography/bird.jpg",
+    left: "./assets/cooking/chicken_pasta.jpg",
   },
   text: {
-    1: "1",
+    1: "Misc",
     2: "Ceramics",
-    3: "photography",
-    4: "4",
-    5: "rooms",
-    6: "6"
+    3: "Photography",
+    4: "Cooking",
+    5: "roōms",
+    6: "Lists"
   },
-  title: "Ilan's Works"
+  title: "Title"
 };
 
 const App: React.FC = () => {

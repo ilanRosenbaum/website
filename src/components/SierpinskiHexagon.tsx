@@ -60,7 +60,7 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
             drawHexagon(x + dx, y + dy, size / 3, level - 1, newSection);
           });
         } else {
-          offsets.forEach(([dx, dy], index) => {
+          offsets.forEach(([dx, dy]) => {
             drawHexagon(x + dx, y + dy, size / 3, level - 1, section);
           });
         }
@@ -71,17 +71,21 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
           const hexagon = createHexagon(x, y, size);
           const style = config.styles[section] || config.styles.default;
 
-          group
-            .append("polygon")
+          const hexagonPolygon = group.append("polygon")
             .attr("points", hexagon.map((p) => p.join(",")).join(" "))
             .attr("stroke", "black")
             .attr("stroke-width", "0.4")
-            .attr("fill", style.fill)
             .attr("opacity", style.opacity)
             .attr("id", `hexagon-${currentHexagonId}`)
             .style("filter", "drop-shadow(0 0px 1em rgba(75, 0, 130, 0.5))")
             .style("cursor", level === targetLevel + 2 ? "pointer" : "default")
             .style("pointer-events", level === targetLevel ? "all" : "none");
+
+          if (config.images[section]) {
+            hexagonPolygon.attr("fill", `url(#image-fill-${section})`);
+          } else {
+            hexagonPolygon.attr("fill", style.fill);
+          }
 
           // Apply specific click action for the hexagon
           group.on("click", () => {
@@ -101,7 +105,7 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
             .attr("y", centerY)
             .attr("text-anchor", "middle")
             .attr("dominant-baseline", "middle")
-            .attr("fill", "black")
+            .attr("fill", "#ffefdb")
             .style("pointer-events", "none")
             .style("font-size", "2em")
             .style("font-family", "Courier new, monospace")
@@ -131,7 +135,7 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
             .attr("y", centerY)
             .attr("text-anchor", "middle")
             .attr("dominant-baseline", "middle")
-            .attr("fill", "black")
+            .attr("fill", "#ffebcd")
             .style("pointer-events", "none")
             .style("font-size", "3em")
             .style("font-family", "Courier New, monospace")
@@ -157,14 +161,13 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
           .attr("xlink:href", config.images[key]) // Use the local image path
           .attr("width", 1)
           .attr("height", 1)
-          .attr("preserveAspectRatio", "xMidYMid meet") // Ensure the image is scaled proportionally to cover the entire area.
+          .attr("preserveAspectRatio", "xMidYMid slice") // Ensure the image is scaled proportionally to cover the entire area.
           .attr("opacity", 0.5); // Set the opacity to make the image slightly translucent.
       });
-      
 
       // Update the initial draw call to use the maximum target level + 2
       const maxTargetLevel = 4;
-      svg.attr("viewBox", `0 0 ${width} ${height}`).attr("width", width).attr("height", height);
+      svg.attr("viewBox", `0 0 ${width} ${height}`).attr("width", "100%").attr("height", "100%");
 
       const centerX = width / 2;
       const centerY = height / 2;
@@ -173,7 +176,7 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
   }, [config]);
 
   return (
-    <div className="w-screen h-screen flex items-center justify-center bg-black/85">
+    <div className="w-screen h-screen flex items-center justify-center bg-black/90">
       <svg ref={svgRef} />
     </div>
   );
