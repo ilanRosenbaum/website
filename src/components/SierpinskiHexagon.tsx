@@ -146,14 +146,15 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
       Object.keys(config.images).forEach((key) => {
         defs.append("pattern")
           .attr("id", `image-fill-${key}`)
-          .attr("patternUnits", "userSpaceOnUse")
-          .attr("width", 100)
-          .attr("height", 100)
+          .attr("patternUnits", "objectBoundingBox")
+          .attr("patternContentUnits", "objectBoundingBox")
+          .attr("width", 1)
+          .attr("height", 1)
           .append("image")
           .attr("xlink:href", config.images[key]) // Use the local image path
-          .attr("width", 100)
-          .attr("height", 100)
-          .attr("opacity", "0.5");
+          .attr("width", 1)
+          .attr("height", 1)
+          .attr("preserveAspectRatio", "xMidYMid meet"); // Ensure the image is scaled proportionally to cover the entire area.
       });
 
       // Update the initial draw call to use the maximum target level + 2
