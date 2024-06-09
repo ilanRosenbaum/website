@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 
-interface MarkdownPageProps {
-  url: string;
-}
-
-const MarkdownPage: React.FC<MarkdownPageProps> = ({ url }) => {
-  const [content, setContent] = useState<string>('');
+const MarkdownPage: React.FC = () => {
+  const [markdown, setMarkdown] = useState('');
 
   useEffect(() => {
-    fetch(url)
+    fetch('/content/Test.md')
       .then((response) => response.text())
-      .then((text) => setContent(text));
-  }, [url]);
+      .then((text) => setMarkdown(text));
+  }, []);
 
-  return <ReactMarkdown>{content}</ReactMarkdown>;
+  return <ReactMarkdown children={markdown} />;
 };
 
 export default MarkdownPage;

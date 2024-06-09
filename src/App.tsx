@@ -1,17 +1,41 @@
-import React, { useState } from "react";
+import React from "react";
 import SierpinskiHexagon from "./components/SierpinskiHexagon";
-import MarkdownPage from "./components/MarkdownPage";
+
+const hexagonConfig = {
+  targetLevels: {
+    right: 3,
+    bottomRight: 3,
+    bottomLeft: 3,
+    left: 3,
+    topLeft: 1,
+    topRight: 2,
+    center: 3
+  },
+  styles: {
+    bottomRight: {
+      fill: "url(#image-fill-bottomRight)",
+      opacity: 0.5
+    },
+    default: {
+      fill: "#603b61",
+      opacity: 1.0
+    }
+  },
+  actions: {
+    bottomRight: () => {
+      window.location.href = "/test";
+    },
+    default: (hexagonId: number) => {
+      alert(`Hexagon ${hexagonId} clicked!`);
+    }
+  },
+  images: {
+    bottomRight: "./assets/garlic.jpg"
+  }
+};
 
 const App: React.FC = () => {
-  const [page, setPage] = useState<string | null>(null);
-
-  const handleSectionClick = (x: number, y: number, size: number) => {
-    // Logic to determine which section was clicked
-    // For demonstration, we'll just set a static markdown page
-    setPage("content/Test.md");
-  };
-
-  return <SierpinskiHexagon />;
+  return <SierpinskiHexagon config={hexagonConfig} />;
 };
 
 export default App;

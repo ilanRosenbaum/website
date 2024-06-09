@@ -1,7 +1,18 @@
 import React, { useRef, useEffect } from "react";
 import * as d3 from "d3";
 
-const SierpinskiHexagon: React.FC = () => {
+interface HexagonConfig {
+  targetLevels: Record<string, number>;
+  styles: Record<string, { fill: string; opacity: number }>;
+  actions: Record<string, (hexagonId: number) => void>;
+  images: Record<string, string>;
+}
+
+interface SierpinskiHexagonProps {
+  config: HexagonConfig;
+}
+
+const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
 
   useEffect(() => {
@@ -11,15 +22,6 @@ const SierpinskiHexagon: React.FC = () => {
       const height = window.innerHeight;
       const hexagonWidth = window.innerHeight;
       let hexagonCounter = 1;
-
-      const targetLevels: Record<string, number> = {
-        right: 3,
-        bottomRight: 3,
-        bottomLeft: 3,
-        left: 3,
-        topLeft: 1,
-        topRight: 2
-      };
 
       const createHexagon = (x: number, y: number, size: number): [number, number][] => {
         const points: [number, number][] = d3.range(6).map((i) => {
@@ -52,7 +54,7 @@ const SierpinskiHexagon: React.FC = () => {
 
         if (level > 3) {
           offsets.forEach(([dx, dy], index) => {
-            const newSection = Object.keys(targetLevels)[index];
+            const newSection = Object.keys(config.targetLevels)[index];
             drawHexagon(x + dx, y + dy, size / 3, level - 1, newSection);
           });
         } else {
@@ -61,21 +63,30 @@ const SierpinskiHexagon: React.FC = () => {
           });
         }
 
-        const targetLevel = targetLevels[section];
+        const targetLevel = config.targetLevels[section];
 
         if (level === targetLevel) {
           const hexagon = createHexagon(x, y, size);
+          const style = config.styles[section] || config.styles.default;
 
           group
             .append("polygon")
             .attr("points", hexagon.map((p) => p.join(",")).join(" "))
             .attr("stroke", "black")
             .attr("stroke-width", "0.4")
-            .attr("fill", level === targetLevel ? "#603b61" : "transparent")
+            .attr("fill", style.fill)
+            .attr("opacity", style.opacity)
             .attr("id", `hexagon-${currentHexagonId}`)
             .style("filter", "drop-shadow(0 0px 0.5em rgba(75, 0, 130, 0.5))")
             .style("cursor", level === targetLevel + 2 ? "pointer" : "default")
             .style("pointer-events", level === targetLevel ? "all" : "none");
+
+          // Apply specific click action for the hexagon
+          group.on("click", () => {
+            const action = config.actions[section] || config.actions.default;
+            action(currentHexagonId);
+          });
+
         }
 
         if (level === 3) {
@@ -95,10 +106,6 @@ const SierpinskiHexagon: React.FC = () => {
             .style("font-weight", "500")
             .style("cursor", "pointer")
             .text(`Hex ${currentHexagonId}`);
-
-          group.on("click", () => {
-            alert(`Hexagon ${currentHexagonId} clicked!`);
-          });
 
           hexagonCounter++;
         }
@@ -134,6 +141,21 @@ const SierpinskiHexagon: React.FC = () => {
       // Clear SVG content before drawing
       svg.selectAll("*").remove();
 
+      // Add image patterns for hexagons defined in config
+      const defs = svg.append("defs");
+      Object.keys(config.images).forEach((key) => {
+        defs.append("pattern")
+          .attr("id", `image-fill-${key}`)
+          .attr("patternUnits", "userSpaceOnUse")
+          .attr("width", 100)
+          .attr("height", 100)
+          .append("image")
+          .attr("xlink:href", config.images[key]) // Use the local image path
+          .attr("width", 100)
+          .attr("height", 100)
+          .attr("opacity", "0.5");
+      });
+
       // Update the initial draw call to use the maximum target level + 2
       const maxTargetLevel = 4;
       svg.attr("viewBox", `0 0 ${width} ${height}`).attr("width", width).attr("height", height);
@@ -142,7 +164,7 @@ const SierpinskiHexagon: React.FC = () => {
       const centerY = height / 2;
       drawHexagon(centerX, centerY, hexagonWidth / 2, maxTargetLevel, "center");
     }
-  }, []);
+  }, [config]);
 
   return (
     <div className="w-screen h-screen flex items-center justify-center bg-black/85">
