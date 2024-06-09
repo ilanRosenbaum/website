@@ -6,6 +6,8 @@ interface HexagonConfig {
   styles: Record<string, { fill: string; opacity: number }>;
   actions: Record<string, (hexagonId: number) => void>;
   images: Record<string, string>;
+  text: Record<number, string>;
+  title: string;
 }
 
 interface SierpinskiHexagonProps {
@@ -77,7 +79,7 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
             .attr("fill", style.fill)
             .attr("opacity", style.opacity)
             .attr("id", `hexagon-${currentHexagonId}`)
-            .style("filter", "drop-shadow(0 0px 0.5em rgba(75, 0, 130, 0.5))")
+            .style("filter", "drop-shadow(0 0px 1em rgba(75, 0, 130, 0.5))")
             .style("cursor", level === targetLevel + 2 ? "pointer" : "default")
             .style("pointer-events", level === targetLevel ? "all" : "none");
 
@@ -101,11 +103,12 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
             .attr("dominant-baseline", "middle")
             .attr("fill", "black")
             .style("pointer-events", "none")
-            .style("font-size", "1.5em")
-            .style("font-family", "Courier New, monospace")
+            .style("font-size", "2em")
+            .style("font-family", "Courier new, monospace")
             .style("font-weight", "500")
             .style("cursor", "pointer")
-            .text(`Hex ${currentHexagonId}`);
+            .style("text-shadow", "0em 0em 0.1em rgba(0, 0, 0, 1)")
+            .text(`${config.text[hexagonCounter]}`);
 
           hexagonCounter++;
         }
@@ -134,7 +137,7 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
             .style("font-family", "Courier New, monospace")
             .style("font-weight", "500")
             .style("text-shadow", "0em 0em 0.2em rgba(143, 107, 143, 1)")
-            .text(`Bestagons`);
+            .text(config.title);
         }
       };
 
@@ -154,8 +157,10 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
           .attr("xlink:href", config.images[key]) // Use the local image path
           .attr("width", 1)
           .attr("height", 1)
-          .attr("preserveAspectRatio", "xMidYMid meet"); // Ensure the image is scaled proportionally to cover the entire area.
+          .attr("preserveAspectRatio", "xMidYMid meet") // Ensure the image is scaled proportionally to cover the entire area.
+          .attr("opacity", 0.5); // Set the opacity to make the image slightly translucent.
       });
+      
 
       // Update the initial draw call to use the maximum target level + 2
       const maxTargetLevel = 4;

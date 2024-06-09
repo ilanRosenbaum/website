@@ -30,8 +30,18 @@ const hexagonConfig = {
     }
   },
   images: {
-    bottomRight: "./assets/garlic.jpg"
-  }
+    bottomRight: "./assets/ceramics/garlic.jpg",
+    bottomLeft: "./assets/photography/ducks.jpg",
+  },
+  text: {
+    1: "1",
+    2: "Ceramics",
+    3: "photography",
+    4: "4",
+    5: "rooms",
+    6: "6"
+  },
+  title: "Ilan's Works"
 };
 
 const App: React.FC = () => {
