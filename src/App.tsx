@@ -11,10 +11,6 @@ const hexagonConfig = {
     topRight: 2,
   },
   styles: {
-    bottomRight: {
-      fill: "url(#image-fill-bottomRight)",
-      opacity: 0.5
-    },
     default: {
       fill: "#603b61",
       opacity: 1.0
