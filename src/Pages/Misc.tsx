@@ -4,44 +4,44 @@ import SierpinskiHexagon from "./../components/SierpinskiHexagon";
 const sharedConfig = {
   targetLevels: {
     right: 3,
-    bottomRight: 0,
-    bottomLeft: 0,
+    bottomRight: 3,
+    bottomLeft: 3,
     left: 3,
     topLeft: 3,
     topRight: 3
   },
   styles: {
     default: {
-      fill: "#4c0013",
+      fill: "#603b61",
       opacity: 1.0
     }
   },
   images: {},
-  title: "roōms",
-  textColor: "#F2EFDE",
-  dropShadow: "#F2EFDE"
+  title: "Misc",
+  // textColor: "#F2EFDE",
+  // dropShadow: "#F2EFDE"
 };
 
-// The SierpinskiHexagon config to be used for the Rooms sub hexagon on the home page
+// The SierpinskiHexagon config to be used for the Misc sub hexagon on the home page
 export const appConfig = {
   targetLevels: sharedConfig.targetLevels,
   styles: sharedConfig.styles,
   actions: {
     default: () => {
-      window.location.href = "/rooms";
+      window.location.href = "/misc";
     }
   },
   images: sharedConfig.images,
   text: {},
   title: sharedConfig.title,
-  textColor: sharedConfig.textColor,
-  dropShadow: sharedConfig.dropShadow,
+  // textColor: sharedConfig.textColor,
+  // dropShadow: sharedConfig.dropShadow,
   backButton: {
     exists: false
   }
 };
 
-// The SierpinskiHexagon config to be used for the Rooms page
+// The SierpinskiHexagon config to be used for the Misc page
 const pageConfig = {
   targetLevels: sharedConfig.targetLevels,
   styles: sharedConfig.styles,
@@ -60,8 +60,8 @@ const pageConfig = {
     6: "Why"
   },
   title: sharedConfig.title,
-  textColor: sharedConfig.textColor,
-  dropShadow: sharedConfig.dropShadow,
+  // textColor: sharedConfig.textColor,
+  // dropShadow: sharedConfig.dropShadow,
   backButton: {
     exists: true,
     to: "/",
@@ -69,8 +69,8 @@ const pageConfig = {
   }
 };
 
-const Rooms: React.FC = () => {
+const Misc: React.FC = () => {
   return <SierpinskiHexagon config={pageConfig} />;
 };
 
-export default Rooms;
+export default Misc;

@@ -24,7 +24,7 @@ const BackButton: React.FC<BackButtonProps> = ({ to, color, textColor }) => {
       <p
         className="absolute inset-0 flex items-center justify-center"
         style={{
-          color: textColor,
+          color: textColor || "#ffefdb",
           fontFamily: "Courier new, monospace",
           fontSize: "1vw",
           fontWeight: "500",

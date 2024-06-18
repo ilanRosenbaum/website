@@ -211,7 +211,7 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
     <div className="h-screen w-screen bg-black/90 fixed">
       <div className="absolute pt-8 pl-8">
         {config.backButton.exists && (
-          <BackButton textColor={config.textColor || "black"} color={config.styles["default"].fill || "black"} to={config.backButton.to || "/"} />
+          <BackButton textColor={config.textColor || "#ffefdb"} color={config.styles["default"].fill || "#603b61"} to={config.backButton.to || "/"} />
         )}
       </div>
       <div className="items-center justify-center">

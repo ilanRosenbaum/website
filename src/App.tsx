@@ -1,41 +1,13 @@
 import React from "react";
 import SierpinskiHexagon from "./components/SierpinskiHexagon";
-
-const RoomsConfig = {
-  targetLevels: {
-    right: 3,
-    bottomRight: 0,
-    bottomLeft: 0,
-    left: 3,
-    topLeft: 3,
-    topRight: 3
-  },
-  styles: {
-    default: {
-      fill: "#4c0013",
-      opacity: 1.0
-    }
-  },
-  actions: {
-    default: () => {
-      window.location.href = "/rooms";
-    }
-  },
-  images: {},
-  text: {},
-  title: "roōms",
-  textColor: "#F2EFDE",
-  dropShadow: "#F2EFDE",
-  backButton: {
-    exists: false,
-  }
-};
+import { appConfig as RoomsConfig } from "./Pages/Rooms";
+import { appConfig as MiscConfig } from "./Pages/Misc";
 
 const AppConfig = {
   targetLevels: {
     right: 3,
     bottomRight: 3,
-    bottomLeft: 2,
+    bottomLeft: 0,
     left: 3,
     topLeft: 0,
     topRight: 2
@@ -47,8 +19,8 @@ const AppConfig = {
     }
   },
   actions: {
-    bottomRight: () => {
-      window.location.href = "/test";
+    bottomLeft: () => {
+      window.location.href = "/misc";
     },
     topLeft: () => {
       window.location.href = "/rooms";
@@ -65,7 +37,6 @@ const AppConfig = {
   text: {
     1: "Photography",
     2: "Ceramics",
-    3: "Misc",
     4: "Cooking",
     6: "Lists"
   },
@@ -74,7 +45,8 @@ const AppConfig = {
     exists: false
   },
   config: {
-    "topLeft": RoomsConfig
+    "topLeft": RoomsConfig,
+    "bottomLeft": MiscConfig
   }
 };
 
