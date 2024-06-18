@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import * as d3 from "d3";
 import BackButton from "./BackButton";
+
 interface HexagonConfig {
   targetLevels: Record<string, number>;
   styles: Record<string, { fill: string; opacity: number }>;
@@ -15,6 +16,7 @@ interface HexagonConfig {
     to?: string;
     textColor?: string;
   };
+  config?: Record<string, HexagonConfig>;
 }
 
 interface SierpinskiHexagonProps {
@@ -58,12 +60,12 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
         return [x, y];
       };
 
-      const drawHexagon = (x: number, y: number, size: number, level: number, section: string) => {
+      const drawHexagon = (x: number, y: number, size: number, level: number, section: string, currentConfig: HexagonConfig) => {
         const group = svg.append("g").attr("class", "hexagon-group");
         const currentHexagonId = hexagonCounter;
-
+      
         if (level <= 0) return;
-
+      
         const offsets = [
           [size / 1.5, 0],
           [size / 3, (Math.sqrt(3) / 3) * size],
@@ -72,24 +74,24 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
           [-size / 3, -(Math.sqrt(3) / 3) * size],
           [size / 3, -(Math.sqrt(3) / 3) * size]
         ];
-
+      
         if (level > 3) {
           offsets.forEach(([dx, dy], index) => {
-            const newSection = Object.keys(config.targetLevels)[index];
-            drawHexagon(x + dx, y + dy, size / 3, level - 1, newSection);
+            const newSection = Object.keys(currentConfig.targetLevels)[index];
+            drawHexagon(x + dx, y + dy, size / 3, level - 1, newSection, currentConfig);
           });
         } else {
           offsets.forEach(([dx, dy]) => {
-            drawHexagon(x + dx, y + dy, size / 3, level - 1, section);
+            drawHexagon(x + dx, y + dy, size / 3, level - 1, section, currentConfig);
           });
         }
-
-        const targetLevel = config.targetLevels[section];
-
+      
+        const targetLevel = currentConfig.targetLevels[section];
+      
         if (level === targetLevel) {
           const hexagon = createHexagon(x, y, size);
-          const style = config.styles[section] || config.styles.default;
-
+          const style = currentConfig.styles[section] || currentConfig.styles.default;
+      
           const hexagonPolygon = group
             .append("polygon")
             .attr("points", hexagon.map((p) => p.join(",")).join(" "))
@@ -97,53 +99,53 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
             .attr("stroke-width", "0.4")
             .attr("opacity", style.opacity)
             .attr("id", `hexagon-${currentHexagonId}`)
-            .style("filter", `drop-shadow(0 0px 1em ${config.dropShadow !== undefined ? hexToRgbA(config.dropShadow) : "rgba(75, 0, 130, 0.5))"}`)
+            .style("filter", `drop-shadow(0 0px 1em ${currentConfig.dropShadow !== undefined ? hexToRgbA(currentConfig.dropShadow) : "rgba(75, 0, 130, 0.5))"}`)
             .style("cursor", level === targetLevel + 2 ? "pointer" : "default")
             .style("pointer-events", level === targetLevel ? "all" : "none");
-
-          if (config.images[section]) {
+      
+          if (currentConfig.images[section]) {
             hexagonPolygon.attr("fill", `url(#image-fill-${section})`);
           } else {
             hexagonPolygon.attr("fill", style.fill);
           }
         }
-
+      
         if (level === 3) {
           const hexagon = createHexagon(x, y, size);
           const [centerX, centerY] = getHexagonCenter(hexagon);
-
+      
           group
             .append("text")
             .attr("x", centerX)
             .attr("y", centerY)
             .attr("text-anchor", "middle")
             .attr("dominant-baseline", "middle")
-            .attr("fill", config.textColor || "#ffefdb")
+            .attr("fill", currentConfig.textColor || "#ffefdb")
             .style("font-size", "2em")
             .style("font-family", "Courier new, monospace")
             .style("font-weight", "500")
             .style("text-shadow", "0em 0em 0.1em rgba(0, 0, 0, 1)")
-            .text(`${config.text[hexagonCounter]}`);
-
+            .text(`${currentConfig.text[hexagonCounter] || ""}`);
+      
           group
             .append("polygon")
             .attr("points", hexagon.map((p) => p.join(",")).join(" "))
             .attr("fill", "transparent")
             .style("pointer-events", "fill");
-
+      
           // Apply specific click action for the hexagon
           group.on("click", () => {
-            const action = config.actions[section] || config.actions.default;
+            const action = config.actions[section] || currentConfig.actions.default;
             action(currentHexagonId);
           });
-
+      
           hexagonCounter++;
         }
-
+      
         if (level === 4) {
           const hexagon = createHexagon(x, y, size);
           const [centerX, centerY] = getHexagonCenter(hexagon);
-
+      
           group
             .append("polygon")
             .attr("points", hexagon.map((p) => p.join(",")).join(" "))
@@ -151,7 +153,7 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
             .attr("id", `hexagon-${currentHexagonId}`)
             .style("cursor", "pointer")
             .style("pointer-events", "none");
-
+      
           group
             .append("text")
             .attr("x", centerX)
@@ -164,9 +166,15 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
             .style("font-family", "Courier New, monospace")
             .style("font-weight", "500")
             .style("text-shadow", "0em 0em 0.2em rgba(143, 107, 143, 1)")
-            .text(config.title);
+            .text(currentConfig.title);
+        }
+      
+        // Recursively draw new hexagon with specific config if exists
+        if (level === 3 && currentConfig.config && currentConfig.config[section]) {
+          drawHexagon(x, y, size, 4, section, currentConfig.config[section]);
         }
       };
+      
 
       // Clear SVG content before drawing
       svg.selectAll("*").remove();
@@ -195,13 +203,17 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
 
       const centerX = width / 2;
       const centerY = height / 2;
-      drawHexagon(centerX, centerY, hexagonWidth / 2, maxTargetLevel, "center");
+      drawHexagon(centerX, centerY, hexagonWidth / 2, maxTargetLevel, "center", config);
     }
   }, [config]);
 
   return (
     <div className="h-screen w-screen bg-black/90 fixed">
-      <div className="absolute pt-8 pl-8">{config.backButton.exists && <BackButton textColor={config.textColor || "black"} color={config.styles["default"].fill || "black"} to={config.backButton.to || "/"} />}</div>
+      <div className="absolute pt-8 pl-8">
+        {config.backButton.exists && (
+          <BackButton textColor={config.textColor || "black"} color={config.styles["default"].fill || "black"} to={config.backButton.to || "/"} />
+        )}
+      </div>
       <div className="items-center justify-center">
         <svg ref={svgRef} />
       </div>

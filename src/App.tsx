@@ -1,13 +1,43 @@
 import React from "react";
 import SierpinskiHexagon from "./components/SierpinskiHexagon";
 
-const hexagonConfig = {
+const RoomsConfig = {
+  targetLevels: {
+    right: 3,
+    bottomRight: 0,
+    bottomLeft: 0,
+    left: 3,
+    topLeft: 3,
+    topRight: 3
+  },
+  styles: {
+    default: {
+      fill: "#4c0013",
+      opacity: 1.0
+    }
+  },
+  actions: {
+    default: () => {
+      window.location.href = "/rooms";
+    }
+  },
+  images: {},
+  text: {},
+  title: "roōms",
+  textColor: "#F2EFDE",
+  dropShadow: "#F2EFDE",
+  backButton: {
+    exists: false,
+  }
+};
+
+const AppConfig = {
   targetLevels: {
     right: 3,
     bottomRight: 3,
     bottomLeft: 2,
     left: 3,
-    topLeft: 2,
+    topLeft: 0,
     topRight: 2
   },
   styles: {
@@ -37,17 +67,19 @@ const hexagonConfig = {
     2: "Ceramics",
     3: "Misc",
     4: "Cooking",
-    5: "roōms",
     6: "Lists"
   },
   title: "Ilan Rosenbaum",
   backButton: {
-    exists: false,
+    exists: false
+  },
+  config: {
+    "topLeft": RoomsConfig
   }
 };
 
 const App: React.FC = () => {
-  return <SierpinskiHexagon config={hexagonConfig} />;
+  return <SierpinskiHexagon config={AppConfig} />;
 };
 
 export default App;

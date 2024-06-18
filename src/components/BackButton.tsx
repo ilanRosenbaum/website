@@ -18,7 +18,7 @@ const BackButton: React.FC<BackButtonProps> = ({ to, color, textColor }) => {
       style={{
         backgroundColor: color,
         clipPath: "polygon(25% 6.7%, 75% 6.7%, 100% 50%, 75% 93.3%, 25% 93.3%, 0% 50%)",
-        border: "0.4px solid black",
+        border: "0.4px solid black"
       }}
     >
       <p
