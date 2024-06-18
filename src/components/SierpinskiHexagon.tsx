@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import * as d3 from "d3";
-
+import BackButton from "./BackButton";
 interface HexagonConfig {
   targetLevels: Record<string, number>;
   styles: Record<string, { fill: string; opacity: number }>;
@@ -8,10 +8,29 @@ interface HexagonConfig {
   images: Record<string, string>;
   text: Record<number, string>;
   title: string;
+  textColor?: string;
+  dropShadow?: string;
+  backButton: {
+    exists: boolean;
+    to?: string;
+    textColor?: string;
+  };
 }
 
 interface SierpinskiHexagonProps {
   config: HexagonConfig;
+}
+
+function hexToRgbA(hex: string, opacity: number = 0.5) {
+  if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
+    let c: any = hex.substring(1).split("");
+    if (c.length === 3) {
+      c = [c[0], c[0], c[1], c[1], c[2], c[2]];
+    }
+    c = "0x" + c.join("");
+    return "rgba(" + [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(",") + `,${opacity})`;
+  }
+  throw new Error("Bad Hex");
 }
 
 const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
@@ -71,13 +90,14 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
           const hexagon = createHexagon(x, y, size);
           const style = config.styles[section] || config.styles.default;
 
-          const hexagonPolygon = group.append("polygon")
+          const hexagonPolygon = group
+            .append("polygon")
             .attr("points", hexagon.map((p) => p.join(",")).join(" "))
             .attr("stroke", "black")
             .attr("stroke-width", "0.4")
             .attr("opacity", style.opacity)
             .attr("id", `hexagon-${currentHexagonId}`)
-            .style("filter", "drop-shadow(0 0px 1em rgba(75, 0, 130, 0.5))")
+            .style("filter", `drop-shadow(0 0px 1em ${config.dropShadow !== undefined ? hexToRgbA(config.dropShadow) : "rgba(75, 0, 130, 0.5))"}`)
             .style("cursor", level === targetLevel + 2 ? "pointer" : "default")
             .style("pointer-events", level === targetLevel ? "all" : "none");
 
@@ -86,13 +106,6 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
           } else {
             hexagonPolygon.attr("fill", style.fill);
           }
-
-          // Apply specific click action for the hexagon
-          group.on("click", () => {
-            const action = config.actions[section] || config.actions.default;
-            action(currentHexagonId);
-          });
-
         }
 
         if (level === 3) {
@@ -105,14 +118,24 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
             .attr("y", centerY)
             .attr("text-anchor", "middle")
             .attr("dominant-baseline", "middle")
-            .attr("fill", "#ffefdb")
-            .style("pointer-events", "none")
+            .attr("fill", config.textColor || "#ffefdb")
             .style("font-size", "2em")
             .style("font-family", "Courier new, monospace")
             .style("font-weight", "500")
-            .style("cursor", "pointer")
             .style("text-shadow", "0em 0em 0.1em rgba(0, 0, 0, 1)")
             .text(`${config.text[hexagonCounter]}`);
+
+          group
+            .append("polygon")
+            .attr("points", hexagon.map((p) => p.join(",")).join(" "))
+            .attr("fill", "transparent")
+            .style("pointer-events", "fill");
+
+          // Apply specific click action for the hexagon
+          group.on("click", () => {
+            const action = config.actions[section] || config.actions.default;
+            action(currentHexagonId);
+          });
 
           hexagonCounter++;
         }
@@ -151,7 +174,8 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
       // Add image patterns for hexagons defined in config
       const defs = svg.append("defs");
       Object.keys(config.images).forEach((key) => {
-        defs.append("pattern")
+        defs
+          .append("pattern")
           .attr("id", `image-fill-${key}`)
           .attr("patternUnits", "objectBoundingBox")
           .attr("patternContentUnits", "objectBoundingBox")
@@ -176,8 +200,11 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
   }, [config]);
 
   return (
-    <div className="w-screen h-screen flex items-center justify-center bg-black/90">
-      <svg ref={svgRef} />
+    <div className="h-screen w-screen bg-black/90 fixed">
+      <div className="absolute pt-8 pl-8">{config.backButton.exists && <BackButton textColor={config.textColor || "black"} color={config.styles["default"].fill || "black"} to={config.backButton.to || "/"} />}</div>
+      <div className="items-center justify-center">
+        <svg ref={svgRef} />
+      </div>
     </div>
   );
 };

@@ -7,8 +7,8 @@ const hexagonConfig = {
     bottomRight: 3,
     bottomLeft: 2,
     left: 3,
-    topLeft: 1,
-    topRight: 2,
+    topLeft: 2,
+    topRight: 2
   },
   styles: {
     default: {
@@ -20,6 +20,9 @@ const hexagonConfig = {
     bottomRight: () => {
       window.location.href = "/test";
     },
+    topLeft: () => {
+      window.location.href = "/rooms";
+    },
     default: (hexagonId: number) => {
       alert(`Hexagon ${hexagonId} clicked!`);
     }
@@ -27,7 +30,7 @@ const hexagonConfig = {
   images: {
     bottomRight: "./assets/ceramics/garlic.jpg",
     right: "./assets/photography/bird.jpg",
-    left: "./assets/cooking/chicken_pasta.jpg",
+    left: "./assets/cooking/chicken_pasta.jpg"
   },
   text: {
     1: "Photography",
@@ -37,7 +40,10 @@ const hexagonConfig = {
     5: "roōms",
     6: "Lists"
   },
-  title: "Ilan Rosenbaum"
+  title: "Ilan Rosenbaum",
+  backButton: {
+    exists: false,
+  }
 };
 
 const App: React.FC = () => {
