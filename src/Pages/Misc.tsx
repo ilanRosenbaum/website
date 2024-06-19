@@ -1,15 +1,7 @@
 import React from "react";
 import SierpinskiHexagon, { HexagonConfig, minConfig } from "./../components/SierpinskiHexagon";
-
+import { appConfig as ListConfig } from "./Lists";
 const sharedConfig = {
-  targetLevels: {
-    right: 3,
-    bottomRight: 2,
-    bottomLeft: 2,
-    left: 2,
-    topLeft: 3,
-    topRight: 2
-  },
   styles: {
     default: {
       fill: "#603b61",
@@ -23,7 +15,14 @@ const sharedConfig = {
 
 // The SierpinskiHexagon config to be used for the Misc sub hexagon on the home page
 export const appConfig = {
-  targetLevels: sharedConfig.targetLevels,
+  targetLevels: {
+    right: 3,
+    bottomRight: 2,
+    bottomLeft: 2,
+    left: 2,
+    topLeft: 3,
+    topRight: 2
+  },
   styles: sharedConfig.styles,
   actions: {
     default: () => {
@@ -41,7 +40,14 @@ export const appConfig = {
 
 // The SierpinskiHexagon config to be used to generate the config for the Misc page
 const pageConfig: HexagonConfig = {
-  targetLevels: sharedConfig.targetLevels,
+  targetLevels: {
+    right: 3,
+    bottomRight: 2,
+    bottomLeft: 0,
+    left: 2,
+    topLeft: 3,
+    topRight: 2
+  },
   styles: sharedConfig.styles,
   actions: {
     default: (hexagonId: number) => {
@@ -53,7 +59,7 @@ const pageConfig: HexagonConfig = {
   },
   images: sharedConfig.images,
   text: {
-    5: "Open Source",
+    5: "Open Source"
   },
   title: "Miscellaneous",
   // textColor: sharedConfig.textColor,
@@ -67,7 +73,7 @@ const pageConfig: HexagonConfig = {
 
 const bottomRightConfig = Object.create(minConfig);
 bottomRightConfig.titleSize = "0.8em";
-bottomRightConfig.title = "This Website"
+bottomRightConfig.title = "This Website";
 
 const leftConfig = Object.create(minConfig);
 leftConfig.titleSize = "0.9em";
@@ -84,6 +90,7 @@ rightConfig.titleSize = "1em";
 const bottomLeft = Object.create(minConfig);
 bottomLeft.title = "Lists";
 bottomLeft.titleSize = "1em";
+bottomLeft.targetLevels = ListConfig.targetLevels;
 
 pageConfig.config = {}; // Initialize pageConfig.config as an empty object
 pageConfig.config.bottomRight = bottomRightConfig;
