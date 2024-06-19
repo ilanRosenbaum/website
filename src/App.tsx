@@ -37,7 +37,9 @@ const AppConfig = {
   text: {
     1: "Photography",
     2: "Ceramics",
+    3: "Misc",
     4: "Cooking",
+    5: "roōms",
     6: "Lists"
   },
   title: "Ilan Rosenbaum",

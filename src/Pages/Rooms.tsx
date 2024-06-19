@@ -17,7 +17,6 @@ const sharedConfig = {
     }
   },
   images: {},
-  title: "roōms",
   textColor: "#F2EFDE",
   dropShadow: "#F2EFDE"
 };
@@ -33,7 +32,6 @@ export const appConfig = {
   },
   images: sharedConfig.images,
   text: {},
-  title: sharedConfig.title,
   textColor: sharedConfig.textColor,
   dropShadow: sharedConfig.dropShadow,
   backButton: {
@@ -59,7 +57,7 @@ const pageConfig = {
     5: "What",
     6: "Why"
   },
-  title: sharedConfig.title,
+  title: "roōms",
   textColor: sharedConfig.textColor,
   dropShadow: sharedConfig.dropShadow,
   backButton: {
