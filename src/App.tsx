@@ -1,16 +1,16 @@
 import React from "react";
-import SierpinskiHexagon from "./components/SierpinskiHexagon";
+import SierpinskiHexagon, {minConfig, HexagonConfig} from "./components/SierpinskiHexagon";
 import { appConfig as RoomsConfig } from "./Pages/Rooms";
 import { appConfig as MiscConfig } from "./Pages/Misc";
 
-const AppConfig = {
+const AppConfig: HexagonConfig = {
   targetLevels: {
     right: 3,
     bottomRight: 3,
     bottomLeft: 0,
     left: 3,
     topLeft: 0,
-    topRight: 2
+    topRight: 3
   },
   styles: {
     default: {
@@ -32,7 +32,8 @@ const AppConfig = {
   images: {
     bottomRight: "./assets/ceramics/garlic.jpg",
     right: "./assets/photography/bird.jpg",
-    left: "./assets/cooking/chicken_pasta.jpg"
+    left: "./assets/cooking/chicken_pasta.jpg",
+    topRight: "./assets/about/me.jpg"
   },
   text: {
     1: "Photography",
@@ -40,7 +41,7 @@ const AppConfig = {
     3: "Misc",
     4: "Cooking",
     5: "roōms",
-    6: "Lists"
+    6: "About"
   },
   title: "Ilan Rosenbaum",
   backButton: {
@@ -48,7 +49,7 @@ const AppConfig = {
   },
   config: {
     "topLeft": RoomsConfig,
-    "bottomLeft": MiscConfig
+    "bottomLeft": MiscConfig,
   }
 };
 

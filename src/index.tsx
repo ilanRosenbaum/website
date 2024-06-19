@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import MarkdownPage from "./components/MarkdownPage";
 import Rooms from "./Pages/Rooms";
 import Misc from "./Pages/Misc";
+import Lists from "./Pages/Lists";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 
@@ -17,6 +18,7 @@ root.render(
         <Route path="/" element={<App />} />
         <Route path="/rooms" element={<Rooms />} />
         <Route path="/misc" element={<Misc />} />
+        <Route path="/lists" element={<Lists />} />
       </Routes>
     </Router>
   </React.StrictMode>
