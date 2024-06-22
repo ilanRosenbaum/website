@@ -129,7 +129,13 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
             .attr("stroke-width", "0.4")
             .attr("opacity", style.opacity)
             .attr("id", `hexagon-${currentHexagonId}`)
-            .style("filter", `drop-shadow(0 0px 1em ${currentConfig.dropShadow !== undefined ? hexToRgbA(currentConfig.dropShadow) : "rgba(75, 0, 130, 0.5))"}`);
+            .style("filter", `drop-shadow(0 0px 1em ${currentConfig.dropShadow !== undefined ? hexToRgbA(currentConfig.dropShadow) : "rgba(75, 0, 130, 0.5))"}`)
+            // Below does transition on first page load for all hexagons
+            .style("opacity", 0)
+            .transition()
+            .duration(1000)
+            .ease(d3.easeCubicInOut)
+            .style("opacity", 1);
 
           // Apply click action for the subHexagons if level below 3
           group
@@ -168,12 +174,34 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
             .style("text-shadow", "0em 0em 0.1em rgba(0, 0, 0, 1)")
             .text(`${currentConfig.text[hexagonCounter] || ""}`);
 
-          // Apply click action for the level 3 main hexagon
           group
             .append("polygon")
             .attr("points", hexagon.map((p) => p.join(",")).join(" "))
             .attr("fill", "transparent")
-            .style("pointer-events", "fill");
+            .style("pointer-events", "fill")
+            .style("opacity", 0);
+
+          group
+            .on("mouseover", function () {
+              d3.select(this)
+                .transition()
+                .duration(200)
+                .ease(d3.easeCubicInOut)
+                .attr("transform", function () {
+                  const bbox = this.getBBox();
+                  return `translate(${bbox.x + bbox.width / 2}, ${bbox.y + bbox.height / 2}) scale(0.9) translate(${-bbox.x - bbox.width / 2}, ${-bbox.y - bbox.height / 2})`;
+                });
+            })
+            .on("mouseout", function () {
+              d3.select(this)
+                .transition()
+                .duration(200)
+                .ease(d3.easeCubicInOut)
+                .attr("transform", function () {
+                  const bbox = this.getBBox();
+                  return `translate(${bbox.x + bbox.width / 2}, ${bbox.y + bbox.height / 2}) scale(1) translate(${-bbox.x - bbox.width / 2}, ${-bbox.y - bbox.height / 2})`;
+                });
+            });
 
           // Apply specific click action for the hexagon
           group.on("click", () => {
@@ -194,7 +222,8 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
             .attr("fill", "transparent")
             .attr("id", `hexagon-${currentHexagonId}`)
             .style("cursor", "pointer")
-            .style("pointer-events", "none");
+            .style("pointer-events", "none")
+            .style("opacity", 0);
 
           group
             .append("text")
@@ -208,6 +237,7 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
             .style("font-family", "Courier New, monospace")
             .style("font-weight", "500")
             .style("text-shadow", "0em 0em 0.2em rgba(143, 107, 143, 1)")
+            .style("opacity", 0) // Start with opacity 0 for transition
             .text(currentConfig.title || "");
         }
 
