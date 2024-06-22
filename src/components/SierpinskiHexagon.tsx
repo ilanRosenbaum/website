@@ -223,8 +223,7 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
           .attr("fill", "transparent")
           .attr("id", `hexagon-${currentHexagonId}`)
           .style("cursor", "pointer")
-          .style("pointer-events", "none")
-          .style("opacity", 0);
+          .style("pointer-events", "none");
 
         group
           .append("text")
@@ -238,7 +237,6 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
           .style("font-family", "Courier New, monospace")
           .style("font-weight", "500")
           .style("text-shadow", "0em 0em 0.2em rgba(143, 107, 143, 1)")
-          .style("opacity", 0) // Start with opacity 0 for transition
           .text(currentConfig.title || "");
       }
 
