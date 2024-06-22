@@ -118,6 +118,11 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
 
       const targetLevel = currentConfig.targetLevels[section];
 
+      // Recursively draw new hexagon with specific config if exists before drawing the current hexagon
+      if (level === 3 && currentConfig.config && currentConfig.config[section]) {
+        drawHexagon(x, y, size, 4, section, currentConfig.config[section], false);
+      }
+
       if (level === targetLevel) {
         const hexagon = createHexagon(x, y, size);
         const style = currentConfig.styles[section] || currentConfig.styles.default;
@@ -128,14 +133,16 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
           .attr("stroke", "black")
           .attr("stroke-width", "0.4")
           .attr("opacity", style.opacity)
-          .attr("id", `hexagon-${currentHexagonId}`)
           .style("filter", `drop-shadow(0 0px 1em ${currentConfig.dropShadow !== undefined ? hexToRgbA(currentConfig.dropShadow) : "rgba(75, 0, 130, 0.5))"}`)
-          // Below does transition on first page load for all hexagons
-          .style("opacity", 0)
-          .transition()
-          .duration(1000)
-          .ease(d3.easeCubicInOut)
-          .style("opacity", 1);
+          .style("opacity", 0);
+
+        // Add class if not a main hexagon
+        if (!isMainHexagon) {
+          hexagonPolygon.attr("class", `sub-hexagon-${currentHexagonId}`);
+        }
+
+        // Transition for opacity
+        hexagonPolygon.transition().duration(1000).ease(d3.easeCubicInOut).style("opacity", 1);
 
         // Apply click action for the subHexagons if level below 3
         group
@@ -156,6 +163,7 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
           hexagonPolygon.attr("fill", style.fill);
         }
       }
+
       if (level === 3 && isMainHexagon) {
         const hexagon = createHexagon(x, y, size);
         const [centerX, centerY] = getHexagonCenter(hexagon);
@@ -178,6 +186,7 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
           .attr("points", hexagon.map((p) => p.join(",")).join(" "))
           .attr("fill", "transparent")
           .style("pointer-events", "fill")
+          .attr("id", `hexagon-${currentHexagonId}`)
           .style("opacity", 0);
 
         // Apply specific click action for the hexagon
@@ -186,27 +195,34 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
           action(currentHexagonId);
         });
 
+        const transition = (element: SVGGElement, respectTo: SVGGElement, scale: number) => {
+          d3.select(element)
+            .transition()
+            .duration(200)
+            .ease(d3.easeCubicInOut)
+            .attr("transform", function () {
+              const bbox = respectTo.getBBox();
+              return `translate(${bbox.x + bbox.width / 2}, ${bbox.y + bbox.height / 2}) scale(${scale}) translate(${-bbox.x - bbox.width / 2}, ${-bbox.y - bbox.height / 2})`;
+            });
+        };
+
+        // Add hover effect to translate all target level hexagons
         if (targetLevel === 3) {
           group
             .on("mouseover", function () {
-              d3.select(this)
-                .transition()
-                .duration(200)
-                .ease(d3.easeCubicInOut)
-                .attr("transform", function () {
-                  const bbox = this.getBBox();
-                  return `translate(${bbox.x + bbox.width / 2}, ${bbox.y + bbox.height / 2}) scale(0.9) translate(${-bbox.x - bbox.width / 2}, ${-bbox.y - bbox.height / 2})`;
-                });
+              transition(this, this, 0.9);
             })
             .on("mouseout", function () {
-              d3.select(this)
-                .transition()
-                .duration(200)
-                .ease(d3.easeCubicInOut)
-                .attr("transform", function () {
-                  const bbox = this.getBBox();
-                  return `translate(${bbox.x + bbox.width / 2}, ${bbox.y + bbox.height / 2}) scale(1) translate(${-bbox.x - bbox.width / 2}, ${-bbox.y - bbox.height / 2})`;
-                });
+              transition(this, this, 1);
+            });
+        } else {
+          const elements = d3.selectAll(`.sub-hexagon-${currentHexagonId}`).nodes() as SVGGElement[];
+          d3.select(`#hexagon-${currentHexagonId}`)
+            .on("mouseover", function () {
+              elements.forEach((element) => transition(element, group.node() as SVGGElement, 1.1));
+            })
+            .on("mouseout", function () {
+              elements.forEach((element) => transition(element, group.node() as SVGGElement, 1));
             });
         }
 
@@ -221,7 +237,6 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
           .append("polygon")
           .attr("points", hexagon.map((p) => p.join(",")).join(" "))
           .attr("fill", "transparent")
-          .attr("id", `hexagon-${currentHexagonId}`)
           .style("cursor", "pointer")
           .style("pointer-events", "none");
 
@@ -238,11 +253,6 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
           .style("font-weight", "500")
           .style("text-shadow", "0em 0em 0.2em rgba(143, 107, 143, 1)")
           .text(currentConfig.title || "");
-      }
-
-      // Recursively draw new hexagon with specific config if exists
-      if (level === 3 && currentConfig.config && currentConfig.config[section]) {
-        drawHexagon(x, y, size, 4, section, currentConfig.config[section], false);
       }
     };
 
