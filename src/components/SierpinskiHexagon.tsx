@@ -156,7 +156,6 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
             hexagonPolygon.attr("fill", style.fill);
           }
         }
-
         if (level === 3 && isMainHexagon) {
           const hexagon = createHexagon(x, y, size);
           const [centerX, centerY] = getHexagonCenter(hexagon);
@@ -181,33 +180,35 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
             .style("pointer-events", "fill")
             .style("opacity", 0);
 
-          group
-            .on("mouseover", function () {
-              d3.select(this)
-                .transition()
-                .duration(200)
-                .ease(d3.easeCubicInOut)
-                .attr("transform", function () {
-                  const bbox = this.getBBox();
-                  return `translate(${bbox.x + bbox.width / 2}, ${bbox.y + bbox.height / 2}) scale(0.9) translate(${-bbox.x - bbox.width / 2}, ${-bbox.y - bbox.height / 2})`;
-                });
-            })
-            .on("mouseout", function () {
-              d3.select(this)
-                .transition()
-                .duration(200)
-                .ease(d3.easeCubicInOut)
-                .attr("transform", function () {
-                  const bbox = this.getBBox();
-                  return `translate(${bbox.x + bbox.width / 2}, ${bbox.y + bbox.height / 2}) scale(1) translate(${-bbox.x - bbox.width / 2}, ${-bbox.y - bbox.height / 2})`;
-                });
-            });
-
           // Apply specific click action for the hexagon
           group.on("click", () => {
             const action = currentConfig.actions[section] || currentConfig.actions.default;
             action(currentHexagonId);
           });
+
+          if (targetLevel === 3) {
+            group
+              .on("mouseover", function () {
+                d3.select(this)
+                  .transition()
+                  .duration(200)
+                  .ease(d3.easeCubicInOut)
+                  .attr("transform", function () {
+                    const bbox = this.getBBox();
+                    return `translate(${bbox.x + bbox.width / 2}, ${bbox.y + bbox.height / 2}) scale(0.9) translate(${-bbox.x - bbox.width / 2}, ${-bbox.y - bbox.height / 2})`;
+                  });
+              })
+              .on("mouseout", function () {
+                d3.select(this)
+                  .transition()
+                  .duration(200)
+                  .ease(d3.easeCubicInOut)
+                  .attr("transform", function () {
+                    const bbox = this.getBBox();
+                    return `translate(${bbox.x + bbox.width / 2}, ${bbox.y + bbox.height / 2}) scale(1) translate(${-bbox.x - bbox.width / 2}, ${-bbox.y - bbox.height / 2})`;
+                  });
+              });
+          }
 
           hexagonCounter++;
         }
