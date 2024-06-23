@@ -76,6 +76,17 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
     const hexagonWidth = window.innerHeight;
     let hexagonCounter = 1;
 
+    const transition = (element: SVGGElement, respectTo: SVGGElement, scale: number) => {
+      d3.select(element)
+        .transition()
+        .duration(200)
+        .ease(d3.easeCubicInOut)
+        .attr("transform", function () {
+          const bbox = respectTo.getBBox();
+          return `translate(${bbox.x + bbox.width / 2}, ${bbox.y + bbox.height / 2}) scale(${scale}) translate(${-bbox.x - bbox.width / 2}, ${-bbox.y - bbox.height / 2})`;
+        });
+    };
+
     const createHexagon = (x: number, y: number, size: number): [number, number][] => {
       const points: [number, number][] = d3.range(6).map((i) => {
         const angle = (i * Math.PI) / 3;
@@ -91,10 +102,11 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
     };
 
     const drawHexagon = (x: number, y: number, size: number, level: number, section: string, currentConfig: HexagonConfig, isMainHexagon: boolean) => {
-      const group = svg.append("g").attr("class", "hexagon-group");
-      const currentHexagonId = hexagonCounter;
-
       if (level <= 0) return;
+
+      const currentHexagonId = hexagonCounter;
+      const targetLevel = currentConfig.targetLevels[section];
+      const group = svg.append("g").attr("class", `hexagon-group-${level < 4 ? currentHexagonId : 0}`);
 
       const offsets = [
         [size / 1.5, 0],
@@ -111,12 +123,12 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
           drawHexagon(x + dx, y + dy, size / 3, level - 1, newSection, currentConfig, isMainHexagon);
         });
       } else {
-        offsets.forEach(([dx, dy]) => {
-          drawHexagon(x + dx, y + dy, size / 3, level - 1, section, currentConfig, isMainHexagon);
-        });
+        if (level > targetLevel) {
+          offsets.forEach(([dx, dy]) => {
+            drawHexagon(x + dx, y + dy, size / 3, level - 1, section, currentConfig, isMainHexagon);
+          });
+        }
       }
-
-      const targetLevel = currentConfig.targetLevels[section];
 
       // Recursively draw new hexagon with specific config if exists before drawing the current hexagon
       if (level === 3 && currentConfig.config && currentConfig.config[section]) {
@@ -195,17 +207,6 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
           action(currentHexagonId);
         });
 
-        const transition = (element: SVGGElement, respectTo: SVGGElement, scale: number) => {
-          d3.select(element)
-            .transition()
-            .duration(200)
-            .ease(d3.easeCubicInOut)
-            .attr("transform", function () {
-              const bbox = respectTo.getBBox();
-              return `translate(${bbox.x + bbox.width / 2}, ${bbox.y + bbox.height / 2}) scale(${scale}) translate(${-bbox.x - bbox.width / 2}, ${-bbox.y - bbox.height / 2})`;
-            });
-        };
-
         // Add hover effect to translate all target level hexagons
         if (targetLevel === 3) {
           group
@@ -217,7 +218,7 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
             });
         } else {
           const elements = d3.selectAll(`.sub-hexagon-${currentHexagonId}`).nodes() as SVGGElement[];
-          d3.select(`#hexagon-${currentHexagonId}`)
+          group
             .on("mouseover", function () {
               elements.forEach((element) => transition(element, group.node() as SVGGElement, 1.1));
             })
@@ -284,6 +285,41 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
     const centerX = width / 2;
     const centerY = height / 2;
     drawHexagon(centerX, centerY, hexagonWidth / 2, maxTargetLevel, "center", config, true);
+
+    for (let i: number = 0; i < 6; i++) {
+      const respectTo = d3.select(`#hexagon-${i}`).node() as SVGGElement;
+      const hexagonGroup = d3.selectAll(`.hexagon-group-${i}`);
+
+      const handleMouseOver = () => {
+        hexagonGroup
+          .transition()
+          .duration(200)
+          .ease(d3.easeCubicInOut)
+          .attr("transform", function () {
+            const bbox = respectTo.getBBox();
+            return `translate(${bbox.x + bbox.width / 2}, ${bbox.y + bbox.height / 2}) scale(${1.1}) translate(${-bbox.x - bbox.width / 2}, ${-bbox.y - bbox.height / 2})`;
+          });
+      };
+
+      const handleMouseOut = () => {
+        hexagonGroup
+          .transition()
+          .duration(200)
+          .ease(d3.easeCubicInOut)
+          .attr("transform", function () {
+            const bbox = respectTo.getBBox();
+            return `translate(${bbox.x + bbox.width / 2}, ${bbox.y + bbox.height / 2}) scale(${1}) translate(${-bbox.x - bbox.width / 2}, ${-bbox.y - bbox.height / 2})`;
+          });
+      };
+
+      hexagonGroup
+        .on("mouseover", function () {
+          handleMouseOver();
+        })
+        .on("mouseout", function () {
+          handleMouseOut();
+        });
+    }
   }, [config]);
 
   return (

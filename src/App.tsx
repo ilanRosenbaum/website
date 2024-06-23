@@ -1,5 +1,5 @@
 import React from "react";
-import SierpinskiHexagon, {minConfig, HexagonConfig} from "./components/SierpinskiHexagon";
+import SierpinskiHexagon, {HexagonConfig} from "./components/SierpinskiHexagon";
 import { appConfig as RoomsConfig } from "./Pages/Rooms";
 import { appConfig as MiscConfig } from "./Pages/Misc";
 
