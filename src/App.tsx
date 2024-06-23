@@ -53,7 +53,7 @@ const AppConfig: HexagonConfig = {
   }
 };
 
-const performTransitionAndRedirect = (hexagonId: number, url: string) => {
+export const performTransitionAndRedirect = (hexagonId: number, url: string) => {
   const svg = document.querySelector("svg");
   const hexagon = document.querySelector(`#hexagon-${hexagonId}`);
 
@@ -86,7 +86,7 @@ const performTransitionAndRedirect = (hexagonId: number, url: string) => {
 
     // After centering, zoom in further
     setTimeout(() => {
-      const zoomScale = 2.75;
+      const zoomScale = 2.66;
       const adjustedTranslateX = translateX * zoomScale;
       const adjustedTranslateY = translateY * zoomScale;
       svg.style.transform = `translate(${adjustedTranslateX}px, ${adjustedTranslateY}px) scale(${currentScale * zoomScale})`;

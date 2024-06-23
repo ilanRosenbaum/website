@@ -146,15 +146,11 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
           .attr("stroke-width", "0.4")
           .attr("opacity", style.opacity)
           .style("filter", `drop-shadow(0 0px 1em ${currentConfig.dropShadow !== undefined ? hexToRgbA(currentConfig.dropShadow) : "rgba(75, 0, 130, 0.5))"}`)
-          .style("opacity", 0);
 
         // Add class if not a main hexagon
         if (!isMainHexagon) {
           hexagonPolygon.attr("class", `sub-hexagon-${currentHexagonId}`);
         }
-
-        // Transition for opacity
-        hexagonPolygon.transition().duration(1000).ease(d3.easeCubicInOut).style("opacity", 1);
 
         // Apply click action for the subHexagons if level below 3
         group
@@ -165,7 +161,9 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
 
         // Apply specific click action for the hexagon
         group.on("click", () => {
-          const action = currentConfig.actions[section] || currentConfig.actions.default;
+          // Get the section corresponding to the current hexagon ID
+          const currentSection = Object.keys(currentConfig.targetLevels)[currentHexagonId - 1];
+          const action = config.actions[currentSection]
           action(currentHexagonId);
         });
 

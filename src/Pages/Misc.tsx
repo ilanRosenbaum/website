@@ -1,6 +1,8 @@
 import React from "react";
 import SierpinskiHexagon, { HexagonConfig, minConfig } from "./../components/SierpinskiHexagon";
 import { appConfig as ListConfig } from "./Lists";
+import { performTransitionAndRedirect } from "../App";
+
 const sharedConfig = {
   styles: {
     default: {
@@ -53,8 +55,8 @@ const pageConfig: HexagonConfig = {
     default: (hexagonId: number) => {
       alert(`Hexagon ${hexagonId} clicked!`);
     },
-    bottomLeft: () => {
-      window.location.href = "/lists";
+    bottomLeft: (hexagonId: number) => {
+      performTransitionAndRedirect(hexagonId, "/lists");
     }
   },
   images: sharedConfig.images,
