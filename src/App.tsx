@@ -1,5 +1,5 @@
 import React from "react";
-import SierpinskiHexagon, {HexagonConfig} from "./components/SierpinskiHexagon";
+import SierpinskiHexagon, { HexagonConfig } from "./components/SierpinskiHexagon";
 import { appConfig as RoomsConfig } from "./Pages/Rooms";
 import { appConfig as MiscConfig } from "./Pages/Misc";
 
@@ -19,11 +19,11 @@ const AppConfig: HexagonConfig = {
     }
   },
   actions: {
-    bottomLeft: () => {
-      window.location.href = "/misc";
+    bottomLeft: (hexagonId: number) => {
+      performTransitionAndRedirect(hexagonId, "/misc");
     },
-    topLeft: () => {
-      window.location.href = "/rooms";
+    topLeft: (hexagonId: number) => {
+      performTransitionAndRedirect(hexagonId, "/rooms");
     },
     default: (hexagonId: number) => {
       alert(`Hexagon ${hexagonId} clicked!`);
@@ -49,7 +49,56 @@ const AppConfig: HexagonConfig = {
   },
   config: {
     "topLeft": RoomsConfig,
-    "bottomLeft": MiscConfig,
+    "bottomLeft": MiscConfig
+  }
+};
+
+const performTransitionAndRedirect = (hexagonId: number, url: string) => {
+  const svg = document.querySelector("svg");
+  const hexagon = document.querySelector(`#hexagon-${hexagonId}`);
+
+  if (svg && hexagon) {
+    // Disable hover effects
+    svg.classList.add("transitioning");
+
+    const svgRect = svg.getBoundingClientRect();
+    const hexRect = hexagon.getBoundingClientRect();
+
+    const centerX = svgRect.width / 2;
+    const centerY = svgRect.height / 2;
+
+    const hexCenterX = hexRect.left + hexRect.width / 2 - svgRect.left;
+    const hexCenterY = hexRect.top + hexRect.height / 2 - svgRect.top;
+
+    const translateX = centerX - hexCenterX;
+    const translateY = centerY - hexCenterY;
+
+    // Get current transform
+    const currentTransform = window.getComputedStyle(svg).transform;
+    const matrix = new DOMMatrix(currentTransform);
+    const currentScale = matrix.a; // Assuming uniform scaling
+
+    svg.style.transition = "transform 1s ease-in-out";
+    svg.style.transformOrigin = "center center";
+
+    // First, center the hexagon while maintaining current zoom
+    svg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentScale})`;
+
+    // After centering, zoom in further
+    setTimeout(() => {
+      const zoomScale = 2.75;
+      const adjustedTranslateX = translateX * zoomScale;
+      const adjustedTranslateY = translateY * zoomScale;
+      svg.style.transform = `translate(${adjustedTranslateX}px, ${adjustedTranslateY}px) scale(${currentScale * zoomScale})`;
+
+      // Wait for the animation to complete before redirecting
+      setTimeout(() => {
+        window.location.href = url;
+      }, 1500);
+    }, 1500);
+  } else {
+    // Fallback if SVG or hexagon is not found
+    window.location.href = url;
   }
 };
 

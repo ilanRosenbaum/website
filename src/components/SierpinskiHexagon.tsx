@@ -101,7 +101,7 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
       return [x, y];
     };
 
-    const drawHexagon = (x: number, y: number, size: number, level: number, section: string, currentConfig: HexagonConfig, isMainHexagon: boolean) => {
+    const drawHexagon = (x: number, y: number, size: number, level: number, section: string, currentConfig: HexagonConfig, isMainHexagon: boolean) => {      if (level <= 0) return;
       if (level <= 0) return;
 
       const currentHexagonId = hexagonCounter;
