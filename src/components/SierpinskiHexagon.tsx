@@ -169,7 +169,7 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
         });
 
         if (currentConfig.images[section]) {
-          hexagonPolygon.attr("fill", `url(#image-fill-${section})`);
+          hexagonPolygon.attr("fill", `url(#image-fill-${section})`).attr("opacity", style.opacity);
         } else {
           hexagonPolygon.attr("fill", style.fill);
         }
@@ -201,7 +201,7 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
           .style("opacity", 0);
 
         // Apply specific click action for the hexagon
-        // If the target level is 0, use the action defined in the current config and if there is none that means 
+        // If the target level is 0, use the action defined in the current config and if there is none that means
         //    that hexagon effectively should not exist so it should do nothing
         if (targetLevel === 0) {
           group.on("click", () => {
@@ -281,10 +281,8 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
         .attr("xlink:href", config.images[key]) // Use the local image path
         .attr("width", 1)
         .attr("height", 1)
-        .attr("preserveAspectRatio", "xMidYMid slice") // Ensure the image is scaled proportionally to cover the entire area.
-        .attr("opacity", 0.5); // Set the opacity to make the image slightly translucent.
+        .attr("preserveAspectRatio", "xMidYMid slice"); // Ensure the image is scaled proportionally to cover the entire area.
     });
-
     // Update the initial draw call to use the maximum target level + 2
     const maxTargetLevel = 4;
     svg.attr("viewBox", `0 0 ${width} ${height}`).attr("width", "100%").attr("height", "100%");
