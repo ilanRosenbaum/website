@@ -11,12 +11,10 @@ const sharedConfig = {
     }
   },
   images: {}
-  // textColor: "#F2EFDE",
-  // dropShadow: "#F2EFDE"
 };
 
 // The SierpinskiHexagon config to be used for the Misc sub hexagon on the home page
-export const appConfig = {
+const appConfig: HexagonConfig = {
   targetLevels: {
     right: 3,
     bottomRight: 2,
@@ -33,12 +31,18 @@ export const appConfig = {
   },
   images: sharedConfig.images,
   text: {},
-  // textColor: sharedConfig.textColor,
-  // dropShadow: sharedConfig.dropShadow,
   backButton: {
     exists: false
   }
 };
+
+const appBottomLeft = Object.create(minConfig);
+appBottomLeft.targetLevels = ListConfig.targetLevels;
+appConfig.config = {};
+appConfig.config.bottomLeft = appBottomLeft;
+appConfig.targetLevels.bottomLeft = 0;
+
+export { appConfig };
 
 // The SierpinskiHexagon config to be used to generate the config for the Misc page
 const pageConfig: HexagonConfig = {
@@ -90,9 +94,9 @@ rightConfig.title = "Headphones, No Headphones";
 rightConfig.titleSize = "1em";
 
 const bottomLeft = Object.create(minConfig);
+bottomLeft.targetLevels = ListConfig.targetLevels;
 bottomLeft.title = "Lists";
 bottomLeft.titleSize = "1em";
-bottomLeft.targetLevels = ListConfig.targetLevels;
 
 pageConfig.config = {}; // Initialize pageConfig.config as an empty object
 pageConfig.config.bottomRight = bottomRightConfig;

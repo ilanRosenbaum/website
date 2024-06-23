@@ -101,7 +101,8 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
       return [x, y];
     };
 
-    const drawHexagon = (x: number, y: number, size: number, level: number, section: string, currentConfig: HexagonConfig, isMainHexagon: boolean) => {      if (level <= 0) return;
+    const drawHexagon = (x: number, y: number, size: number, level: number, section: string, currentConfig: HexagonConfig, isMainHexagon: boolean) => {
+      if (level <= 0) return;
       if (level <= 0) return;
 
       const currentHexagonId = hexagonCounter;
@@ -145,7 +146,7 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
           .attr("stroke", "black")
           .attr("stroke-width", "0.4")
           .attr("opacity", style.opacity)
-          .style("filter", `drop-shadow(0 0px 1em ${currentConfig.dropShadow !== undefined ? hexToRgbA(currentConfig.dropShadow) : "rgba(75, 0, 130, 0.5))"}`)
+          .style("filter", `drop-shadow(0 0px 1em ${currentConfig.dropShadow !== undefined ? hexToRgbA(currentConfig.dropShadow) : "rgba(75, 0, 130, 0.5))"}`);
 
         // Add class if not a main hexagon
         if (!isMainHexagon) {
@@ -163,7 +164,7 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
         group.on("click", () => {
           // Get the section corresponding to the current hexagon ID
           const currentSection = Object.keys(currentConfig.targetLevels)[currentHexagonId - 1];
-          const action = config.actions[currentSection]
+          const action = config.actions[currentSection] || config.actions.default;
           action(currentHexagonId);
         });
 
@@ -200,10 +201,19 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
           .style("opacity", 0);
 
         // Apply specific click action for the hexagon
-        group.on("click", () => {
-          const action = currentConfig.actions[section] || currentConfig.actions.default;
-          action(currentHexagonId);
-        });
+        // If the target level is 0, use the action defined in the current config and if there is none that means 
+        //    that hexagon effectively should not exist so it should do nothing
+        if (targetLevel === 0) {
+          group.on("click", () => {
+            const action = currentConfig.actions[section] || function () {};
+            action(currentHexagonId);
+          });
+        } else {
+          group.on("click", () => {
+            const action = currentConfig.actions[section] || config.actions.default;
+            action(currentHexagonId);
+          });
+        }
 
         // Add hover effect to translate all target level hexagons
         if (targetLevel === 3) {
@@ -249,7 +259,6 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
           .style("pointer-events", "none")
           .style("font-size", currentConfig.titleSize || config.titleSize || "2em")
           .style("font-family", "Courier New, monospace")
-          .style("font-weight", "500")
           .style("text-shadow", "0em 0em 0.2em rgba(143, 107, 143, 1)")
           .text(currentConfig.title || "");
       }
@@ -285,6 +294,15 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
     drawHexagon(centerX, centerY, hexagonWidth / 2, maxTargetLevel, "center", config, true);
 
     for (let i: number = 1; i < 7; i++) {
+      if (config.targetLevels[Object.keys(config.targetLevels)[i - 1]] === 0) {
+        const currentSection = Object.keys(config.targetLevels)[i - 1];
+
+        // If there is no sub-config for the section with target level 0 in the main config, skip the hover effect as this hexagon should not functionally exist
+        if (!config.config || !config.config.hasOwnProperty(currentSection)) {
+          continue;
+        }
+      }
+
       if (Object.values(config.targetLevels)[i - 1] === 3) {
         continue;
       }
@@ -338,9 +356,7 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
 
   return (
     <div className="h-screen w-screen bg-black/90 fixed">
-      <div className="absolute pt-8 pl-8 z-10">
-        {config.backButton.exists && <BackButton textColor={config.textColor || "#ffefdb"} color={config.styles["default"].fill || "#603b61"} to={config.backButton.to || "/"} />}
-      </div>
+      <div className="absolute pt-8 pl-8 z-10">{config.backButton.exists && <BackButton textColor={config.textColor || "#ffefdb"} color={config.styles["default"].fill || "#603b61"} to={config.backButton.to || "/"} />}</div>
       <div className="items-center justify-center">
         <svg ref={svgRef} style={{ position: "relative", zIndex: 1 }} />
       </div>
