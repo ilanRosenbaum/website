@@ -287,32 +287,45 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
     drawHexagon(centerX, centerY, hexagonWidth / 2, maxTargetLevel, "center", config, true);
 
     for (let i: number = 1; i < 7; i++) {
-      if (Object.values(config.targetLevels)[i-1] === 3) {
+      if (Object.values(config.targetLevels)[i - 1] === 3) {
         continue;
       }
-      
+
       const respectTo = d3.select(`#hexagon-${i}`).node() as SVGGElement;
       const hexagonGroup = d3.selectAll(`.hexagon-group-${i}`);
+      const svg = d3.select("svg").node() as SVGSVGElement;
+      const svgSelection = d3.select(svg);
+
+      const bbox = respectTo.getBBox();
+
+      const zoom = d3
+        .zoom<SVGSVGElement, unknown>()
+        .scaleExtent([1, 1.15])
+        .on("zoom", (event: d3.D3ZoomEvent<SVGSVGElement, unknown>) => {
+          svgSelection.attr("transform", event.transform.toString());
+        });
+
+      svgSelection.call(zoom as any);
+
       const handleMouseOver = () => {
-        hexagonGroup
+        const hexCenterX = bbox.x + bbox.width / 2;
+        const hexCenterY = bbox.y + bbox.height / 2;
+        // Calculate the translation needed to center the hexagon
+        const translateX = (centerX - hexCenterX) * 0.2;
+        const translateY = (centerY - hexCenterY) * 0.2;
+
+        // Apply zoom and translation
+        svgSelection
           .transition()
           .duration(200)
-          .ease(d3.easeCubicInOut)
-          .attr("transform", function () {
-            const bbox = respectTo.getBBox();
-            return `translate(${bbox.x + bbox.width / 2}, ${bbox.y + bbox.height / 2}) scale(${1.1}) translate(${-bbox.x - bbox.width / 2}, ${-bbox.y - bbox.height / 2})`;
-          });
+          .call(zoom.transform as any, d3.zoomIdentity.translate(translateX, translateY).scale(1.15));
       };
 
       const handleMouseOut = () => {
-        hexagonGroup
+        svgSelection
           .transition()
           .duration(200)
-          .ease(d3.easeCubicInOut)
-          .attr("transform", function () {
-            const bbox = respectTo.getBBox();
-            return `translate(${bbox.x + bbox.width / 2}, ${bbox.y + bbox.height / 2}) scale(${1}) translate(${-bbox.x - bbox.width / 2}, ${-bbox.y - bbox.height / 2})`;
-          });
+          .call(zoom.transform as any, d3.zoomIdentity);
       };
 
       hexagonGroup
