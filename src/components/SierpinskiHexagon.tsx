@@ -286,10 +286,13 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
     const centerY = height / 2;
     drawHexagon(centerX, centerY, hexagonWidth / 2, maxTargetLevel, "center", config, true);
 
-    for (let i: number = 0; i < 6; i++) {
+    for (let i: number = 1; i < 7; i++) {
+      if (Object.values(config.targetLevels)[i-1] === 3) {
+        continue;
+      }
+      
       const respectTo = d3.select(`#hexagon-${i}`).node() as SVGGElement;
       const hexagonGroup = d3.selectAll(`.hexagon-group-${i}`);
-
       const handleMouseOver = () => {
         hexagonGroup
           .transition()
