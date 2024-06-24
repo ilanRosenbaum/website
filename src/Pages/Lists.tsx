@@ -22,7 +22,7 @@ let pageConfig: HexagonConfig = Object.create(minConfig);
 pageConfig.targetLevels = sharedConfig.targetLevels;
 pageConfig.backButton = {
   exists: true,
-  to: "/",
+  to: "/misc",
   textColor: "#4c0013"
 };
 pageConfig.text = {

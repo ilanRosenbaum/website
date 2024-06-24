@@ -190,7 +190,12 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
           .style("font-family", "Courier new, monospace")
           .style("font-weight", "500")
           .style("text-shadow", "0em 0em 0.1em rgba(0, 0, 0, 1)")
-          .text(`${currentConfig.text[hexagonCounter] || ""}`);
+          .text(`${currentConfig.text[hexagonCounter] || ""}`)
+          .style("opacity", 0)
+          .transition()
+          .duration(500)
+          .ease(d3.easeCubicInOut)
+          .style("opacity", 1);
 
         group
           .append("polygon")
@@ -261,6 +266,10 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
           .style("font-family", "Courier New, monospace")
           .style("text-shadow", "0em 0em 0.2em rgba(143, 107, 143, 1)")
           .text(currentConfig.title || "");
+
+        if (currentConfig.title !== config.title) {
+          group.style("opacity", 0).transition().duration(500).ease(d3.easeCubicInOut).style("opacity", 1);
+        }
       }
     };
 
@@ -331,14 +340,14 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
         // Apply zoom and translation
         svgSelection
           .transition()
-          .duration(200)
+          .duration(700)
           .call(zoom.transform as any, d3.zoomIdentity.translate(translateX, translateY).scale(1.15));
       };
 
       const handleMouseOut = () => {
         svgSelection
           .transition()
-          .duration(200)
+          .duration(700)
           .call(zoom.transform as any, d3.zoomIdentity);
       };
 
