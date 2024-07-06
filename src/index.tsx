@@ -7,6 +7,7 @@ import MarkdownPage from "./components/MarkdownPage";
 import Rooms from "./Pages/Rooms";
 import Misc from "./Pages/Misc";
 import Lists from "./Pages/Lists";
+import Photography from "./Pages/Photography";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 
@@ -19,6 +20,7 @@ root.render(
         <Route path="/rooms" element={<Rooms />} />
         <Route path="/misc" element={<Misc />} />
         <Route path="/lists" element={<Lists />} />
+        <Route path="/photography" element={<Photography />} />
       </Routes>
     </Router>
   </React.StrictMode>

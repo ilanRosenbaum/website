@@ -25,6 +25,9 @@ const AppConfig: HexagonConfig = {
     topLeft: (hexagonId: number) => {
       performTransitionAndRedirect(hexagonId, "/rooms");
     },
+    right: (hexagonId: number) => {
+      performTransitionAndRedirect(hexagonId, "/photography");
+    },
     default: (hexagonId: number) => {
       alert(`Hexagon ${hexagonId} clicked!`);
     }
