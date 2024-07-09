@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import * as d3 from "d3";
 import BackButton from "./BackButton";
 
@@ -65,8 +65,20 @@ function hexToRgbA(hex: string, opacity: number = 0.5) {
   throw new Error("Bad Hex");
 }
 
+const transition = (element: SVGGElement, respectTo: SVGGElement, scale: number) => {
+  d3.select(element)
+    .transition()
+    .duration(200)
+    .ease(d3.easeCubicInOut)
+    .attr("transform", function () {
+      const bbox = respectTo.getBBox();
+      return `translate(${bbox.x + bbox.width / 2}, ${bbox.y + bbox.height / 2}) scale(${scale}) translate(${-bbox.x - bbox.width / 2}, ${-bbox.y - bbox.height / 2})`;
+    });
+};
+
 const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
     if (!svgRef.current) return;
@@ -75,17 +87,6 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
     const height = window.innerHeight;
     const hexagonWidth = window.innerHeight;
     let hexagonCounter = 1;
-
-    const transition = (element: SVGGElement, respectTo: SVGGElement, scale: number) => {
-      d3.select(element)
-        .transition()
-        .duration(200)
-        .ease(d3.easeCubicInOut)
-        .attr("transform", function () {
-          const bbox = respectTo.getBBox();
-          return `translate(${bbox.x + bbox.width / 2}, ${bbox.y + bbox.height / 2}) scale(${scale}) translate(${-bbox.x - bbox.width / 2}, ${-bbox.y - bbox.height / 2})`;
-        });
-    };
 
     const createHexagon = (x: number, y: number, size: number): [number, number][] => {
       const points: [number, number][] = d3.range(6).map((i) => {
@@ -165,6 +166,7 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
           const currentSection = Object.keys(currentConfig.targetLevels)[currentHexagonId - 1];
           const action = config.actions[currentSection] || config.actions.default;
           action(currentHexagonId);
+          setIsTransitioning(true);
         });
 
         if (currentConfig.images[section]) {
@@ -209,7 +211,14 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
         //    that hexagon effectively should not exist so it should do nothing
         if (targetLevel === 0) {
           group.on("click", () => {
+            setIsTransitioning(true);
             const action = currentConfig.actions[section] || function () {};
+            action(currentHexagonId);
+          });
+        } else if (targetLevel !== 3) {
+          group.on("click", () => {
+            setIsTransitioning(true);
+            const action = currentConfig.actions[section] || config.actions.default;
             action(currentHexagonId);
           });
         } else {
@@ -300,7 +309,8 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
         }
       }
 
-      if (Object.values(config.targetLevels)[i - 1] === 3) {
+      // Skip the hover effect if the target level is 3 or if the hexagon is transitioning
+      if (Object.values(config.targetLevels)[i - 1] === 3 || isTransitioning) {
         continue;
       }
 
@@ -319,7 +329,11 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
           }
         });
     }
-  }, [config]);
+  }, [config, isTransitioning]);
+
+  useEffect(() => {
+    console.log("isTransitioning:", isTransitioning);
+  }, [isTransitioning]);
 
   return (
     <div className="h-screen w-screen bg-black/90 fixed">
