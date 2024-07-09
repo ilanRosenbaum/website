@@ -5,14 +5,12 @@ const PhotographyPage: React.FC = () => {
   // This would typically come from your data source or API
   const photos = [
     './assets/about/me.jpg',
-    './assets/photography/bird.jpg',
     './assets/ceramics/garlic.jpg',
-    './assets/cooking/chicken_pasta.jpg',
+    './assets/cooking/chickenPasta.jpg',
     './assets/photography/bird.jpg',
     './assets/photography/bird.jpg',
     './assets/photography/bird.jpg',
     './assets/photography/bird.jpg',
-
     './assets/photography/bird.jpg',
     './assets/photography/bird.jpg',
     './assets/photography/bird.jpg',

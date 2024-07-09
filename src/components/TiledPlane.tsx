@@ -47,7 +47,7 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photos }) => {
       hexagon.append('path')
         .attr('d', createHexagonPath(0, 0))
         .attr('fill', `url(#image-${col}-${row})`)
-        .attr('stroke', '#fff')
+        .attr('stroke', 'black')
         .attr('stroke-width', 2)
         .attr('transform', `translate(${x}, ${y})`);
 
@@ -68,6 +68,7 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photos }) => {
     let row = 0;
     const columns = [0, -1, 1]; // Center, left, right
 
+    svg.selectAll("*").remove();
     while (photoIndex < photos.length) {
       for (const col of columns) {
         if (photoIndex < photos.length) {

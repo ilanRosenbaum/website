@@ -33,9 +33,9 @@ const AppConfig: HexagonConfig = {
     }
   },
   images: {
-    bottomRight: "./assets/ceramics/garlicVert.jpg",
+    bottomRight: "./assets/ceramics/garlicVertical.jpg",
     right: "./assets/photography/bird.jpg",
-    left: "./assets/cooking/chicken_pasta.jpg",
+    left: "./assets/cooking/chickenPasta.jpg",
     topRight: "./assets/about/me.jpg"
   },
   text: {
