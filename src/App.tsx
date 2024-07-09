@@ -33,7 +33,7 @@ const AppConfig: HexagonConfig = {
     }
   },
   images: {
-    bottomRight: "./assets/ceramics/garlic.jpg",
+    bottomRight: "./assets/ceramics/garlicVert.jpg",
     right: "./assets/photography/bird.jpg",
     left: "./assets/cooking/chicken_pasta.jpg",
     topRight: "./assets/about/me.jpg"

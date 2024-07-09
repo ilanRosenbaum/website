@@ -228,15 +228,6 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
             .on("mouseout", function () {
               transition(this, this, 1);
             });
-        } else {
-          const elements = d3.selectAll(`.sub-hexagon-${currentHexagonId}`).nodes() as SVGGElement[];
-          group
-            .on("mouseover", function () {
-              elements.forEach((element) => transition(element, group.node() as SVGGElement, 1.1));
-            })
-            .on("mouseout", function () {
-              elements.forEach((element) => transition(element, group.node() as SVGGElement, 1));
-            });
         }
 
         hexagonCounter++;
@@ -315,47 +306,17 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
 
       const respectTo = d3.select(`#hexagon-${i}`).node() as SVGGElement;
       const hexagonGroup = d3.selectAll(`.hexagon-group-${i}`);
-      const svg = d3.select("svg").node() as SVGSVGElement;
-      const svgSelection = d3.select(svg);
-
-      const bbox = respectTo.getBBox();
-
-      const zoom = d3
-        .zoom<SVGSVGElement, unknown>()
-        .scaleExtent([1, 1.15])
-        .on("zoom", (event: d3.D3ZoomEvent<SVGSVGElement, unknown>) => {
-          svgSelection.attr("transform", event.transform.toString());
-        });
-
-      svgSelection.call(zoom as any);
-
-      const handleMouseOver = () => {
-        const hexCenterX = bbox.x + bbox.width / 2;
-        const hexCenterY = bbox.y + bbox.height / 2;
-        // Calculate the translation needed to center the hexagon
-        const translateX = (centerX - hexCenterX) * 0.2;
-        const translateY = (centerY - hexCenterY) * 0.2;
-
-        // Apply zoom and translation
-        svgSelection
-          .transition()
-          .duration(700)
-          .call(zoom.transform as any, d3.zoomIdentity.translate(translateX, translateY).scale(1.15));
-      };
-
-      const handleMouseOut = () => {
-        svgSelection
-          .transition()
-          .duration(700)
-          .call(zoom.transform as any, d3.zoomIdentity);
-      };
 
       hexagonGroup
         .on("mouseover", function () {
-          handleMouseOver();
+          for (let element of hexagonGroup.nodes() as SVGGElement[]) {
+            transition(element, respectTo, 0.9);
+          }
         })
         .on("mouseout", function () {
-          handleMouseOut();
+          for (let element of hexagonGroup.nodes() as SVGGElement[]) {
+            transition(element, respectTo, 1);
+          }
         });
     }
   }, [config]);

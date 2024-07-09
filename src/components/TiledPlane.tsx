@@ -17,7 +17,7 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photos }) => {
     const container = containerRef.current;
     const width = container.clientWidth;
     const height = container.clientHeight;
-    const hexRadius = width / 10; // Adjust size to fit screen
+    const hexRadius = width / 11; // Adjust size to fit screen
     const hexHeight = hexRadius * Math.sqrt(3);
     const hexWidth = hexRadius * 2;
 
