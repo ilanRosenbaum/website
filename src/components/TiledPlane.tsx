@@ -100,7 +100,7 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photos }) => {
         <svg ref={svgRef} className="mx-auto"></svg>
       </div>
       {selectedPhoto && (
-        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-20" onClick={() => setSelectedPhoto(null)}>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-20" onClick={() => setSelectedPhoto(null)}>
           <img src={selectedPhoto} alt="Selected photo" className="max-w-[60%] max-h-[90%] object-contain" />
         </div>
       )}
