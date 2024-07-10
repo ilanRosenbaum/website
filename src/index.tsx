@@ -7,7 +7,9 @@ import MarkdownPage from "./components/MarkdownPage";
 import Rooms from "./Pages/Rooms";
 import Misc from "./Pages/Misc";
 import Lists from "./Pages/Lists";
-import Photography from "./Pages/Photography";
+import Photography from "./Pages/Photography/Photography";
+import UnitedStates from "./Pages/Photography/UnitedStates";
+import DisplayPhotos from "./components/DisplayPhotos";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 
@@ -15,12 +17,14 @@ root.render(
   <React.StrictMode>
     <Router>
       <Routes>
-        <Route path="/test" element={<MarkdownPage source={"content/Test.md"} />} />
         <Route path="/" element={<App />} />
         <Route path="/rooms" element={<Rooms />} />
         <Route path="/misc" element={<Misc />} />
         <Route path="/lists" element={<Lists />} />
         <Route path="/photography" element={<Photography />} />
+        <Route path="/photography/usa" element={<UnitedStates />} />
+        <Route path="/photography/info" element={<MarkdownPage source={"/content/PhotographyInfo.md"} />} />
+        <Route path="/photography/inBetween" element={<DisplayPhotos source={"/Photography/Travel"} />} />
       </Routes>
     </Router>
   </React.StrictMode>

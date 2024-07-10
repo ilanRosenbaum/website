@@ -2,10 +2,11 @@ import React from "react";
 import SierpinskiHexagon, { HexagonConfig } from "./components/SierpinskiHexagon";
 import { appConfig as RoomsConfig } from "./Pages/Rooms";
 import { appConfig as MiscConfig } from "./Pages/Misc";
+import { appConfig as PhotographyConfig } from "./Pages/Photography/Photography";
 
 const AppConfig: HexagonConfig = {
   targetLevels: {
-    right: 3,
+    right: 0,
     bottomRight: 3,
     bottomLeft: 0,
     left: 3,
@@ -25,21 +26,20 @@ const AppConfig: HexagonConfig = {
     topLeft: (hexagonId: number) => {
       performTransitionAndRedirect(hexagonId, "/rooms");
     },
-    right: () => {
-      window.location.href = "/photography";
+    right: (hexagonId: number) => {
+      performTransitionAndRedirect(hexagonId, "/photography");
     },
     default: (hexagonId: number) => {
       alert(`Hexagon ${hexagonId} clicked!`);
     }
   },
   images: {
-    bottomRight: "./assets/ceramics/garlicVertical.jpg",
-    right: "./assets/photography/bird.jpg",
-    left: "./assets/cooking/chickenPasta.jpg",
-    topRight: "./assets/about/me.jpg"
+    bottomRight: "./assets/covers/garlicVertical.jpg",
+    right: "./assets/covers/birdVertical.jpg",
+    left: "./assets/covers/chickenPastaVertical.jpg",
+    topRight: "./assets/covers/meVertical.jpg"
   },
   text: {
-    1: "Photography",
     2: "Ceramics",
     3: "Misc",
     4: "Cooking",
@@ -52,7 +52,8 @@ const AppConfig: HexagonConfig = {
   },
   config: {
     "topLeft": RoomsConfig,
-    "bottomLeft": MiscConfig
+    "bottomLeft": MiscConfig,
+    "right": PhotographyConfig,
   }
 };
 
