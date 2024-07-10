@@ -5,9 +5,10 @@ import BackButton from "./BackButton";
 
 interface TiledPlaneProps {
   photos: string[];
+  backTo?: string;
 }
 
-const TiledPlane: React.FC<TiledPlaneProps> = ({ photos }) => {
+const TiledPlane: React.FC<TiledPlaneProps> = ({ photos, backTo }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
@@ -94,7 +95,7 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photos }) => {
   return (
     <div className="h-screen w-screen bg-black/90 flex flex-col items-center">
       <div className="absolute top-8 left-8 z-10">
-        <BackButton textColor="#ffefdb" color="#603b61" to="/" />
+        <BackButton textColor="#ffefdb" color="#603b61" to={backTo || ""} />
       </div>
       <div ref={containerRef} className="w-full h-full mt-8 mb-8">
         <svg ref={svgRef} className="mx-auto"></svg>

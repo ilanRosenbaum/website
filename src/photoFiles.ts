@@ -2,15 +2,28 @@ export const photoFilesCovers = [
   "/assets/covers/me.jpg",
   "/assets/covers/chickenPastaVertical.jpg",
   "/assets/covers/garlicVertical.jpg",
+  "/assets/covers/planeVertical.jpg",
   "/assets/covers/birdHorizontal.jpg",
   "/assets/covers/chickenPasta.jpg",
   "/assets/covers/meHorizontal.jpg",
   "/assets/covers/meVertical.jpg",
+  "/assets/covers/plane.jpg",
   "/assets/covers/bird.jpg",
   "/assets/covers/birdVertical.jpg",
   "/assets/covers/chickenPastaHorizontal.jpg",
+  "/assets/covers/moroccoVertical.jpg",
   "/assets/covers/garlic.jpg",
-  "/assets/covers/garlicHorizontal.jpg"
+  "/assets/covers/garlicHorizontal.jpg",
+  "/assets/covers/morocco.jpg"
+];
+
+export const photoFilesPhotographyAfricaMorocco = [
+  "/assets/photography/africa/morocco/20221227_111155_20221227_181155.JPG",
+  "/assets/photography/africa/morocco/20221228_024319_20221228_094319.JPG",
+  "/assets/photography/africa/morocco/20221226_064357_20221226_134356.JPG",
+  "/assets/photography/africa/morocco/20221227_052500_20221227_122500.JPG",
+  "/assets/photography/africa/morocco/20221227_111537_20221227_181537.JPG",
+  "/assets/photography/africa/morocco/20221227_042514_20221227_112513.JPG"
 ];
 
 export const photoFilesPhotographyTravel = [

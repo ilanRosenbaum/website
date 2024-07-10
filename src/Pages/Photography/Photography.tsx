@@ -2,6 +2,8 @@ import React from "react";
 import SierpinskiHexagon, { HexagonConfig, minConfig } from "../../components/SierpinskiHexagon";
 import { performTransitionAndRedirect } from "../../App";
 import { appConfig as unitedStatesConfig } from "./UnitedStates";
+import { appConfig as africaConfig } from "./Africa";
+import { appConfig as mexicoConfig } from "./Mexico";
 
 const sharedConfig = {
   styles: {
@@ -9,22 +11,21 @@ const sharedConfig = {
       fill: "#603b61",
       opacity: 1.0
     }
-  },
-  images: {}
+  }
 };
 
 const appConfig: HexagonConfig = {
   targetLevels: {
     right: 0,
     bottomRight: 2,
-    bottomLeft: 2,
-    left: 2,
+    bottomLeft: 0,
+    left: 0,
     topLeft: 3,
     topRight: 3
   },
   styles: sharedConfig.styles,
   actions: {},
-  images: sharedConfig.images,
+  images: {},
   text: {},
   backButton: {
     exists: false
@@ -36,6 +37,11 @@ appConfig.config = {};
 appConfig.config.right = Object.create(unitedStatesConfig); // Don't want to modify the original config
 appConfig.config.right.title = "";
 
+appConfig.config.left = Object.create(mexicoConfig);
+appConfig.config.left.title = "";
+
+appConfig.config.bottomLeft = Object.create(africaConfig);
+appConfig.config.bottomLeft.title = "";
 
 export { appConfig };
 
@@ -44,15 +50,16 @@ const pageConfig: HexagonConfig = {
   targetLevels: {
     right: 0,
     bottomRight: 2,
-    bottomLeft: 2,
-    left: 2,
+    bottomLeft: 0,
+    left: 0,
     topLeft: 3,
     topRight: 3
   },
   styles: sharedConfig.styles,
-  actions: {
+  actions: {},
+  images: {
+    topLeft: "./assets/covers/planeVertical.jpg"
   },
-  images: sharedConfig.images,
   text: {
     5: "In Between",
     6: "Info"
@@ -74,24 +81,19 @@ pageConfig.actions = {
   },
   topLeft: () => {
     window.location.href = "/photography/InBetween";
-  }
+  },
+  bottomLeft: (hexagonId: number) => {
+    performTransitionAndRedirect(hexagonId, "/photography/africa");
+  },
 };
-
-const leftConfig = Object.create(minConfig);
-leftConfig.titleSize = "1.5em";
-leftConfig.title = "Mexico";
-
-const bottomLeft = Object.create(minConfig);
-bottomLeft.title = "Africa";
-bottomLeft.titleSize = "1.5em";
 
 const bottomRightConfig = Object.create(minConfig);
 bottomRightConfig.titleSize = "1.5em";
 bottomRightConfig.title = "Europe";
 
 pageConfig.config = {}; // Initialize pageConfig.config as an empty object
-pageConfig.config.left = leftConfig;
-pageConfig.config.bottomLeft = bottomLeft;
+pageConfig.config.left = mexicoConfig;
+pageConfig.config.bottomLeft = africaConfig;
 pageConfig.config.bottomRight = bottomRightConfig;
 pageConfig.config.right = unitedStatesConfig;
 
