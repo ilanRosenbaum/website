@@ -4,6 +4,7 @@ import { performTransitionAndRedirect } from "../../App";
 import { appConfig as unitedStatesConfig } from "./UnitedStates";
 import { appConfig as africaConfig } from "./Africa";
 import { appConfig as mexicoConfig } from "./Mexico";
+import { appConfig as europeConfig } from "./Europe";
 
 const sharedConfig = {
   styles: {
@@ -17,7 +18,7 @@ const sharedConfig = {
 const appConfig: HexagonConfig = {
   targetLevels: {
     right: 0,
-    bottomRight: 2,
+    bottomRight: 0,
     bottomLeft: 0,
     left: 0,
     topLeft: 3,
@@ -43,13 +44,16 @@ appConfig.config.left.title = "";
 appConfig.config.bottomLeft = Object.create(africaConfig);
 appConfig.config.bottomLeft.title = "";
 
+appConfig.config.bottomRight = Object.create(europeConfig);
+appConfig.config.bottomRight.title = "";
+
 export { appConfig };
 
 // The SierpinskiHexagon config to be used to generate the config for the Misc page
 const pageConfig: HexagonConfig = {
   targetLevels: {
     right: 0,
-    bottomRight: 2,
+    bottomRight: 0,
     bottomLeft: 0,
     left: 0,
     topLeft: 3,
@@ -87,14 +91,10 @@ pageConfig.actions = {
   },
 };
 
-const bottomRightConfig = Object.create(minConfig);
-bottomRightConfig.titleSize = "1.5em";
-bottomRightConfig.title = "Europe";
-
 pageConfig.config = {}; // Initialize pageConfig.config as an empty object
 pageConfig.config.left = mexicoConfig;
 pageConfig.config.bottomLeft = africaConfig;
-pageConfig.config.bottomRight = bottomRightConfig;
+pageConfig.config.bottomRight = europeConfig;
 pageConfig.config.right = unitedStatesConfig;
 
 const Misc: React.FC = () => {
