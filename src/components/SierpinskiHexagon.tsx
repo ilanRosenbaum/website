@@ -291,31 +291,22 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
     for (let i: number = 1; i < 7; i++) {
       if (config.targetLevels[Object.keys(config.targetLevels)[i - 1]] === 0) {
         const currentSection = Object.keys(config.targetLevels)[i - 1];
+
+        // If there is no sub-config for the section with target level 0 in the main config, skip the hover effect as this hexagon should not functionally exist
         if (!config.config || !config.config.hasOwnProperty(currentSection)) {
           continue;
         }
       }
 
-      if ( isTransitioning) {
+      // Skip the hover effect if the hexagon is transitioning
+      if (isTransitioning) {
         continue;
       }
+
       const respectTo = d3.select(`#hexagon-${i}`).node() as SVGGElement;
       const hexagonGroup = d3.selectAll(`.hexagon-group-${i}`);
 
-      // Create an invisible overlay for each hexagon
-      hexagonGroup.each(function () {
-        if (this instanceof SVGGraphicsElement) {
-          const bbox = this.getBBox();
-          const parent = this.parentNode;
-
-          if (parent instanceof SVGElement) {
-            d3.select(parent).append("rect").attr("class", `hexagon-overlay-${i}`).attr("x", bbox.x).attr("y", bbox.y).attr("width", bbox.width).attr("height", bbox.height).attr("fill", "transparent").style("pointer-events", "all");
-          }
-        }
-      });
-
-      // Attach hover events to the overlay
-      d3.selectAll(`.hexagon-overlay-${i}`)
+      hexagonGroup
         .on("mouseenter", function () {
           for (let element of hexagonGroup.nodes() as SVGGElement[]) {
             transition(element, respectTo, 0.9);
