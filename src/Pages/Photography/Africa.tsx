@@ -9,6 +9,8 @@ appConfig.targetLevels = {
   topLeft: 0,
   topRight: 0
 };
+appConfig.title = "Africa";
+appConfig.titleSize = "1.5em";
 
 const pageConfig: HexagonConfig = {
   styles: {
