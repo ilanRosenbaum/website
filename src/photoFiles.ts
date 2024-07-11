@@ -1,21 +1,49 @@
 export const photoFilesCovers = [
+  "/assets/covers/minneapolis.jpg",
   "/assets/covers/me.jpg",
+  "/assets/covers/bayAreaVertical.jpg",
   "/assets/covers/chickenPastaVertical.jpg",
   "/assets/covers/garlicVertical.jpg",
   "/assets/covers/planeVertical.jpg",
   "/assets/covers/birdHorizontal.jpg",
   "/assets/covers/chickenPasta.jpg",
+  "/assets/covers/lyonVertical.jpg",
   "/assets/covers/meHorizontal.jpg",
   "/assets/covers/meVertical.jpg",
+  "/assets/covers/sacramentoVertical.jpg",
   "/assets/covers/plane.jpg",
+  "/assets/covers/chicago.jpg",
   "/assets/covers/PuertoVallarta.jpg",
   "/assets/covers/bird.jpg",
+  "/assets/covers/minneapolisVertical.jpg",
+  "/assets/covers/copenhagen.jpg",
+  "/assets/covers/madisonVertical.jpg",
+  "/assets/covers/hawaiiVertical.jpg",
   "/assets/covers/birdVertical.jpg",
+  "/assets/covers/charlotteVertical.jpg",
+  "/assets/covers/amsterdam.jpg",
+  "/assets/covers/yosemiteVertical.jpg",
+  "/assets/covers/bayArea.jpg",
+  "/assets/covers/tahoeVertical.jpg",
   "/assets/covers/chickenPastaHorizontal.jpg",
+  "/assets/covers/sequoiaVertical.jpg",
   "/assets/covers/moroccoVertical.jpg",
+  "/assets/covers/madison.jpg",
   "/assets/covers/garlic.jpg",
+  "/assets/covers/copenhagenVertical.jpg",
+  "/assets/covers/lyon.jpg",
+  "/assets/covers/girona.jpg",
   "/assets/covers/garlicHorizontal.jpg",
+  "/assets/covers/sacramento.jpg",
+  "/assets/covers/tahoe.jpg",
+  "/assets/covers/charlotte.jpg",
   "/assets/covers/PuertoVallartaVertical.jpg",
+  "/assets/covers/yosemite.jpg",
+  "/assets/covers/amsterdamVertical.jpg",
+  "/assets/covers/gironaVertical.jpg",
+  "/assets/covers/sequoia.jpg",
+  "/assets/covers/hawaii.jpg",
+  "/assets/covers/chicagoVertical.jpg",
   "/assets/covers/morocco.jpg"
 ];
 
@@ -217,6 +245,35 @@ export const photoFilesPhotographyUnitedstatesCaliforniaYosemite = [
   "/assets/photography/unitedStates/california/yosemite/20210409_130219_20210409_130218.JPG",
   "/assets/photography/unitedStates/california/yosemite/20210409_145730_20210409_145730.JPG",
   "/assets/photography/unitedStates/california/yosemite/20210415_000516_Snapchat-909211878.JPG"
+];
+
+export const photoFilesPhotographyEuropeLyon = [
+  "/assets/photography/europe/lyon/20230605_134008_20230605_204008.JPG",
+  "/assets/photography/europe/lyon/20230605_140733_20230605_210733.JPG"
+];
+
+export const photoFilesPhotographyEuropeGirona = [
+  "/assets/photography/europe/girona/20230602_051210_20230602_121210.JPG",
+  "/assets/photography/europe/girona/20230603_032631_20230603_102631.JPG"
+];
+
+export const photoFilesPhotographyEuropeAmsterdam = [
+  "/assets/photography/europe/amsterdam/20230613_160634_20230613_230631.JPG"
+];
+
+export const photoFilesPhotographyEuropeCopenhagen = [
+  "/assets/photography/europe/copenhagen/20240521_181219.jpg",
+  "/assets/photography/europe/copenhagen/20240513_211538.jpg",
+  "/assets/photography/europe/copenhagen/20240520_130917.jpg",
+  "/assets/photography/europe/copenhagen/20240515_164248.jpg",
+  "/assets/photography/europe/copenhagen/20240517_115517.jpg",
+  "/assets/photography/europe/copenhagen/20240513_181245.jpg",
+  "/assets/photography/europe/copenhagen/20240516_191722.jpg",
+  "/assets/photography/europe/copenhagen/20240515_205648.jpg",
+  "/assets/photography/europe/copenhagen/20240521_125659.jpg",
+  "/assets/photography/europe/copenhagen/20240517_160800.jpg",
+  "/assets/photography/europe/copenhagen/20240520_132539.jpg",
+  "/assets/photography/europe/copenhagen/20240517_161158.jpg"
 ];
 
 export const photoFilesPhotographyMexico = [

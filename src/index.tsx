@@ -13,6 +13,7 @@ import DisplayPhotos from "./components/DisplayPhotos";
 import Africa from "./Pages/Photography/Africa";
 import Mexico from "./Pages/Photography/Mexico";
 import California from "./Pages/Photography/California";
+import Europe from "./Pages/Photography/Europe";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 
@@ -43,6 +44,12 @@ root.render(
         <Route path="/photography/usa/california/sequoia" element={<DisplayPhotos source={"/Photography/Unitedstates/California/Sequoia"} backTo={"/photography/usa/california"} />} />
         <Route path="/photography/usa/california/tahoe" element={<DisplayPhotos source={"/Photography/Unitedstates/California/Tahoe"} backTo={"/photography/usa/california"} />} />
         <Route path="/photography/usa/california/yosemite" element={<DisplayPhotos source={"/Photography/Unitedstates/California/Yosemite"} backTo={"/photography/usa/california"} />} />
+        <Route path="/photography/europe" element={<Europe />} />
+        <Route path="/photography/europe/netherlands" element={<DisplayPhotos source={"/Photography/Europe/Amsterdam"} backTo={"/photography/europe"} />} />
+        <Route path="/photography/europe/spain" element={<DisplayPhotos source={"/Photography/Europe/Girona"} backTo={"/photography/europe"} />} />
+        <Route path="/photography/europe/denmark" element={<DisplayPhotos source={"/Photography/Europe/Copenhagen"} backTo={"/photography/europe"} />} />
+        <Route path="/photography/europe/france" element={<DisplayPhotos source={"/Photography/Europe/Lyon"} backTo={"/photography/europe"} />} />
+
       </Routes>
     </Router>
   </React.StrictMode>

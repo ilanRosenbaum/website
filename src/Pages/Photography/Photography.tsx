@@ -92,6 +92,9 @@ pageConfig.actions = {
   bottomLeft: (hexagonId: number) => {
     performTransitionAndRedirect(hexagonId, "/photography/africa");
   },
+  bottomRight: (hexagonId: number) => {
+    performTransitionAndRedirect(hexagonId, "/photography/europe");
+  }
 };
 
 pageConfig.config = {}; // Initialize pageConfig.config as an empty object
