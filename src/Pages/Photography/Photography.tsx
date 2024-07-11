@@ -86,6 +86,9 @@ pageConfig.actions = {
   topLeft: () => {
     window.location.href = "/photography/InBetween";
   },
+  left: (hexagonId: number) => {
+    performTransitionAndRedirect(hexagonId, "/photography/mexico");
+  },
   bottomLeft: (hexagonId: number) => {
     performTransitionAndRedirect(hexagonId, "/photography/africa");
   },
