@@ -10,7 +10,11 @@ appConfig.targetLevels = {
   topRight: 0
 };
 appConfig.title = "Mexico";
+appConfig.imageId = "Mexico";
 appConfig.titleSize = "1.5em";
+appConfig.images = {
+  left: "/assets/covers/PuertoVallartaVertical.jpg"
+};
 
 const pageConfig: HexagonConfig = {
   styles: {

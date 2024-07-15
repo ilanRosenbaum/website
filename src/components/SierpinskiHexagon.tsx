@@ -11,6 +11,7 @@ export interface HexagonConfig {
   textSize?: string;
   title?: string;
   titleSize?: string;
+  imageId?: string;
   textColor?: string;
   dropShadow?: string;
   backButton: {
@@ -49,8 +50,8 @@ export const minConfig: HexagonConfig = {
   }
 };
 
-interface SierpinskiHexagonProps {
-  config: HexagonConfig;
+function generateUniqueId(config: HexagonConfig, section: string): string {
+  return `image-fill-${config.imageId || config.title || 'root'}-${section}`.replace(/\s+/g, '-').toLowerCase();
 }
 
 function hexToRgbA(hex: string, opacity: number = 0.5) {
@@ -71,12 +72,12 @@ const transition = (element: SVGGElement, respectTo: SVGGElement, scale: number)
     .duration(200)
     .ease(d3.easeCubicInOut)
     .attr("transform", function () {
-      const bbox = respectTo.getBBox();
+      const bbox = respectTo.getBoundingClientRect();
       return `translate(${bbox.x + bbox.width / 2}, ${bbox.y + bbox.height / 2}) scale(${scale}) translate(${-bbox.x - bbox.width / 2}, ${-bbox.y - bbox.height / 2})`;
     });
 };
 
-const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
+const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
@@ -102,7 +103,7 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
       return [x, y];
     };
 
-    const drawHexagon = (x: number, y: number, size: number, level: number, section: string, currentConfig: HexagonConfig, isMainHexagon: boolean) => {
+    const drawHexagon = (x: number, y: number, size: number, level: number, section: string, currentConfig: HexagonConfig, isMainHexagon: boolean, parentConfig?: HexagonConfig) => {
       if (level <= 0) return;
 
       const currentHexagonId = hexagonCounter;
@@ -121,19 +122,19 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
       if (level > 3) {
         offsets.forEach(([dx, dy], index) => {
           const newSection = Object.keys(currentConfig.targetLevels)[index];
-          drawHexagon(x + dx, y + dy, size / 3, level - 1, newSection, currentConfig, isMainHexagon);
+          drawHexagon(x + dx, y + dy, size / 3, level - 1, newSection, currentConfig, isMainHexagon, currentConfig);
         });
       } else {
         if (level > targetLevel) {
           offsets.forEach(([dx, dy]) => {
-            drawHexagon(x + dx, y + dy, size / 3, level - 1, section, currentConfig, isMainHexagon);
+            drawHexagon(x + dx, y + dy, size / 3, level - 1, section, currentConfig, isMainHexagon, currentConfig);
           });
         }
       }
 
       // Recursively draw new hexagon with specific config if exists before drawing the current hexagon
       if (level === 3 && currentConfig.config && currentConfig.config[section]) {
-        drawHexagon(x, y, size, 4, section, currentConfig.config[section], false);
+        drawHexagon(x, y, size, 4, section, currentConfig.config[section], false, currentConfig);
       }
 
       if (level === targetLevel) {
@@ -169,8 +170,11 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
           setIsTransitioning(true);
         });
 
-        if (currentConfig.images[section]) {
-          hexagonPolygon.attr("fill", `url(#image-fill-${section})`).attr("opacity", style.opacity);
+        // Check for images in both current and parent configs
+        const imageSource = currentConfig.images[section] || (parentConfig && parentConfig.images[section]);
+        if (imageSource) {
+          const uniqueId = generateUniqueId(currentConfig.images[section] ? currentConfig : parentConfig!, section);
+          hexagonPolygon.attr("fill", `url(#${uniqueId})`).attr("opacity", style.opacity);
         } else {
           hexagonPolygon.attr("fill", style.fill);
         }
@@ -207,8 +211,6 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
           .style("opacity", 0);
 
         // Apply specific click action for the hexagon
-        // If the target level is 0, use the action defined in the current config and if there is none that means
-        //    that hexagon effectively should not exist so it should do nothing
         if (targetLevel === 0) {
           group.on("click", () => {
             setIsTransitioning(true);
@@ -264,22 +266,35 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
     // Clear SVG content before drawing
     svg.selectAll("*").remove();
 
+    const addPatterns = (config: HexagonConfig, parentId: string = '') => {
+      Object.keys(config.images).forEach((key) => {
+        const uniqueId = generateUniqueId(config, key);
+        defs
+          .append("pattern")
+          .attr("id", uniqueId)
+          .attr("patternUnits", "objectBoundingBox")
+          .attr("patternContentUnits", "objectBoundingBox")
+          .attr("width", 1)
+          .attr("height", 1)
+          .append("image")
+          .attr("xlink:href", config.images[key])
+          .attr("width", 1)
+          .attr("height", 1)
+          .attr("preserveAspectRatio", "xMidYMid slice");
+      });
+
+      // Recursively add patterns for sub-configurations
+      if (config.config) {
+        Object.entries(config.config).forEach(([subSection, subConfig]) => {
+          addPatterns(subConfig, `${parentId}-${subSection}`);
+        });
+      }
+    };
+
     // Add image patterns for hexagons defined in config
     const defs = svg.append("defs");
-    Object.keys(config.images).forEach((key) => {
-      defs
-        .append("pattern")
-        .attr("id", `image-fill-${key}`)
-        .attr("patternUnits", "objectBoundingBox")
-        .attr("patternContentUnits", "objectBoundingBox")
-        .attr("width", 1)
-        .attr("height", 1)
-        .append("image")
-        .attr("xlink:href", config.images[key]) // Use the local image path
-        .attr("width", 1)
-        .attr("height", 1)
-        .attr("preserveAspectRatio", "xMidYMid slice"); // Ensure the image is scaled proportionally to cover the entire area.
-    });
+    addPatterns(config);
+
     // Update the initial draw call to use the maximum target level + 2
     const maxTargetLevel = 4;
     svg.attr("viewBox", `0 0 ${width} ${height}`).attr("width", "100%").attr("height", "100%");
@@ -321,7 +336,7 @@ const SierpinskiHexagon: React.FC<SierpinskiHexagonProps> = ({ config }) => {
   }, [config, isTransitioning]);
 
   useEffect(() => {
-    console.log("isTransitioning:", isTransitioning);
+    console.log("isTransitioning:", isTransitioning); // Don't delete this lol
   }, [isTransitioning]);
 
   return (

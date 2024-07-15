@@ -1,10 +1,20 @@
 import React from "react";
-import SierpinskiHexagon, { HexagonConfig, minConfig } from "../../components/SierpinskiHexagon";
+import SierpinskiHexagon, { HexagonConfig } from "../../components/SierpinskiHexagon";
 import { performTransitionAndRedirect } from "../../App";
 import { appConfig as unitedStatesConfig } from "./UnitedStates";
 import { appConfig as africaConfig } from "./Africa";
 import { appConfig as mexicoConfig } from "./Mexico";
 import { appConfig as europeConfig } from "./Europe";
+
+const africaAppConfig = Object.create(africaConfig);
+africaAppConfig.title = "";
+const mexicoAppConfig = Object.create(mexicoConfig);
+mexicoAppConfig.title = "";
+const europeAppConfig = Object.create(europeConfig);
+europeAppConfig.title = "";
+
+const unitedStatesAppConfig = Object.create(unitedStatesConfig);
+unitedStatesAppConfig.title = "";
 
 const sharedConfig = {
   styles: {
@@ -12,6 +22,15 @@ const sharedConfig = {
       fill: "#603b61",
       opacity: 1.0
     }
+  },
+  images: {
+    topLeft: "./assets/covers/planeVertical.jpg"
+  },
+  config: {
+    left: mexicoAppConfig,
+    bottomLeft: africaAppConfig,
+    bottomRight: europeAppConfig,
+    right: unitedStatesAppConfig
   }
 };
 
@@ -26,26 +45,15 @@ const appConfig: HexagonConfig = {
   },
   styles: sharedConfig.styles,
   actions: {},
-  images: {},
+  images: sharedConfig.images,
   text: {},
   backButton: {
     exists: false
-  }
+  },
+  config: sharedConfig.config
 };
 appConfig.titleSize = "0.9em";
 appConfig.title = "Photography";
-appConfig.config = {};
-appConfig.config.right = Object.create(unitedStatesConfig); // Don't want to modify the original config
-appConfig.config.right.title = "";
-
-appConfig.config.left = Object.create(mexicoConfig);
-appConfig.config.left.title = "";
-
-appConfig.config.bottomLeft = Object.create(africaConfig);
-appConfig.config.bottomLeft.title = "";
-
-appConfig.config.bottomRight = Object.create(europeConfig);
-appConfig.config.bottomRight.title = "";
 
 export { appConfig };
 
@@ -61,9 +69,7 @@ const pageConfig: HexagonConfig = {
   },
   styles: sharedConfig.styles,
   actions: {},
-  images: {
-    topLeft: "./assets/covers/planeVertical.jpg"
-  },
+  images: sharedConfig.images,
   text: {
     5: "In Between",
     6: "Info"
@@ -73,7 +79,8 @@ const pageConfig: HexagonConfig = {
     exists: true,
     to: "/",
     textColor: "#4c0013"
-  }
+  },
+  config: sharedConfig.config
 };
 
 pageConfig.actions = {
@@ -97,14 +104,8 @@ pageConfig.actions = {
   }
 };
 
-pageConfig.config = {}; // Initialize pageConfig.config as an empty object
-pageConfig.config.left = mexicoConfig;
-pageConfig.config.bottomLeft = africaConfig;
-pageConfig.config.bottomRight = europeConfig;
-pageConfig.config.right = unitedStatesConfig;
-
-const Misc: React.FC = () => {
+const Photography: React.FC = () => {
   return <SierpinskiHexagon config={pageConfig} />;
 };
 
-export default Misc;
+export default Photography;

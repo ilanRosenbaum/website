@@ -11,6 +11,13 @@ appConfig.targetLevels = {
 };
 appConfig.titleSize = "1.5em";
 appConfig.title = "Europe";
+appConfig.imageId = "Europe";
+appConfig.images = {
+  left: "/assets/covers/amsterdamVertical.jpg",
+  bottomLeft: "/assets/covers/lyonVertical.jpg",
+  topLeft: "/assets/covers/gironaVertical.jpg",
+  right: "/assets/covers/copenHagenVertical.jpg"
+}
 
 export { appConfig };
 

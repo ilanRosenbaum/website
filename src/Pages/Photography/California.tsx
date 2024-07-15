@@ -10,6 +10,14 @@ appConfig.targetLevels = {
   topRight: 3
 };
 appConfig.title = "California";
+appConfig.images = {
+  topLeft: "/assets/covers/yosemiteVertical.jpg",
+  topRight: "/assets/covers/tahoeVertical.jpg",
+  left: "/assets/covers/bayAreaVertical.jpg",
+  bottomLeft: "/assets/covers/sacramentoVertical.jpg",
+  bottomRight: "/assets/covers/sequoiaVertical.jpg"
+};
+appConfig.imageId = "California";
 
 export { appConfig };
 
@@ -43,7 +51,7 @@ pageConfig.images = {
   left: "/assets/covers/bayAreaVertical.jpg",
   bottomLeft: "/assets/covers/sacramentoVertical.jpg",
   bottomRight: "/assets/covers/sequoiaVertical.jpg"
-}
+};
 
 pageConfig.text = {
   2: "Sequoia",

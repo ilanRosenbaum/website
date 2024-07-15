@@ -10,7 +10,11 @@ appConfig.targetLevels = {
   topRight: 0
 };
 appConfig.title = "Africa";
+appConfig.imageId = "Africa";
 appConfig.titleSize = "1.5em";
+appConfig.images = {
+  left: "/assets/covers/moroccoVertical.jpg"
+};
 
 const pageConfig: HexagonConfig = {
   styles: {

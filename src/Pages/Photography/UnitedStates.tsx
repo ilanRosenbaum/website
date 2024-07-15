@@ -8,10 +8,11 @@ sharedConfig.images = {
   right: "/assets/covers/chicagoVertical.jpg",
   topRight: "/assets/covers/minneapolisVertical.jpg",
   topLeft: "/assets/covers/charlotteVertical.jpg",
-  left: "/assets/covers/madisonVertical.jpg"  
-}
+  left: "/assets/covers/madisonVertical.jpg"
+};
 const appConfig: HexagonConfig = Object.create(minConfig);
 appConfig.title = "United States";
+appConfig.imageId = "United States";
 appConfig.titleSize = "0.75em";
 appConfig.targetLevels = {
   right: 3,
@@ -29,6 +30,7 @@ pageConfig.backButton = {
   exists: true,
   to: "/photography"
 };
+appConfig.images = sharedConfig.images;
 
 pageConfig.actions = {
   right: () => {
