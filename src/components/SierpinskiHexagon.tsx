@@ -51,7 +51,7 @@ export const minConfig: HexagonConfig = {
 };
 
 function generateUniqueId(config: HexagonConfig, section: string): string {
-  return `image-fill-${config.imageId || config.title || 'root'}-${section}`.replace(/\s+/g, '-').toLowerCase();
+  return `image-fill-${config.imageId || config.title || "root"}-${section}`.replace(/\s+/g, "-").toLowerCase();
 }
 
 function hexToRgbA(hex: string, opacity: number = 0.5) {
@@ -64,6 +64,26 @@ function hexToRgbA(hex: string, opacity: number = 0.5) {
     return "rgba(" + [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(",") + `,${opacity})`;
   }
   throw new Error("Bad Hex");
+}
+
+function throttle<F extends (...args: any[]) => any>(func: F, limit: number): (...args: Parameters<F>) => void {
+  let lastFunc: ReturnType<typeof setTimeout>;
+  let lastRan: number;
+  return function (this: any, ...args: Parameters<F>) {
+    const context = this;
+    if (!lastRan) {
+      func.apply(context, args);
+      lastRan = Date.now();
+    } else {
+      clearTimeout(lastFunc);
+      lastFunc = setTimeout(() => {
+        if (Date.now() - lastRan >= limit) {
+          func.apply(context, args);
+          lastRan = Date.now();
+        }
+      }, limit - (Date.now() - lastRan));
+    }
+  };
 }
 
 const transition = (element: SVGGElement, respectTo: SVGGElement, scale: number) => {
@@ -210,6 +230,8 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
           .attr("id", `hexagon-${currentHexagonId}`)
           .style("opacity", 0);
 
+        group.attr("data-scale", "1");
+
         // Apply specific click action for the hexagon
         if (targetLevel === 0) {
           group.on("click", () => {
@@ -266,7 +288,7 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
     // Clear SVG content before drawing
     svg.selectAll("*").remove();
 
-    const addPatterns = (config: HexagonConfig, parentId: string = '') => {
+    const addPatterns = (config: HexagonConfig, parentId: string = "") => {
       Object.keys(config.images).forEach((key) => {
         const uniqueId = generateUniqueId(config, key);
         defs
@@ -303,36 +325,83 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
     const centerY = height / 2;
     drawHexagon(centerX, centerY, hexagonWidth / 2, maxTargetLevel, "center", config, true);
 
-    for (let i: number = 1; i < 7; i++) {
-      if (config.targetLevels[Object.keys(config.targetLevels)[i - 1]] === 0) {
-        const currentSection = Object.keys(config.targetLevels)[i - 1];
+    function isPointInHexagon(px: number, py: number, cx: number, cy: number, size: number, bufferSize: number = 1.1): "inside" | "buffer" | "outside" {
+      const dx = Math.abs(px - cx);
+      const dy = Math.abs(py - cy);
 
-        // If there is no sub-config for the section with target level 0 in the main config, skip the hover effect as this hexagon should not functionally exist
-        if (!config.config || !config.config.hasOwnProperty(currentSection)) {
-          continue;
-        }
-      }
+      const height = size * Math.sqrt(3);
+      const bufferHeight = height * bufferSize;
 
-      // Skip the hover effect if the hexagon is transitioning
-      if (isTransitioning) {
-        continue;
-      }
+      // Helper function to check if point is inside a hexagon of given size
+      const insideHex = (s: number, h: number) => dx <= s && dy <= h / 2 && (h / 2) * s - (h / 4) * dx - s * dy >= 0;
 
-      const respectTo = d3.select(`#hexagon-${i}`).node() as SVGGElement;
-      const hexagonGroup = d3.selectAll(`.hexagon-group-${i}`);
+      // Check if point is outside the buffer zone
+      if (!insideHex(size * bufferSize, bufferHeight)) return "outside";
 
-      hexagonGroup
-        .on("mouseenter", function () {
-          for (let element of hexagonGroup.nodes() as SVGGElement[]) {
-            transition(element, respectTo, 0.9);
+      // Check if point is inside the actual hexagon
+      if (insideHex(size, height)) return "inside";
+
+      // If it's neither inside nor outside, it's in the buffer zone
+      return "buffer";
+    }
+
+    const handleMouseMove = throttle((event: MouseEvent) => {
+      const svgElement = svgRef.current;
+      if (!svgElement) return;
+
+      const svgRect = svgElement.getBoundingClientRect();
+      const mouseX = event.clientX - svgRect.left;
+      const mouseY = event.clientY - svgRect.top;
+
+      console.log(`Mouse position: (${mouseX}, ${mouseY})`);
+
+      for (let i: number = 1; i < 7; i++) {
+        const respectTo = d3.select(`#hexagon-${i}`).node() as SVGGElement;
+        if (!respectTo) continue;
+
+        const hexagonGroup = d3.selectAll(`.hexagon-group-${i}`);
+        const bbox = respectTo.getBoundingClientRect();
+
+        const centerX = bbox.left - svgRect.left + bbox.width / 2;
+        const centerY = bbox.top - svgRect.top + bbox.height / 2;
+        const hexagonSize = bbox.width / 2;
+
+        const position = isPointInHexagon(mouseX, mouseY, centerX, centerY, hexagonSize);
+
+        console.log(`Hexagon ${i}: center(${centerX}, ${centerY}), size: ${hexagonSize}, position: ${position}`);
+
+        hexagonGroup.each(function () {
+          const element = this as SVGGElement;
+          const currentScale = d3.select(element).attr("data-scale");
+          let targetScale: number;
+
+          switch (position) {
+            case "inside":
+              targetScale = 0.9;
+              break;
+            case "outside":
+              targetScale = 1;
+              break;
+            case "buffer":
+              // Do nothing in the buffer zone
+              return;
           }
-        })
-        .on("mouseleave", function () {
-          for (let element of hexagonGroup.nodes() as SVGGElement[]) {
-            transition(element, respectTo, 1);
+
+          if (currentScale !== targetScale.toString()) {
+            transition(element, respectTo, targetScale);
+            d3.select(element).attr("data-scale", targetScale);
+            console.log(`Hexagon ${i} scale changed to ${targetScale}`);
           }
         });
-    }
+      }
+    }, 200); // 200ms throttle
+
+    window.addEventListener("mousemove", handleMouseMove);
+
+    // Cleanup function
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
   }, [config, isTransitioning]);
 
   useEffect(() => {
