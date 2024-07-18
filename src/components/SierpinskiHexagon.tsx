@@ -326,23 +326,38 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
     drawHexagon(centerX, centerY, hexagonWidth / 2, maxTargetLevel, "center", config, true);
 
     function isPointInHexagon(px: number, py: number, cx: number, cy: number, size: number, bufferSize: number = 1.1): "inside" | "buffer" | "outside" {
-      const dx = Math.abs(px - cx);
-      const dy = Math.abs(py - cy);
+      // Function to create hexagon points
+      const createHexagonPoints = (centerX: number, centerY: number, size: number): [number, number][] => {
+        return Array.from({ length: 6 }, (_, i) => {
+          const angle = (i * Math.PI) / 3;
+          return [centerX + size * Math.cos(angle), centerY + size * Math.sin(angle)];
+        });
+      };
 
-      const height = size * Math.sqrt(3);
-      const bufferHeight = height * bufferSize;
+      // Function to check if a point is inside a polygon
+      const isPointInPolygon = (point: [number, number], polygon: [number, number][]): boolean => {
+        let inside = false;
+        for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+          const xi = polygon[i][0],
+            yi = polygon[i][1];
+          const xj = polygon[j][0],
+            yj = polygon[j][1];
+          const intersect = (yi > point[1]) !== (yj > point[1]) && point[0] < ((xj - xi) * (point[1] - yi)) / (yj - yi) + xi;
+          if (intersect) inside = !inside;
+        }
+        return inside;
+      };
 
-      // Helper function to check if point is inside a hexagon of given size
-      const insideHex = (s: number, h: number) => dx <= s && dy <= h / 2 && (h / 2) * s - (h / 4) * dx - s * dy >= 0;
+      const hexagonPoints = createHexagonPoints(cx, cy, size);
+      const bufferHexagonPoints = createHexagonPoints(cx, cy, size * bufferSize);
 
-      // Check if point is outside the buffer zone
-      if (!insideHex(size * bufferSize, bufferHeight)) return "outside";
-
-      // Check if point is inside the actual hexagon
-      if (insideHex(size, height)) return "inside";
-
-      // If it's neither inside nor outside, it's in the buffer zone
-      return "buffer";
+      if (isPointInPolygon([px, py], hexagonPoints)) {
+        return "inside";
+      } else if (isPointInPolygon([px, py], bufferHexagonPoints)) {
+        return "buffer";
+      } else {
+        return "outside";
+      }
     }
 
     const handleMouseMove = throttle((event: MouseEvent) => {
