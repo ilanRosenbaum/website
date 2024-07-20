@@ -166,10 +166,7 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photos, backTo }) => {
         <svg ref={svgRef} className="mx-auto"></svg>
       </div>
       {selectedPhoto && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-20"
-          onClick={closeFullscreen}
-        >
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-20" onClick={closeFullscreen}>
           <img src={selectedPhoto} alt="" className="max-w-[60%] max-h-[90%] object-contain" onClick={(e) => e.stopPropagation()} />
           <button
             className={`absolute left-[15%] top-1/2 transform -translate-y-1/2 w-12 h-12 rounded-full bg-transparent text-[#ffebcd] text-4xl font-bold font-mono flex items-center justify-center transition-opacity duration-300 ${
@@ -189,6 +186,7 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photos, backTo }) => {
           </button>
         </div>
       )}
+      <div className="absolute bottom-2 right-2 text-xs text-white opacity-50">Copyright © 2024 Ilan Rosenbaum All rights reserved.</div>
     </div>
   );
 };
