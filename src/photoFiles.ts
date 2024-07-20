@@ -48,6 +48,27 @@ export const photoFilesCooking = [
   "/assets/cooking/20150724_165429_IMG_1303.JPG"
 ];
 
+export const photoFilesCeramics = [
+  "/assets/ceramics/20240712_203422.jpg",
+  "/assets/ceramics/20240712_203418.jpg",
+  "/assets/ceramics/20240712_201448.jpg",
+  "/assets/ceramics/20240712_201446.jpg",
+  "/assets/ceramics/IMG_20240705_135744.jpg",
+  "/assets/ceramics/20240624_171613.jpg",
+  "/assets/ceramics/20240624_171520.jpg",
+  "/assets/ceramics/20240607_194611.jpg",
+  "/assets/ceramics/IMG_20240402_205818.jpg",
+  "/assets/ceramics/b98bff21-fbbc-4393-99ea-1a781e2511be.jpg",
+  "/assets/ceramics/IMG_20240402_205652.jpg",
+  "/assets/ceramics/310dc75c-bb08-4b17-9edf-0a4a5f15e615 copy.jpg",
+  "/assets/ceramics/310dc75c-bb08-4b17-9edf-0a4a5f15e615.jpg",
+  "/assets/ceramics/a3d65888-b445-4e68-9018-10cc023aa430.jpg",
+  "/assets/ceramics/20240402_160138.jpg",
+  "/assets/ceramics/20230504_181506_20230504_181505.JPG",
+  "/assets/ceramics/20230427_181321_20230427_181321.JPG",
+  "/assets/ceramics/20230405_085938_IMG_20230405_095941_01.JPG"
+];
+
 export const photoFilesCovers = [
   "/assets/covers/copenhagenVertical.jpg",
   "/assets/covers/amsterdamVertical.jpg",

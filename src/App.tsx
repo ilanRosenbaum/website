@@ -32,6 +32,9 @@ const AppConfig: HexagonConfig = {
     left: () => {
       window.location.href = "/cooking";
     },
+    bottomRight: () => {
+      window.location.href = "/art";
+    },
     default: (hexagonId: number) => {
       alert(`Hexagon ${hexagonId} clicked!`);
     }

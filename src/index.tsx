@@ -26,6 +26,7 @@ root.render(
         <Route path="/misc" element={<Misc />} />
         <Route path="/lists" element={<Lists />} />
         <Route path="/cooking" element={<DisplayPhotos source={"/Cooking"} backTo="/" />} />
+        <Route path="/art" element={<DisplayPhotos source={"/Ceramics"} backTo="/" />} />
 
         <Route path="/photography" element={<Photography />} />
         <Route path="/photography/usa" element={<UnitedStates />} />
