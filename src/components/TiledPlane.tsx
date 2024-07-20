@@ -8,18 +8,18 @@ interface TiledPlaneProps {
   backTo?: string;
 }
 
-// This is recreated here instead of using sierpinskiHexagon implementation because they use hexagons with different aspect ratios 
 const isPointInHexagon = (px: number, py: number, cx: number, cy: number, size: number): boolean => {
   const dx = Math.abs(px - cx);
   const dy = Math.abs(py - cy);
   const r = size / 2;
-  return (dx <= r * Math.sqrt(3) / 2) && (dy <= r) && (r * Math.sqrt(3) * dx + r * dy <= r * r * 3 / 2);
+  return dx <= (r * Math.sqrt(3)) / 2 && dy <= r && r * Math.sqrt(3) * dx + r * dy <= (r * r * 3) / 2;
 };
 
 const TiledPlane: React.FC<TiledPlaneProps> = ({ photos, backTo }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   useEffect(() => {
     if (!svgRef.current || !containerRef.current) return;
@@ -48,12 +48,11 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photos, backTo }) => {
     const columnOffsetX = hexWidth * 0.75;
     const rowOffsetY = hexHeight;
 
-    const drawHexagon = (photo: string, col: number, row: number) => {
+    const drawHexagon = (photo: string, col: number, row: number, index: number) => {
       const x = centerX + col * columnOffsetX - hexWidth / 2;
       const y = row * rowOffsetY + (Math.abs(col) % 2 === 1 ? rowOffsetY / 2 : 0);
 
-      const hexagon = svg.append("g")
-        .attr("class", `hexagon hexagon-${col}-${row}`);
+      const hexagon = svg.append("g").attr("class", `hexagon hexagon-${col}-${row}`);
 
       hexagon
         .append("path")
@@ -62,7 +61,10 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photos, backTo }) => {
         .attr("stroke", "black")
         .attr("stroke-width", 2)
         .attr("transform", `translate(${x}, ${y})`)
-        .on("click", () => setSelectedPhoto(photo));
+        .on("click", () => {
+          setSelectedPhoto(photo);
+          setSelectedIndex(index);
+        });
 
       const defs = svg.append("defs");
       defs
@@ -86,7 +88,7 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photos, backTo }) => {
     while (photoIndex < photos.length) {
       for (const col of columns) {
         if (photoIndex < photos.length) {
-          drawHexagon(photos[photoIndex], col, row);
+          drawHexagon(photos[photoIndex], col, row, photoIndex);
           photoIndex++;
         }
       }
@@ -108,26 +110,21 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photos, backTo }) => {
       const mouseX = event.clientX - svgRect.left;
       const mouseY = event.clientY - svgRect.top;
 
-      svg.selectAll(".hexagon")
-        .each(function(this) {
-          if (!this) return;
-          if (!(this instanceof SVGElement)) return;
-          
-          const hexagon = d3.select(this);
-          const hexBBox = this.getBoundingClientRect();
-          const hexCenterX = hexBBox.x + hexBBox.width / 2 - svgRect.left;
-          const hexCenterY = hexBBox.y + hexBBox.height / 2 - svgRect.top;
+      svg.selectAll(".hexagon").each(function (this) {
+        if (!this) return;
+        if (!(this instanceof SVGElement)) return;
 
-          if (isPointInHexagon(mouseX, mouseY, hexCenterX, hexCenterY, hexWidth)) {
-            hexagon.transition()
-              .duration(100)
-              .attr("transform", `translate(${hexCenterX}, ${hexCenterY}) scale(0.9) translate(${-hexCenterX}, ${-hexCenterY})`);
-          } else {
-            hexagon.transition()
-              .duration(100)
-              .attr("transform", "scale(1)");
-          }
-        });
+        const hexagon = d3.select(this);
+        const hexBBox = this.getBoundingClientRect();
+        const hexCenterX = hexBBox.x + hexBBox.width / 2 - svgRect.left;
+        const hexCenterY = hexBBox.y + hexBBox.height / 2 - svgRect.top;
+
+        if (isPointInHexagon(mouseX, mouseY, hexCenterX, hexCenterY, hexWidth)) {
+          hexagon.transition().duration(100).attr("transform", `translate(${hexCenterX}, ${hexCenterY}) scale(0.9) translate(${-hexCenterX}, ${-hexCenterY})`);
+        } else {
+          hexagon.transition().duration(100).attr("transform", "scale(1)");
+        }
+      });
     }, 50);
 
     container.addEventListener("mousemove", handleMouseMove);
@@ -136,6 +133,29 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photos, backTo }) => {
       container.removeEventListener("mousemove", handleMouseMove);
     };
   }, [photos]);
+
+  const handleNext = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (selectedIndex !== null && selectedIndex < photos.length - 1) {
+      setSelectedIndex(selectedIndex + 1);
+      setSelectedPhoto(photos[selectedIndex + 1]);
+    }
+  };
+
+  const handlePrevious = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (selectedIndex !== null && selectedIndex > 0) {
+      setSelectedIndex(selectedIndex - 1);
+      setSelectedPhoto(photos[selectedIndex - 1]);
+    }
+  };
+
+  const closeFullscreen = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      setSelectedPhoto(null);
+      setSelectedIndex(null);
+    }
+  };
 
   return (
     <div className="h-screen w-screen bg-black/90 flex flex-col items-center">
@@ -146,8 +166,27 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photos, backTo }) => {
         <svg ref={svgRef} className="mx-auto"></svg>
       </div>
       {selectedPhoto && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-20" onClick={() => setSelectedPhoto(null)}>
-          <img src={selectedPhoto} alt="" className="max-w-[60%] max-h-[90%] object-contain" />
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-20"
+          onClick={closeFullscreen}
+        >
+          <img src={selectedPhoto} alt="" className="max-w-[60%] max-h-[90%] object-contain" onClick={(e) => e.stopPropagation()} />
+          <button
+            className={`absolute left-[15%] top-1/2 transform -translate-y-1/2 w-12 h-12 rounded-full bg-transparent text-[#ffebcd] text-4xl font-bold font-mono flex items-center justify-center transition-opacity duration-300 ${
+              selectedIndex === 0 ? "opacity-0" : "opacity-100"
+            }`}
+            onClick={handlePrevious}
+          >
+            &lt;
+          </button>
+          <button
+            className={`absolute right-[15%] top-1/2 transform -translate-y-1/2 w-12 h-12 rounded-full bg-transparent text-[#ffebcd] text-4xl font-bold font-mono flex items-center justify-center transition-opacity duration-300 ${
+              selectedIndex === photos.length - 1 ? "opacity-0" : "opacity-100"
+            }`}
+            onClick={handleNext}
+          >
+            &gt;
+          </button>
         </div>
       )}
     </div>
