@@ -29,6 +29,9 @@ const AppConfig: HexagonConfig = {
     right: (hexagonId: number) => {
       performTransitionAndRedirect(hexagonId, "/photography");
     },
+    left: () => {
+      window.location.href = "/cooking";
+    },
     default: (hexagonId: number) => {
       alert(`Hexagon ${hexagonId} clicked!`);
     }

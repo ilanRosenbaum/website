@@ -25,6 +25,8 @@ root.render(
         <Route path="/rooms" element={<Rooms />} />
         <Route path="/misc" element={<Misc />} />
         <Route path="/lists" element={<Lists />} />
+        <Route path="/cooking" element={<DisplayPhotos source={"/Cooking"} backTo="/" />} />
+
         <Route path="/photography" element={<Photography />} />
         <Route path="/photography/usa" element={<UnitedStates />} />
         <Route path="/photography/info" element={<MarkdownPage source={"/content/PhotographyInfo.md"} />} />
@@ -49,7 +51,6 @@ root.render(
         <Route path="/photography/europe/spain" element={<DisplayPhotos source={"/Photography/Europe/Girona"} backTo={"/photography/europe"} />} />
         <Route path="/photography/europe/denmark" element={<DisplayPhotos source={"/Photography/Europe/Copenhagen"} backTo={"/photography/europe"} />} />
         <Route path="/photography/europe/france" element={<DisplayPhotos source={"/Photography/Europe/Lyon"} backTo={"/photography/europe"} />} />
-
       </Routes>
     </Router>
   </React.StrictMode>

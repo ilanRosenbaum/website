@@ -1,7 +1,36 @@
 import os
 import sys
+from PIL import Image
+from PIL.ExifTags import TAGS
+from datetime import datetime
+import platform
+import stat
 
-def generate_file_list(root_path, prefix_path):
+def get_content_creation_time(file_path):
+    """Get the content creation time of a file."""
+    try:
+        image = Image.open(file_path)
+        exif = image._getexif()
+        if exif:
+            for tag_id, value in exif.items():
+                tag = TAGS.get(tag_id, tag_id)
+                if tag == 'DateTimeOriginal':
+                    return datetime.strptime(value, '%Y:%m:%d %H:%M:%S')
+    except Exception:
+        pass
+    
+    # If EXIF data is not available, try to parse from filename
+    try:
+        filename = os.path.basename(file_path)
+        date_part = filename.split('_')[0]
+        return datetime.strptime(date_part, '%Y%m%d')
+    except Exception:
+        pass
+    
+    # As a last resort, use file modification time
+    return datetime.fromtimestamp(os.path.getmtime(file_path))
+
+def generate_file_list(root_path, prefix_path, reverse=False):
     result = {}
     
     for root, dirs, files in os.walk(root_path):
@@ -16,20 +45,23 @@ def generate_file_list(root_path, prefix_path):
             prefix = prefix_path
 
         image_files = [
-            '"{0}"'.format(os.path.join(prefix, file))
-            for file in files
+            file for file in files
             if file.lower().endswith(('.jpg', '.jpeg', '.png', '.gif', '.webp'))
         ]
         
         if image_files:
-            result[path_key] = image_files
+            image_files.sort(key=lambda x: get_content_creation_time(os.path.join(root, x)), reverse=reverse)
+            
+            result[path_key] = [
+                '"{0}"'.format(os.path.join(prefix, file))
+                for file in image_files
+            ]
 
     return result
 
 def generate_typescript_code(file_dict):
     exports = []
     for key, files in file_dict.items():
-        # Capitalize each part of the path
         variable_name = ''.join(part.capitalize() for part in key.split('_') if part)
         variable_name = "photoFiles{0}".format(variable_name)
         
@@ -42,16 +74,17 @@ def generate_typescript_code(file_dict):
     return "\n\n".join(exports)
 
 # Check if the correct number of arguments is provided
-if len(sys.argv) != 3:
-    print("Usage: python script.py <folder-path> <prefix-path>")
+if len(sys.argv) != 3 and len(sys.argv) != 4:
+    print("Usage: python script.py <folder-path> <prefix-path> [reverse]")
     sys.exit(1)
 
 # Get command line arguments
 folder_path = sys.argv[1]
 prefix_path = sys.argv[2]
+reverse = len(sys.argv) == 4 and sys.argv[3].lower() == 'true'
 
 # Generate the file list
-file_dict = generate_file_list(folder_path, prefix_path)
+file_dict = generate_file_list(folder_path, prefix_path, reverse)
 
 # Generate and print the TypeScript code
 typescript_code = generate_typescript_code(file_dict)
