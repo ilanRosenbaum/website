@@ -30,8 +30,8 @@ root.render(
 
         <Route path="/photography" element={<Photography />} />
         <Route path="/photography/usa" element={<UnitedStates />} />
-        <Route path="/photography/info" element={<MarkdownPage source={"/content/PhotographyInfo.md"} />} />
-        <Route path="/photography/inBetween" element={<DisplayPhotos source={"/Photography/Travel"} backTo={"/photography"}/>} />
+        <Route path="/photography/info" element={<MarkdownPage source={"/content/PhotographyInfo.md"} backTo="/photography" />} />
+        <Route path="/photography/inBetween" element={<DisplayPhotos source={"/Photography/Travel"} backTo={"/photography"} />} />
         <Route path="/photography/africa" element={<Africa />} />
         <Route path="/photography/africa/morocco" element={<DisplayPhotos source={"/Photography/Africa/Morocco"} backTo={"/photography/africa"} />} />
         <Route path="/photography/mexico" element={<Mexico />} />
