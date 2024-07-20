@@ -1,37 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import BackButton from "./BackButton";
+import { throttle } from "./SierpinskiHexagon";
 
 interface TiledPlaneProps {
   photos: string[];
   backTo?: string;
 }
 
+// This is recreated here instead of using sierpinskiHexagon implementation because they use hexagons with different aspect ratios 
 const isPointInHexagon = (px: number, py: number, cx: number, cy: number, size: number): boolean => {
   const dx = Math.abs(px - cx);
   const dy = Math.abs(py - cy);
   const r = size / 2;
   return (dx <= r * Math.sqrt(3) / 2) && (dy <= r) && (r * Math.sqrt(3) * dx + r * dy <= r * r * 3 / 2);
-};
-
-const throttle = <F extends (...args: any[]) => any>(func: F, limit: number): (...args: Parameters<F>) => void => {
-  let lastFunc: ReturnType<typeof setTimeout>;
-  let lastRan: number;
-  return function (this: any, ...args: Parameters<F>) {
-    const context = this;
-    if (!lastRan) {
-      func.apply(context, args);
-      lastRan = Date.now();
-    } else {
-      clearTimeout(lastFunc);
-      lastFunc = setTimeout(() => {
-        if (Date.now() - lastRan >= limit) {
-          func.apply(context, args);
-          lastRan = Date.now();
-        }
-      }, limit - (Date.now() - lastRan));
-    }
-  };
 };
 
 const TiledPlane: React.FC<TiledPlaneProps> = ({ photos, backTo }) => {
@@ -146,7 +128,7 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photos, backTo }) => {
               .attr("transform", "scale(1)");
           }
         });
-    }, 100);
+    }, 50);
 
     container.addEventListener("mousemove", handleMouseMove);
 

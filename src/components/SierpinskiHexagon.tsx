@@ -63,7 +63,7 @@ function hexToRgbA(hex: string, opacity: number = 0.5) {
   throw new Error("Bad Hex");
 }
 
-function throttle<F extends (...args: any[]) => any>(func: F, limit: number): (...args: Parameters<F>) => void {
+export function throttle<F extends (...args: any[]) => any>(func: F, limit: number): (...args: Parameters<F>) => void {
   let lastFunc: ReturnType<typeof setTimeout>;
   let lastRan: number;
   return function (this: any, ...args: Parameters<F>) {
