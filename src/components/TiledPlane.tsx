@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import BackButton from "./BackButton";
@@ -7,6 +6,33 @@ interface TiledPlaneProps {
   photos: string[];
   backTo?: string;
 }
+
+const isPointInHexagon = (px: number, py: number, cx: number, cy: number, size: number): boolean => {
+  const dx = Math.abs(px - cx);
+  const dy = Math.abs(py - cy);
+  const r = size / 2;
+  return (dx <= r * Math.sqrt(3) / 2) && (dy <= r) && (r * Math.sqrt(3) * dx + r * dy <= r * r * 3 / 2);
+};
+
+const throttle = <F extends (...args: any[]) => any>(func: F, limit: number): (...args: Parameters<F>) => void => {
+  let lastFunc: ReturnType<typeof setTimeout>;
+  let lastRan: number;
+  return function (this: any, ...args: Parameters<F>) {
+    const context = this;
+    if (!lastRan) {
+      func.apply(context, args);
+      lastRan = Date.now();
+    } else {
+      clearTimeout(lastFunc);
+      lastFunc = setTimeout(() => {
+        if (Date.now() - lastRan >= limit) {
+          func.apply(context, args);
+          lastRan = Date.now();
+        }
+      }, limit - (Date.now() - lastRan));
+    }
+  };
+};
 
 const TiledPlane: React.FC<TiledPlaneProps> = ({ photos, backTo }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
@@ -44,7 +70,8 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photos, backTo }) => {
       const x = centerX + col * columnOffsetX - hexWidth / 2;
       const y = row * rowOffsetY + (Math.abs(col) % 2 === 1 ? rowOffsetY / 2 : 0);
 
-      const hexagon = svg.append("g").attr("class", "hexagon");
+      const hexagon = svg.append("g")
+        .attr("class", `hexagon hexagon-${col}-${row}`);
 
       hexagon
         .append("path")
@@ -90,6 +117,42 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photos, backTo }) => {
     if (svgHeight > height) {
       container.style.overflowY = "scroll";
     }
+
+    const handleMouseMove = throttle((event: MouseEvent) => {
+      const svgElement = svgRef.current;
+      if (!svgElement) return;
+
+      const svgRect = svgElement.getBoundingClientRect();
+      const mouseX = event.clientX - svgRect.left;
+      const mouseY = event.clientY - svgRect.top;
+
+      svg.selectAll(".hexagon")
+        .each(function(this) {
+          if (!this) return;
+          if (!(this instanceof SVGElement)) return;
+          
+          const hexagon = d3.select(this);
+          const hexBBox = this.getBoundingClientRect();
+          const hexCenterX = hexBBox.x + hexBBox.width / 2 - svgRect.left;
+          const hexCenterY = hexBBox.y + hexBBox.height / 2 - svgRect.top;
+
+          if (isPointInHexagon(mouseX, mouseY, hexCenterX, hexCenterY, hexWidth)) {
+            hexagon.transition()
+              .duration(100)
+              .attr("transform", `translate(${hexCenterX}, ${hexCenterY}) scale(0.9) translate(${-hexCenterX}, ${-hexCenterY})`);
+          } else {
+            hexagon.transition()
+              .duration(100)
+              .attr("transform", "scale(1)");
+          }
+        });
+    }, 100);
+
+    container.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      container.removeEventListener("mousemove", handleMouseMove);
+    };
   }, [photos]);
 
   return (
@@ -97,7 +160,7 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photos, backTo }) => {
       <div className="absolute top-8 left-8 z-10">
         <BackButton textColor="#ffefdb" color="#603b61" to={backTo || ""} />
       </div>
-      <div ref={containerRef} className="w-full h-full mt-8 mb-8">
+      <div ref={containerRef} className="w-full h-full mt-8 mb-8 overflow-y-auto">
         <svg ref={svgRef} className="mx-auto"></svg>
       </div>
       {selectedPhoto && (
