@@ -58,7 +58,7 @@ pageConfig.text = {
 
 pageConfig.backButton = {
   exists: true,
-  to: "/photography/europe"
+  to: "/photography"
 };
 
 const California: React.FC = () => {
