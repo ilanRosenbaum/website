@@ -1,6 +1,6 @@
 import SierpinskiHexagon, { HexagonConfig, minConfig } from "../../components/SierpinskiHexagon";
 
-const appConfig: HexagonConfig = Object.create(minConfig);
+const appConfig: HexagonConfig = structuredClone(minConfig);
 appConfig.targetLevels = {
   right: 3,
   bottomRight: 0,
@@ -21,7 +21,7 @@ appConfig.images = {
 
 export { appConfig };
 
-const pageConfig = Object.create(appConfig);
+const pageConfig = structuredClone(appConfig);
 pageConfig.backButton = {
   exists: true,
   to: "/photography"

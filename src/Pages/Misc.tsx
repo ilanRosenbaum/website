@@ -36,7 +36,7 @@ const appConfig: HexagonConfig = {
   }
 };
 
-const appBottomLeft = Object.create(minConfig);
+const appBottomLeft = structuredClone(minConfig);
 appBottomLeft.targetLevels = ListConfig.targetLevels;
 appConfig.config = {};
 appConfig.config.bottomLeft = appBottomLeft;
@@ -77,23 +77,23 @@ const pageConfig: HexagonConfig = {
   }
 };
 
-const bottomRightConfig = Object.create(minConfig);
+const bottomRightConfig = structuredClone(minConfig);
 bottomRightConfig.titleSize = "0.8em";
 bottomRightConfig.title = "This Website";
 
-const leftConfig = Object.create(minConfig);
+const leftConfig = structuredClone(minConfig);
 leftConfig.titleSize = "0.9em";
 leftConfig.title = "Anti-Hate";
 
-const topRightConfig = Object.create(minConfig);
+const topRightConfig = structuredClone(minConfig);
 topRightConfig.title = "Robotics";
 topRightConfig.titleSize = "1.2em";
 
-const rightConfig = Object.create(minConfig);
+const rightConfig = structuredClone(minConfig);
 rightConfig.title = "Headphones, No Headphones";
 rightConfig.titleSize = "1em";
 
-const bottomLeft = Object.create(minConfig);
+const bottomLeft = structuredClone(minConfig);
 bottomLeft.targetLevels = ListConfig.targetLevels;
 bottomLeft.title = "Lists";
 bottomLeft.titleSize = "1em";

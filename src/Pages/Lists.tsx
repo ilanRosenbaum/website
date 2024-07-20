@@ -13,12 +13,12 @@ const sharedConfig = {
 };
 
 // The SierpinskiHexagon config to be used for the Lists sub hexagon on the home page
-const appConfig: HexagonConfig = Object.create(minConfig);
+const appConfig: HexagonConfig = structuredClone(minConfig);
 appConfig.targetLevels = sharedConfig.targetLevels;
 export { appConfig };
 
 // The SierpinskiHexagon config to be used to generate the config for the Lists page
-let pageConfig: HexagonConfig = Object.create(minConfig);
+let pageConfig: HexagonConfig = structuredClone(minConfig);
 pageConfig.targetLevels = sharedConfig.targetLevels;
 pageConfig.backButton = {
   exists: true,
@@ -31,7 +31,7 @@ pageConfig.text = {
   4: "Books"
 };
 
-const bottomLeft = Object.create(minConfig);
+const bottomLeft = structuredClone(minConfig);
 bottomLeft.title = "Recipes";
 bottomLeft.titleSize = "1.5em";
 

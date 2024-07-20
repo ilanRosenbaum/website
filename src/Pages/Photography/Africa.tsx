@@ -1,6 +1,6 @@
 import SierpinskiHexagon, { HexagonConfig, minConfig } from "../../components/SierpinskiHexagon";
 
-const appConfig: HexagonConfig = Object.create(minConfig);
+const appConfig: HexagonConfig = structuredClone(minConfig);
 appConfig.targetLevels = {
   right: 0,
   bottomRight: 0,

@@ -6,15 +6,14 @@ import { appConfig as africaConfig } from "./Africa";
 import { appConfig as mexicoConfig } from "./Mexico";
 import { appConfig as europeConfig } from "./Europe";
 
-const africaAppConfig = Object.create(africaConfig);
-africaAppConfig.title = "";
-const mexicoAppConfig = Object.create(mexicoConfig);
-mexicoAppConfig.title = "";
-const europeAppConfig = Object.create(europeConfig);
-europeAppConfig.title = "";
-
-const unitedStatesAppConfig = Object.create(unitedStatesConfig);
-unitedStatesAppConfig.title = "";
+const mexicoConfigClone: HexagonConfig = structuredClone(mexicoConfig);
+mexicoConfigClone.title = "";
+const africaConfigClone: HexagonConfig = structuredClone(africaConfig);
+africaConfigClone.title = "";
+const europeConfigClone: HexagonConfig = structuredClone(europeConfig);
+europeConfigClone.title = "";
+const unitedStatesConfigClone: HexagonConfig = structuredClone(unitedStatesConfig);
+unitedStatesConfigClone.title = "";
 
 const sharedConfig = {
   styles: {
@@ -25,12 +24,6 @@ const sharedConfig = {
   },
   images: {
     topLeft: "./assets/covers/planeVertical.jpg"
-  },
-  config: {
-    left: mexicoAppConfig,
-    bottomLeft: africaAppConfig,
-    bottomRight: europeAppConfig,
-    right: unitedStatesAppConfig
   }
 };
 
@@ -50,7 +43,12 @@ const appConfig: HexagonConfig = {
   backButton: {
     exists: false
   },
-  config: sharedConfig.config
+  config: {
+    left: mexicoConfigClone,
+    bottomLeft: africaConfigClone,
+    bottomRight: europeConfigClone,
+    right: unitedStatesConfigClone
+  }
 };
 appConfig.titleSize = "0.9em";
 appConfig.title = "Photography";
@@ -80,8 +78,12 @@ const pageConfig: HexagonConfig = {
     to: "/",
     textColor: "#4c0013"
   },
-  config: sharedConfig.config
-};
+  config: {
+    left: mexicoConfig,
+    bottomLeft: africaConfig,
+    bottomRight: europeConfig,
+    right: unitedStatesConfig
+  }};
 
 pageConfig.actions = {
   right: (hexagonId: number) => {

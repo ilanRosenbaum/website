@@ -39,9 +39,6 @@ export const minConfig: HexagonConfig = {
     }
   },
   actions: {
-    default: (hexagonId: number) => {
-      alert(`Hexagon ${hexagonId} clicked!`);
-    }
   },
   images: {},
   text: {},

@@ -2,7 +2,7 @@ import SierpinskiHexagon, { HexagonConfig, minConfig } from "../../components/Si
 import { appConfig as californiaConfig } from "./California";
 import { performTransitionAndRedirect } from "../../App";
 
-const sharedConfig: HexagonConfig = Object.create(minConfig);
+const sharedConfig: HexagonConfig = structuredClone(minConfig);
 sharedConfig.images = {
   bottomLeft: "/assets/covers/hawaiiVertical.jpg",
   right: "/assets/covers/chicagoVertical.jpg",
@@ -10,7 +10,7 @@ sharedConfig.images = {
   topLeft: "/assets/covers/charlotteVertical.jpg",
   left: "/assets/covers/madisonVertical.jpg"
 };
-const appConfig: HexagonConfig = Object.create(minConfig);
+const appConfig: HexagonConfig = structuredClone(minConfig);
 appConfig.title = "United States";
 appConfig.imageId = "United States";
 appConfig.titleSize = "0.75em";
@@ -23,9 +23,9 @@ appConfig.targetLevels = {
   topRight: 3
 };
 appConfig.config = {};
-appConfig.config.bottomRight = Object.create(californiaConfig);
+appConfig.config.bottomRight = structuredClone(californiaConfig);
 appConfig.config.bottomRight.title = "";
-const pageConfig: HexagonConfig = Object.create(appConfig);
+const pageConfig: HexagonConfig = structuredClone(appConfig);
 pageConfig.backButton = {
   exists: true,
   to: "/photography"
@@ -63,7 +63,7 @@ pageConfig.text = {
 pageConfig.images = sharedConfig.images;
 
 pageConfig.config = {};
-pageConfig.config.bottomRight = Object.create(californiaConfig);
+pageConfig.config.bottomRight = structuredClone(californiaConfig);
 pageConfig.config.bottomRight.titleSize = "0.9em";
 
 const UnitedStates: React.FC = () => {
