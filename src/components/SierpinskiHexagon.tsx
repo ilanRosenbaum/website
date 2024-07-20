@@ -368,8 +368,6 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
       const mouseX = event.clientX - svgRect.left;
       const mouseY = event.clientY - svgRect.top;
 
-      console.log(`Mouse position: (${mouseX}, ${mouseY})`);
-
       for (let i: number = 1; i < 7; i++) {
         const respectTo = d3.select(`#hexagon-${i}`).node() as SVGGElement;
         if (!respectTo) continue;
@@ -382,8 +380,6 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
         const hexagonSize = bbox.width / 2;
 
         const position = isPointInHexagon(mouseX, mouseY, centerX, centerY, hexagonSize);
-
-        console.log(`Hexagon ${i}: center(${centerX}, ${centerY}), size: ${hexagonSize}, position: ${position}`);
 
         hexagonGroup.each(function () {
           const element = this as SVGGElement;
@@ -401,6 +397,8 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
               // Do nothing in the buffer zone
               return;
           }
+
+          if (isTransitioning) targetScale = 1;
 
           if (currentScale !== targetScale.toString()) {
             transition(element, respectTo, targetScale);
