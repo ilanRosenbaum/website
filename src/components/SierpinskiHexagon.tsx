@@ -1,8 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import * as d3 from "d3";
 import BackButton from "./BackButton";
-import { storage } from "../firebase";
-import { ref, getDownloadURL } from "firebase/storage";
+import { imageCache } from "./ImageCache";
 
 export interface HexagonConfig {
   targetLevels: Record<string, number>;
@@ -48,14 +47,15 @@ export const minConfig: HexagonConfig = {
   }
 };
 
-async function getImageUrlFromFirebase(path: string): Promise<string> {
-  try {
-    const imageRef = ref(storage, path);
-    const url = await getDownloadURL(imageRef);
-    return url;
-  } catch (error) {
-    console.error("Error fetching image from Firebase:", error);
-    return ""; // Return an empty string or a placeholder image URL
+function preloadImages(config: HexagonConfig) {
+  Object.values(config.images).forEach((imagePath) => {
+    imageCache.getImage(imagePath);
+  });
+
+  if (config.config) {
+    Object.values(config.config).forEach((subConfig) => {
+      preloadImages(subConfig);
+    });
   }
 }
 
@@ -112,6 +112,12 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
 
   useEffect(() => {
     if (!svgRef.current) return;
+    preloadImages(config);
+  }, [config]);
+
+  useEffect(() => {
+    if (!svgRef.current) return;
+
     const svg = d3.select(svgRef.current);
     const width = window.innerWidth;
     const height = window.innerHeight;
@@ -300,20 +306,11 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
     const addPatterns = async (config: HexagonConfig, parentId: string = "") => {
       for (const [key, imagePath] of Object.entries(config.images)) {
         const uniqueId = generateUniqueId(config, key);
-        const imageUrl = await getImageUrlFromFirebase(imagePath);
+        const imageUrl = await imageCache.getImage(imagePath);
 
-        defs
-          .append("pattern")
-          .attr("id", uniqueId)
-          .attr("patternUnits", "objectBoundingBox")
-          .attr("patternContentUnits", "objectBoundingBox")
-          .attr("width", 1)
-          .attr("height", 1)
-          .append("image")
-          .attr("xlink:href", imageUrl)
-          .attr("width", 1)
-          .attr("height", 1)
-          .attr("preserveAspectRatio", "xMidYMid slice");
+        const pattern = defs.append("pattern").attr("id", uniqueId).attr("patternUnits", "objectBoundingBox").attr("patternContentUnits", "objectBoundingBox").attr("width", 1).attr("height", 1);
+
+        pattern.append("image").attr("xlink:href", imageUrl).attr("width", 1).attr("height", 1).attr("preserveAspectRatio", "xMidYMid slice");
       }
 
       // Recursively add patterns for sub-configurations
@@ -432,6 +429,7 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
     console.log("isTransitioning:", isTransitioning); // Don't delete this lol
   }, [isTransitioning]);
 
+  // In your render method:
   return (
     <div className="h-screen w-screen bg-black/90 fixed">
       <div className="absolute pt-8 pl-8 z-10">{config.backButton.exists && <BackButton textColor={config.textColor || "#ffefdb"} color={config.styles["default"].fill || "#603b61"} to={config.backButton.to || "/"} />}</div>
