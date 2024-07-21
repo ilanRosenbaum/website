@@ -2,9 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import BackButton from "./BackButton";
 import { throttle } from "./SierpinskiHexagon";
+import { storage } from "../firebase";
+import { ref, listAll, getDownloadURL } from "firebase/storage";
 
 interface TiledPlaneProps {
-  photos: string[];
+  photoPath: string;
   backTo?: string;
 }
 
@@ -15,14 +17,30 @@ const isPointInHexagon = (px: number, py: number, cx: number, cy: number, size: 
   return dx <= (r * Math.sqrt(3)) / 2 && dy <= r && r * Math.sqrt(3) * dx + r * dy <= (r * r * 3) / 2;
 };
 
-const TiledPlane: React.FC<TiledPlaneProps> = ({ photos, backTo }) => {
+const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [photos, setPhotos] = useState<string[]>([]);
 
   useEffect(() => {
-    if (!svgRef.current || !containerRef.current) return;
+    const fetchPhotos = async () => {
+      const storageRef = ref(storage, photoPath);
+      try {
+        const result = await listAll(storageRef);
+        const urls = await Promise.all(result.items.map(item => getDownloadURL(item)));
+        setPhotos(urls);
+      } catch (error) {
+        console.error("Error fetching photos:", error);
+      }
+    };
+
+    fetchPhotos();
+  }, [photoPath]);
+
+  useEffect(() => {
+    if (!svgRef.current || !containerRef.current || photos.length === 0) return;
 
     const svg = d3.select(svgRef.current);
     const container = containerRef.current;

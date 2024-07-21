@@ -40,10 +40,10 @@ const AppConfig: HexagonConfig = {
     }
   },
   images: {
-    bottomRight: "./assets/covers/garlicVertical.jpg",
-    right: "./assets/covers/birdVertical.jpg",
-    left: "./assets/covers/chickenPastaVertical.jpg",
-    topRight: "./assets/covers/meVertical.jpg"
+    bottomRight: "/Covers/garlicVertical.jpg",
+    right: "/Covers/birdVertical.jpg",
+    left: "/Covers/chickenPastaVertical.jpg",
+    topRight: "/Covers/meVertical.jpg"
   },
   text: {
     2: "Ceramics",
