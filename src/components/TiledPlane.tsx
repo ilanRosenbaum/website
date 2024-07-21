@@ -4,6 +4,7 @@ import BackButton from "./BackButton";
 import { throttle } from "./SierpinskiHexagon";
 import { storage } from "../firebase";
 import { ref, listAll, getDownloadURL } from "firebase/storage";
+import { imageCache } from "./ImageCache";
 
 interface TiledPlaneProps {
   photoPath: string;
@@ -26,10 +27,19 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
 
   useEffect(() => {
     const fetchPhotos = async () => {
-      const storageRef = ref(storage, photoPath);
+      const folderRef = ref(storage, photoPath);
       try {
-        const result = await listAll(storageRef);
-        const urls = await Promise.all(result.items.map(item => getDownloadURL(item)));
+        const result = await listAll(folderRef);
+
+        const urls = await Promise.all(
+          result.items.map(async (item) => {
+            const url = await getDownloadURL(item);
+
+            // Preload image
+            await imageCache.getImage(url);
+            return url;
+          })
+        );
         setPhotos(urls);
       } catch (error) {
         console.error("Error fetching photos:", error);
@@ -66,7 +76,7 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
     const columnOffsetX = hexWidth * 0.75;
     const rowOffsetY = hexHeight;
 
-    const drawHexagon = (photo: string, col: number, row: number, index: number) => {
+    const drawHexagon = async (photo: string, col: number, row: number, index: number) => {
       const x = centerX + col * columnOffsetX - hexWidth / 2;
       const y = row * rowOffsetY + (Math.abs(col) % 2 === 1 ? rowOffsetY / 2 : 0);
 
@@ -85,14 +95,17 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
         });
 
       const defs = svg.append("defs");
-      defs
+      const pattern = defs
         .append("pattern")
         .attr("id", `image-${col}-${row}`)
         .attr("patternUnits", "objectBoundingBox")
         .attr("width", "100%")
-        .attr("height", "100%")
+        .attr("height", "100%");
+
+      const imageUrl = await imageCache.getImage(photo);
+      pattern
         .append("image")
-        .attr("xlink:href", photo)
+        .attr("xlink:href", imageUrl)
         .attr("width", hexWidth)
         .attr("height", hexHeight)
         .attr("preserveAspectRatio", "xMidYMid slice");
@@ -103,22 +116,26 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
     const columns = [0, -1, 1];
 
     svg.selectAll("*").remove();
-    while (photoIndex < photos.length) {
-      for (const col of columns) {
-        if (photoIndex < photos.length) {
-          drawHexagon(photos[photoIndex], col, row, photoIndex);
-          photoIndex++;
+    const drawHexagons = async () => {
+      while (photoIndex < photos.length) {
+        for (const col of columns) {
+          if (photoIndex < photos.length) {
+            await drawHexagon(photos[photoIndex], col, row, photoIndex);
+            photoIndex++;
+          }
         }
+        row++;
       }
-      row++;
-    }
 
-    const svgHeight = (row + 1) * rowOffsetY;
-    svg.attr("height", Math.max(height, svgHeight));
+      const svgHeight = (row + 1) * rowOffsetY;
+      svg.attr("height", Math.max(height, svgHeight));
 
-    if (svgHeight > height) {
-      container.style.overflowY = "scroll";
-    }
+      if (svgHeight > height) {
+        container.style.overflowY = "scroll";
+      }
+    };
+
+    drawHexagons();
 
     const handleMouseMove = throttle((event: MouseEvent) => {
       const svgElement = svgRef.current;
