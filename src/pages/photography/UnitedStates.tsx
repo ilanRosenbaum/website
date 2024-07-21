@@ -13,7 +13,7 @@ sharedConfig.images = {
 const appConfig: HexagonConfig = structuredClone(minConfig);
 appConfig.title = "United States";
 appConfig.imageId = "United States";
-appConfig.titleSize = "0.75vw";
+appConfig.titleSize = "max(0.5vw, 0.5vh)";
 appConfig.targetLevels = {
   right: 3,
   bottomRight: 0,
