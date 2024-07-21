@@ -11,7 +11,7 @@ appConfig.targetLevels = {
 };
 appConfig.title = "Africa";
 appConfig.imageId = "Africa";
-appConfig.titleSize = "1.5vw";
+appConfig.titleSize = "max(1.2vw, 1.2vh)";
 appConfig.images = {
   left: "/Covers/moroccoVertical.jpg"
 };

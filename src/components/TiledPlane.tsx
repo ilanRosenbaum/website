@@ -30,10 +30,10 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
       const folderRef = ref(storage, photoPath);
       try {
         const result = await listAll(folderRef);
-        
+
         // Reverse the items array before processing
         const reversedItems = result.items.reverse();
-    
+
         const urls = await Promise.all(
           reversedItems.map(async (item) => {
             const url = await getDownloadURL(item);
@@ -58,7 +58,12 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
     const container = containerRef.current;
     const width = container.clientWidth;
     const height = container.clientHeight;
-    const hexRadius = width / 11;
+    let hexRadius: number;
+    if (width > height) {
+      hexRadius = height / 4;
+    } else {
+      hexRadius = width / 6;
+    }
     const hexHeight = hexRadius * Math.sqrt(3);
     const hexWidth = hexRadius * 2;
 
@@ -97,20 +102,10 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
         });
 
       const defs = svg.append("defs");
-      const pattern = defs
-        .append("pattern")
-        .attr("id", `image-${col}-${row}`)
-        .attr("patternUnits", "objectBoundingBox")
-        .attr("width", "100%")
-        .attr("height", "100%");
+      const pattern = defs.append("pattern").attr("id", `image-${col}-${row}`).attr("patternUnits", "objectBoundingBox").attr("width", "100%").attr("height", "100%");
 
       const imageUrl = await imageCache.getImage(photo);
-      pattern
-        .append("image")
-        .attr("xlink:href", imageUrl)
-        .attr("width", hexWidth)
-        .attr("height", hexHeight)
-        .attr("preserveAspectRatio", "xMidYMid slice");
+      pattern.append("image").attr("xlink:href", imageUrl).attr("width", hexWidth).attr("height", hexHeight).attr("preserveAspectRatio", "xMidYMid slice");
     };
 
     let photoIndex = 0;
@@ -195,11 +190,11 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
   };
 
   return (
-    <div className="h-screen w-screen bg-black/90 flex flex-col items-center custom-scrollbar">
-      <div className="absolute top-8 left-8 z-10">
+    <div className="h-screen w-screen bg-black/90 flex flex-col items-center">
+      <div className="absolute top-[2vw] left-[2vw] z-10">
         <BackButton textColor="#ffefdb" color="#603b61" to={backTo || ""} />
       </div>
-      <div ref={containerRef} className="w-full h-full mt-8 mb-8 overflow-y-auto custom-scrollbar">
+      <div ref={containerRef} className="w-screen h-[calc(80dvh)] mt-[max(9vw,9vh)] mb-[calc(6dvh)] custom-scrollbar">
         <svg ref={svgRef} className="mx-auto"></svg>
       </div>
       {selectedPhoto && (

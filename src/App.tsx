@@ -4,6 +4,9 @@ import { appConfig as RoomsConfig } from "./pages/Rooms";
 import { appConfig as MiscConfig } from "./pages/Misc";
 import { appConfig as PhotographyConfig } from "./pages/photography/Photography";
 
+const ClonedPhotographyConfig: HexagonConfig = structuredClone(PhotographyConfig);
+ClonedPhotographyConfig.titleSize = "max(0.7vw, 0.6vh)";
+
 const AppConfig: HexagonConfig = {
   targetLevels: {
     right: 0,
@@ -59,7 +62,7 @@ const AppConfig: HexagonConfig = {
   config: {
     "topLeft": RoomsConfig,
     "bottomLeft": MiscConfig,
-    "right": PhotographyConfig,
+    "right": ClonedPhotographyConfig,
   }
 };
 
