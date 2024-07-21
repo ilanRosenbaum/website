@@ -46,7 +46,7 @@ pageConfig.images = {
   left: "/Covers/amsterdamVertical.jpg",
   bottomLeft: "/Covers/lyonVertical.jpg",
   topLeft: "/Covers/gironaVertical.jpg",
-  right: "/Covers/copenHagenVertical.jpg"
+  right: "/Covers/copenhagenVertical.jpg"
 }
 
 pageConfig.text = {

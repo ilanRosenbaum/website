@@ -193,11 +193,11 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
   };
 
   return (
-    <div className="h-screen w-screen bg-black/90 flex flex-col items-center">
+    <div className="h-screen w-screen bg-black/90 flex flex-col items-center custom-scrollbar">
       <div className="absolute top-8 left-8 z-10">
         <BackButton textColor="#ffefdb" color="#603b61" to={backTo || ""} />
       </div>
-      <div ref={containerRef} className="w-full h-full mt-8 mb-8 overflow-y-auto">
+      <div ref={containerRef} className="w-full h-full mt-8 mb-8 overflow-y-auto custom-scrollbar">
         <svg ref={svgRef} className="mx-auto"></svg>
       </div>
       {selectedPhoto && (
