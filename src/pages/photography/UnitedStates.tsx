@@ -64,7 +64,7 @@ pageConfig.images = sharedConfig.images;
 
 pageConfig.config = {};
 pageConfig.config.bottomRight = structuredClone(californiaConfig);
-pageConfig.config.bottomRight.titleSize = "0.9vw";
+pageConfig.config.bottomRight.titleSize = "max(0.8vw, 0.7vh)";
 
 const UnitedStates: React.FC = () => {
   return <SierpinskiHexagon config={pageConfig} />;
