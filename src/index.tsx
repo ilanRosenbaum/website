@@ -7,13 +7,13 @@ import MarkdownPage from "./components/MarkdownPage";
 import Rooms from "./pages/Rooms";
 import Misc from "./pages/Misc";
 import Lists from "./pages/Lists";
-import Photography from "./pages/Photography/Photography";
-import UnitedStates from "./pages/Photography/UnitedStates";
+import Photography from "./pages/photography/Photography";
+import UnitedStates from "./pages/photography/UnitedStates";
 import TiledPlane from "./components/TiledPlane";
-import Africa from "./pages/Photography/Africa";
-import Mexico from "./pages/Photography/Mexico";
-import California from "./pages/Photography/California";
-import Europe from "./pages/Photography/Europe";
+import Africa from "./pages/photography/Africa";
+import Mexico from "./pages/photography/Mexico";
+import California from "./pages/photography/California";
+import Europe from "./pages/photography/Europe";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 

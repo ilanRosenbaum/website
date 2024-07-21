@@ -2,7 +2,7 @@ import React from "react";
 import SierpinskiHexagon, { HexagonConfig } from "./components/SierpinskiHexagon";
 import { appConfig as RoomsConfig } from "./pages/Rooms";
 import { appConfig as MiscConfig } from "./pages/Misc";
-import { appConfig as PhotographyConfig } from "./pages/Photography/Photography";
+import { appConfig as PhotographyConfig } from "./pages/photography/Photography";
 
 const AppConfig: HexagonConfig = {
   targetLevels: {

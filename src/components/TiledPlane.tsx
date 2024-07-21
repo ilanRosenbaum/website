@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import BackButton from "./BackButton";
 import { throttle } from "./SierpinskiHexagon";
-import { storage } from "../firebase";
+import { storage } from "./../firebase";
 import { ref, listAll, getDownloadURL } from "firebase/storage";
 import { imageCache } from "./ImageCache";
 
