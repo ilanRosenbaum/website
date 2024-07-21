@@ -30,11 +30,13 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
       const folderRef = ref(storage, photoPath);
       try {
         const result = await listAll(folderRef);
-
+        
+        // Reverse the items array before processing
+        const reversedItems = result.items.reverse();
+    
         const urls = await Promise.all(
-          result.items.map(async (item) => {
+          reversedItems.map(async (item) => {
             const url = await getDownloadURL(item);
-
             // Preload image
             await imageCache.getImage(url);
             return url;
