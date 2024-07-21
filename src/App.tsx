@@ -1,8 +1,8 @@
 import React from "react";
 import SierpinskiHexagon, { HexagonConfig } from "./components/SierpinskiHexagon";
-import { appConfig as RoomsConfig } from "./Pages/Rooms";
-import { appConfig as MiscConfig } from "./Pages/Misc";
-import { appConfig as PhotographyConfig } from "./Pages/Photography/Photography";
+import { appConfig as RoomsConfig } from "./pages/Rooms";
+import { appConfig as MiscConfig } from "./pages/Misc";
+import { appConfig as PhotographyConfig } from "./pages/Photography/Photography";
 
 const AppConfig: HexagonConfig = {
   targetLevels: {
@@ -40,10 +40,10 @@ const AppConfig: HexagonConfig = {
     }
   },
   images: {
-    bottomRight: "./assets/covers/garlicVertical.jpg",
-    right: "./assets/covers/birdVertical.jpg",
-    left: "./assets/covers/chickenPastaVertical.jpg",
-    topRight: "./assets/covers/meVertical.jpg"
+    bottomRight: "/Covers/garlicVertical.jpg",
+    right: "/Covers/birdVertical.jpg",
+    left: "/Covers/chickenPastaVertical.jpg",
+    topRight: "/Covers/meVertical.jpg"
   },
   text: {
     2: "Ceramics",

@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import * as d3 from "d3";
 import BackButton from "./BackButton";
+import { imageCache } from "./ImageCache";
 
 export interface HexagonConfig {
   targetLevels: Record<string, number>;
@@ -45,6 +46,18 @@ export const minConfig: HexagonConfig = {
     exists: false
   }
 };
+
+function preloadImages(config: HexagonConfig) {
+  Object.values(config.images).forEach((imagePath) => {
+    imageCache.getImage(imagePath);
+  });
+
+  if (config.config) {
+    Object.values(config.config).forEach((subConfig) => {
+      preloadImages(subConfig);
+    });
+  }
+}
 
 function generateUniqueId(config: HexagonConfig, section: string): string {
   return `image-fill-${config.imageId || config.title || "root"}-${section}`.replace(/\s+/g, "-").toLowerCase();
@@ -99,6 +112,12 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
 
   useEffect(() => {
     if (!svgRef.current) return;
+    preloadImages(config);
+  }, [config]);
+
+  useEffect(() => {
+    if (!svgRef.current) return;
+
     const svg = d3.select(svgRef.current);
     const width = window.innerWidth;
     const height = window.innerHeight;
@@ -284,28 +303,21 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
     // Clear SVG content before drawing
     svg.selectAll("*").remove();
 
-    const addPatterns = (config: HexagonConfig, parentId: string = "") => {
-      Object.keys(config.images).forEach((key) => {
+    const addPatterns = async (config: HexagonConfig, parentId: string = "") => {
+      for (const [key, imagePath] of Object.entries(config.images)) {
         const uniqueId = generateUniqueId(config, key);
-        defs
-          .append("pattern")
-          .attr("id", uniqueId)
-          .attr("patternUnits", "objectBoundingBox")
-          .attr("patternContentUnits", "objectBoundingBox")
-          .attr("width", 1)
-          .attr("height", 1)
-          .append("image")
-          .attr("xlink:href", config.images[key])
-          .attr("width", 1)
-          .attr("height", 1)
-          .attr("preserveAspectRatio", "xMidYMid slice");
-      });
+        const imageUrl = await imageCache.getImage(imagePath);
+
+        const pattern = defs.append("pattern").attr("id", uniqueId).attr("patternUnits", "objectBoundingBox").attr("patternContentUnits", "objectBoundingBox").attr("width", 1).attr("height", 1);
+
+        pattern.append("image").attr("xlink:href", imageUrl).attr("width", 1).attr("height", 1).attr("preserveAspectRatio", "xMidYMid slice");
+      }
 
       // Recursively add patterns for sub-configurations
       if (config.config) {
-        Object.entries(config.config).forEach(([subSection, subConfig]) => {
-          addPatterns(subConfig, `${parentId}-${subSection}`);
-        });
+        for (const [subSection, subConfig] of Object.entries(config.config)) {
+          await addPatterns(subConfig, `${parentId}-${subSection}`);
+        }
       }
     };
 
@@ -417,8 +429,9 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
     console.log("isTransitioning:", isTransitioning); // Don't delete this lol
   }, [isTransitioning]);
 
+  // In your render method:
   return (
-    <div className="h-screen w-screen bg-black/90 fixed">
+    <div className="h-screen w-screen bg-black/90 fixed overflow-hidden">
       <div className="absolute pt-8 pl-8 z-10">{config.backButton.exists && <BackButton textColor={config.textColor || "#ffefdb"} color={config.styles["default"].fill || "#603b61"} to={config.backButton.to || "/"} />}</div>
       <div className="items-center justify-center">
         <svg ref={svgRef} style={{ position: "relative", zIndex: 1 }} />

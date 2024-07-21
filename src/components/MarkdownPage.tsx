@@ -18,11 +18,11 @@ const MarkdownPage: React.FC<{ source: string; backTo?: string; backButtonFill?:
   }, [source]);
 
   return (
-    <div className="bg-black/90 min-h-screen p-4">
+    <div className="h-screen w-screen bg-black/90 text-white overflow-hidden p-4">
       <div className="absolute top-8 left-8 z-10">
         <BackButton textColor={textColor || "#ffefdb"} color={backButtonFill || "#603b61"} to={backTo || "/"} />
       </div>
-      <div className="markdown-container">
+      <div className="markdown-container h-full overflow-auto">
         <ReactMarkdown className="markdown font-mono text-[#ffebcd]">{markdown}</ReactMarkdown>
       </div>
       <div className="absolute bottom-2 right-2 text-xs text-white opacity-50">Copyright © 2024 Ilan Rosenbaum All rights reserved.</div>

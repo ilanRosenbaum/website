@@ -1,5 +1,5 @@
 import React from "react";
-import SierpinskiHexagon, { HexagonConfig, minConfig } from "./../components/SierpinskiHexagon";
+import SierpinskiHexagon, { HexagonConfig, minConfig } from "../components/SierpinskiHexagon";
 import { appConfig as ListConfig } from "./Lists";
 import { performTransitionAndRedirect } from "../App";
 

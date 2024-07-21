@@ -4,11 +4,11 @@ import { performTransitionAndRedirect } from "../../App";
 
 const sharedConfig: HexagonConfig = structuredClone(minConfig);
 sharedConfig.images = {
-  bottomLeft: "/assets/covers/hawaiiVertical.jpg",
-  right: "/assets/covers/chicagoVertical.jpg",
-  topRight: "/assets/covers/minneapolisVertical.jpg",
-  topLeft: "/assets/covers/charlotteVertical.jpg",
-  left: "/assets/covers/madisonVertical.jpg"
+  bottomLeft: "/Covers/hawaiiVertical.jpg",
+  right: "/Covers/chicagoVertical.jpg",
+  topRight: "/Covers/minneapolisVertical.jpg",
+  topLeft: "/Covers/charlotteVertical.jpg",
+  left: "/Covers/madisonVertical.jpg"
 };
 const appConfig: HexagonConfig = structuredClone(minConfig);
 appConfig.title = "United States";

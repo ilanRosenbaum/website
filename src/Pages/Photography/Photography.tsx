@@ -23,7 +23,7 @@ const sharedConfig = {
     }
   },
   images: {
-    topLeft: "./assets/covers/planeVertical.jpg"
+    topLeft: "/Covers/planeVertical.jpg"
   }
 };
 

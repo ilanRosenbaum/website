@@ -13,7 +13,7 @@ appConfig.title = "Africa";
 appConfig.imageId = "Africa";
 appConfig.titleSize = "1.5em";
 appConfig.images = {
-  left: "/assets/covers/moroccoVertical.jpg"
+  left: "/Covers/moroccoVertical.jpg"
 };
 
 const pageConfig: HexagonConfig = {
@@ -37,7 +37,7 @@ const pageConfig: HexagonConfig = {
     topRight: 0
   },
   images: {
-    left: "/assets/covers/moroccoVertical.jpg"
+    left: "/Covers/moroccoVertical.jpg"
   },
   text: {
     4: "Morocco"

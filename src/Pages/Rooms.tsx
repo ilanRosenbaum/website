@@ -1,5 +1,5 @@
 import React from "react";
-import SierpinskiHexagon from "./../components/SierpinskiHexagon";
+import SierpinskiHexagon from "../components/SierpinskiHexagon";
 
 const sharedConfig = {
   targetLevels: {
