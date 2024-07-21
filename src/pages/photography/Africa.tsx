@@ -11,7 +11,7 @@ appConfig.targetLevels = {
 };
 appConfig.title = "Africa";
 appConfig.imageId = "Africa";
-appConfig.titleSize = "1.5em";
+appConfig.titleSize = "1.5vw";
 appConfig.images = {
   left: "/Covers/moroccoVertical.jpg"
 };
@@ -43,7 +43,7 @@ const pageConfig: HexagonConfig = {
     4: "Morocco"
   },
   title: "Africa",
-  titleSize: "2em",
+  titleSize: "2vw",
   backButton: {
     exists: true,
     to: "/photography"

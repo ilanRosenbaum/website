@@ -58,7 +58,7 @@ const pageConfig = {
     6: "Why"
   },
   title: "roōms",
-  titleSize: "5em",
+  titleSize: "5vw",
   textColor: sharedConfig.textColor,
   dropShadow: sharedConfig.dropShadow,
   backButton: {

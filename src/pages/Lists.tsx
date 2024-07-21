@@ -33,7 +33,7 @@ pageConfig.text = {
 
 const bottomLeft = structuredClone(minConfig);
 bottomLeft.title = "Recipes";
-bottomLeft.titleSize = "1.5em";
+bottomLeft.titleSize = "1.5vw";
 
 pageConfig.config = {}; // Initialize pageConfig.config as an empty object
 pageConfig.config.bottomLeft = bottomLeft;
