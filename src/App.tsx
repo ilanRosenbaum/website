@@ -63,7 +63,8 @@ const AppConfig: HexagonConfig = {
     "topLeft": RoomsConfig,
     "bottomLeft": MiscConfig,
     "right": ClonedPhotographyConfig,
-  }
+  },
+  titleSize: "max(1.8vw, 1.6vh)"
 };
 
 export const performTransitionAndRedirect = (hexagonId: number, url: string) => {
