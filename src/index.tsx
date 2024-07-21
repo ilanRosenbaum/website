@@ -4,16 +4,16 @@ import "./index.css";
 import App from "./App";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import MarkdownPage from "./components/MarkdownPage";
-import Rooms from "./Pages/Rooms";
-import Misc from "./Pages/Misc";
-import Lists from "./Pages/Lists";
-import Photography from "./Pages/Photography/Photography";
-import UnitedStates from "./Pages/Photography/UnitedStates";
+import Rooms from "./pages/Rooms";
+import Misc from "./pages/Misc";
+import Lists from "./pages/Lists";
+import Photography from "./pages/Photography/Photography";
+import UnitedStates from "./pages/Photography/UnitedStates";
 import DisplayPhotos from "./components/DisplayPhotos";
-import Africa from "./Pages/Photography/Africa";
-import Mexico from "./Pages/Photography/Mexico";
-import California from "./Pages/Photography/California";
-import Europe from "./Pages/Photography/Europe";
+import Africa from "./pages/Photography/Africa";
+import Mexico from "./pages/Photography/Mexico";
+import California from "./pages/Photography/California";
+import Europe from "./pages/Photography/Europe";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 
