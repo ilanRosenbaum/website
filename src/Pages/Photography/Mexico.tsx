@@ -13,7 +13,7 @@ appConfig.title = "Mexico";
 appConfig.imageId = "Mexico";
 appConfig.titleSize = "1.5em";
 appConfig.images = {
-  left: "/assets/covers/PuertoVallartaVertical.jpg"
+  left: "/Covers/PuertoVallartaVertical.jpg"
 };
 
 const pageConfig: HexagonConfig = {
@@ -37,7 +37,7 @@ const pageConfig: HexagonConfig = {
     topRight: 0
   },
   images: {
-    left: "/assets/covers/PuertoVallartaVertical.jpg"
+    left: "/Covers/PuertoVallartaVertical.jpg"
   },
   text: {
     4: "Puerto Vallarta"

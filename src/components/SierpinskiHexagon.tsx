@@ -1,6 +1,8 @@
 import React, { useRef, useEffect, useState } from "react";
 import * as d3 from "d3";
 import BackButton from "./BackButton";
+import { storage } from "../firebase";
+import { ref, getDownloadURL } from "firebase/storage";
 
 export interface HexagonConfig {
   targetLevels: Record<string, number>;
@@ -45,6 +47,17 @@ export const minConfig: HexagonConfig = {
     exists: false
   }
 };
+
+async function getImageUrlFromFirebase(path: string): Promise<string> {
+  try {
+    const imageRef = ref(storage, path);
+    const url = await getDownloadURL(imageRef);
+    return url;
+  } catch (error) {
+    console.error("Error fetching image from Firebase:", error);
+    return ""; // Return an empty string or a placeholder image URL
+  }
+}
 
 function generateUniqueId(config: HexagonConfig, section: string): string {
   return `image-fill-${config.imageId || config.title || "root"}-${section}`.replace(/\s+/g, "-").toLowerCase();
@@ -284,9 +297,11 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
     // Clear SVG content before drawing
     svg.selectAll("*").remove();
 
-    const addPatterns = (config: HexagonConfig, parentId: string = "") => {
-      Object.keys(config.images).forEach((key) => {
+    const addPatterns = async (config: HexagonConfig, parentId: string = "") => {
+      for (const [key, imagePath] of Object.entries(config.images)) {
         const uniqueId = generateUniqueId(config, key);
+        const imageUrl = await getImageUrlFromFirebase(imagePath);
+
         defs
           .append("pattern")
           .attr("id", uniqueId)
@@ -295,17 +310,17 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
           .attr("width", 1)
           .attr("height", 1)
           .append("image")
-          .attr("xlink:href", config.images[key])
+          .attr("xlink:href", imageUrl)
           .attr("width", 1)
           .attr("height", 1)
           .attr("preserveAspectRatio", "xMidYMid slice");
-      });
+      }
 
       // Recursively add patterns for sub-configurations
       if (config.config) {
-        Object.entries(config.config).forEach(([subSection, subConfig]) => {
-          addPatterns(subConfig, `${parentId}-${subSection}`);
-        });
+        for (const [subSection, subConfig] of Object.entries(config.config)) {
+          await addPatterns(subConfig, `${parentId}-${subSection}`);
+        }
       }
     };
 
@@ -338,7 +353,7 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
             yi = polygon[i][1];
           const xj = polygon[j][0],
             yj = polygon[j][1];
-          const intersect = (yi > point[1]) !== (yj > point[1]) && point[0] < ((xj - xi) * (point[1] - yi)) / (yj - yi) + xi;
+          const intersect = yi > point[1] !== yj > point[1] && point[0] < ((xj - xi) * (point[1] - yi)) / (yj - yi) + xi;
           if (intersect) inside = !inside;
         }
         return inside;

@@ -13,10 +13,10 @@ appConfig.titleSize = "1.5em";
 appConfig.title = "Europe";
 appConfig.imageId = "Europe";
 appConfig.images = {
-  left: "/assets/covers/amsterdamVertical.jpg",
-  bottomLeft: "/assets/covers/lyonVertical.jpg",
-  topLeft: "/assets/covers/gironaVertical.jpg",
-  right: "/assets/covers/copenHagenVertical.jpg"
+  left: "/Covers/amsterdamVertical.jpg",
+  bottomLeft: "/Covers/lyonVertical.jpg",
+  topLeft: "/Covers/gironaVertical.jpg",
+  right: "/Covers/copenhagenVertical.jpg"
 }
 
 export { appConfig };
@@ -43,10 +43,10 @@ pageConfig.actions = {
 };
 
 pageConfig.images = {
-  left: "/assets/covers/amsterdamVertical.jpg",
-  bottomLeft: "/assets/covers/lyonVertical.jpg",
-  topLeft: "/assets/covers/gironaVertical.jpg",
-  right: "/assets/covers/copenHagenVertical.jpg"
+  left: "/Covers/amsterdamVertical.jpg",
+  bottomLeft: "/Covers/lyonVertical.jpg",
+  topLeft: "/Covers/gironaVertical.jpg",
+  right: "/Covers/copenHagenVertical.jpg"
 }
 
 pageConfig.text = {
