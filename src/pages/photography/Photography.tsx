@@ -50,7 +50,7 @@ const appConfig: HexagonConfig = {
     right: unitedStatesConfigClone
   }
 };
-appConfig.titleSize = "0.9em";
+appConfig.titleSize = "0.9vw";
 appConfig.title = "Photography";
 
 export { appConfig };

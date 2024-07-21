@@ -226,7 +226,7 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
           .attr("text-anchor", "middle")
           .attr("dominant-baseline", "middle")
           .attr("fill", currentConfig.textColor || "#ffefdb")
-          .style("font-size", config.textSize || "2em")
+          .style("font-size", config.textSize || "2vw")
           .style("font-family", "Courier new, monospace")
           .style("font-weight", "500")
           .style("text-shadow", "0em 0em 0.1em rgba(0, 0, 0, 1)")
@@ -289,7 +289,7 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
           .attr("dominant-baseline", "middle")
           .attr("fill", "#ffebcd")
           .style("pointer-events", "none")
-          .style("font-size", currentConfig.titleSize || config.titleSize || "2em")
+          .style("font-size", currentConfig.titleSize || config.titleSize || "2vw")
           .style("font-family", "Courier New, monospace")
           .style("text-shadow", "0em 0em 0.2em rgba(143, 107, 143, 1)")
           .text(currentConfig.title || "");
