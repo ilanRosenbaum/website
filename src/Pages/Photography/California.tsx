@@ -11,11 +11,11 @@ appConfig.targetLevels = {
 };
 appConfig.title = "California";
 appConfig.images = {
-  topLeft: "/assets/covers/yosemiteVertical.jpg",
-  topRight: "/assets/covers/tahoeVertical.jpg",
-  left: "/assets/covers/bayAreaVertical.jpg",
-  bottomLeft: "/assets/covers/sacramentoVertical.jpg",
-  bottomRight: "/assets/covers/sequoiaVertical.jpg"
+  topLeft: "/Covers/yosemiteVertical.jpg",
+  topRight: "/Covers/tahoeVertical.jpg",
+  left: "/Covers/bayAreaVertical.jpg",
+  bottomLeft: "/Covers/sacramentoVertical.jpg",
+  bottomRight: "/Covers/sequoiaVertical.jpg"
 };
 appConfig.imageId = "California";
 
@@ -46,11 +46,11 @@ pageConfig.actions = {
 };
 
 pageConfig.images = {
-  topLeft: "/assets/covers/yosemiteVertical.jpg",
-  topRight: "/assets/covers/tahoeVertical.jpg",
-  left: "/assets/covers/bayAreaVertical.jpg",
-  bottomLeft: "/assets/covers/sacramentoVertical.jpg",
-  bottomRight: "/assets/covers/sequoiaVertical.jpg"
+  topLeft: "/Covers/yosemiteVertical.jpg",
+  topRight: "/Covers/tahoeVertical.jpg",
+  left: "/Covers/bayAreaVertical.jpg",
+  bottomLeft: "/Covers/sacramentoVertical.jpg",
+  bottomRight: "/Covers/sequoiaVertical.jpg"
 };
 
 pageConfig.text = {
