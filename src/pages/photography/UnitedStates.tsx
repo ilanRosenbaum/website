@@ -13,7 +13,7 @@ sharedConfig.images = {
 const appConfig: HexagonConfig = structuredClone(minConfig);
 appConfig.title = "United States";
 appConfig.imageId = "United States";
-appConfig.titleSize = "0.75em";
+appConfig.titleSize = "max(0.5vw, 0.5vh)";
 appConfig.targetLevels = {
   right: 3,
   bottomRight: 0,
@@ -52,7 +52,7 @@ pageConfig.actions = {
     window.location.href = "/photography/usa/minnesota";
   }
 };
-pageConfig.titleSize = "2em";
+pageConfig.titleSize = "2vw";
 pageConfig.text = {
   1: "Illinois",
   3: "Hawaii",
@@ -64,7 +64,7 @@ pageConfig.images = sharedConfig.images;
 
 pageConfig.config = {};
 pageConfig.config.bottomRight = structuredClone(californiaConfig);
-pageConfig.config.bottomRight.titleSize = "0.9em";
+pageConfig.config.bottomRight.titleSize = "max(0.8vw, 0.7vh)";
 
 const UnitedStates: React.FC = () => {
   return <SierpinskiHexagon config={pageConfig} />;

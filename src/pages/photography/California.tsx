@@ -10,6 +10,7 @@ appConfig.targetLevels = {
   topRight: 3
 };
 appConfig.title = "California";
+
 appConfig.images = {
   topLeft: "/Covers/yosemiteVertical.jpg",
   topRight: "/Covers/tahoeVertical.jpg",

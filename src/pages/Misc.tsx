@@ -78,25 +78,25 @@ const pageConfig: HexagonConfig = {
 };
 
 const bottomRightConfig = structuredClone(minConfig);
-bottomRightConfig.titleSize = "0.8em";
+bottomRightConfig.titleSize = "0.8vw";
 bottomRightConfig.title = "This Website";
 
 const leftConfig = structuredClone(minConfig);
-leftConfig.titleSize = "0.9em";
+leftConfig.titleSize = "0.9vw";
 leftConfig.title = "Anti-Hate";
 
 const topRightConfig = structuredClone(minConfig);
 topRightConfig.title = "Robotics";
-topRightConfig.titleSize = "1.2em";
+topRightConfig.titleSize = "1.2vw";
 
 const rightConfig = structuredClone(minConfig);
 rightConfig.title = "Headphones, No Headphones";
-rightConfig.titleSize = "1em";
+rightConfig.titleSize = "1vw";
 
 const bottomLeft = structuredClone(minConfig);
 bottomLeft.targetLevels = ListConfig.targetLevels;
 bottomLeft.title = "Lists";
-bottomLeft.titleSize = "1em";
+bottomLeft.titleSize = "1vw";
 
 pageConfig.config = {}; // Initialize pageConfig.config as an empty object
 pageConfig.config.bottomRight = bottomRightConfig;

@@ -11,7 +11,7 @@ appConfig.targetLevels = {
 };
 appConfig.title = "Mexico";
 appConfig.imageId = "Mexico";
-appConfig.titleSize = "1.5em";
+appConfig.titleSize = "max(1.2vw, 1.2vh)";
 appConfig.images = {
   left: "/Covers/PuertoVallartaVertical.jpg"
 };
@@ -43,7 +43,7 @@ const pageConfig: HexagonConfig = {
     4: "Puerto Vallarta"
   },
   title: "Mexico",
-  titleSize: "2em",
+  titleSize: "2vw",
   backButton: {
     exists: true,
     to: "/photography"

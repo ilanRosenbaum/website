@@ -9,7 +9,7 @@ appConfig.targetLevels = {
   topLeft: 3,
   topRight: 0
 };
-appConfig.titleSize = "1.5em";
+appConfig.titleSize = "max(1.2vw, 1.2vh)";
 appConfig.title = "Europe";
 appConfig.imageId = "Europe";
 appConfig.images = {

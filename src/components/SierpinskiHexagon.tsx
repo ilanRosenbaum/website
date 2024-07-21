@@ -121,7 +121,7 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
     const svg = d3.select(svgRef.current);
     const width = window.innerWidth;
     const height = window.innerHeight;
-    const hexagonWidth = window.innerHeight;
+    const hexagonWidth = Math.min(window.innerWidth, window.innerHeight) * 0.9; // 90% of the smaller dimension
     let hexagonCounter = 1;
 
     const createHexagon = (x: number, y: number, size: number): [number, number][] => {
@@ -226,7 +226,7 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
           .attr("text-anchor", "middle")
           .attr("dominant-baseline", "middle")
           .attr("fill", currentConfig.textColor || "#ffefdb")
-          .style("font-size", config.textSize || "2em")
+          .style("font-size", config.textSize || "1.5vw")
           .style("font-family", "Courier new, monospace")
           .style("font-weight", "500")
           .style("text-shadow", "0em 0em 0.1em rgba(0, 0, 0, 1)")
@@ -289,7 +289,7 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
           .attr("dominant-baseline", "middle")
           .attr("fill", "#ffebcd")
           .style("pointer-events", "none")
-          .style("font-size", currentConfig.titleSize || config.titleSize || "2em")
+          .style("font-size", currentConfig.titleSize || config.titleSize || "max(1.8vw, 1.8vh)")
           .style("font-family", "Courier New, monospace")
           .style("text-shadow", "0em 0em 0.2em rgba(143, 107, 143, 1)")
           .text(currentConfig.title || "");
