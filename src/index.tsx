@@ -14,6 +14,7 @@ import Africa from "./pages/photography/Africa";
 import Mexico from "./pages/photography/Mexico";
 import California from "./pages/photography/California";
 import Europe from "./pages/photography/Europe";
+import TiledPlaneFolders from "./components/TiledPlaneFolders";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 
@@ -26,7 +27,28 @@ root.render(
         <Route path="/misc" element={<Misc />} />
         <Route path="/lists" element={<Lists />} />
         <Route path="/cooking" element={<TiledPlane photoPath={"/Cooking"} backTo="/" />} />
-        <Route path="/art" element={<TiledPlane photoPath={"/Ceramics"} backTo="/" />} />
+        <Route
+          path="/art"
+          element={
+            <TiledPlaneFolders
+              folders={[
+                "/Ceramics/Concentric Bowls",
+                "/Ceramics/Cool Cylinder",
+                "/Ceramics/Garlic Holder",
+                "/Ceramics/Green Onion",
+                "/Ceramics/Katrina's Bowl & Dad's Mug",
+                "/Ceramics/Mug & Saucer",
+                "/Ceramics/Reid's Cup",
+                "/Ceramics/Some Green Bowls",
+                "/Ceramics/Spoon Rest",
+                "/Ceramics/Too Small :(",
+                "/Ceramics/Assignment 1",
+                "/Ceramics/Small Blue Plate",
+              ]}
+              backTo="/" // Adjust this to the correct back path
+            />
+          }
+        />
 
         <Route path="/photography" element={<Photography />} />
         <Route path="/photography/usa" element={<UnitedStates />} />

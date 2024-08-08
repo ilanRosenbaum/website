@@ -5,54 +5,61 @@ import { throttle } from "./SierpinskiHexagon";
 import { storage } from "./../firebase";
 import { ref, listAll, getDownloadURL } from "firebase/storage";
 import { imageCache } from "./ImageCache";
+import { isPointInHexagon } from "./TiledPlane";
 
-interface TiledPlaneProps {
-  photoPath: string;
+interface TiledPlaneFoldersProps {
+  folders: string[];
   backTo?: string;
 }
 
-export const isPointInHexagon = (px: number, py: number, cx: number, cy: number, size: number): boolean => {
-  const dx = Math.abs(px - cx);
-  const dy = Math.abs(py - cy);
-  const r = size / 2;
-  return dx <= (r * Math.sqrt(3)) / 2 && dy <= r && r * Math.sqrt(3) * dx + r * dy <= (r * r * 3) / 2;
-};
+interface FolderData {
+  coverPhoto: string;
+  allPhotos: string[];
+  folderName: string;
+}
 
-const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
+const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ folders: photoPaths, backTo }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [photos, setPhotos] = useState<string[]>([]);
+  const [selectedFolder, setSelectedFolder] = useState<FolderData | null>(null);
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState<number | null>(null);
+  const [folderData, setFolderData] = useState<FolderData[]>([]);
 
   useEffect(() => {
     const fetchPhotos = async () => {
-      const folderRef = ref(storage, photoPath);
-      try {
-        const result = await listAll(folderRef);
-
-        // Reverse the items array before processing
-        const reversedItems = result.items.reverse();
-
-        const urls = await Promise.all(
-          reversedItems.map(async (item) => {
-            const url = await getDownloadURL(item);
-            // Preload image
-            await imageCache.getImage(url);
-            return url;
-          })
-        );
-        setPhotos(urls);
-      } catch (error) {
-        console.error("Error fetching photos:", error);
-      }
+      const paths = Array.isArray(photoPaths) ? photoPaths : [photoPaths];
+      const fetchedFolderData: FolderData[] = await Promise.all(
+        paths.map(async (path) => {
+          const folderRef = ref(storage, path);
+          try {
+            const result = await listAll(folderRef);
+            const sortedItems = result.items.sort((a, b) => b.name.localeCompare(a.name));
+            const urls = await Promise.all(
+              sortedItems.map(async (item) => {
+                const url = await getDownloadURL(item);
+                await imageCache.getImage(url);
+                return url;
+              })
+            );
+            return {
+              coverPhoto: urls[0],
+              allPhotos: urls,
+              folderName: path.split('/').pop() || '',
+            };
+          } catch (error) {
+            console.error(`Error fetching photos from ${path}:`, error);
+            return { coverPhoto: "", allPhotos: [], folderName: "" };
+          }
+        })
+      );
+      setFolderData(fetchedFolderData.filter((data) => data.coverPhoto !== ""));
     };
 
     fetchPhotos();
-  }, [photoPath]);
+  }, [photoPaths]);
 
   useEffect(() => {
-    if (!svgRef.current || !containerRef.current || photos.length === 0) return;
+    if (!svgRef.current || !containerRef.current || folderData.length === 0) return;
 
     const svg = d3.select(svgRef.current);
     const container = containerRef.current;
@@ -83,7 +90,7 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
     const columnOffsetX = hexWidth * 0.75;
     const rowOffsetY = hexHeight;
 
-    const drawHexagon = async (photo: string, col: number, row: number, index: number) => {
+    const drawHexagon = async (folderData: FolderData, col: number, row: number, index: number) => {
       const x = centerX + col * columnOffsetX - hexWidth / 2;
       const y = row * rowOffsetY + (Math.abs(col) % 2 === 1 ? rowOffsetY / 2 : 0);
 
@@ -97,28 +104,28 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
         .attr("stroke-width", 2)
         .attr("transform", `translate(${x}, ${y})`)
         .on("click", () => {
-          setSelectedPhoto(photo);
-          setSelectedIndex(index);
+          setSelectedFolder(folderData);
+          setSelectedPhotoIndex(0);
         });
 
       const defs = svg.append("defs");
       const pattern = defs.append("pattern").attr("id", `image-${col}-${row}`).attr("patternUnits", "objectBoundingBox").attr("width", "100%").attr("height", "100%");
 
-      const imageUrl = await imageCache.getImage(photo);
+      const imageUrl = await imageCache.getImage(folderData.coverPhoto);
       pattern.append("image").attr("xlink:href", imageUrl).attr("width", hexWidth).attr("height", hexHeight).attr("preserveAspectRatio", "xMidYMid slice");
     };
 
-    let photoIndex = 0;
+    let folderIndex = 0;
     let row = 0;
     const columns = [0, -1, 1];
 
     svg.selectAll("*").remove();
     const drawHexagons = async () => {
-      while (photoIndex < photos.length) {
+      while (folderIndex < folderData.length) {
         for (const col of columns) {
-          if (photoIndex < photos.length) {
-            await drawHexagon(photos[photoIndex], col, row, photoIndex);
-            photoIndex++;
+          if (folderIndex < folderData.length) {
+            await drawHexagon(folderData[folderIndex], col, row, folderIndex);
+            folderIndex++;
           }
         }
         row++;
@@ -164,28 +171,26 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
     return () => {
       container.removeEventListener("mousemove", handleMouseMove);
     };
-  }, [photos]);
+  }, [folderData]);
 
   const handleNext = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (selectedIndex !== null && selectedIndex < photos.length - 1) {
-      setSelectedIndex(selectedIndex + 1);
-      setSelectedPhoto(photos[selectedIndex + 1]);
+    if (selectedFolder && selectedPhotoIndex !== null && selectedPhotoIndex < selectedFolder.allPhotos.length - 1) {
+      setSelectedPhotoIndex(selectedPhotoIndex + 1);
     }
   };
 
   const handlePrevious = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (selectedIndex !== null && selectedIndex > 0) {
-      setSelectedIndex(selectedIndex - 1);
-      setSelectedPhoto(photos[selectedIndex - 1]);
+    if (selectedFolder && selectedPhotoIndex !== null && selectedPhotoIndex > 0) {
+      setSelectedPhotoIndex(selectedPhotoIndex - 1);
     }
   };
 
   const closeFullscreen = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
-      setSelectedPhoto(null);
-      setSelectedIndex(null);
+      setSelectedFolder(null);
+      setSelectedPhotoIndex(null);
     }
   };
 
@@ -197,12 +202,20 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
       <div ref={containerRef} className="w-screen h-[calc(80dvh)] mt-[max(9vw,9vh)] mb-[calc(6dvh)] custom-scrollbar">
         <svg ref={svgRef} className="mx-auto"></svg>
       </div>
-      {selectedPhoto && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-20" onClick={closeFullscreen}>
-          <img src={selectedPhoto} alt="" className="max-w-[60%] max-h-[90%] object-contain" onClick={(e) => e.stopPropagation()} />
+      {selectedFolder && selectedPhotoIndex !== null && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center z-20" onClick={closeFullscreen}>
+          <img 
+            src={selectedFolder.allPhotos[selectedPhotoIndex]} 
+            alt="" 
+            className="max-w-[60%] max-h-[80%] object-contain mb-8" 
+            onClick={(e) => e.stopPropagation()} 
+          />
+          <div className="absolute bottom-16 text-[#ffebcd] font-mono text-xl">
+            {selectedFolder.folderName}
+          </div>
           <button
             className={`absolute left-[15%] top-1/2 transform -translate-y-1/2 w-12 h-12 rounded-full bg-transparent text-[#ffebcd] text-4xl font-bold font-mono flex items-center justify-center transition-opacity duration-300 ${
-              selectedIndex === 0 ? "opacity-0" : "opacity-100"
+              selectedPhotoIndex === 0 ? "opacity-0" : "opacity-100"
             }`}
             onClick={handlePrevious}
           >
@@ -210,7 +223,7 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
           </button>
           <button
             className={`absolute right-[15%] top-1/2 transform -translate-y-1/2 w-12 h-12 rounded-full bg-transparent text-[#ffebcd] text-4xl font-bold font-mono flex items-center justify-center transition-opacity duration-300 ${
-              selectedIndex === photos.length - 1 ? "opacity-0" : "opacity-100"
+              selectedPhotoIndex === selectedFolder.allPhotos.length - 1 ? "opacity-0" : "opacity-100"
             }`}
             onClick={handleNext}
           >
@@ -223,4 +236,4 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
   );
 };
 
-export default TiledPlane;
+export default TiledPlaneFolders;
