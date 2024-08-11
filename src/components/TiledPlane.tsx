@@ -198,24 +198,22 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
         <svg ref={svgRef} className="mx-auto"></svg>
       </div>
       {selectedPhoto && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-20" onClick={closeFullscreen}>
-          <img src={selectedPhoto} alt="" className="max-w-[60%] max-h-[90%] object-contain" onClick={(e) => e.stopPropagation()} />
-          <button
-            className={`absolute left-[15%] top-1/2 transform -translate-y-1/2 w-12 h-12 rounded-full bg-transparent text-[#ffebcd] text-4xl font-bold font-mono flex items-center justify-center transition-opacity duration-300 ${
-              selectedIndex === 0 ? "opacity-0" : "opacity-100"
-            }`}
-            onClick={handlePrevious}
-          >
-            &lt;
-          </button>
-          <button
-            className={`absolute right-[15%] top-1/2 transform -translate-y-1/2 w-12 h-12 rounded-full bg-transparent text-[#ffebcd] text-4xl font-bold font-mono flex items-center justify-center transition-opacity duration-300 ${
-              selectedIndex === photos.length - 1 ? "opacity-0" : "opacity-100"
-            }`}
-            onClick={handleNext}
-          >
-            &gt;
-          </button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center z-20" onClick={closeFullscreen}>
+          <img src={selectedPhoto} alt="" className="max-w-[90%] max-h-[80%] object-contain mb-4" onClick={(e) => e.stopPropagation()} />
+          <div className="flex justify-center items-center w-full">
+            <button
+              className={`mx-4 w-12 h-12 rounded-full bg-transparent text-[#ffebcd] text-4xl font-bold font-mono flex items-center justify-center transition-opacity duration-300 ${selectedIndex === 0 ? "opacity-0" : "opacity-100"}`}
+              onClick={handlePrevious}
+            >
+              &lt;
+            </button>
+            <button
+              className={`mx-4 w-12 h-12 rounded-full bg-transparent text-[#ffebcd] text-4xl font-bold font-mono flex items-center justify-center transition-opacity duration-300 ${selectedIndex === photos.length - 1 ? "opacity-0" : "opacity-100"}`}
+              onClick={handleNext}
+            >
+              &gt;
+            </button>
+          </div>
         </div>
       )}
       <div className="absolute bottom-2 right-2 text-xs text-white opacity-50">Copyright © 2024 Ilan Rosenbaum All rights reserved.</div>

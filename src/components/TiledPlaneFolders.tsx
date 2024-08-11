@@ -44,7 +44,7 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ folders: photoPat
             return {
               coverPhoto: urls[0],
               allPhotos: urls,
-              folderName: path.split('/').pop() || '',
+              folderName: path.split("/").pop() || ""
             };
           } catch (error) {
             console.error(`Error fetching photos from ${path}:`, error);
@@ -204,31 +204,24 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ folders: photoPat
       </div>
       {selectedFolder && selectedPhotoIndex !== null && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center z-20" onClick={closeFullscreen}>
-          <img 
-            src={selectedFolder.allPhotos[selectedPhotoIndex]} 
-            alt="" 
-            className="max-w-[60%] max-h-[80%] object-contain mb-8" 
-            onClick={(e) => e.stopPropagation()} 
-          />
-          <div className="absolute bottom-16 text-[#ffebcd] font-mono text-xl">
-            {selectedFolder.folderName}
+          <img src={selectedFolder.allPhotos[selectedPhotoIndex]} alt="" className="max-w-[90%] max-h-[70%] object-contain mb-4" onClick={(e) => e.stopPropagation()} />
+          <div className="text-[#ffebcd] font-mono text-xl mb-4">{selectedFolder.folderName}</div>
+          <div className="flex justify-center items-center w-full">
+            <button
+              className={`mx-4 w-12 h-12 rounded-full bg-transparent text-[#ffebcd] text-4xl font-bold font-mono flex items-center justify-center transition-opacity duration-300 ${selectedPhotoIndex === 0 ? "opacity-0" : "opacity-100"}`}
+              onClick={handlePrevious}
+            >
+              &lt;
+            </button>
+            <button
+              className={`mx-4 w-12 h-12 rounded-full bg-transparent text-[#ffebcd] text-4xl font-bold font-mono flex items-center justify-center transition-opacity duration-300 ${
+                selectedPhotoIndex === selectedFolder.allPhotos.length - 1 ? "opacity-0" : "opacity-100"
+              }`}
+              onClick={handleNext}
+            >
+              &gt;
+            </button>
           </div>
-          <button
-            className={`absolute left-[15%] top-1/2 transform -translate-y-1/2 w-12 h-12 rounded-full bg-transparent text-[#ffebcd] text-4xl font-bold font-mono flex items-center justify-center transition-opacity duration-300 ${
-              selectedPhotoIndex === 0 ? "opacity-0" : "opacity-100"
-            }`}
-            onClick={handlePrevious}
-          >
-            &lt;
-          </button>
-          <button
-            className={`absolute right-[15%] top-1/2 transform -translate-y-1/2 w-12 h-12 rounded-full bg-transparent text-[#ffebcd] text-4xl font-bold font-mono flex items-center justify-center transition-opacity duration-300 ${
-              selectedPhotoIndex === selectedFolder.allPhotos.length - 1 ? "opacity-0" : "opacity-100"
-            }`}
-            onClick={handleNext}
-          >
-            &gt;
-          </button>
         </div>
       )}
       <div className="absolute bottom-2 right-2 text-xs text-white opacity-50">Copyright © 2024 Ilan Rosenbaum All rights reserved.</div>

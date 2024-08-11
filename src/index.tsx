@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import MarkdownPage from "./components/MarkdownPage";
 import Rooms from "./pages/Rooms";
 import Misc from "./pages/Misc";
@@ -74,6 +74,8 @@ root.render(
         <Route path="/photography/europe/spain" element={<TiledPlane photoPath={"/Photography/Europe/Girona"} backTo={"/photography/europe"} />} />
         <Route path="/photography/europe/denmark" element={<TiledPlane photoPath={"/Photography/Europe/Copenhagen"} backTo={"/photography/europe"} />} />
         <Route path="/photography/europe/france" element={<TiledPlane photoPath={"/Photography/Europe/Lyon"} backTo={"/photography/europe"} />} />
+
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   </React.StrictMode>
