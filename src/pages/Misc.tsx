@@ -62,6 +62,9 @@ const pageConfig: HexagonConfig = {
     topLeft: () => {
       window.location.href = "/misc/openSource";
     },
+    right: () => {
+      window.location.href = "/misc/headphonesNoHeadphones";
+    },
     bottomLeft: (hexagonId: number) => {
       performTransitionAndRedirect(hexagonId, "/lists");
     }

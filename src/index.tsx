@@ -27,8 +27,11 @@ root.render(
         <Route path="/rooms/what" element={<MarkdownPage source={"/content/RoomsWhat.md"} backTo="/rooms" />} />
         <Route path="/rooms/why" element={<MarkdownPage source={"/content/RoomsWhy.md"} backTo="/rooms" />} />
         <Route path="/rooms/how" element={<MarkdownPage source={"/content/RoomsHow.md"} backTo="/rooms" />} />
+
         <Route path="/misc" element={<Misc />} />
         <Route path="/misc/openSource" element={<MarkdownPage source={"/content/MiscOpenSource.md"} backTo="/misc" />} />
+        <Route path="/misc/headphonesNoHeadphones" element={<MarkdownPage source={"/content/MiscHeadphonesNoHeadphones.md"} backTo="/misc" />} />
+
         <Route path="/lists" element={<Lists />} />
         <Route path="/cooking" element={<TiledPlane photoPath={"/Cooking"} backTo="/" />} />
         <Route path="/about" element={<MarkdownPage source={"/content/AboutMe.md"} backTo="/" />} />

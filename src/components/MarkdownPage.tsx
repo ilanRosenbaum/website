@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import BackButton from "./BackButton";
+import rehypeRaw from "rehype-raw";
+import remarkGfm from 'remark-gfm';
 
 const MarkdownPage: React.FC<{ source: string; backTo?: string; backButtonFill?: string; textColor?: string }> = ({ source, backTo, backButtonFill, textColor }) => {
   const [markdown, setMarkdown] = useState<string>("");
@@ -23,7 +25,9 @@ const MarkdownPage: React.FC<{ source: string; backTo?: string; backButtonFill?:
         <BackButton textColor={textColor || "#ffefdb"} color={backButtonFill || "#603b61"} to={backTo || "/"} />
       </div>
       <div className="markdown-container h-full overflow-auto">
-        <ReactMarkdown className="markdown font-mono text-[#ffebcd]">{markdown}</ReactMarkdown>
+        <ReactMarkdown className="markdown font-mono text-[#ffebcd]" rehypePlugins={[rehypeRaw]} remarkPlugins={[remarkGfm]}>
+          {markdown}
+        </ReactMarkdown>
       </div>
       <div className="absolute bottom-2 right-2 text-xs text-white opacity-50">Copyright © 2024 Ilan Rosenbaum All rights reserved.</div>
     </div>

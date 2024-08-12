@@ -24,6 +24,62 @@
   }
 }
 
+.disclaimer {
+  color: red;
+  font-style: italic;
+}
+
+.markdown table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  margin-bottom: 1rem;
+  color: #ffebcd;
+  border: 1px solid #ffebcd;
+  font-size: 0.9em;
+
+}
+
+.markdown th,
+.markdown td {
+  border: 1px solid #ffebcd;
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.markdown th {
+  background-color: #603b61;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.9em;
+
+}
+
+.markdown tr {
+  background-color: rgba(96, 59, 97, 0.1);
+}
+
+.markdown tr:nth-child(even) {
+  background-color: rgba(96, 59, 97, 0.2);
+}
+
+.markdown tr:hover {
+  background-color: rgba(96, 59, 97, 0.3);
+}
+
+/* Ensure left alignment for all cells */
+.markdown th,
+.markdown td {
+  text-align: left !important;
+}
+
+/* Add some spacing between columns */
+.markdown th:not(:last-child),
+.markdown td:not(:last-child) {
+  padding-right: 20px;
+}
+
+
 html, body {
   overflow: hidden;
 }
