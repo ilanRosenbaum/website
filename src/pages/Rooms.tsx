@@ -46,7 +46,19 @@ const pageConfig = {
   actions: {
     default: (hexagonId: number) => {
       alert(`Hexagon ${hexagonId} clicked!`);
-    }
+    },
+    left: () => {
+      window.open("https://innovate.wisc.edu/business-entrepreneurship-clinic-a-room-with-a-view-ilan-rosenbaums-app-helps-students-find-housing/", "_blank");
+    },
+    topLeft: () => {
+      window.location.href = "/rooms/what";
+    },
+    topRight: () => {
+      window.location.href = "/rooms/why";
+    },
+    right: () => {
+      window.location.href = "/rooms/how";
+    },
   },
   images: sharedConfig.images,
   text: {
