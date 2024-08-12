@@ -59,6 +59,9 @@ const pageConfig: HexagonConfig = {
     default: (hexagonId: number) => {
       alert(`Hexagon ${hexagonId} clicked!`);
     },
+    topLeft: () => {
+      window.location.href = "/misc/openSource";
+    },
     bottomLeft: (hexagonId: number) => {
       performTransitionAndRedirect(hexagonId, "/lists");
     }
