@@ -81,7 +81,7 @@ const pageConfig: HexagonConfig = {
 };
 
 const bottomRightConfig = structuredClone(minConfig);
-bottomRightConfig.titleSize = "0.8vw";
+bottomRightConfig.titleSize = "0.65vw";
 bottomRightConfig.title = "This Website";
 
 const leftConfig = structuredClone(minConfig);
@@ -90,11 +90,11 @@ leftConfig.title = "Anti-Hate";
 
 const topRightConfig = structuredClone(minConfig);
 topRightConfig.title = "Robotics";
-topRightConfig.titleSize = "1.2vw";
+topRightConfig.titleSize = "1vw";
 
 const rightConfig = structuredClone(minConfig);
 rightConfig.title = "Headphones, No Headphones";
-rightConfig.titleSize = "1vw";
+rightConfig.titleSize = "0.8vw";
 
 const bottomLeft = structuredClone(minConfig);
 bottomLeft.targetLevels = ListConfig.targetLevels;
