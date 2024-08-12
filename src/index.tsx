@@ -27,6 +27,7 @@ root.render(
         <Route path="/misc" element={<Misc />} />
         <Route path="/lists" element={<Lists />} />
         <Route path="/cooking" element={<TiledPlane photoPath={"/Cooking"} backTo="/" />} />
+        <Route path="/about" element={<MarkdownPage source={"/content/AboutMe.md"} backTo="/" />} />
         <Route
           path="/art"
           element={

@@ -2,6 +2,15 @@
   all: revert;
 }
 
+.markdown a {
+  color: #920025;
+  transition: color 0.3s ease;
+}
+
+.markdown a:hover {
+  color: #603b61; /* This is the purple color used in your hexagons */
+}
+
 .markdown-container {
   width: 50%;
   margin: 0 auto;
@@ -34,7 +43,6 @@ html, body {
   width: 0px; /* For Chrome, Safari, and Opera */
   background: transparent; /* Optional: just make scrollbar invisible */
 }
-
 
 @tailwind base;
 @tailwind components;
