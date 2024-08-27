@@ -25,7 +25,7 @@ const MarkdownPage: React.FC<{ source: string; backTo?: string; backButtonFill?:
         <BackButton textColor={textColor || "#ffefdb"} color={backButtonFill || "#603b61"} to={backTo || "/"} />
       </div>
       <div className="markdown-container max-h-[90%] overflow-scroll">
-        <ReactMarkdown className="markdown font-mono text-[#ffebcd]" rehypePlugins={[rehypeRaw]} remarkPlugins={[remarkGfm]}>
+        <ReactMarkdown className="markdown hide-scrollbar font-mono text-[#ffebcd]" rehypePlugins={[rehypeRaw]} remarkPlugins={[remarkGfm]}>
           {markdown}
         </ReactMarkdown>
       </div>
