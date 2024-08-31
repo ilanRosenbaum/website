@@ -39,13 +39,13 @@ const pageConfig = {
   styles: sharedConfig.styles,
   actions: {
     topLeft: () => {
-      window.location.href = "/misc/thisWebsite/what"; // TODO: Make the MD page for this
+      window.location.href = "/misc/thisWebsite/what";
     },
     topRight: () => {
-      window.location.href = "/misc/thisWebsite/why"; // TODO: Make the MD page for this
+      window.location.href = "/misc/thisWebsite/why";
     },
     right: () => {
-      window.location.href = "/misc/thisWebsite/how"; // TODO: Make the MD page for this
+      window.location.href = "/misc/thisWebsite/how";
     },
   },
   images: sharedConfig.images,

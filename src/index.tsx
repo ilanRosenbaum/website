@@ -36,6 +36,10 @@ root.render(
         <Route path="/misc/openSource" element={<MarkdownPage source={"/content/MiscOpenSource.md"} backTo="/misc" />} />
         <Route path="/misc/headphonesNoHeadphones" element={<MarkdownPage source={"/content/MiscHeadphonesNoHeadphones.md"} backTo="/misc" />} />
         <Route path="/misc/thisWebsite" element={<ThisWebsite />} />
+        <Route path="/misc/thisWebsite/what" element={<MarkdownPage source={"/content/MiscThisWebsiteWhat.md"} backTo="/misc/thisWebsite" />} />
+        <Route path="/misc/thisWebsite/why" element={<MarkdownPage source={"/content/MiscThisWebsiteWhy.md"} backTo="/misc/thisWebsite" />} />
+        <Route path="/misc/thisWebsite/how" element={<MarkdownPage source={"/content/MiscThisWebsiteHow.md"} backTo="/misc/thisWebsite" />} />
+        
         <Route
           path="/misc/restaurants"
           element={
