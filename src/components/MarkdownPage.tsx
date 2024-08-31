@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import BackButton from "./BackButton";
-import RestaurantTable from "./../pages/misc/RestaurantTable";
+import RestaurantTable from "./RestaurantTable";
 
 interface MarkdownPageProps {
   source: string;
