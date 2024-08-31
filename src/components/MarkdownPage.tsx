@@ -18,6 +18,13 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({ source, backTo, backButtonF
   const [tableDatas, setTableDatas] = useState<any[][]>([]);
 
   useEffect(() => {
+    const fetchPublicGoogleSheetData = async (sheetId: string, gid: string): Promise<any[]> => {
+      const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&gid=${gid}`;
+      const response = await fetch(url);
+      const csvData = await response.text();
+      return parseCSV(csvData);
+    };
+
     const fetchMarkdownAndSheetData = async () => {
       try {
         const response = await fetch(source);
@@ -41,13 +48,6 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({ source, backTo, backButtonF
 
     fetchMarkdownAndSheetData();
   }, [source, googleSheetId, googleSheetGids]);
-
-  const fetchPublicGoogleSheetData = async (sheetId: string, gid: string): Promise<any[]> => {
-    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&gid=${gid}`;
-    const response = await fetch(url);
-    const csvData = await response.text();
-    return parseCSV(csvData);
-  };
 
   const parseCSV = (csvText: string): any[] => {
     const rows = csvText.split("\n").map((row) => {
