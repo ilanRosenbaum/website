@@ -1,7 +1,9 @@
 import React from "react";
-import SierpinskiHexagon, { HexagonConfig, minConfig } from "../components/SierpinskiHexagon";
-import { appConfig as ListConfig } from "./Lists";
-import { performTransitionAndRedirect } from "../App";
+import SierpinskiHexagon, { HexagonConfig, minConfig } from "../../components/SierpinskiHexagon";
+import { performTransitionAndRedirect } from "../../App";
+import { appConfig as RestaurantConfig } from "./Restaurants";
+import { appConfig as WebsiteConfig } from "./ThisWebsite";
+import { appConfig as PlacesConfig } from "./Places";
 
 const sharedConfig = {
   styles: {
@@ -17,11 +19,11 @@ const sharedConfig = {
 const appConfig: HexagonConfig = {
   targetLevels: {
     right: 3,
-    bottomRight: 2,
-    bottomLeft: 2,
-    left: 2,
+    bottomRight: 0,
+    bottomLeft: 3,
+    left: 0,
     topLeft: 3,
-    topRight: 2
+    topRight: 0
   },
   styles: sharedConfig.styles,
   actions: {
@@ -33,14 +35,19 @@ const appConfig: HexagonConfig = {
   text: {},
   backButton: {
     exists: false
+  },
+  config: {
+    bottomRight: structuredClone(minConfig),
+    left: structuredClone(minConfig),
+    bottomLeft: structuredClone(minConfig)
   }
 };
 
-const appBottomLeft = structuredClone(minConfig);
-appBottomLeft.targetLevels = ListConfig.targetLevels;
-appConfig.config = {};
-appConfig.config.bottomLeft = appBottomLeft;
-appConfig.targetLevels.bottomLeft = 0;
+// If statement exists so TS doesn't get mad. Literally should never matter.
+if (appConfig.config !== undefined) {
+  appConfig.config.bottomRight.targetLevels = WebsiteConfig.targetLevels;
+  appConfig.config.left.targetLevels = PlacesConfig.targetLevels;
+}
 
 export { appConfig };
 
@@ -48,11 +55,11 @@ export { appConfig };
 const pageConfig: HexagonConfig = {
   targetLevels: {
     right: 3,
-    bottomRight: 2,
-    bottomLeft: 0,
-    left: 2,
+    bottomRight: 0,
+    bottomLeft: 3,
+    left: 0,
     topLeft: 3,
-    topRight: 2
+    topRight: 0
   },
   styles: sharedConfig.styles,
   actions: {
@@ -65,12 +72,19 @@ const pageConfig: HexagonConfig = {
     right: () => {
       window.location.href = "/misc/headphonesNoHeadphones";
     },
-    bottomLeft: (hexagonId: number) => {
-      performTransitionAndRedirect(hexagonId, "/lists");
+    left: (hexagonId: number) => {
+      performTransitionAndRedirect(hexagonId, "/misc/places");
+    },
+    bottomLeft: () => {
+      window.location.href = "/misc/restaurants"; // TODO: Make the MD page for this
+    },
+    bottomRight:  (hexagonId: number) => {
+      performTransitionAndRedirect(hexagonId, "/misc/thisWebsite");
     }
   },
   images: sharedConfig.images,
   text: {
+    3: "Restaurants",
     5: "Open Source"
   },
   title: "Miscellaneous",
@@ -84,32 +98,23 @@ const pageConfig: HexagonConfig = {
 };
 
 const bottomRightConfig = structuredClone(minConfig);
+bottomRightConfig.targetLevels = WebsiteConfig.targetLevels;
 bottomRightConfig.titleSize = "0.65vw";
 bottomRightConfig.title = "This Website";
 
 const leftConfig = structuredClone(minConfig);
+leftConfig.targetLevels = PlacesConfig.targetLevels;
 leftConfig.titleSize = "0.9vw";
-leftConfig.title = "Anti-Hate";
-
-const topRightConfig = structuredClone(minConfig);
-topRightConfig.title = "Robotics";
-topRightConfig.titleSize = "1vw";
+leftConfig.title = "Places";
 
 const rightConfig = structuredClone(minConfig);
 rightConfig.title = "Headphones, No Headphones";
 rightConfig.titleSize = "0.8vw";
 
-const bottomLeft = structuredClone(minConfig);
-bottomLeft.targetLevels = ListConfig.targetLevels;
-bottomLeft.title = "Lists";
-bottomLeft.titleSize = "1vw";
-
 pageConfig.config = {}; // Initialize pageConfig.config as an empty object
 pageConfig.config.bottomRight = bottomRightConfig;
 pageConfig.config.left = leftConfig;
-pageConfig.config.topRight = topRightConfig;
 pageConfig.config.right = rightConfig;
-pageConfig.config.bottomLeft = bottomLeft;
 
 const Misc: React.FC = () => {
   return <SierpinskiHexagon config={pageConfig} />;

@@ -5,8 +5,12 @@ import App from "./App";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import MarkdownPage from "./components/MarkdownPage";
 import Rooms from "./pages/Rooms";
-import Misc from "./pages/Misc";
-import Lists from "./pages/Lists";
+
+import Misc from "./pages/misc/Misc";
+import Restaurants from "./pages/misc/Restaurants";
+import ThisWebsite from "./pages/misc/ThisWebsite";
+import Places from "./pages/misc/Places";
+
 import Photography from "./pages/photography/Photography";
 import UnitedStates from "./pages/photography/UnitedStates";
 import TiledPlane from "./components/TiledPlane";
@@ -14,6 +18,7 @@ import Africa from "./pages/photography/Africa";
 import Mexico from "./pages/photography/Mexico";
 import California from "./pages/photography/California";
 import Europe from "./pages/photography/Europe";
+
 import TiledPlaneFolders from "./components/TiledPlaneFolders";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
@@ -31,8 +36,10 @@ root.render(
         <Route path="/misc" element={<Misc />} />
         <Route path="/misc/openSource" element={<MarkdownPage source={"/content/MiscOpenSource.md"} backTo="/misc" />} />
         <Route path="/misc/headphonesNoHeadphones" element={<MarkdownPage source={"/content/MiscHeadphonesNoHeadphones.md"} backTo="/misc" />} />
+        <Route path="/misc/thisWebsite" element={<ThisWebsite />} />
+        <Route path="/misc/restaurants" element={<Restaurants />} />
+        <Route path="/misc/places" element={<Places />} />
 
-        <Route path="/lists" element={<Lists />} />
         <Route path="/cooking" element={<TiledPlane photoPath={"/Cooking"} backTo="/" />} />
         <Route path="/about" element={<MarkdownPage source={"/content/AboutMe.md"} backTo="/" />} />
         <Route
