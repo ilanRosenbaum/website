@@ -75,7 +75,7 @@ const pageConfig: HexagonConfig = {
       performTransitionAndRedirect(hexagonId, "/misc/places");
     },
     bottomLeft: () => {
-      window.location.href = "/misc/restaurants"; // TODO: Make the MD page for this
+      window.location.href = "/misc/restaurants";
     },
     bottomRight:  (hexagonId: number) => {
       performTransitionAndRedirect(hexagonId, "/misc/thisWebsite");
