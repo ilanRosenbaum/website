@@ -11,11 +11,26 @@
   color: #603b61; /* This is the purple color used in your hexagons */
 }
 
-.markdown-container {
-  width: 50%;
-  margin: 0 auto;
+.markdown-container,
+.markdown-container-wide {
+  flex: 1;
+  overflow-y: auto;
   padding: 2rem;
-  margin-top: 5%;
+  margin-top: 5vh;
+  max-height: calc(95vh - 4rem); /* 95vh minus top and bottom padding */
+}
+
+.markdown-container {
+  width: 100%;
+  max-width: 800px; /* Or whatever max-width you prefer */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.markdown-container-wide {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @media (max-width: 768px) {

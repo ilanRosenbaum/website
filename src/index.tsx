@@ -7,7 +7,6 @@ import MarkdownPage from "./components/MarkdownPage";
 import Rooms from "./pages/Rooms";
 
 import Misc from "./pages/misc/Misc";
-import Restaurants from "./pages/misc/Restaurants";
 import ThisWebsite from "./pages/misc/ThisWebsite";
 import Places from "./pages/misc/Places";
 
@@ -37,7 +36,18 @@ root.render(
         <Route path="/misc/openSource" element={<MarkdownPage source={"/content/MiscOpenSource.md"} backTo="/misc" />} />
         <Route path="/misc/headphonesNoHeadphones" element={<MarkdownPage source={"/content/MiscHeadphonesNoHeadphones.md"} backTo="/misc" />} />
         <Route path="/misc/thisWebsite" element={<ThisWebsite />} />
-        <Route path="/misc/restaurants" element={<Restaurants />} />
+        <Route
+          path="/misc/restaurants"
+          element={
+            <MarkdownPage
+              source="/content/MiscRestaurants.md"
+              backTo="/misc"
+              googleSheetId="1q0LWe6wJalAIB0cciybzVOgQxYCs48Jv0zhhim3iwGw"
+              googleSheetGids={["0", "1055759508"]}
+              useWideContainer={true}
+            />
+          }
+        />
         <Route path="/misc/places" element={<Places />} />
 
         <Route path="/cooking" element={<TiledPlane photoPath={"/Cooking"} backTo="/" />} />
@@ -61,7 +71,7 @@ root.render(
                 "/Ceramics/Small Blue Plate",
                 "/Ceramics/Mugs for Parents",
                 "/Ceramics/Plate(s)",
-                "/Ceramics/Plant!",
+                "/Ceramics/Plant!"
               ]}
               backTo="/" // Adjust this to the correct back path
             />

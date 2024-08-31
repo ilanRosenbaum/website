@@ -1,7 +1,6 @@
 import React from "react";
 import SierpinskiHexagon, { HexagonConfig, minConfig } from "../../components/SierpinskiHexagon";
 import { performTransitionAndRedirect } from "../../App";
-import { appConfig as RestaurantConfig } from "./Restaurants";
 import { appConfig as WebsiteConfig } from "./ThisWebsite";
 import { appConfig as PlacesConfig } from "./Places";
 
