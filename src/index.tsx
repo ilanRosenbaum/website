@@ -61,6 +61,7 @@ root.render(
                 "/Ceramics/Small Blue Plate",
                 "/Ceramics/Mugs for Parents",
                 "/Ceramics/Plate(s)",
+                "/Ceramics/Plant!",
               ]}
               backTo="/" // Adjust this to the correct back path
             />
