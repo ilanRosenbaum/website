@@ -39,7 +39,10 @@ root.render(
         <Route path="/misc/thisWebsite/what" element={<MarkdownPage source={"/content/MiscThisWebsiteWhat.md"} backTo="/misc/thisWebsite" />} />
         <Route path="/misc/thisWebsite/why" element={<MarkdownPage source={"/content/MiscThisWebsiteWhy.md"} backTo="/misc/thisWebsite" />} />
         <Route path="/misc/thisWebsite/how" element={<MarkdownPage source={"/content/MiscThisWebsiteHow.md"} backTo="/misc/thisWebsite" />} />
-        
+        <Route path="/misc/places/toLive" element={<MarkdownPage useWideContainer={true} source={"/content/MiscPlacesToLive.md"} backTo="/misc/places" />} />
+        <Route path="/misc/places/lived" element={<MarkdownPage source={"/content/MiscPlacesLived.md"} backTo="/misc/places" />} />
+        <Route path="/misc/places/toVisit" element={<MarkdownPage source={"/content/MiscPlacesToVisit.md"} backTo="/misc/places" />} />
+        <Route path="/misc/places/visited" element={<MarkdownPage useWideContainer={true} source={"/content/MiscPlacesVisited.md"} backTo="/misc/places" />} />
         <Route
           path="/misc/restaurants"
           element={

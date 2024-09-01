@@ -2,6 +2,10 @@ import React, { ReactNode, useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import BackButton from "./BackButton";
 import RestaurantTable from "./RestaurantTable";
+import rehypeRaw from "rehype-raw";
+import remarkGfm from 'remark-gfm';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 interface MarkdownPageProps {
   source: string;
@@ -77,6 +81,26 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({ source, backTo, backButtonF
     });
   };
 
+  const components = {
+    code({ node, inline, className, children, ...props }: any) {
+      const match = /language-(\w+)/.exec(className || '');
+      return !inline && match ? (
+        <SyntaxHighlighter
+          style={vscDarkPlus}
+          language={match[1]}
+          PreTag="div"
+          {...props}
+        >
+          {String(children).replace(/\n$/, '')}
+        </SyntaxHighlighter>
+      ) : (
+        <code className={className} {...props}>
+          {children}
+        </code>
+      );
+    }
+  };
+
   const renderContent = (): ReactNode => {
     if (!markdown) return null;
 
@@ -91,7 +115,11 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({ source, backTo, backButtonF
         // Add the markdown before the placeholder
         if (parts[0]) {
           elements.push(
-            <ReactMarkdown key={`md-${index}-before`} className="markdown font-mono text-[#ffebcd]">
+            <ReactMarkdown
+              key={`md-${index}-before`}
+              className="markdown font-mono text-[#ffebcd]"
+              components={components}
+            >
               {parts[0]}
             </ReactMarkdown>
           );
@@ -108,7 +136,13 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({ source, backTo, backButtonF
     // Add any remaining markdown after the last table
     if (remainingMarkdown) {
       elements.push(
-        <ReactMarkdown key="md-final" className="markdown font-mono text-[#ffebcd]">
+        <ReactMarkdown
+          key="md-final"
+          className="markdown font-mono text-[#ffebcd]"
+          components={components}
+          rehypePlugins={[rehypeRaw]}
+          remarkPlugins={[remarkGfm]}
+        >
           {remainingMarkdown}
         </ReactMarkdown>
       );
