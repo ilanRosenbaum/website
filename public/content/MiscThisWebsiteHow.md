@@ -984,10 +984,19 @@ Author: Richie Bendall
 Package: character-entities-html4@2.1.0\
 Author: Titus Wormer
 
+Package: character-entities-legacy@1.1.4\
+Author: Titus Wormer
+
 Package: character-entities-legacy@3.0.0\
 Author: Titus Wormer
 
+Package: character-entities@1.2.4\
+Author: Titus Wormer
+
 Package: character-entities@2.0.2\
+Author: Titus Wormer
+
+Package: character-reference-invalid@1.1.4\
 Author: Titus Wormer
 
 Package: character-reference-invalid@2.0.1\
@@ -1040,6 +1049,9 @@ Author: Jorge Bucaran
 
 Package: combined-stream@1.0.8\
 Author: Felix Geisendörfer
+
+Package: comma-separated-tokens@1.0.8\
+Author: Titus Wormer
 
 Package: comma-separated-tokens@2.0.3\
 Author: Titus Wormer
@@ -1569,6 +1581,9 @@ Author: Ramesh Nair
 Package: fastq@1.17.1\
 Author: Matteo Collina
 
+Package: fault@1.0.4\
+Author: Titus Wormer
+
 Package: faye-websocket@0.11.4\
 Author: James Coglan
 
@@ -1625,6 +1640,9 @@ Author: Piotr Oleś
 
 Package: form-data@3.0.1\
 Author: Felix Geisendörfer
+
+Package: format@0.2.2\
+Author: Sami Samhuri
 
 Package: fraction.js@4.3.7\
 Author: Robert Eisele
@@ -1743,6 +1761,9 @@ Author: Jordan Harband
 Package: hast-util-from-parse5@8.0.1\
 Author: Titus Wormer
 
+Package: hast-util-parse-selector@2.2.5\
+Author: Titus Wormer
+
 Package: hast-util-parse-selector@4.0.0\
 Author: Titus Wormer
 
@@ -1758,11 +1779,17 @@ Author: Titus Wormer
 Package: hast-util-whitespace@3.0.0\
 Author: Titus Wormer
 
+Package: hastscript@6.0.0\
+Author: Titus Wormer
+
 Package: hastscript@8.0.0\
 Author: Titus Wormer
 
 Package: he@1.2.0\
 Author: Mathias Bynens
+
+Package: highlight.js@10.7.3\
+Author: Ivan Sagalaev
 
 Package: hoopy@0.1.4\
 Author: Phil Booth
@@ -1872,7 +1899,13 @@ Author: whitequark
 Package: ipaddr.js@2.2.0\
 Author: whitequark
 
+Package: is-alphabetical@1.0.4\
+Author: Titus Wormer
+
 Package: is-alphabetical@2.0.1\
+Author: Titus Wormer
+
+Package: is-alphanumerical@1.0.4\
 Author: Titus Wormer
 
 Package: is-alphanumerical@2.0.1\
@@ -1911,6 +1944,9 @@ Author: Jordan Harband
 Package: is-date-object@1.0.5\
 Author: Jordan Harband
 
+Package: is-decimal@1.0.4\
+Author: Titus Wormer
+
 Package: is-decimal@2.0.1\
 Author: Titus Wormer
 
@@ -1934,6 +1970,9 @@ Author: Jordan Harband
 
 Package: is-glob@4.0.3\
 Author: Jon Schlinkert
+
+Package: is-hexadecimal@1.0.4\
+Author: Titus Wormer
 
 Package: is-hexadecimal@2.0.1\
 Author: Titus Wormer
@@ -2186,6 +2225,9 @@ Author: Andres Suarez
 
 Package: lower-case@2.0.2\
 Author: Blake Embrey
+
+Package: lowlight@1.20.0\
+Author: Titus Wormer
 
 Package: lru-cache@10.2.2\
 Author: Isaac Z. Schlueter
@@ -2520,6 +2562,9 @@ Author: Blake Embrey
 Package: parent-module@1.0.1\
 Author: Sindre Sorhus
 
+Package: parse-entities@2.0.0\
+Author: Titus Wormer
+
 Package: parse-entities@4.0.1\
 Author: Titus Wormer
 
@@ -2796,11 +2841,20 @@ Author: James Kyle
 Package: pretty-format@28.1.3\
 Author: James Kyle
 
+Package: prismjs@1.27.0\
+Author: Lea Verou
+
+Package: prismjs@1.29.0\
+Author: Lea Verou
+
 Package: promise@8.3.0\
 Author: ForbesLindesay
 
 Package: prompts@2.4.2\
 Author: Terkel Gjervig
+
+Package: property-information@5.6.0\
+Author: Titus Wormer
 
 Package: property-information@6.5.0\
 Author: Titus Wormer
@@ -2847,6 +2901,9 @@ Author: Remix Software
 Package: react-router@6.23.1\
 Author: Remix Software
 
+Package: react-syntax-highlighter@15.5.0\
+Author: Conor Hastings
+
 Package: read-cache@1.0.0\
 Author: Bogdan Chadkin
 
@@ -2861,6 +2918,9 @@ Author: Sindre Sorhus
 
 Package: reflect.getprototypeof@1.0.6\
 Author: Jordan Harband
+
+Package: refractor@3.6.0\
+Author: Titus Wormer
 
 Package: regenerate-unicode-properties@10.1.1\
 Author: Mathias Bynens
@@ -3095,6 +3155,9 @@ Author: Nick Fitzgerald
 
 Package: sourcemap-codec@1.4.8\
 Author: Rich Harris
+
+Package: space-separated-tokens@1.1.5\
+Author: Titus Wormer
 
 Package: space-separated-tokens@2.0.2\
 Author: Titus Wormer
@@ -3590,6 +3653,9 @@ Author: Domenic Denicola
 
 Package: xmlchars@2.2.0\
 Author: Louis-Dominique Dubeau
+
+Package: xtend@4.0.2\
+Author: Raynos
 
 Package: y18n@5.0.8\
 Author: Ben Coe
