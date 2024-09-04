@@ -3,7 +3,7 @@ import * as d3 from "d3";
 import BackButton from "./BackButton";
 import { throttle } from "./SierpinskiHexagon";
 import { storage } from "./../firebase";
-import { ref, listAll, getDownloadURL } from "firebase/storage";
+import { ref, listAll, getMetadata, getDownloadURL, StorageReference } from "firebase/storage";
 import { imageCache } from "./ImageCache";
 import { isPointInHexagon } from "./TiledPlane";
 
@@ -27,26 +27,51 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
 
   const [photoPaths, setPhotoPaths] = useState<string[]>([]);
 
-  useEffect(() => {
+useEffect(() => {
     const listFolders = async () => {
       const directoryRef = ref(storage, parentFolder);
-      
+
       try {
         const result = await listAll(directoryRef);
-        
-        // Filter out files and keep only prefixes (folders)
-        const folderList = result.prefixes.map(folderRef => '/Ceramics/' + folderRef.name);
-        setPhotoPaths(folderList);
-        console.log("Folders:", folderList);
+
+        const folderPromises = result.prefixes.map(async (folderRef: StorageReference) => {
+          const folderPath = "/Ceramics/" + folderRef.name;
+
+          const folderContents = await listAll(ref(storage, folderPath));
+
+          if (folderContents.items.length === 0) {
+            return { path: folderPath, lastModified: new Date(0) };
+          }
+
+          const metadataPromises = folderContents.items.map((item) => getMetadata(item));
+          const metadataResults = await Promise.all(metadataPromises);
+
+          const validDates = metadataResults
+            .map((meta) => meta.updated)
+            .filter((updated): updated is string => typeof updated === 'string')
+            .map((updated) => new Date(updated))
+            .filter((date) => !isNaN(date.getTime()));
+
+          const lastModified = validDates.length > 0
+            ? new Date(Math.max(...validDates.map(d => d.getTime())))
+            : new Date(0);
+
+          return { path: folderPath, lastModified };
+        });
+
+        const foldersWithDates = await Promise.all(folderPromises);
+
+        const sortedFolders = foldersWithDates.sort((a, b) => b.lastModified.getTime() - a.lastModified.getTime());
+
+        setPhotoPaths(sortedFolders.map((folder) => folder.path));
+        console.log("Folders:", sortedFolders);
       } catch (error) {
         console.error("Error listing folders:", error);
       }
     };
 
     listFolders();
-
   }, [parentFolder]);
-  
 
   useEffect(() => {
     const fetchPhotos = async () => {
