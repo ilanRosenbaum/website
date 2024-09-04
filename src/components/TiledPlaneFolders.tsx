@@ -8,7 +8,7 @@ import { imageCache } from "./ImageCache";
 import { isPointInHexagon } from "./TiledPlane";
 
 interface TiledPlaneFoldersProps {
-  folders: string[];
+  parentFolder: string;
   backTo?: string;
 }
 
@@ -18,12 +18,35 @@ interface FolderData {
   folderName: string;
 }
 
-const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ folders: photoPaths, backTo }) => {
+const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, backTo }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [selectedFolder, setSelectedFolder] = useState<FolderData | null>(null);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState<number | null>(null);
   const [folderData, setFolderData] = useState<FolderData[]>([]);
+
+  const [photoPaths, setPhotoPaths] = useState<string[]>([]);
+
+  useEffect(() => {
+    const listFolders = async () => {
+      const directoryRef = ref(storage, parentFolder);
+      
+      try {
+        const result = await listAll(directoryRef);
+        
+        // Filter out files and keep only prefixes (folders)
+        const folderList = result.prefixes.map(folderRef => '/Ceramics/' + folderRef.name);
+        setPhotoPaths(folderList);
+        console.log("Folders:", folderList);
+      } catch (error) {
+        console.error("Error listing folders:", error);
+      }
+    };
+
+    listFolders();
+
+  }, [parentFolder]);
+  
 
   useEffect(() => {
     const fetchPhotos = async () => {

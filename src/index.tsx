@@ -63,23 +63,7 @@ root.render(
           path="/art"
           element={
             <TiledPlaneFolders
-              folders={[
-                "/Ceramics/Concentric Bowls",
-                "/Ceramics/Cool Cylinder",
-                "/Ceramics/Garlic Holder",
-                "/Ceramics/Green Onion",
-                "/Ceramics/Katrina's Bowl & Dad's Mug",
-                "/Ceramics/Mug & Saucer",
-                "/Ceramics/Reid's Cup",
-                "/Ceramics/Some Green Bowls",
-                "/Ceramics/Spoon Rest",
-                "/Ceramics/Too Small :(",
-                "/Ceramics/Assignment 1",
-                "/Ceramics/Small Blue Plate",
-                "/Ceramics/Mugs for Parents",
-                "/Ceramics/Plate(s)",
-                "/Ceramics/Plant!"
-              ]}
+              parentFolder={"Ceramics"}
               backTo="/" // Adjust this to the correct back path
             />
           }
