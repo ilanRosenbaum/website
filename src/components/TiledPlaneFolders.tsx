@@ -24,10 +24,10 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
   const [selectedFolder, setSelectedFolder] = useState<FolderData | null>(null);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState<number | null>(null);
   const [folderData, setFolderData] = useState<FolderData[]>([]);
-
   const [photoPaths, setPhotoPaths] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-useEffect(() => {
+  useEffect(() => {
     const listFolders = async () => {
       const directoryRef = ref(storage, parentFolder);
 
@@ -48,13 +48,11 @@ useEffect(() => {
 
           const validDates = metadataResults
             .map((meta) => meta.updated)
-            .filter((updated): updated is string => typeof updated === 'string')
+            .filter((updated): updated is string => typeof updated === "string")
             .map((updated) => new Date(updated))
             .filter((date) => !isNaN(date.getTime()));
 
-          const lastModified = validDates.length > 0
-            ? new Date(Math.max(...validDates.map(d => d.getTime())))
-            : new Date(0);
+          const lastModified = validDates.length > 0 ? new Date(Math.max(...validDates.map((d) => d.getTime()))) : new Date(0);
 
           return { path: folderPath, lastModified };
         });
@@ -223,14 +221,18 @@ useEffect(() => {
 
   const handleNext = (e: React.MouseEvent) => {
     e.stopPropagation();
+    if (isLoading) return; // Prevent multiple clicks
     if (selectedFolder && selectedPhotoIndex !== null && selectedPhotoIndex < selectedFolder.allPhotos.length - 1) {
+      setIsLoading(true);
       setSelectedPhotoIndex(selectedPhotoIndex + 1);
     }
   };
 
   const handlePrevious = (e: React.MouseEvent) => {
     e.stopPropagation();
+    if (isLoading) return; // Prevent multiple clicks
     if (selectedFolder && selectedPhotoIndex !== null && selectedPhotoIndex > 0) {
+      setIsLoading(true);
       setSelectedPhotoIndex(selectedPhotoIndex - 1);
     }
   };
@@ -239,8 +241,24 @@ useEffect(() => {
     if (e.target === e.currentTarget) {
       setSelectedFolder(null);
       setSelectedPhotoIndex(null);
+      setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    // Preload next and previous images
+    if (selectedFolder && selectedPhotoIndex !== null) {
+      const preloadImage = (index: number) => {
+        if (index >= 0 && index < selectedFolder.allPhotos.length) {
+          const img = new Image();
+          img.src = selectedFolder.allPhotos[index];
+        }
+      };
+
+      preloadImage(selectedPhotoIndex + 1); // Preload next image
+      preloadImage(selectedPhotoIndex - 1); // Preload previous image
+    }
+  }, [selectedFolder, selectedPhotoIndex]);
 
   return (
     <div className="h-screen w-screen bg-black/90 flex flex-col items-center">
@@ -252,20 +270,24 @@ useEffect(() => {
       </div>
       {selectedFolder && selectedPhotoIndex !== null && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center z-20" onClick={closeFullscreen}>
-          <img src={selectedFolder.allPhotos[selectedPhotoIndex]} alt="" className="max-w-[90%] max-h-[70%] object-contain mb-4" onClick={(e) => e.stopPropagation()} />
+          <img src={selectedFolder.allPhotos[selectedPhotoIndex]} alt="" className="max-w-[90%] max-h-[70%] object-contain mb-4" onClick={(e) => e.stopPropagation()} onLoad={() => setIsLoading(false)} onError={() => setIsLoading(false)} />
           <div className="text-[#ffebcd] font-mono text-xl mb-4">{selectedFolder.folderName}</div>
           <div className="flex justify-center items-center w-full">
             <button
-              className={`mx-4 w-12 h-12 rounded-full bg-transparent text-[#ffebcd] text-4xl font-bold font-mono flex items-center justify-center transition-opacity duration-300 ${selectedPhotoIndex === 0 ? "opacity-0" : "opacity-100"}`}
+              className={`mx-4 w-12 h-12 rounded-full bg-transparent text-4xl font-bold font-mono flex items-center justify-center transition-opacity duration-300 ${isLoading ? "text-[#a09f9e]" : "text-[#ffebcd]"} ${
+                selectedPhotoIndex === 0 ? "opacity-0" : "opacity-100"
+              }`}
               onClick={handlePrevious}
+              disabled={isLoading}
             >
               &lt;
             </button>
             <button
-              className={`mx-4 w-12 h-12 rounded-full bg-transparent text-[#ffebcd] text-4xl font-bold font-mono flex items-center justify-center transition-opacity duration-300 ${
+              className={`mx-4 w-12 h-12 rounded-full bg-transparent text-4xl font-bold font-mono flex items-center justify-center transition-opacity duration-300 ${isLoading ? "text-[#a09f9e]" : "text-[#ffebcd]"} ${
                 selectedPhotoIndex === selectedFolder.allPhotos.length - 1 ? "opacity-0" : "opacity-100"
               }`}
               onClick={handleNext}
+              disabled={isLoading}
             >
               &gt;
             </button>
