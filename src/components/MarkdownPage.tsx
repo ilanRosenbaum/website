@@ -3,9 +3,9 @@ import ReactMarkdown from "react-markdown";
 import BackButton from "./BackButton";
 import RestaurantTable from "./RestaurantTable";
 import rehypeRaw from "rehype-raw";
-import remarkGfm from 'remark-gfm';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import remarkGfm from "remark-gfm";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 interface MarkdownPageProps {
   source: string;
@@ -20,6 +20,7 @@ interface MarkdownPageProps {
 const MarkdownPage: React.FC<MarkdownPageProps> = ({ source, backTo, backButtonFill, textColor, googleSheetId, googleSheetGids, useWideContainer = false }) => {
   const [markdown, setMarkdown] = useState<string>("");
   const [tableDatas, setTableDatas] = useState<any[][]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchPublicGoogleSheetData = async (sheetId: string, gid: string): Promise<any[]> => {
@@ -34,19 +35,22 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({ source, backTo, backButtonF
         const response = await fetch(source);
         let text = await response.text();
 
-        if (googleSheetId && googleSheetGids && googleSheetGids.length > 0) {
-          const sheetDatas = await Promise.all(googleSheetGids.map((gid) => fetchPublicGoogleSheetData(googleSheetId, gid)));
-          setTableDatas(sheetDatas);
+        setMarkdown(text);
 
-          // Replace placeholders for each table
-          sheetDatas.forEach((_, index) => {
-            text = text.replace(`{{GOOGLE_SHEETS_DATA_${index + 1}}}`, `{{TABLE_PLACEHOLDER_${index + 1}}}`);
-          });
+        if (googleSheetId && googleSheetGids && googleSheetGids.length > 0) {
+          const sheetDatas = await Promise.all(
+            googleSheetGids.map(async (gid) => {
+              return await fetchPublicGoogleSheetData(googleSheetId, gid);
+            })
+          );
+
+          setTableDatas(sheetDatas);
         }
 
-        setMarkdown(text);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
+        setIsLoading(false);
       }
     };
 
@@ -83,15 +87,10 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({ source, backTo, backButtonF
 
   const components = {
     code({ node, inline, className, children, ...props }: any) {
-      const match = /language-(\w+)/.exec(className || '');
+      const match = /language-(\w+)/.exec(className || "");
       return !inline && match ? (
-        <SyntaxHighlighter
-          style={vscDarkPlus}
-          language={match[1]}
-          PreTag="div"
-          {...props}
-        >
-          {String(children).replace(/\n$/, '')}
+        <SyntaxHighlighter style={vscDarkPlus} language={match[1]} PreTag="div" {...props}>
+          {String(children).replace(/\n$/, "")}
         </SyntaxHighlighter>
       ) : (
         <code className={className} {...props}>
@@ -105,48 +104,31 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({ source, backTo, backButtonF
     if (!markdown) return null;
 
     const elements: ReactNode[] = [];
-    let remainingMarkdown = markdown;
+    const placeholderRegex = /{{GOOGLE_SHEETS_DATA_\d+}}/g;
+    const parts = markdown.split(placeholderRegex);
 
-    tableDatas.forEach((tableData, index) => {
-      const placeholder = `{{TABLE_PLACEHOLDER_${index + 1}}}`;
-      const parts = remainingMarkdown.split(placeholder);
+    parts.forEach((part, index) => {
+      if (part) {
+        elements.push(
+          <ReactMarkdown key={`md-${index}`} className="markdown font-mono text-[#ffebcd]" components={components} rehypePlugins={[rehypeRaw]} remarkPlugins={[remarkGfm]}>
+            {part}
+          </ReactMarkdown>
+        );
+      }
 
-      if (parts.length > 1) {
-        // Add the markdown before the placeholder
-        if (parts[0]) {
-          elements.push(
-            <ReactMarkdown
-              key={`md-${index}-before`}
-              className="markdown font-mono text-[#ffebcd]"
-              components={components}
-            >
-              {parts[0]}
-            </ReactMarkdown>
-          );
-        }
-
-        // Add the table
-        elements.push(<RestaurantTable key={`table-${index}`} data={tableData} />);
-
-        // Update remainingMarkdown for the next iteration
-        remainingMarkdown = parts.slice(1).join(placeholder);
+      if (index < parts.length - 1) {
+        const placeholderIndex = parseInt(markdown.match(placeholderRegex)?.[index]?.match(/\d+/)?.[0] || "1") - 1;
+        elements.push(
+          isLoading ? (
+            <div key={`loading-${index}`} className="flex justify-center items-center h-32">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
+            </div>
+          ) : (
+            <RestaurantTable key={`table-${index}`} data={tableDatas[placeholderIndex] || []} />
+          )
+        );
       }
     });
-
-    // Add any remaining markdown after the last table
-    if (remainingMarkdown) {
-      elements.push(
-        <ReactMarkdown
-          key="md-final"
-          className="markdown font-mono text-[#ffebcd]"
-          components={components}
-          rehypePlugins={[rehypeRaw]}
-          remarkPlugins={[remarkGfm]}
-        >
-          {remainingMarkdown}
-        </ReactMarkdown>
-      );
-    }
 
     return elements;
   };
