@@ -1,7 +1,5 @@
 <span class="disclaimer">DISCLAIMER: THIS IS A WORK IN PROGRESS, DATA COLLECTION IS NOT COMPLETE, ANALYSIS IS NOT COMPLETE. THIS HAS NOT BEEN PEER REVIEWED, AND IS NOT INTENDED TO BE USED IN FOR SERIOUS ACADEMIC OR RESEARCH PURPOSES </span>
-
 # Headphones, No Headphones
-
 ## Abstract
 
 We aim to study how many solo walkers are wearing headphones vs not wearing headphones.
@@ -22,7 +20,11 @@ If a person is in a group of persons, meaning they are conversing with or otherw
 
 If a persons clothing, hair, or accessories (including things like ear muffs as earbuds plausible could be worn under them) prevented clear and conclusive knowledge of headphone or lack of headphone usage, they were not counted
 
+  
+
 If somebody has headphones around their neck but not on there ears, they count as no headphones
+
+  
 
 If somebody has a single earbud in, they count as headphones
 
@@ -44,9 +46,12 @@ A single person collected all this data on various walks. The data is inherently
 | Madison, WI | February 27, 2024 2:25 (CST) → 2:30   | 14         | 3             |
 | Madison, WI | April 4, 2024 2:10 (CDT) → 2:25       | 83         | 21            |
 | Madison, WI | April 17, 2024 9:45 (CDT) → 9:55      | 33         | 15            |
+| Madison, WI | Sept 10, 2024 3:40pm (CDT) -> 3:50pm  | 33         | 27            |
+| Madison, WI | Sept 10 2024, 5:20pm (CST) - 5:30pm   | 48         | 32            |
 
 ## Citations
 
 1. [https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3183109/](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3183109/)
 2. [https://www.nature.com/articles/s41467-019-11298-3](https://www.nature.com/articles/s41467-019-11298-3)
+
 
