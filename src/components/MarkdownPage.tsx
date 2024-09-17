@@ -112,7 +112,15 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({ source, backTo, backButtonF
 
     td({ children }: any) {
       return <td className="px-4 py-2 border-t border-gray-700 whitespace-nowrap font-sans text-white">{children}</td>;
-    }
+    },
+
+    a({ href, children, ...props }: any) {
+      return (
+        <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
+          {children}
+        </a>
+      );
+    },
   };
 
   const renderContent = (): ReactNode => {
