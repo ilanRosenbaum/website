@@ -15,3 +15,10 @@ license-summary:
 license-credits:
 	license-checker --json > utils/documents/license-checker.json
 	cd utils; python license.py credit > documents/license-credit.txt
+
+#***************************************************************************
+# copy content
+#***************************************************************************
+.PHONY: copy-content
+copy-content:
+	cp '../Documents/Obsidian Vault/Observational Studies/Headphones, No Headphones.md' 'public/content/MiscHeadphonesNoHeadphones.md'
