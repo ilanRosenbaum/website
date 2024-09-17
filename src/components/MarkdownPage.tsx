@@ -97,6 +97,21 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({ source, backTo, backButtonF
           {children}
         </code>
       );
+    },
+    table({ children }: any) {
+      return <table className="min-w-full border-collapse border border-gray-700 font-sans text-white">{children}</table>;
+    },
+
+    thead({ children }: any) {
+      return <thead className="bg-gray-800 text-white font-sans">{children}</thead>;
+    },
+
+    th({ children }: any) {
+      return <th className="px-4 py-2 text-left whitespace-nowrap border-b border-gray-700 font-sans text-white">{children}</th>;
+    },
+
+    td({ children }: any) {
+      return <td className="px-4 py-2 border-t border-gray-700 whitespace-nowrap font-sans text-white">{children}</td>;
     }
   };
 
@@ -117,7 +132,9 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({ source, backTo, backButtonF
       }
 
       if (index < parts.length - 1) {
-        const placeholderIndex = parseInt(markdown.match(placeholderRegex)?.[index]?.match(/\d+/)?.[0] || "1") - 1;
+        const placeholderMatch = markdown.match(placeholderRegex);
+        const placeholder = placeholderMatch ? placeholderMatch[index] : null;
+        const placeholderIndex = placeholder ? parseInt(placeholder.match(/\d+/)?.[0] || "1") - 1 : 0;
         elements.push(
           isLoading ? (
             <div key={`loading-${index}`} className="flex justify-center items-center h-32">

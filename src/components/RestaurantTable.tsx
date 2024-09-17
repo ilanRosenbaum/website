@@ -49,7 +49,7 @@ const RestaurantTable: React.FC<CustomTableProps> = ({ data, fullWidth = false }
       </thead>
       <tbody>
         {data.map((row, index) => (
-          <tr key={index} className={index % 2 === 0 ? "bg-gray-900" : "bg-gray-800"}>
+          <tr key={index} className={index % 2 === 0 ? "bg-gray-900 hover:bg-gray-700" : "bg-gray-800 hover:bg-gray-700"}>
             <td className="px-4 py-2 border-t border-gray-700 whitespace-nowrap">
               <a href={row.Link} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
                 {row.Name}
