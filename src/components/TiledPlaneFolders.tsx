@@ -223,8 +223,9 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
     e.stopPropagation();
     if (isLoading) return; // Prevent multiple clicks
     if (selectedFolder && selectedPhotoIndex !== null && selectedPhotoIndex < selectedFolder.allPhotos.length - 1) {
-      setIsLoading(true);
       setSelectedPhotoIndex(selectedPhotoIndex + 1);
+    } else {
+      setIsLoading(false);
     }
   };
 
@@ -232,8 +233,9 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
     e.stopPropagation();
     if (isLoading) return; // Prevent multiple clicks
     if (selectedFolder && selectedPhotoIndex !== null && selectedPhotoIndex > 0) {
-      setIsLoading(true);
       setSelectedPhotoIndex(selectedPhotoIndex - 1);
+    } else {
+      setIsLoading(false);
     }
   };
 
@@ -270,14 +272,17 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
       </div>
       {selectedFolder && selectedPhotoIndex !== null && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center z-20" onClick={closeFullscreen}>
-          <img src={selectedFolder.allPhotos[selectedPhotoIndex]} alt="" className="max-w-[90%] max-h-[70%] object-contain mb-4" onClick={(e) => e.stopPropagation()} onLoad={() => setIsLoading(false)} onError={() => setIsLoading(false)} />
+          <img src={selectedFolder.allPhotos[selectedPhotoIndex]} alt="" className="max-w-[90%] max-h-[70%] object-contain mb-4" onClick={(e) => e.stopPropagation()} onLoad={() => setIsLoading(false)} />
           <div className="text-[#ffebcd] font-mono text-xl mb-4">{selectedFolder.folderName}</div>
           <div className="flex justify-center items-center w-full">
             <button
               className={`mx-4 w-12 h-12 rounded-full bg-transparent text-4xl font-bold font-mono flex items-center justify-center transition-opacity duration-300 ${isLoading ? "text-[#a09f9e]" : "text-[#ffebcd]"} ${
                 selectedPhotoIndex === 0 ? "opacity-0" : "opacity-100"
               }`}
-              onClick={handlePrevious}
+              onClick={(e) => {
+                setIsLoading(true);
+                handlePrevious(e);
+              }}
               disabled={isLoading}
             >
               &lt;
@@ -286,7 +291,10 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
               className={`mx-4 w-12 h-12 rounded-full bg-transparent text-4xl font-bold font-mono flex items-center justify-center transition-opacity duration-300 ${isLoading ? "text-[#a09f9e]" : "text-[#ffebcd]"} ${
                 selectedPhotoIndex === selectedFolder.allPhotos.length - 1 ? "opacity-0" : "opacity-100"
               }`}
-              onClick={handleNext}
+              onClick={(e) => {
+                setIsLoading(true);
+                handleNext(e);
+              }}
               disabled={isLoading}
             >
               &gt;
