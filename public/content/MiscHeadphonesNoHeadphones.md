@@ -38,16 +38,17 @@ A single person collected all this data on various walks. The data is inherently
 
 ## Data
 
-| Where       | When                                  | Headphones | No Headphones |
-| ----------- | ------------------------------------- | ---------- | ------------- |
-| Madison, WI | February 20, 2024 9:15 (CST) → 9:45   | 50         | 22            |
-| Madison, WI | February 20, 2024 13:30 (CST) → 13:40 | 14         | 6             |
-| Madison, WI | February 21, 2024 3:50 (CST) → 4:00   | 33         | 17            |
-| Madison, WI | February 27, 2024 2:25 (CST) → 2:30   | 14         | 3             |
-| Madison, WI | April 4, 2024 2:10 (CDT) → 2:25       | 83         | 21            |
-| Madison, WI | April 17, 2024 9:45 (CDT) → 9:55      | 33         | 15            |
-| Madison, WI | Sept 10, 2024 3:40pm (CDT) -> 3:50pm  | 33         | 27            |
-| Madison, WI | Sept 10 2024, 5:20pm (CST) - 5:30pm   | 48         | 32            |
+| Where       | When                              | Headphones | No Headphones |
+| ----------- | --------------------------------- | ---------- | ------------- |
+| Madison, WI | February 20, 2024 9:15am → 9:45am | 50         | 22            |
+| Madison, WI | February 20, 2024 1:30pm → 1:40pm | 14         | 6             |
+| Madison, WI | February 21, 2024 3:50pm → 4:00pm | 33         | 17            |
+| Madison, WI | February 27, 2024 2:25pm → 2:30pm | 14         | 3             |
+| Madison, WI | April 4, 2024 2:10pm → 2:25pm     | 83         | 21            |
+| Madison, WI | April 17, 2024 9:45am → 9:55am    | 33         | 15            |
+| Madison, WI | Sept 10, 2024 3:40pm -> 3:50pm    | 33         | 27            |
+| Madison, WI | Sept 10 2024, 5:20pm - 5:30pm     | 48         | 32            |
+| Madison, WI | Sept 30 2024, 1:30pm - 2:00pm     | 59         | 30            |
 
 ## Citations
 
