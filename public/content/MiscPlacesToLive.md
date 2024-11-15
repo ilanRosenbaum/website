@@ -1,3 +1,5 @@
+# To Live
+
 ```dataviewjs
 // Add custom styles for the table
 const style = `
@@ -13,6 +15,10 @@ const style = `
     table.dataview-table th {
       background-color: #f2f2f2;
       text-align: left;
+    }
+    .text-2xl {
+      font-size: 1.5rem; /* Adjust the size as needed */
+      line-height: 2rem; /* Optional: adjust line-height */
     }
   </style>
 `;

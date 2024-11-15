@@ -106,7 +106,6 @@ const DataviewTable: React.FC<{ content: string }> = ({ content }) => {
       // eslint-disable-next-line no-new-func
       new Function(...argNames, script)(...argValues);
 
-      console.log("renderedHTML:", renderedHTML);
 
       return renderedHTML;
     } catch (error) {
@@ -117,7 +116,7 @@ const DataviewTable: React.FC<{ content: string }> = ({ content }) => {
   };
 
   return (
-    <div dangerouslySetInnerHTML={{ __html: executeDataviewJS(content) }} />
+    <div className="font-mono" dangerouslySetInnerHTML={{ __html: executeDataviewJS(content) }} />
   );
 };
 

@@ -1,3 +1,4 @@
+# Visited
 ```dataviewjs
 // Define the headers for the table
 const headers = ["City and Country", "Want to Return (comparative rank - lower better)", "Enjoyment (0/10) - avg of visits", "Notes"];
