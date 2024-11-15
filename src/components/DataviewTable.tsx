@@ -103,6 +103,7 @@ const DataviewTable: React.FC<{ content: string }> = ({ content }) => {
       const argValues = Object.values(sandbox);
 
       // Execute the user's code without appending its return value
+      // eslint-disable-next-line no-new-func
       new Function(...argNames, script)(...argValues);
 
       console.log("renderedHTML:", renderedHTML);
