@@ -1,6 +1,5 @@
-# Lived
 
-| City             | Country       | Pros                                                                          | Cons                                                                          |
-| ---------------- | ------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| Hillsborough, CA | United States | Produce  <br>Nature  <br>Restaurant Scene  <br>Job Opportunities  <br>Weather | Price  <br>Walkability  <br>Lack of Transit                                   |
-| Madison, WI      | United States | Price  <br>Walkability  <br>Good public transit  <br>Transit improving        | Produce  <br>Nature  <br>Restaurant Scene  <br>Job Opportunities  <br>Weather |
+| City             | Country       | Pros                                                                                                                                                                                                                  | Cons                                                                          |
+| ---------------- | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| Hillsborough, CA | United States | Produce  <br>Nature  <br>Restaurant Scene  <br>Job Opportunities  <br>Weather                                                                                                                                         | Price  <br>Walkability  <br>Lack of Transit                                   |
+| Madison, WI      | United States | Price  <br>Walkability (within downtown, serious drop-off outside it)<br>Bike infrastructure great<br>Lot's of local co-ops, farm to table, farmers markets, etc.<br>Community gardens<br>Transit improving and is ok | Produce  <br>Nature  <br>Restaurant Scene  <br>Job Opportunities  <br>Weather |

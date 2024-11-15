@@ -6,6 +6,7 @@ import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
+import DataviewTable from "./DataviewTable";
 
 interface MarkdownPageProps {
   source: string;
@@ -88,9 +89,15 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({ source, backTo, backButtonF
   const components = {
     code({ node, inline, className, children, ...props }: any) {
       const match = /language-(\w+)/.exec(className || "");
+      const content = String(children).replace(/\n$/, "");
+
+      if (!inline && match && match[1] === "dataviewjs") {
+        return <DataviewTable content={content} />;
+      }
+
       return !inline && match ? (
         <SyntaxHighlighter style={vscDarkPlus} language={match[1]} PreTag="div" {...props}>
-          {String(children).replace(/\n$/, "")}
+          {content}
         </SyntaxHighlighter>
       ) : (
         <code className={className} {...props}>
@@ -120,7 +127,7 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({ source, backTo, backButtonF
           {children}
         </a>
       );
-    },
+    }
   };
 
   const renderContent = (): ReactNode => {

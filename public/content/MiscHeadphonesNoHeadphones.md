@@ -11,22 +11,13 @@ We aim to study how many solo walkers are wearing headphones vs not wearing head
 ## Inclusion and Exclusion Criteria
 
 If somebody is running, they are not counted
-
-If somebody is on a bike, they are not counted
-
+If somebody is on a bike, scooter, in car, etc, they are not counted
 If it can not be determined if somebody is wearing headphones or not, they are not counted
-
 If a person is in a group of persons, meaning they are conversing with or otherwise are clearly out with another person or persons, they will not be counted
-
 If a persons clothing, hair, or accessories (including things like ear muffs as earbuds plausible could be worn under them) prevented clear and conclusive knowledge of headphone or lack of headphone usage, they were not counted
-
-  
-
 If somebody has headphones around their neck but not on there ears, they count as no headphones
-
-  
-
 If somebody has a single earbud in, they count as headphones
+Data only collected from people walking to or from a place, not from individuals stationary at a location. Ie. no counting people working out at a gym, sitting in class, sitting at work, etc. 
 
 ## Limitations of Data Collection
 
@@ -46,9 +37,10 @@ A single person collected all this data on various walks. The data is inherently
 | Madison, WI | February 27, 2024 2:25pm → 2:30pm | 14         | 3             |
 | Madison, WI | April 4, 2024 2:10pm → 2:25pm     | 83         | 21            |
 | Madison, WI | April 17, 2024 9:45am → 9:55am    | 33         | 15            |
-| Madison, WI | Sept 10, 2024 3:40pm -> 3:50pm    | 33         | 27            |
-| Madison, WI | Sept 10 2024, 5:20pm - 5:30pm     | 48         | 32            |
-| Madison, WI | Sept 30 2024, 1:30pm - 2:00pm     | 59         | 30            |
+| Madison, WI | Sept 10, 2024 3:40pm → 3:50pm     | 33         | 27            |
+| Madison, WI | Sept 10 2024, 5:20pm → 5:30pm     | 48         | 32            |
+| Madison, WI | Sept 30 2024, 1:30pm → 2:00pm     | 59         | 30            |
+| Madison, WI | Nov 13 2024, 2:00pm -> 2:30pm     | 77         | 36            |
 
 ## Citations
 

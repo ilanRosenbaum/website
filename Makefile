@@ -22,3 +22,7 @@ license-credits:
 .PHONY: copy-content
 copy-content:
 	cp '../Documents/Obsidian Vault/Observational Studies/Headphones, No Headphones.md' 'public/content/MiscHeadphonesNoHeadphones.md'
+	cp '../Documents/Obsidian Vault/Places/Lived.md' 'public/content/MiscPlacesLived.md'
+	cp '../Documents/Obsidian Vault/Places/Visited.md' 'public/content/MiscPlacesVisited.md'
+	cp '../Documents/Obsidian Vault/Places/To Visit.md' 'public/content/MiscPlacesToVisit.md'
+	cp '../Documents/Obsidian Vault/Places/To Live.md' 'public/content/MiscPlacesToLive.md'
