@@ -11,6 +11,8 @@ interface TiledPlaneProps {
   backTo?: string;
 }
 
+const PAGE_SIZE = 6;
+
 export const isPointInHexagon = (px: number, py: number, cx: number, cy: number, size: number): boolean => {
   const dx = Math.abs(px - cx);
   const dy = Math.abs(py - cy);
@@ -24,32 +26,68 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [photos, setPhotos] = useState<string[]>([]);
+  const [allPhotoRefs, setAllPhotoRefs] = useState<any[]>([]);
+  const [loadedCount, setLoadedCount] = useState(0);
+  const loadingRef = useRef(false);
 
   useEffect(() => {
-    const fetchPhotos = async () => {
+    const fetchPhotoRefs = async () => {
       const folderRef = ref(storage, photoPath);
       try {
         const result = await listAll(folderRef);
+        const uniqueRefs = Array.from(new Set(result.items)).reverse();
+        setAllPhotoRefs(uniqueRefs);
+      } catch (error) {
+        console.error("Error fetching photo refs:", error);
+      }
+    };
 
-        // Reverse the items array before processing
-        const reversedItems = result.items.reverse();
+    fetchPhotoRefs();
+    return () => {
+      setPhotos([]);
+      setLoadedCount(0);
+      loadingRef.current = false;
+    };
+  }, [photoPath]);
 
+  useEffect(() => {
+    const loadNextBatch = async () => {
+      if (loadingRef.current || loadedCount >= allPhotoRefs.length) return;
+
+      loadingRef.current = true;
+      const endIndex = Math.min(loadedCount + PAGE_SIZE, allPhotoRefs.length);
+      const batch = allPhotoRefs.slice(loadedCount, endIndex);
+
+      try {
         const urls = await Promise.all(
-          reversedItems.map(async (item) => {
+          batch.map(async (item) => {
             const url = await getDownloadURL(item);
-            // Preload image
             await imageCache.getImage(url);
             return url;
           })
         );
-        setPhotos(urls);
+
+        setPhotos((prevPhotos) => {
+          const newPhotos = [...prevPhotos];
+          urls.forEach((url) => {
+            if (!newPhotos.includes(url)) {
+              newPhotos.push(url);
+            }
+          });
+          return newPhotos;
+        });
+        setLoadedCount(endIndex);
       } catch (error) {
-        console.error("Error fetching photos:", error);
+        console.error("Error loading batch:", error);
+      } finally {
+        loadingRef.current = false;
       }
     };
 
-    fetchPhotos();
-  }, [photoPath]);
+    if (allPhotoRefs.length > 0) {
+      loadNextBatch();
+    }
+  }, [allPhotoRefs, loadedCount]);
 
   useEffect(() => {
     if (!svgRef.current || !containerRef.current || photos.length === 0) return;
@@ -83,31 +121,6 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
     const columnOffsetX = hexWidth * 0.75;
     const rowOffsetY = hexHeight;
 
-    const drawHexagon = async (photo: string, col: number, row: number, index: number) => {
-      const x = centerX + col * columnOffsetX - hexWidth / 2;
-      const y = row * rowOffsetY + (Math.abs(col) % 2 === 1 ? rowOffsetY / 2 : 0);
-
-      const hexagon = svg.append("g").attr("class", `hexagon hexagon-${col}-${row}`);
-
-      hexagon
-        .append("path")
-        .attr("d", createHexagonPath(0, 0))
-        .attr("fill", `url(#image-${col}-${row})`)
-        .attr("stroke", "black")
-        .attr("stroke-width", 2)
-        .attr("transform", `translate(${x}, ${y})`)
-        .on("click", () => {
-          setSelectedPhoto(photo);
-          setSelectedIndex(index);
-        });
-
-      const defs = svg.append("defs");
-      const pattern = defs.append("pattern").attr("id", `image-${col}-${row}`).attr("patternUnits", "objectBoundingBox").attr("width", "100%").attr("height", "100%");
-
-      const imageUrl = await imageCache.getImage(photo);
-      pattern.append("image").attr("xlink:href", imageUrl).attr("width", hexWidth).attr("height", hexHeight).attr("preserveAspectRatio", "xMidYMid slice");
-    };
-
     let photoIndex = 0;
     let row = 0;
     const columns = [0, -1, 1];
@@ -117,7 +130,30 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
       while (photoIndex < photos.length) {
         for (const col of columns) {
           if (photoIndex < photos.length) {
-            await drawHexagon(photos[photoIndex], col, row, photoIndex);
+            const x = centerX + col * columnOffsetX - hexWidth / 2;
+            const y = row * rowOffsetY + (Math.abs(col) % 2 === 1 ? rowOffsetY / 2 : 0);
+
+            const hexagon = svg.append("g").attr("class", `hexagon hexagon-${col}-${row}`);
+            const photo = photos[photoIndex];
+
+            hexagon
+              .append("path")
+              .attr("d", createHexagonPath(0, 0))
+              .attr("fill", `url(#image-${photoIndex})`)
+              .attr("stroke", "black")
+              .attr("stroke-width", 2)
+              .attr("transform", `translate(${x}, ${y})`)
+              .on("click", () => {
+                setSelectedPhoto(photo);
+                setSelectedIndex(photoIndex);
+              });
+
+            const defs = svg.append("defs");
+            const pattern = defs.append("pattern").attr("id", `image-${photoIndex}`).attr("patternUnits", "objectBoundingBox").attr("width", "100%").attr("height", "100%");
+
+            const imageUrl = await imageCache.getImage(photo);
+            pattern.append("image").attr("xlink:href", imageUrl).attr("width", hexWidth).attr("height", hexHeight).attr("preserveAspectRatio", "xMidYMid slice");
+
             photoIndex++;
           }
         }
@@ -133,6 +169,17 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
     };
 
     drawHexagons();
+
+    const handleScroll = throttle(() => {
+      const scrollPosition = container.scrollTop + container.clientHeight;
+      const scrollThreshold = container.scrollHeight * 0.8;
+
+      if (scrollPosition > scrollThreshold && !loadingRef.current) {
+        setLoadedCount((prev) => prev + PAGE_SIZE);
+      }
+    }, 200);
+
+    container.addEventListener("scroll", handleScroll);
 
     const handleMouseMove = throttle((event: MouseEvent) => {
       const svgElement = svgRef.current;
@@ -162,6 +209,7 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
     container.addEventListener("mousemove", handleMouseMove);
 
     return () => {
+      container.removeEventListener("scroll", handleScroll);
       container.removeEventListener("mousemove", handleMouseMove);
     };
   }, [photos]);

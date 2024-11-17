@@ -18,14 +18,18 @@ interface FolderData {
   folderName: string;
 }
 
+const PAGE_SIZE = 6;
+
 const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, backTo }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [selectedFolder, setSelectedFolder] = useState<FolderData | null>(null);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState<number | null>(null);
   const [folderData, setFolderData] = useState<FolderData[]>([]);
-  const [photoPaths, setPhotoPaths] = useState<string[]>([]);
+  const [allFolderPaths, setAllFolderPaths] = useState<string[]>([]);
+  const [loadedCount, setLoadedCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const loadingRef = useRef(false);
 
   useEffect(() => {
     const listFolders = async () => {
@@ -58,10 +62,10 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
         });
 
         const foldersWithDates = await Promise.all(folderPromises);
-
         const sortedFolders = foldersWithDates.sort((a, b) => b.lastModified.getTime() - a.lastModified.getTime());
-
-        setPhotoPaths(sortedFolders.map((folder) => folder.path));
+        const paths = sortedFolders.map((folder) => folder.path);
+        
+        setAllFolderPaths(paths);
         console.log("Folders:", sortedFolders);
       } catch (error) {
         console.error("Error listing folders:", error);
@@ -69,40 +73,68 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
     };
 
     listFolders();
+    return () => {
+      setFolderData([]);
+      setLoadedCount(0);
+      loadingRef.current = false;
+    };
   }, [parentFolder]);
 
   useEffect(() => {
-    const fetchPhotos = async () => {
-      const paths = Array.isArray(photoPaths) ? photoPaths : [photoPaths];
-      const fetchedFolderData: FolderData[] = await Promise.all(
-        paths.map(async (path) => {
-          const folderRef = ref(storage, path);
-          try {
-            const result = await listAll(folderRef);
-            const sortedItems = result.items.sort((a, b) => b.name.localeCompare(a.name));
-            const urls = await Promise.all(
-              sortedItems.map(async (item) => {
-                const url = await getDownloadURL(item);
-                await imageCache.getImage(url);
-                return url;
-              })
-            );
-            return {
-              coverPhoto: urls[0],
-              allPhotos: urls,
-              folderName: path.split("/").pop() || ""
-            };
-          } catch (error) {
-            console.error(`Error fetching photos from ${path}:`, error);
-            return { coverPhoto: "", allPhotos: [], folderName: "" };
-          }
-        })
-      );
-      setFolderData(fetchedFolderData.filter((data) => data.coverPhoto !== ""));
+    const loadNextBatch = async () => {
+      if (loadingRef.current || loadedCount >= allFolderPaths.length) return;
+
+      loadingRef.current = true;
+      const endIndex = Math.min(loadedCount + PAGE_SIZE, allFolderPaths.length);
+      const batch = allFolderPaths.slice(loadedCount, endIndex);
+
+      try {
+        const batchFolderData = await Promise.all(
+          batch.map(async (path) => {
+            const folderRef = ref(storage, path);
+            try {
+              const result = await listAll(folderRef);
+              const sortedItems = result.items.sort((a, b) => b.name.localeCompare(a.name));
+              const urls = await Promise.all(
+                sortedItems.map(async (item) => {
+                  const url = await getDownloadURL(item);
+                  await imageCache.getImage(url);
+                  return url;
+                })
+              );
+              return {
+                coverPhoto: urls[0],
+                allPhotos: urls,
+                folderName: path.split("/").pop() || ""
+              };
+            } catch (error) {
+              console.error(`Error fetching photos from ${path}:`, error);
+              return null;
+            }
+          })
+        );
+
+        setFolderData(prevData => {
+          const newData = [...prevData];
+          batchFolderData.forEach(folder => {
+            if (folder) {
+              newData.push(folder);
+            }
+          });
+          return newData;
+        });
+        setLoadedCount(endIndex);
+      } catch (error) {
+        console.error("Error loading batch:", error);
+      } finally {
+        loadingRef.current = false;
+      }
     };
 
-    fetchPhotos();
-  }, [photoPaths]);
+    if (allFolderPaths.length > 0) {
+      loadNextBatch();
+    }
+  }, [allFolderPaths, loadedCount]);
 
   useEffect(() => {
     if (!svgRef.current || !containerRef.current || folderData.length === 0) return;
@@ -187,6 +219,15 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
 
     drawHexagons();
 
+    const handleScroll = throttle(() => {
+      const scrollPosition = container.scrollTop + container.clientHeight;
+      const scrollThreshold = container.scrollHeight * 0.8;
+
+      if (scrollPosition > scrollThreshold && !loadingRef.current) {
+        setLoadedCount(prev => prev + PAGE_SIZE);
+      }
+    }, 200);
+
     const handleMouseMove = throttle((event: MouseEvent) => {
       const svgElement = svgRef.current;
       if (!svgElement) return;
@@ -212,30 +253,44 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
       });
     }, 50);
 
+    container.addEventListener("scroll", handleScroll);
     container.addEventListener("mousemove", handleMouseMove);
 
     return () => {
+      container.removeEventListener("scroll", handleScroll);
       container.removeEventListener("mousemove", handleMouseMove);
     };
   }, [folderData]);
 
+  useEffect(() => {
+    if (selectedFolder && selectedPhotoIndex !== null) {
+      const preloadImage = (index: number) => {
+        if (index >= 0 && index < selectedFolder.allPhotos.length) {
+          const img = new Image();
+          img.src = selectedFolder.allPhotos[index];
+        }
+      };
+
+      preloadImage(selectedPhotoIndex + 1);
+      preloadImage(selectedPhotoIndex - 1);
+    }
+  }, [selectedFolder, selectedPhotoIndex]);
+
   const handleNext = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (isLoading) return; // Prevent multiple clicks
+    if (isLoading) return;
     if (selectedFolder && selectedPhotoIndex !== null && selectedPhotoIndex < selectedFolder.allPhotos.length - 1) {
+      setIsLoading(true);
       setSelectedPhotoIndex(selectedPhotoIndex + 1);
-    } else {
-      setIsLoading(false);
     }
   };
 
   const handlePrevious = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (isLoading) return; // Prevent multiple clicks
+    if (isLoading) return;
     if (selectedFolder && selectedPhotoIndex !== null && selectedPhotoIndex > 0) {
+      setIsLoading(true);
       setSelectedPhotoIndex(selectedPhotoIndex - 1);
-    } else {
-      setIsLoading(false);
     }
   };
 
@@ -246,21 +301,6 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    // Preload next and previous images
-    if (selectedFolder && selectedPhotoIndex !== null) {
-      const preloadImage = (index: number) => {
-        if (index >= 0 && index < selectedFolder.allPhotos.length) {
-          const img = new Image();
-          img.src = selectedFolder.allPhotos[index];
-        }
-      };
-
-      preloadImage(selectedPhotoIndex + 1); // Preload next image
-      preloadImage(selectedPhotoIndex - 1); // Preload previous image
-    }
-  }, [selectedFolder, selectedPhotoIndex]);
 
   return (
     <div className="h-screen w-screen bg-black/90 flex flex-col items-center">
