@@ -3,7 +3,7 @@ import * as d3 from "d3";
 import BackButton from "./BackButton";
 import { throttle } from "./SierpinskiHexagon";
 import { storage } from "./../firebase";
-import { ref, listAll, getDownloadURL } from "firebase/storage";
+import { ref, listAll, getDownloadURL, getMetadata } from "firebase/storage";
 import { imageCache } from "./ImageCache";
 
 interface TiledPlaneProps {
@@ -35,8 +35,24 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
       const folderRef = ref(storage, photoPath);
       try {
         const result = await listAll(folderRef);
-        const uniqueRefs = Array.from(new Set(result.items)).reverse();
-        setAllPhotoRefs(uniqueRefs);
+        
+        // Get metadata for all items and sort by last modified date
+        const itemsWithMetadata = await Promise.all(
+          result.items.map(async (item) => {
+            const metadata = await getMetadata(item);
+            return {
+              ref: item,
+              updated: metadata.updated || metadata.timeCreated
+            };
+          })
+        );
+
+        // Sort by date, newest first
+        const sortedRefs = itemsWithMetadata
+          .sort((a, b) => new Date(b.updated).getTime() - new Date(a.updated).getTime())
+          .map(item => item.ref);
+
+        setAllPhotoRefs(sortedRefs);
       } catch (error) {
         console.error("Error fetching photo refs:", error);
       }
@@ -67,9 +83,9 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
           })
         );
 
-        setPhotos((prevPhotos) => {
+        setPhotos(prevPhotos => {
           const newPhotos = [...prevPhotos];
-          urls.forEach((url) => {
+          urls.forEach(url => {
             if (!newPhotos.includes(url)) {
               newPhotos.push(url);
             }
