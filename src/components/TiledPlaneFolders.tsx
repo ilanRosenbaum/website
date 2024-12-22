@@ -1,11 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
-import * as d3 from "d3";
+import React, { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import BackButton from "./BackButton";
 import { throttle } from "./SierpinskiHexagon";
 import { storage } from "./../firebase";
 import { ref, listAll, getMetadata, getDownloadURL, StorageReference } from "firebase/storage";
 import { imageCache } from "./ImageCache";
-import { isPointInHexagon } from "./TiledPlane";
 
 interface TiledPlaneFoldersProps {
   parentFolder: string;
@@ -21,26 +19,34 @@ interface FolderData {
 const PAGE_SIZE = 6;
 
 const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, backTo }) => {
-  const svgRef = useRef<SVGSVGElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
+
+  // All subfolder paths found in Firebase, sorted by lastModified
+  const [allFolderPaths, setAllFolderPaths] = useState<string[]>([]);
+  // Actual folder data (cover photo, all images, name) for each loaded folder
+  const [folderData, setFolderData] = useState<FolderData[]>([]);
+
+  // Lazy load indices
+  const [loadedCount, setLoadedCount] = useState(0);
+  const loadingRef = useRef(false);
+
+  // Fullscreen overlay states
   const [selectedFolder, setSelectedFolder] = useState<FolderData | null>(null);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState<number | null>(null);
-  const [folderData, setFolderData] = useState<FolderData[]>([]);
-  const [allFolderPaths, setAllFolderPaths] = useState<string[]>([]);
-  const [loadedCount, setLoadedCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const loadingRef = useRef(false);
+
+  // Hover tracking (which hex is hovered)
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   useEffect(() => {
     const listFolders = async () => {
-      const directoryRef = ref(storage, parentFolder);
-
       try {
+        const directoryRef = ref(storage, parentFolder);
         const result = await listAll(directoryRef);
 
+        // For each subfolder, get lastModified by checking items inside
         const folderPromises = result.prefixes.map(async (folderRef: StorageReference) => {
-          const folderPath = "/Ceramics/" + folderRef.name;
-
+          const folderPath = `/Ceramics/${folderRef.name}`;
           const folderContents = await listAll(ref(storage, folderPath));
 
           if (folderContents.items.length === 0) {
@@ -50,11 +56,12 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
           const metadataPromises = folderContents.items.map((item) => getMetadata(item));
           const metadataResults = await Promise.all(metadataPromises);
 
+          // Extract valid "updated" timestamps
           const validDates = metadataResults
-            .map((meta) => meta.updated)
-            .filter((updated): updated is string => typeof updated === "string")
-            .map((updated) => new Date(updated))
-            .filter((date) => !isNaN(date.getTime()));
+            .map((m) => m.updated)
+            .filter((v): v is string => typeof v === "string")
+            .map((s) => new Date(s))
+            .filter((d) => !isNaN(d.getTime()));
 
           const lastModified = validDates.length > 0 ? new Date(Math.max(...validDates.map((d) => d.getTime()))) : new Date(0);
 
@@ -62,17 +69,20 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
         });
 
         const foldersWithDates = await Promise.all(folderPromises);
+
+        // Sort from newest to oldest
         const sortedFolders = foldersWithDates.sort((a, b) => b.lastModified.getTime() - a.lastModified.getTime());
-        const paths = sortedFolders.map((folder) => folder.path);
-        
+        const paths = sortedFolders.map((f) => f.path);
+
         setAllFolderPaths(paths);
-        console.log("Folders:", sortedFolders);
       } catch (error) {
         console.error("Error listing folders:", error);
       }
     };
 
     listFolders();
+
+    // Cleanup
     return () => {
       setFolderData([]);
       setLoadedCount(0);
@@ -80,206 +90,165 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
     };
   }, [parentFolder]);
 
-  useEffect(() => {
-    const loadNextBatch = async () => {
-      if (loadingRef.current || loadedCount >= allFolderPaths.length) return;
+  const loadNextBatch = useCallback(async () => {
+    if (loadingRef.current || loadedCount >= allFolderPaths.length) return;
 
-      loadingRef.current = true;
-      const endIndex = Math.min(loadedCount + PAGE_SIZE, allFolderPaths.length);
-      const batch = allFolderPaths.slice(loadedCount, endIndex);
+    loadingRef.current = true;
+    const endIndex = Math.min(loadedCount + PAGE_SIZE, allFolderPaths.length);
+    const batch = allFolderPaths.slice(loadedCount, endIndex);
 
-      try {
-        const batchFolderData = await Promise.all(
-          batch.map(async (path) => {
+    try {
+      const batchFolderData = await Promise.all(
+        batch.map(async (path) => {
+          try {
             const folderRef = ref(storage, path);
-            try {
-              const result = await listAll(folderRef);
-              const sortedItems = result.items.sort((a, b) => b.name.localeCompare(a.name));
-              const urls = await Promise.all(
-                sortedItems.map(async (item) => {
-                  const url = await getDownloadURL(item);
-                  await imageCache.getImage(url);
-                  return url;
-                })
-              );
-              return {
-                coverPhoto: urls[0],
-                allPhotos: urls,
-                folderName: path.split("/").pop() || ""
-              };
-            } catch (error) {
-              console.error(`Error fetching photos from ${path}:`, error);
-              return null;
-            }
-          })
-        );
+            const result = await listAll(folderRef);
 
-        setFolderData(prevData => {
-          const newData = [...prevData];
-          batchFolderData.forEach(folder => {
-            if (folder) {
-              newData.push(folder);
-            }
-          });
-          return newData;
-        });
-        setLoadedCount(endIndex);
-      } catch (error) {
-        console.error("Error loading batch:", error);
-      } finally {
-        loadingRef.current = false;
-      }
-    };
+            // Sort items (photos) by name descending
+            const sortedItems = result.items.sort((a, b) => b.name.localeCompare(a.name));
 
-    if (allFolderPaths.length > 0) {
-      loadNextBatch();
+            // Fetch & cache each image
+            const urls = await Promise.all(
+              sortedItems.map(async (item) => {
+                const url = await getDownloadURL(item);
+                await imageCache.getImage(url);
+                return url;
+              })
+            );
+
+            return {
+              coverPhoto: urls[0],
+              allPhotos: urls,
+              folderName: path.split("/").pop() || ""
+            };
+          } catch (err) {
+            console.error(`Error fetching photos from ${path}:`, err);
+            return null;
+          }
+        })
+      );
+
+      // Filter out null
+      const validFolderData = batchFolderData.filter((f): f is FolderData => !!f);
+
+      // Append new folder data
+      setFolderData((prev) => [...prev, ...validFolderData]);
+      setLoadedCount(endIndex);
+    } catch (error) {
+      console.error("Error loading batch:", error);
+    } finally {
+      loadingRef.current = false;
     }
   }, [allFolderPaths, loadedCount]);
 
   useEffect(() => {
-    if (!svgRef.current || !containerRef.current || folderData.length === 0) return;
-
-    const svg = d3.select(svgRef.current);
-    const container = containerRef.current;
-    const width = container.clientWidth;
-    const height = container.clientHeight;
-    let hexRadius: number;
-    if (width > height) {
-      hexRadius = height / 4;
-    } else {
-      hexRadius = width / 6;
+    if (allFolderPaths.length > 0) {
+      loadNextBatch();
     }
-    const hexHeight = hexRadius * Math.sqrt(3);
-    const hexWidth = hexRadius * 2;
+  }, [allFolderPaths, loadNextBatch]);
 
-    svg.attr("width", width).attr("height", height);
-
-    const createHexagonPath = (x: number, y: number): string => {
-      return `M${x},${y + hexRadius}
-              l${hexWidth * 0.25},${hexHeight * 0.5}
-              l${hexWidth * 0.5},0
-              l${hexWidth * 0.25},-${hexHeight * 0.5}
-              l-${hexWidth * 0.25},-${hexHeight * 0.5}
-              l-${hexWidth * 0.5},0
-              Z`;
-    };
-
-    const centerX = width / 2;
-    const columnOffsetX = hexWidth * 0.75;
-    const rowOffsetY = hexHeight;
-
-    const drawHexagon = async (folderData: FolderData, col: number, row: number, index: number) => {
-      const x = centerX + col * columnOffsetX - hexWidth / 2;
-      const y = row * rowOffsetY + (Math.abs(col) % 2 === 1 ? rowOffsetY / 2 : 0);
-
-      const hexagon = svg.append("g").attr("class", `hexagon hexagon-${col}-${row}`);
-
-      hexagon
-        .append("path")
-        .attr("d", createHexagonPath(0, 0))
-        .attr("fill", `url(#image-${col}-${row})`)
-        .attr("stroke", "black")
-        .attr("stroke-width", 2)
-        .attr("transform", `translate(${x}, ${y})`)
-        .on("click", () => {
-          setSelectedFolder(folderData);
-          setSelectedPhotoIndex(0);
-        });
-
-      const defs = svg.append("defs");
-      const pattern = defs.append("pattern").attr("id", `image-${col}-${row}`).attr("patternUnits", "objectBoundingBox").attr("width", "100%").attr("height", "100%");
-
-      const imageUrl = await imageCache.getImage(folderData.coverPhoto);
-      pattern.append("image").attr("xlink:href", imageUrl).attr("width", hexWidth).attr("height", hexHeight).attr("preserveAspectRatio", "xMidYMid slice");
-    };
-
-    let folderIndex = 0;
-    let row = 0;
-    const columns = [0, -1, 1];
-
-    svg.selectAll("*").remove();
-    const drawHexagons = async () => {
-      while (folderIndex < folderData.length) {
-        for (const col of columns) {
-          if (folderIndex < folderData.length) {
-            await drawHexagon(folderData[folderIndex], col, row, folderIndex);
-            folderIndex++;
-          }
-        }
-        row++;
-      }
-
-      const svgHeight = (row + 1) * rowOffsetY;
-      svg.attr("height", Math.max(height, svgHeight));
-
-      if (svgHeight > height) {
-        container.style.overflowY = "scroll";
-      }
-    };
-
-    drawHexagons();
-
-    const handleScroll = throttle(() => {
-      const scrollPosition = container.scrollTop + container.clientHeight;
-      const scrollThreshold = container.scrollHeight * 0.8;
-
-      if (scrollPosition > scrollThreshold && !loadingRef.current) {
-        setLoadedCount(prev => prev + PAGE_SIZE);
-      }
-    }, 200);
-
-    const handleMouseMove = throttle((event: MouseEvent) => {
-      const svgElement = svgRef.current;
-      if (!svgElement) return;
-
-      const svgRect = svgElement.getBoundingClientRect();
-      const mouseX = event.clientX - svgRect.left;
-      const mouseY = event.clientY - svgRect.top;
-
-      svg.selectAll(".hexagon").each(function (this) {
-        if (!this) return;
-        if (!(this instanceof SVGElement)) return;
-
-        const hexagon = d3.select(this);
-        const hexBBox = this.getBoundingClientRect();
-        const hexCenterX = hexBBox.x + hexBBox.width / 2 - svgRect.left;
-        const hexCenterY = hexBBox.y + hexBBox.height / 2 - svgRect.top;
-
-        if (isPointInHexagon(mouseX, mouseY, hexCenterX, hexCenterY, hexWidth)) {
-          hexagon.transition().duration(100).attr("transform", `translate(${hexCenterX}, ${hexCenterY}) scale(0.9) translate(${-hexCenterX}, ${-hexCenterY})`);
-        } else {
-          hexagon.transition().duration(100).attr("transform", "scale(1)");
-        }
-      });
-    }, 50);
-
-    container.addEventListener("scroll", handleScroll);
-    container.addEventListener("mousemove", handleMouseMove);
-
-    return () => {
-      container.removeEventListener("scroll", handleScroll);
-      container.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, [folderData]);
+  const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
-    if (selectedFolder && selectedPhotoIndex !== null) {
-      const preloadImage = (index: number) => {
-        if (index >= 0 && index < selectedFolder.allPhotos.length) {
-          const img = new Image();
-          img.src = selectedFolder.allPhotos[index];
-        }
-      };
+    const updateSize = () => {
+      if (!containerRef.current) return;
+      setContainerSize({
+        width: containerRef.current.clientWidth,
+        height: containerRef.current.clientHeight
+      });
+    };
 
-      preloadImage(selectedPhotoIndex + 1);
-      preloadImage(selectedPhotoIndex - 1);
+    updateSize();
+    window.addEventListener("resize", updateSize);
+    return () => {
+      window.removeEventListener("resize", updateSize);
+    };
+  }, []);
+
+  const hexData = useMemo(() => {
+    const { width, height } = containerSize;
+    if (!width || !height || folderData.length === 0) return [];
+
+    const hexRadius = width > height ? height / 4 : width / 6;
+    const hexW = hexRadius * 2;
+    const hexH = Math.sqrt(3) * hexRadius;
+
+    const centerX = width / 2;
+    const columns = [0, -1, 1];
+    const columnOffsetX = hexW * 0.75;
+    const rowOffsetY = hexH;
+
+    let row = 0;
+    let idx = 0;
+
+    const out: {
+      x: number;
+      y: number;
+      folder: FolderData;
+      index: number;
+    }[] = [];
+
+    while (idx < folderData.length) {
+      for (const col of columns) {
+        if (idx >= folderData.length) break;
+
+        const x = centerX + col * columnOffsetX - hexW / 2;
+        // Slight stagger for col ±1
+        const y = row * rowOffsetY + (Math.abs(col) === 1 ? rowOffsetY / 2 : 0);
+
+        out.push({
+          x,
+          y,
+          folder: folderData[idx],
+          index: idx
+        });
+        idx++;
+      }
+      row++;
     }
-  }, [selectedFolder, selectedPhotoIndex]);
+    return out;
+  }, [containerSize, folderData]);
+
+  const hexPath = useMemo(() => {
+    const { width, height } = containerSize;
+    if (!width || !height) return "";
+    const r = width > height ? height / 4 : width / 6;
+    const side = 2 * r;
+    const h = (Math.sqrt(3) * r) / 2;
+
+    return `M0,${r}
+      l${side * 0.25},${h}
+      l${side * 0.5},0
+      l${side * 0.25},-${h}
+      l-${side * 0.25},-${h}
+      l-${side * 0.5},0
+      Z`;
+  }, [containerSize]);
+
+  const handleScroll = throttle((e: React.UIEvent<HTMLDivElement>) => {
+    if (!containerRef.current) return;
+    const el = containerRef.current;
+    const scrollPos = el.scrollTop + el.clientHeight;
+    const threshold = el.scrollHeight * 0.8;
+
+    // If near bottom, load more
+    if (scrollPos > threshold && !loadingRef.current) {
+      setLoadedCount((prev) => prev + PAGE_SIZE);
+    }
+  }, 200);
+
+  const closeFullscreen = (e: React.MouseEvent) => {
+    if (e.currentTarget === e.target) {
+      setSelectedFolder(null);
+      setSelectedPhotoIndex(null);
+      setIsLoading(false);
+    }
+  };
 
   const handleNext = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (isLoading) return;
-    if (selectedFolder && selectedPhotoIndex !== null && selectedPhotoIndex < selectedFolder.allPhotos.length - 1) {
+    if (!selectedFolder || selectedPhotoIndex == null || isLoading) return;
+    if (selectedPhotoIndex < selectedFolder.allPhotos.length - 1) {
       setIsLoading(true);
       setSelectedPhotoIndex(selectedPhotoIndex + 1);
     }
@@ -287,30 +256,101 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
 
   const handlePrevious = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (isLoading) return;
-    if (selectedFolder && selectedPhotoIndex !== null && selectedPhotoIndex > 0) {
+    if (!selectedFolder || selectedPhotoIndex == null || isLoading) return;
+    if (selectedPhotoIndex > 0) {
       setIsLoading(true);
       setSelectedPhotoIndex(selectedPhotoIndex - 1);
     }
   };
 
-  const closeFullscreen = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      setSelectedFolder(null);
-      setSelectedPhotoIndex(null);
-      setIsLoading(false);
+  // Preload next/prev images
+  useEffect(() => {
+    if (selectedFolder && selectedPhotoIndex != null) {
+      const preload = (idx: number) => {
+        if (idx >= 0 && idx < selectedFolder.allPhotos.length) {
+          const img = new Image();
+          img.src = selectedFolder.allPhotos[idx];
+        }
+      };
+      preload(selectedPhotoIndex + 1);
+      preload(selectedPhotoIndex - 1);
     }
-  };
+  }, [selectedFolder, selectedPhotoIndex]);
 
   return (
     <div className="h-screen w-screen bg-black/90 flex flex-col items-center">
+      {/* Back button */}
       <div className="absolute top-[2vw] left-[2vw] z-10">
         <BackButton textColor="#ffefdb" color="#603b61" to={backTo || ""} />
       </div>
-      <div ref={containerRef} className="w-screen h-[calc(80dvh)] mt-[max(9vw,9vh)] mb-[calc(6dvh)] custom-scrollbar">
-        <svg ref={svgRef} className="mx-auto"></svg>
+
+      {/* Scrollable container with lazy-load on scroll */}
+      <div ref={containerRef} className="w-screen h-[calc(80dvh)] mt-[max(9vw,9vh)] mb-[calc(6dvh)] custom-scrollbar overflow-auto" onScroll={handleScroll}>
+        {(() => {
+          const { width, height } = containerSize;
+          if (!width || !height) return null; // haven't measured yet
+
+          // rowCount = ceil(folderData.length / 3)
+          const rowCount = Math.ceil(folderData.length / 3);
+          const r = width > height ? height / 4 : width / 6;
+          const hexH = Math.sqrt(3) * r;
+          const svgHeight = rowCount * hexH + hexH;
+
+          return (
+            <svg width={width} height={svgHeight} className="mx-auto block" style={{ overflow: "visible" }}>
+              {/* Patterns for each folder's cover photo */}
+              <defs>
+                {hexData.map(({ index, folder }) => {
+                  const patternId = `folder-cover-${index}`;
+                  const r2 = width > height ? height / 4 : width / 6;
+                  const w = 2 * r2;
+                  const h = Math.sqrt(3) * r2;
+                  return (
+                    <pattern key={patternId} id={patternId} patternUnits="userSpaceOnUse" width={w} height={h}>
+                      <image xlinkHref={folder.coverPhoto} width={w} height={h} preserveAspectRatio="xMidYMid slice" />
+                    </pattern>
+                  );
+                })}
+              </defs>
+
+              {/* One hex per folder */}
+              {hexData.map((d) => {
+                const r2 = width > height ? height / 4 : width / 6;
+                const side = 2 * r2;
+                const cx = d.x + side / 2;
+                const cy = d.y + r2;
+
+                // We'll highlight with a thicker stroke on hover, no scaling:
+                const isHovered = hoveredIndex === d.index;
+                const strokeColor = isHovered ? "yellow" : "black";
+                const strokeWidth = isHovered ? 4 : 2;
+
+                return (
+                  <g key={`folder-hex-${d.index}`}>
+                    <path
+                      d={hexPath}
+                      fill={`url(#folder-cover-${d.index})`}
+                      stroke={strokeColor}
+                      strokeWidth={strokeWidth}
+                      transform={`translate(${d.x}, ${d.y})`}
+                      style={{ cursor: "pointer", transition: "stroke-width 0.2s" }}
+                      onClick={() => {
+                        setSelectedFolder(d.folder);
+                        setSelectedPhotoIndex(0);
+                      }}
+                      onMouseEnter={() => setHoveredIndex(d.index)}
+                      onMouseLeave={() => setHoveredIndex(null)}
+                    />
+                  </g>
+                );
+              })}
+            </svg>
+          );
+        })()}
       </div>
-      {selectedFolder && selectedPhotoIndex !== null && (
+
+      {/* Fullscreen overlay */}
+      {selectedFolder && selectedPhotoIndex != null && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center z-20" onClick={closeFullscreen}>
           <img src={selectedFolder.allPhotos[selectedPhotoIndex]} alt="" className="max-w-[90%] max-h-[70%] object-contain mb-4" onClick={(e) => e.stopPropagation()} onLoad={() => setIsLoading(false)} />
           <div className="text-[#ffebcd] font-mono text-xl mb-4">{selectedFolder.folderName}</div>
@@ -342,6 +382,8 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
           </div>
         </div>
       )}
+
+      {/* Footer */}
       <div className="absolute bottom-2 right-2 text-xs text-white opacity-50">Copyright © 2024 Ilan Rosenbaum All rights reserved.</div>
     </div>
   );

@@ -95,7 +95,7 @@ export const performTransitionAndRedirect = (hexagonId: number, url: string) => 
     const matrix = new DOMMatrix(currentTransform);
     const currentScale = matrix.a; // Assuming uniform scaling
 
-    svg.style.transition = "transform 1s ease-in-out";
+    svg.style.transition = "transform 2s ease-in-out";
     svg.style.transformOrigin = "center center";
 
     // First, center the hexagon while maintaining current zoom
@@ -103,7 +103,7 @@ export const performTransitionAndRedirect = (hexagonId: number, url: string) => 
 
     // After centering, zoom in further
     setTimeout(() => {
-      const zoomScale = 2.66;
+      const zoomScale = 3;
       const adjustedTranslateX = translateX * zoomScale;
       const adjustedTranslateY = translateY * zoomScale;
       svg.style.transform = `translate(${adjustedTranslateX}px, ${adjustedTranslateY}px) scale(${currentScale * zoomScale})`;
@@ -111,8 +111,8 @@ export const performTransitionAndRedirect = (hexagonId: number, url: string) => 
       // Wait for the animation to complete before redirecting
       setTimeout(() => {
         window.location.href = url;
-      }, 1500);
-    }, 1500);
+      }, 2300);
+    }, 2300);
   } else {
     // Fallback if SVG or hexagon is not found
     window.location.href = url;

@@ -1,5 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
-import * as d3 from "d3";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+  useMemo,
+} from "react";
 import BackButton from "./BackButton";
 import { throttle } from "./SierpinskiHexagon";
 import { storage } from "./../firebase";
@@ -13,52 +18,55 @@ interface TiledPlaneProps {
 
 const PAGE_SIZE = 6;
 
-export const isPointInHexagon = (px: number, py: number, cx: number, cy: number, size: number): boolean => {
-  const dx = Math.abs(px - cx);
-  const dy = Math.abs(py - cy);
-  const r = size / 2;
-  return dx <= (r * Math.sqrt(3)) / 2 && dy <= r && r * Math.sqrt(3) * dx + r * dy <= (r * r * 3) / 2;
-};
-
 const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
-  const svgRef = useRef<SVGSVGElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
+
+  // Fullscreen state
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [photos, setPhotos] = useState<string[]>([]);
+
+  // Firebase references
   const [allPhotoRefs, setAllPhotoRefs] = useState<any[]>([]);
+  const [photos, setPhotos] = useState<string[]>([]);
   const [loadedCount, setLoadedCount] = useState(0);
+
+  // Prevent multiple loads at once
   const loadingRef = useRef(false);
+
+  // Track which hex is hovered
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchPhotoRefs = async () => {
-      const folderRef = ref(storage, photoPath);
       try {
+        const folderRef = ref(storage, photoPath);
         const result = await listAll(folderRef);
-        
-        // Get metadata for all items and sort by last modified date
+
         const itemsWithMetadata = await Promise.all(
           result.items.map(async (item) => {
             const metadata = await getMetadata(item);
             return {
               ref: item,
-              updated: metadata.updated || metadata.timeCreated
+              updated: metadata.updated || metadata.timeCreated,
             };
           })
         );
 
-        // Sort by date, newest first
         const sortedRefs = itemsWithMetadata
-          .sort((a, b) => new Date(b.updated).getTime() - new Date(a.updated).getTime())
-          .map(item => item.ref);
+          .sort(
+            (a, b) =>
+              new Date(b.updated).getTime() - new Date(a.updated).getTime()
+          )
+          .map((item) => item.ref);
 
         setAllPhotoRefs(sortedRefs);
-      } catch (error) {
-        console.error("Error fetching photo refs:", error);
+      } catch (err) {
+        console.error("Error fetching photo refs:", err);
       }
     };
 
     fetchPhotoRefs();
+
     return () => {
       setPhotos([]);
       setLoadedCount(0);
@@ -66,169 +74,130 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
     };
   }, [photoPath]);
 
-  useEffect(() => {
-    const loadNextBatch = async () => {
-      if (loadingRef.current || loadedCount >= allPhotoRefs.length) return;
+  const loadNextBatch = useCallback(async () => {
+    if (loadingRef.current || loadedCount >= allPhotoRefs.length) return;
 
-      loadingRef.current = true;
-      const endIndex = Math.min(loadedCount + PAGE_SIZE, allPhotoRefs.length);
-      const batch = allPhotoRefs.slice(loadedCount, endIndex);
+    loadingRef.current = true;
+    const endIndex = Math.min(loadedCount + PAGE_SIZE, allPhotoRefs.length);
+    const batch = allPhotoRefs.slice(loadedCount, endIndex);
 
-      try {
-        const urls = await Promise.all(
-          batch.map(async (item) => {
-            const url = await getDownloadURL(item);
-            await imageCache.getImage(url);
-            return url;
-          })
-        );
+    try {
+      const urls = await Promise.all(
+        batch.map(async (item) => {
+          const url = await getDownloadURL(item);
+          await imageCache.getImage(url);
+          return url;
+        })
+      );
 
-        setPhotos(prevPhotos => {
-          const newPhotos = [...prevPhotos];
-          urls.forEach(url => {
-            if (!newPhotos.includes(url)) {
-              newPhotos.push(url);
-            }
-          });
-          return newPhotos;
-        });
-        setLoadedCount(endIndex);
-      } catch (error) {
-        console.error("Error loading batch:", error);
-      } finally {
-        loadingRef.current = false;
-      }
-    };
+      setPhotos((prev) => {
+        const newPhotos = [...prev];
+        for (const url of urls) {
+          if (!newPhotos.includes(url)) newPhotos.push(url);
+        }
+        return newPhotos;
+      });
 
-    if (allPhotoRefs.length > 0) {
-      loadNextBatch();
+      setLoadedCount(endIndex);
+    } catch (error) {
+      console.error("Error loading batch:", error);
+    } finally {
+      loadingRef.current = false;
     }
   }, [allPhotoRefs, loadedCount]);
 
   useEffect(() => {
-    if (!svgRef.current || !containerRef.current || photos.length === 0) return;
-
-    const svg = d3.select(svgRef.current);
-    const container = containerRef.current;
-    const width = container.clientWidth;
-    const height = container.clientHeight;
-    let hexRadius: number;
-    if (width > height) {
-      hexRadius = height / 4;
-    } else {
-      hexRadius = width / 6;
+    if (allPhotoRefs.length) {
+      loadNextBatch();
     }
+  }, [allPhotoRefs, loadNextBatch]);
+
+  const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
+
+  useEffect(() => {
+    function updateContainerSize() {
+      if (!containerRef.current) return;
+      setContainerSize({
+        width: containerRef.current.clientWidth,
+        height: containerRef.current.clientHeight,
+      });
+    }
+
+    updateContainerSize();
+    window.addEventListener("resize", updateContainerSize);
+    return () => {
+      window.removeEventListener("resize", updateContainerSize);
+    };
+  }, []);
+
+  const hexData = useMemo(() => {
+    const { width, height } = containerSize;
+    if (!width || !height || photos.length === 0) return [];
+
+    const hexRadius = width > height ? height / 4 : width / 6;
     const hexHeight = hexRadius * Math.sqrt(3);
     const hexWidth = hexRadius * 2;
-
-    svg.attr("width", width).attr("height", height);
-
-    const createHexagonPath = (x: number, y: number): string => {
-      return `M${x},${y + hexRadius}
-              l${hexWidth * 0.25},${hexHeight * 0.5}
-              l${hexWidth * 0.5},0
-              l${hexWidth * 0.25},-${hexHeight * 0.5}
-              l-${hexWidth * 0.25},-${hexHeight * 0.5}
-              l-${hexWidth * 0.5},0
-              Z`;
-    };
 
     const centerX = width / 2;
     const columnOffsetX = hexWidth * 0.75;
     const rowOffsetY = hexHeight;
 
+    const columns = [0, -1, 1];
     let photoIndex = 0;
     let row = 0;
-    const columns = [0, -1, 1];
 
-    svg.selectAll("*").remove();
-    const drawHexagons = async () => {
-      while (photoIndex < photos.length) {
-        for (const col of columns) {
-          if (photoIndex < photos.length) {
-            const x = centerX + col * columnOffsetX - hexWidth / 2;
-            const y = row * rowOffsetY + (Math.abs(col) % 2 === 1 ? rowOffsetY / 2 : 0);
+    const tmp: { x: number; y: number; url: string; index: number }[] = [];
 
-            const hexagon = svg.append("g").attr("class", `hexagon hexagon-${col}-${row}`);
-            const photo = photos[photoIndex];
+    while (photoIndex < photos.length) {
+      for (const col of columns) {
+        if (photoIndex >= photos.length) break;
 
-            hexagon
-              .append("path")
-              .attr("d", createHexagonPath(0, 0))
-              .attr("fill", `url(#image-${photoIndex})`)
-              .attr("stroke", "black")
-              .attr("stroke-width", 2)
-              .attr("transform", `translate(${x}, ${y})`)
-              .on("click", () => {
-                setSelectedPhoto(photo);
-                setSelectedIndex(photoIndex);
-              });
+        const x = centerX + col * columnOffsetX - hexWidth / 2;
+        const y =
+          row * rowOffsetY + (Math.abs(col) === 1 ? rowOffsetY / 2 : 0);
 
-            const defs = svg.append("defs");
-            const pattern = defs.append("pattern").attr("id", `image-${photoIndex}`).attr("patternUnits", "objectBoundingBox").attr("width", "100%").attr("height", "100%");
+        tmp.push({
+          x,
+          y,
+          url: photos[photoIndex],
+          index: photoIndex,
+        });
 
-            const imageUrl = await imageCache.getImage(photo);
-            pattern.append("image").attr("xlink:href", imageUrl).attr("width", hexWidth).attr("height", hexHeight).attr("preserveAspectRatio", "xMidYMid slice");
-
-            photoIndex++;
-          }
-        }
-        row++;
+        photoIndex++;
       }
+      row++;
+    }
 
-      const svgHeight = (row + 1) * rowOffsetY;
-      svg.attr("height", Math.max(height, svgHeight));
+    return tmp;
+  }, [containerSize, photos]);
 
-      if (svgHeight > height) {
-        container.style.overflowY = "scroll";
-      }
-    };
+  const hexPath = useMemo(() => {
+    const { width, height } = containerSize;
+    if (!width || !height) return "";
 
-    drawHexagons();
+    const r = width > height ? height / 4 : width / 6;
+    const side = r * 2;
+    const h = (r * Math.sqrt(3)) / 2;
+    return `M0,${r}
+      l${side * 0.25},${h}
+      l${side * 0.5},0
+      l${side * 0.25},-${h}
+      l-${side * 0.25},-${h}
+      l-${side * 0.5},0
+      Z`;
+  }, [containerSize]);
 
-    const handleScroll = throttle(() => {
-      const scrollPosition = container.scrollTop + container.clientHeight;
-      const scrollThreshold = container.scrollHeight * 0.8;
-
-      if (scrollPosition > scrollThreshold && !loadingRef.current) {
-        setLoadedCount((prev) => prev + PAGE_SIZE);
-      }
-    }, 200);
-
-    container.addEventListener("scroll", handleScroll);
-
-    const handleMouseMove = throttle((event: MouseEvent) => {
-      const svgElement = svgRef.current;
-      if (!svgElement) return;
-
-      const svgRect = svgElement.getBoundingClientRect();
-      const mouseX = event.clientX - svgRect.left;
-      const mouseY = event.clientY - svgRect.top;
-
-      svg.selectAll(".hexagon").each(function (this) {
-        if (!this) return;
-        if (!(this instanceof SVGElement)) return;
-
-        const hexagon = d3.select(this);
-        const hexBBox = this.getBoundingClientRect();
-        const hexCenterX = hexBBox.x + hexBBox.width / 2 - svgRect.left;
-        const hexCenterY = hexBBox.y + hexBBox.height / 2 - svgRect.top;
-
-        if (isPointInHexagon(mouseX, mouseY, hexCenterX, hexCenterY, hexWidth)) {
-          hexagon.transition().duration(100).attr("transform", `translate(${hexCenterX}, ${hexCenterY}) scale(0.9) translate(${-hexCenterX}, ${-hexCenterY})`);
-        } else {
-          hexagon.transition().duration(100).attr("transform", "scale(1)");
-        }
-      });
-    }, 50);
-
-    container.addEventListener("mousemove", handleMouseMove);
-
-    return () => {
-      container.removeEventListener("scroll", handleScroll);
-      container.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, [photos]);
+  const handleScroll = throttle((e: React.UIEvent<HTMLDivElement>) => {
+    if (!e.currentTarget) return;
+    const target = e.currentTarget;
+    
+    const scrollPosition = target.scrollTop + target.clientHeight;
+    const scrollThreshold = target.scrollHeight * 0.8;
+  
+    if (scrollPosition > scrollThreshold && !loadingRef.current) {
+      setLoadedCount((prev) => prev + PAGE_SIZE);
+    }
+  }, 200);
 
   const handleNext = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -247,7 +216,7 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
   };
 
   const closeFullscreen = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
+    if (e.currentTarget === e.target) {
       setSelectedPhoto(null);
       setSelectedIndex(null);
     }
@@ -258,21 +227,129 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
       <div className="absolute top-[2vw] left-[2vw] z-10">
         <BackButton textColor="#ffefdb" color="#603b61" to={backTo || ""} />
       </div>
-      <div ref={containerRef} className="w-screen h-[calc(80dvh)] mt-[max(9vw,9vh)] mb-[calc(6dvh)] custom-scrollbar">
-        <svg ref={svgRef} className="mx-auto"></svg>
+
+      <div
+        ref={containerRef}
+        className="w-screen h-[calc(80dvh)] mt-[max(9vw,9vh)] mb-[calc(6dvh)] custom-scrollbar overflow-auto"
+        onScroll={handleScroll}
+      >
+        {(() => {
+          const rowCount = Math.ceil(photos.length / 3);
+          const { width, height } = containerSize;
+          const hexRadius = width > height ? height / 4 : width / 6;
+          const hexHeight = hexRadius * Math.sqrt(3);
+          const svgHeight = Math.max(height, rowCount * hexHeight + hexHeight);
+
+          return (
+            <svg
+              width={width}
+              height={svgHeight}
+              className="mx-auto block"
+              style={{ overflow: "visible" }}
+            >
+              <defs>
+                {hexData.map((d) => {
+                  const patternId = `image-${d.index}`;
+                  const hr = width > height ? height / 4 : width / 6;
+                  const w = hr * 2;
+                  const h = hr * Math.sqrt(3);
+
+                  return (
+                    <pattern
+                      key={patternId}
+                      id={patternId}
+                      x={0}
+                      y={0}
+                      width={w}
+                      height={h}
+                      patternUnits="userSpaceOnUse"
+                    >
+                      <image
+                        xlinkHref={d.url}
+                        x={0}
+                        y={0}
+                        width={w}
+                        height={h}
+                        preserveAspectRatio="xMidYMid slice"
+                      />
+                    </pattern>
+                  );
+                })}
+              </defs>
+
+              {hexData.map((d) => {
+                const hr = width > height ? height / 4 : width / 6;
+                const side = hr * 2;
+                const cx = d.x + side / 2;
+                const cy = d.y + hr;
+                const isHovered = hoveredIndex === d.index;
+                const scale = isHovered ? 0.92 : 1;
+
+                return (
+                  <g
+                    key={`hex-${d.index}`}
+                    transform={`translate(${cx}, ${cy}) scale(${scale}) translate(${-cx}, ${-cy})`}
+                    style={{
+                      transition: "transform 0.15s ease-out",
+                      cursor: "pointer",
+                    }}
+                  >
+                    {/* Invisible larger hit area for hover detection */}
+                    <path
+                      d={hexPath}
+                      fill="transparent"
+                      transform={`translate(${d.x}, ${d.y}) scale(1.1)`}
+                      onMouseEnter={() => setHoveredIndex(d.index)}
+                      onMouseLeave={() => setHoveredIndex(null)}
+                      style={{ pointerEvents: "all" }}
+                    />
+                    {/* Visible hexagon */}
+                    <path
+                      d={hexPath}
+                      fill={`url(#image-${d.index})`}
+                      stroke="black"
+                      strokeWidth={2}
+                      transform={`translate(${d.x}, ${d.y})`}
+                      onClick={() => {
+                        setSelectedPhoto(d.url);
+                        setSelectedIndex(d.index);
+                      }}
+                      style={{ pointerEvents: "none" }}
+                    />
+                  </g>
+                );
+              })}
+            </svg>
+          );
+        })()}
       </div>
+
       {selectedPhoto && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center z-20" onClick={closeFullscreen}>
-          <img src={selectedPhoto} alt="" className="max-w-[90%] max-h-[80%] object-contain mb-4" onClick={(e) => e.stopPropagation()} />
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center z-20"
+          onClick={closeFullscreen}
+        >
+          <img
+            src={selectedPhoto}
+            alt=""
+            className="max-w-[90%] max-h-[80%] object-contain mb-4"
+            onClick={(e) => e.stopPropagation()}
+          />
           <div className="flex justify-center items-center w-full">
             <button
-              className={`mx-4 w-12 h-12 rounded-full bg-transparent text-[#ffebcd] text-4xl font-bold font-mono flex items-center justify-center transition-opacity duration-300 ${selectedIndex === 0 ? "opacity-0" : "opacity-100"}`}
+              className={`mx-4 w-12 h-12 rounded-full bg-transparent text-[#ffebcd] text-4xl font-bold font-mono flex items-center justify-center transition-opacity duration-300 ${
+                selectedIndex === 0 ? "opacity-0" : "opacity-100"
+              }`}
               onClick={handlePrevious}
             >
               &lt;
             </button>
             <button
-              className={`mx-4 w-12 h-12 rounded-full bg-transparent text-[#ffebcd] text-4xl font-bold font-mono flex items-center justify-center transition-opacity duration-300 ${selectedIndex === photos.length - 1 ? "opacity-0" : "opacity-100"}`}
+              className={`mx-4 w-12 h-12 rounded-full bg-transparent text-[#ffebcd] text-4xl font-bold font-mono flex items-center justify-center transition-opacity duration-300 ${
+                selectedIndex === photos.length - 1
+                  ? "opacity-0"
+                  : "opacity-100"
+              }`}
               onClick={handleNext}
             >
               &gt;
@@ -280,7 +357,10 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
           </div>
         </div>
       )}
-      <div className="absolute bottom-2 right-2 text-xs text-white opacity-50">Copyright © 2024 Ilan Rosenbaum All rights reserved.</div>
+
+      <div className="absolute bottom-2 right-2 text-xs text-white opacity-50">
+        Copyright © 2024 Ilan Rosenbaum All rights reserved.
+      </div>
     </div>
   );
 };
