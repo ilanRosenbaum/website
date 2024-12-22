@@ -315,12 +315,6 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
 
               {/* One hex per folder */}
               {hexData.map((d) => {
-                const r2 = width > height ? height / 4 : width / 6;
-                const side = 2 * r2;
-                const cx = d.x + side / 2;
-                const cy = d.y + r2;
-
-                // We'll highlight with a thicker stroke on hover, no scaling:
                 const isHovered = hoveredIndex === d.index;
                 const strokeColor = isHovered ? "yellow" : "black";
                 const strokeWidth = isHovered ? 4 : 2;
