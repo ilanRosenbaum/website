@@ -8,6 +8,7 @@ const data = [
   ["Venice", "Italy", 3, "For Coffe Florian, original home of espresso, serving it since 1720! Also the rest of Venice lol"],
   ["Yellowstone, WY-MT", "United States", 3, "For pretty"],
   ["Juneau, AK", "United States", 2, "Glacial bay national park, it'll be gone soon, would likely also go to Anchorage while here"],
+    ["All of It", "Unitd Kingdon", 3, "Prem league games look electric, scottland seems super cool, overall seems like a cool place to visit"],
   ["Unknown 2", "Greece", 5, "Greece!"],
   ["Oslo", "Norway", 1, "Might want to live here, also same reasons as Copenhagen"],
   ["Stockholm", "Sweden", 1, "Might want to live here, also same reasons as Copenhagen"],
