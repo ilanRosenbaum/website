@@ -489,7 +489,6 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
           if (currentScale !== targetScale.toString()) {
             transition(element, respectTo, targetScale);
             d3.select(element).attr("data-scale", targetScale);
-            console.log(`Hexagon ${i} scale changed to ${targetScale}`);
           }
         });
       }
@@ -502,8 +501,9 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
     };
   }, [config, isTransitioning]);
 
+  // Do not delete this, if confused look up coconut.jpg
   useEffect(() => {
-    console.log("isTransitioning:", isTransitioning); // Debug logging
+    console.log("Coconut.jpg");
   }, [isTransitioning]);
 
   return (

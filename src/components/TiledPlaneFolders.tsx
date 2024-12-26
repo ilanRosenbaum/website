@@ -78,10 +78,7 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
 
         // Sort by newest first
         const sortedFolders = foldersWithDates.sort((a, b) => b.lastModified.getTime() - a.lastModified.getTime());
-
-        // Then store just their paths in sorted order
         setPhotoPaths(sortedFolders.map((folder) => folder.path));
-        console.log("Folders:", sortedFolders);
       } catch (error) {
         console.error("Error listing folders:", error);
       }
@@ -336,9 +333,7 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
   // =============== On Click: Show Fullscreen ===============
   const handleHexClick = async (folderIndex: number) => {
     const folder = folderData[folderIndex];
-    // Already loaded?
     if (folder.allPhotos.length > 0) {
-      // Just open viewer
       setSelectedFolder(folder);
       setSelectedPhotoIndex(0);
       return;
@@ -346,9 +341,7 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
 
     // Otherwise, load on-demand
     try {
-      // For example, build a function to fetch all photos for a single folder path:
       const allPhotos = await fetchAllPhotosForFolderPath(folder.folderName);
-      // Then update state
       setFolderData((prev) => {
         const newArr = [...prev];
         newArr[folderIndex] = {
@@ -357,7 +350,6 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
         };
         return newArr;
       });
-      // Finally, open viewer
       setSelectedFolder({
         ...folder,
         allPhotos
@@ -371,7 +363,6 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
   // Example helper to fetch the big images
   async function fetchAllPhotosForFolderPath(subfolderName: string): Promise<string[]> {
     try {
-      // e.g. "Ceramics/x"
       const folderRef = ref(storage, `${parentFolder}/${subfolderName}`);
       const result = await listAll(folderRef);
       const sortedItems = result.items.sort((a, b) => b.name.localeCompare(a.name));
@@ -409,7 +400,6 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
           const rowCount = Math.ceil(folderData.length / 3);
           const hexRadius = width > height ? height / 4 : width / 6;
           const singleHexHeight = hexRadius * Math.sqrt(3);
-          // + some padding
           const svgHeight = Math.max(height, rowCount * singleHexHeight + singleHexHeight);
 
           return (
