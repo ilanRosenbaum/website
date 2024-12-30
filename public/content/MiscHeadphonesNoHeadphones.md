@@ -6,7 +6,7 @@ We aim to study how many solo walkers are wearing headphones vs not wearing head
 
 ## Terms
 
-**Headphones**: For the purposes of this study any personal audio output device, eg. earbuds, over ear headphones, on ear headphones, etc. will be referred to as “Headphones”.
+**Headphones**: For the purposes of this study any personal audio output device, eg. earbuds, over ear headphones, on ear headphones, etc. will be referred to as “Headphones.”
 
 ## Inclusion and Exclusion Criteria
 
@@ -21,7 +21,7 @@ Data only collected from people walking to or from a place, not from individuals
 
 ## Limitations of Data Collection
 
-Many individuals wear a single earbud, if I saw that earbud they were counted toward “headphones”, but it is plausible that some labeled as “no headphones” had an earbud in I could not see.
+Many individuals wear a single earbud, if I saw that earbud they were counted toward “headphones,” but it is plausible that some labeled as “no headphones” had an earbud in I could not see.
 
 It is easier to conclusively identify headphone usage than a lack of headphone usage. For example if a person with long hair has full size headphones on, that is easy to identify as a headphone user. But, if that same person did not have headphones on, they may not be counted at all as it could be impossible to determines if they were wearing earbuds due to the hair.
 
