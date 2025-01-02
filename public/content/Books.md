@@ -1,5 +1,5 @@
 # Books
-# Read
+## Read
 
 | Title                                       | Category    | Author(s)                             | Date Finished  | Notes                                                                                                                                                                            |
 | ------------------------------------------- | ----------- | ------------------------------------- | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -45,7 +45,7 @@
 | This Is How You Lose the Time War           | good        | Amal El-Mohtar & Max Gladstone        | 12-05-2024     |                                                                                                                                                                                  |
 | How to stop time                            | good        | Matt Haig                             | 11-21-2024     |                                                                                                                                                                                  |
 | The Plague                                  | good        | Albert Camus                          | 11-17-2024     |                                                                                                                                                                                  |
-| Piranesi                                    | good        | Susanna Clarke                        | 12-23-2024     | Some of the best world building I've ever read. Beautiful writing.                                                                                                               |
+| Piranesi                                    | good        | Susanna Clarke                        | 12-23-2024     | Some of the best world building I've ever read. Beautiful writing. Plot was kinda nothing though.                                                                                |
 | The World Atlas of Coffee                   | good        | James Hoffman                         | 10-25-2024     |                                                                                                                                                                                  |
 | What If?                                    | good        | Randall Munroe                        | 06-06-2016     | A cornerstone of my childhood.                                                                                                                                                   |
 | What If? 2                                  | good        | Randall Munroe                        | 06-06-2024     | Coffee table book. Haven't read through all in a row, but I've probably read every page.                                                                                         |
@@ -73,7 +73,7 @@ If I didn't know when I finished a book, but did know when I purchased it, I lis
 ### Category Notes
 For all categories other than "Favorite" the category given is how I felt after first reading the book at whatever age I was then. Favorites I have to still love. If a book was a favorite and I no longer like it at all, or not nearly as much, it gets moved down to great to acknowledge the joy it once brought me even if it doesn't any longer. 
 
-# Unread
+## Unread
 | Title                                  | Author(s)                                                                         |
 | -------------------------------------- | --------------------------------------------------------------------------------- |
 | Arcology: The City in the Image of Man | Paolo Soleri                                                                      |
