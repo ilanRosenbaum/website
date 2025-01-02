@@ -22,7 +22,7 @@ const appConfig: HexagonConfig = {
     bottomLeft: 3,
     left: 0,
     topLeft: 3,
-    topRight: 0
+    topRight: 3
   },
   styles: sharedConfig.styles,
   actions: {
@@ -58,7 +58,7 @@ const pageConfig: HexagonConfig = {
     bottomLeft: 3,
     left: 0,
     topLeft: 3,
-    topRight: 0
+    topRight: 3
   },
   styles: sharedConfig.styles,
   actions: {
@@ -79,12 +79,16 @@ const pageConfig: HexagonConfig = {
     },
     bottomRight:  (hexagonId: number) => {
       performTransitionAndRedirect(hexagonId, "/misc/thisWebsite");
+    },
+    topRight: () => {
+      window.location.href = "/misc/books";
     }
   },
   images: sharedConfig.images,
   text: {
     3: "Restaurants",
-    5: "Open Source"
+    5: "Open Source",
+    6: "Books",
   },
   title: "Miscellaneous",
   // textColor: sharedConfig.textColor,

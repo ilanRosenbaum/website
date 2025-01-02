@@ -30,4 +30,5 @@ copy-content:
 	(echo '# Visited'; cat '../Documents/Obsidian Vault/Places/Visited.md') > 'public/content/MiscPlacesVisited.md'
 	(echo '# To Visit'; cat '../Documents/Obsidian Vault/Places/To Visit.md') > 'public/content/MiscPlacesToVisit.md'
 	(echo '# To Live'; cat '../Documents/Obsidian Vault/Places/To Live.md') > 'public/content/MiscPlacesToLive.md'
+	(echo '# Books'; cat '../Documents/Obsidian Vault/books.md') > 'public/content/Books.md'
 	python scripts/remove_notes.py public/content/MiscPlacesVisited.md
