@@ -345,7 +345,7 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
       )}
 
       {/* Footer */}
-      <div className="absolute bottom-2 right-2 text-xs text-white opacity-50">Copyright © 2024 Ilan Rosenbaum All rights reserved.</div>
+      <div className="absolute bottom-2 right-2 text-xs text-white opacity-50">Copyright © 2024-2025 Ilan Rosenbaum All rights reserved.</div>
     </div>
   );
 };

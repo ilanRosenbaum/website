@@ -487,7 +487,7 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
       <div className="items-center justify-center">
         <svg ref={svgRef} style={{ position: "relative", zIndex: 1 }} />
       </div>
-      <div className="absolute bottom-2 right-2 text-xs text-white opacity-50">Copyright © 2024 Ilan Rosenbaum All rights reserved.</div>
+      <div className="absolute bottom-2 right-2 text-xs text-white opacity-50">Copyright © 2024-2025 Ilan Rosenbaum All rights reserved.</div>
     </div>
   );
 };

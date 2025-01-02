@@ -171,7 +171,7 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({ source, backTo, backButtonF
         <BackButton textColor={textColor || "#ffefdb"} color={backButtonFill || "#603b61"} to={backTo || "/"} />
       </div>
       <div className={`${useWideContainer ? "markdown-container-wide" : "markdown-container"} h-full overflow-auto`}>{renderContent()}</div>
-      <div className="absolute bottom-2 right-2 text-xs text-white opacity-50">Copyright © 2024 Ilan Rosenbaum All rights reserved.</div>
+      <div className="absolute bottom-2 right-2 text-xs text-white opacity-50">Copyright © 2024-2025 Ilan Rosenbaum All rights reserved.</div>
     </div>
   );
 };
