@@ -17,7 +17,7 @@ export interface BookData {
 /** Which columns we can sort by. */
 type SortableColumn = "Rank" | "Date Finished";
 
-/** A table specifically for “Read” books, with sorting by date/rank. */
+/** A table specifically for "Read" books, with sorting by date/rank. */
 const BooksTable: React.FC<{ data: BookData[] }> = ({ data }) => {
   const [sortColumn, setSortColumn] = useState<SortableColumn | null>(null);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
@@ -32,36 +32,46 @@ const BooksTable: React.FC<{ data: BookData[] }> = ({ data }) => {
   }
 
   const sortedData = useMemo(() => {
-    if (!sortColumn) return data;
+    const rankOrder: Record<string, number> = {
+      favorite: 1,
+      great: 2,
+      good: 3,
+      "didn't like": 4
+    };
+
+    // Helper function to compare dates
+    const compareDates = (dateA: string, dateB: string) => {
+      const timeA = new Date(dateA).getTime();
+      const timeB = new Date(dateB).getTime();
+      return timeB - timeA; // More recent dates first
+    };
 
     return [...data].sort((a, b) => {
-      const valA = a[sortColumn];
-      const valB = b[sortColumn];
+      if (!sortColumn) {
+        // Default sort: by rank first, then by date for ties
+        const rankA = rankOrder[a.Rank.toLowerCase()] ?? 9999;
+        const rankB = rankOrder[b.Rank.toLowerCase()] ?? 9999;
+        if (rankA !== rankB) {
+          return rankA - rankB;
+        }
+        return compareDates(a["Date Finished"], b["Date Finished"]);
+      }
 
       if (sortColumn === "Date Finished") {
-        const dateA = new Date(valA).getTime();
-        const dateB = new Date(valB).getTime();
-        return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
-      } else if (sortColumn === "Rank") {
-        const rankOrder: Record<string, number> = {
-          favorite: 1,
-          great: 2,
-          good: 3,
-          "didn't like": 4
-        };
-        const strA = String(valA).toLowerCase();
-        const strB = String(valB).toLowerCase();
-
-        const orderA = rankOrder[strA] ?? 9999;
-        const orderB = rankOrder[strB] ?? 9999;
-        return sortOrder === "asc" ? orderA - orderB : orderB - orderA;
-      } else {
-        const strA = String(valA).toLowerCase();
-        const strB = String(valB).toLowerCase();
-        if (strA < strB) return sortOrder === "asc" ? -1 : 1;
-        if (strA > strB) return sortOrder === "asc" ? 1 : -1;
-        return 0;
+        return sortOrder === "asc" ? -compareDates(a["Date Finished"], b["Date Finished"]) : compareDates(a["Date Finished"], b["Date Finished"]);
       }
+
+      if (sortColumn === "Rank") {
+        const rankA = rankOrder[a.Rank.toLowerCase()] ?? 9999;
+        const rankB = rankOrder[b.Rank.toLowerCase()] ?? 9999;
+        if (rankA !== rankB) {
+          return sortOrder === "asc" ? rankA - rankB : rankB - rankA;
+        }
+        // For rank ties, sort by date (more recent first)
+        return compareDates(a["Date Finished"], b["Date Finished"]);
+      }
+
+      return 0;
     });
   }, [data, sortColumn, sortOrder]);
 
