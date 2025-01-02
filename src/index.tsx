@@ -21,6 +21,8 @@ import Europe from "./pages/photography/Europe";
 import TiledPlaneFolders from "./components/TiledPlaneFolders";
 import Midwest from "./pages/photography/Midwest";
 
+import BooksPage from "./components/BooksPage";
+
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 
 root.render(
@@ -34,7 +36,7 @@ root.render(
         <Route path="/rooms/how" element={<MarkdownPage source={"/content/RoomsHow.md"} backTo="/rooms" />} />
 
         <Route path="/misc" element={<Misc />} />
-        <Route path="/misc/books" element={<MarkdownPage source={"/content/MiscBooks.md"} backTo="/misc" useWideContainer={true} />} />
+        <Route path="/misc/books" element={<BooksPage />} />
         <Route path="/misc/openSource" element={<MarkdownPage source={"/content/MiscOpenSource.md"} backTo="/misc" />} />
         <Route path="/misc/headphonesNoHeadphones" element={<MarkdownPage source={"/content/MiscHeadphonesNoHeadphones.md"} backTo="/misc" />} />
         <Route path="/misc/thisWebsite" element={<ThisWebsite />} />

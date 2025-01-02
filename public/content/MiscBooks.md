@@ -1,7 +1,7 @@
 # Books
 ## Read
 
-| Title                                       | Category    | Author(s)                             | Date Finished  | Notes                                                                                                                                                                            |
+| Title                                       | Rank        | Author(s)                             | Date Finished  | Notes                                                                                                                                                                            |
 | ------------------------------------------- | ----------- | ------------------------------------- | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Why Fish Don't Exist                        | favorite    | Lulu Miller                           | 03-17-2024     | The book that made me realize I could love non-fiction. Very possibly my favorite book of all time. Beautiful.                                                                   |
 | The Invisible Life of Addie LaRue           | favorite    | V. E. Schwab                          | 05-22-2022     |                                                                                                                                                                                  |
