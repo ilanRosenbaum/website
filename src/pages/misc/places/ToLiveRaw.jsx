@@ -1,4 +1,6 @@
-# To Live
+import React from 'react';
+
+const Toliveraw = () => {
 // Data
 
   const communityData = [
@@ -706,3 +708,6 @@
       </div>
     </div>
   );
+};
+
+export default Toliveraw;

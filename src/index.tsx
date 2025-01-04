@@ -23,6 +23,8 @@ import Midwest from "./pages/photography/Midwest";
 
 import Books from "./pages/misc/Books";
 import { Lived, ToVisit, Visited } from "./pages/misc/Places";
+import ToLive from "./pages/misc/places/ToLive";
+
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 
 root.render(
@@ -43,10 +45,10 @@ root.render(
         <Route path="/misc/thisWebsite/what" element={<MarkdownPage source={"/content/MiscThisWebsiteWhat.md"} backTo="/misc/thisWebsite" />} />
         <Route path="/misc/thisWebsite/why" element={<MarkdownPage source={"/content/MiscThisWebsiteWhy.md"} backTo="/misc/thisWebsite" />} />
         <Route path="/misc/thisWebsite/how" element={<MarkdownPage source={"/content/MiscThisWebsiteHow.md"} backTo="/misc/thisWebsite" />} />
-        <Route path="/misc/places/toLive" element={<MarkdownPage useWideContainer={true} source={"/content/MiscPlacesToLive.md"} backTo="/misc/places" />} />
         <Route path="/misc/places/toVisit" element={<ToVisit />} />
-        <Route path="/misc/places/lived" element={<Lived />} />
         <Route path="/misc/places/visited" element={<Visited />} />
+        <Route path="/misc/places/toLive" element={<ToLive />} />
+        <Route path="/misc/places/lived" element={<Lived />} />
         <Route
           path="/misc/restaurants"
           element={

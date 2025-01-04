@@ -9,19 +9,50 @@
 }
 
 .markdown a:hover {
-  color: #603b61; /* This is the purple color used in your hexagons */
+  color: #603b61;
 }
 
-.markdown table tbody tr:nth-child(even) {
-  background-color: #1f2937; /* Tailwind's bg-gray-800 */
+/* Table Styles - Apply to both markdown and regular tables */
+.markdown table,
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 1em;
+  font-family: sans-serif;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
-.markdown table tbody tr:nth-child(odd) {
-  background-color: #111827; /* Tailwind's bg-gray-900 */
+.markdown table thead tr,
+.table thead tr {
+  background-color: #374151;
+  color: #ffffff;
+  text-align: left;
 }
 
-.markdown table tbody tr:hover {
-  background-color: #374151; /* Tailwind's bg-gray-700 */
+.markdown table th,
+.markdown table td,
+.table th,
+.table td {
+  padding: 8px 6px;
+  border: 1px solid #2d3748;
+  color: #ffffff;
+}
+
+.markdown table tbody tr:nth-child(even),
+.table tbody tr:nth-child(even) {
+  background-color: #1f2937;
+}
+
+.markdown table tbody tr:nth-child(odd),
+.table tbody tr:nth-child(odd) {
+  background-color: #111827;
+}
+
+.markdown table tbody tr:hover,
+.table tbody tr:hover {
+  background-color: #374151;
+  color: #ffffff;
 }
 
 /* Container Styles */
@@ -31,7 +62,7 @@
   overflow-y: auto;
   padding: 2rem;
   margin-top: 5vh;
-  max-height: calc(95vh - 4rem); /* 95vh minus top and bottom padding */
+  max-height: calc(95vh - 4rem);
 }
 
 .markdown-container {
@@ -76,23 +107,50 @@ body {
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .markdown-container {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* Apply these styles to the body and html elements to hide scrollbars globally */
 body,
 html {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 body::-webkit-scrollbar,
 html::-webkit-scrollbar {
-  display: none; /* Chrome, Safari and Opera */
+  display: none;
 }
 
 /* Tailwind Directives */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+pre code {
+  background-color: #2d2d2d;
+  color: #ccc;
+  padding: 16px;
+  border-radius: 4px;
+  display: block;
+  overflow-x: auto;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* Basic styling for JavaScript keywords */
+ .keyword {
+  color: #cc99cd;
+  font-weight: bold;
+}
+
+/* Basic styling for strings */
+ .string {
+  color: #7ec699;
+}
+
+/* Basic styling for comments */
+ .comment {
+  color: #999999;
+  font-style: italic;
+}
