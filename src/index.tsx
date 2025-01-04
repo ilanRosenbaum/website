@@ -21,8 +21,8 @@ import Europe from "./pages/photography/Europe";
 import TiledPlaneFolders from "./components/TiledPlaneFolders";
 import Midwest from "./pages/photography/Midwest";
 
-import BooksPage from "./components/BooksPage";
-
+import Books from "./pages/misc/Books";
+import { Lived, ToVisit, Visited } from "./pages/misc/Places";
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 
 root.render(
@@ -36,7 +36,7 @@ root.render(
         <Route path="/rooms/how" element={<MarkdownPage source={"/content/RoomsHow.md"} backTo="/rooms" />} />
 
         <Route path="/misc" element={<Misc />} />
-        <Route path="/misc/books" element={<BooksPage />} />
+        <Route path="/misc/books" element={<Books />} />
         <Route path="/misc/openSource" element={<MarkdownPage source={"/content/MiscOpenSource.md"} backTo="/misc" />} />
         <Route path="/misc/headphonesNoHeadphones" element={<MarkdownPage source={"/content/MiscHeadphonesNoHeadphones.md"} backTo="/misc" />} />
         <Route path="/misc/thisWebsite" element={<ThisWebsite />} />
@@ -44,9 +44,9 @@ root.render(
         <Route path="/misc/thisWebsite/why" element={<MarkdownPage source={"/content/MiscThisWebsiteWhy.md"} backTo="/misc/thisWebsite" />} />
         <Route path="/misc/thisWebsite/how" element={<MarkdownPage source={"/content/MiscThisWebsiteHow.md"} backTo="/misc/thisWebsite" />} />
         <Route path="/misc/places/toLive" element={<MarkdownPage useWideContainer={true} source={"/content/MiscPlacesToLive.md"} backTo="/misc/places" />} />
-        <Route path="/misc/places/lived" element={<MarkdownPage source={"/content/MiscPlacesLived.md"} backTo="/misc/places" />} />
-        <Route path="/misc/places/toVisit" element={<MarkdownPage source={"/content/MiscPlacesToVisit.md"} backTo="/misc/places" />} />
-        <Route path="/misc/places/visited" element={<MarkdownPage useWideContainer={true} source={"/content/MiscPlacesVisited.md"} backTo="/misc/places" />} />
+        <Route path="/misc/places/toVisit" element={<ToVisit />} />
+        <Route path="/misc/places/lived" element={<Lived />} />
+        <Route path="/misc/places/visited" element={<Visited />} />
         <Route
           path="/misc/restaurants"
           element={
