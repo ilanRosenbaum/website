@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
 const Toliveraw = () => {
-// Data
+  // Data
 
   const communityData = [
     {
@@ -13,74 +13,74 @@ const Toliveraw = () => {
     {
       city: "Portland, OR",
       score: "vibrant",
-      details: "51+ community gardens, People's Food Co-op, Alberta Cooperative Grocery",
+      details: "Lots of community gardens, People's Food Co-op, Alberta Cooperative Grocery",
       highlights: "Strong DIY culture, tool libraries, community workshops"
     },
     {
       city: "Minneapolis, MN",
       score: "vibrant",
       details: "Extensive co-op network, multiple year-round farmers markets",
-      highlights: "Strong food co-op presence, winter markets"
+      highlights: "Strong food co-op presence, winter markets, Midtown Global Market"
     },
     {
       city: "Vancouver, Canada",
       score: "active",
-      details: "97+ community gardens, multiple farmers markets",
-      highlights: "Community garden network, strong neighborhood houses"
+      details: "Lots of community gardens, multiple farmers markets",
+      highlights: "Community garden network, strong neighborhood houses, Vancouver Farmers Markets"
     },
     {
       city: "Seattle, WA",
       score: "active",
-      details: "90+ community gardens (P-Patch), multiple year-round markets",
-      highlights: "P-Patch program, PCC Community Markets"
+      details: "Lots of community gardens (P-Patch), multiple year-round markets",
+      highlights: "P-Patch program, PCC Community Markets, Capitol Hill Urban Farm"
     },
     {
       city: "Montreal, Canada",
       score: "active",
-      details: "97 community gardens, strong market culture",
-      highlights: "Jean-Talon Market, extensive community centers"
+      details: "Lots of community gardens, strong market culture",
+      highlights: "Jean-Talon Market, extensive community centers, Atwater Market"
     },
     {
       city: "Stockholm, Sweden",
       score: "active",
-      details: "Colonial garden tradition, active community centers",
-      highlights: "Allotment gardens, community houses"
+      details: "Allotment garden tradition, active community centers",
+      highlights: "Allotment gardens, community houses (kommunhus)"
     },
     {
       city: "Oslo, Norway",
       score: "active",
       details: "Parsellhager (allotment gardens), community houses",
-      highlights: "Strong neighborhood associations"
+      highlights: "Strong neighborhood associations, Oslo Farmers Market"
     },
     {
       city: "Boston, MA",
       score: "moderate",
-      details: "50+ community gardens, seasonal markets",
-      highlights: "Boston Food Co-op closed, but active community centers"
+      details: "Some community gardens, seasonal markets",
+      highlights: "Boston Food Co-op, active community centers, SoWa Open Market"
     },
     {
       city: "San Francisco, CA",
       score: "moderate",
-      details: "38+ community gardens, multiple farmers markets",
-      highlights: "Rainbow Grocery Cooperative, some community initiatives"
+      details: "Some community gardens, multiple farmers markets",
+      highlights: "Rainbow Grocery Cooperative, People's Grocery, Mission Community Market"
     },
     {
       city: "New York, NY",
       score: "vibrant",
       details: "550+ community gardens but spread thin given population",
-      highlights: "GreenThumb program, Park Slope Food Coop"
+      highlights: "GreenThumb program, Park Slope Food Coop, Union Square Greenmarket"
     },
     {
       city: "Denver, CO",
       score: "moderate",
       details: "Multiple community gardens, seasonal markets",
-      highlights: "Denver Urban Gardens network"
+      highlights: "Denver Urban Gardens network, Denver Farmers Market"
     },
     {
       city: "Madison, WI",
       score: "moderate",
-      details: "Several community gardens, seasonal markets",
-      highlights: "Willy Street Co-op, decent garden network"
+      details: "Lots of community gardens, seasonal markets. Strong community in small subsets of madison which is itself already a small city.",
+      highlights: "Willy Street Co-op, decent garden network, Dane County Farmers Market"
     }
   ];
 
