@@ -32,6 +32,5 @@
 | Vidanta, Nuevo Vallarta, Mexico | 20 | 1 |
 
 ## Key
-
-- Enjoyment: Enjoyment is a 1 - 10 rating of how much I enjoyed my specific trip to the place in question, it may say very little about the place itself. 
+- Enjoyment: Enjoyment is a 1-10 rating of how much I enjoyed my specific trip to the place in question. Higher numbers better. It may say very little about the place itself, sometimes I go on a great trip to a bad place or a bad trip to a great place. 
 - Want to return: I feel like this is pretty self explanatory. Lower is better, these are comparative scores. Some places I will have had a wonderful trip but have no interest in coming back, some places it'll be the other way around. 
