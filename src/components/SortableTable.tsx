@@ -259,7 +259,7 @@ interface WrapperProps {
 
 const Wrapper: React.FC<WrapperProps> = ({ source = "/content/MiscBooks.md", backTo = "/misc", backButtonFill = "#603b61", textColor = "#ffefdb", useWideContainer = true, columns, data: initialData }) => {
   const [markdown, setMarkdown] = useState("");
-  const [tableData, setTableData] = useState<any[]>([]);
+  const [, setTableData] = useState<any[]>([]);
 
   useEffect(() => {
     if (initialData) {
