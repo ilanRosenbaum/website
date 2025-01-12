@@ -33,3 +33,4 @@ copy-content:
 	(echo '# Books'; cat '../Documents/Obsidian Vault/books.md') > 'public/content/MiscBooks.md'
 	python scripts/remove_notes.py public/content/MiscPlacesVisited.md
 	python scripts/convert_md_to_react.py public/content/MiscPlacesToLive.md src/pages/misc/places/ToLiveRaw.jsx
+	@rm -rf public/content/MiscPlacesToLive.md

@@ -1,8 +1,7 @@
-import React from "react";
+import React from 'react';
 
 const Toliveraw = () => {
-  // Data
-
+// Data
   const communityData = [
     {
       city: "Copenhagen, Denmark",

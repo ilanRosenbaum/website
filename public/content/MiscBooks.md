@@ -74,14 +74,12 @@ If I didn't know when I finished a book, but did know when I purchased it, I lis
 For all categories other than "Favorite" the category given is how I felt after first reading the book at whatever age I was then. Favorites I have to still love. If a book was a favorite and I no longer like it at all, or not nearly as much, it gets moved down to great to acknowledge the joy it once brought me even if it doesn't any longer. 
 
 ## Unread
-| Title                                  | Author(s)                                                                         |
-| -------------------------------------- | --------------------------------------------------------------------------------- |
-| Arcology: The City in the Image of Man | Paolo Soleri                                                                      |
-| Project Hail Mary                      | Andy Weir                                                                         |
-| The Immortalists                       | Chloe Benjamin                                                                    |
-| Omaha Blues: A Memory Loop             | Joseph Lelyveld                                                                   |
-| Summer Frost                           | Blake Crouch                                                                      |
-| Fear and Loathing in Las Vegas         | Hunter S. Thompson                                                                |
-| Turtles All the Way Down               | John Green                                                                        |
-| Forward                                | Veronica Roth, Blake Crouch, Amor Towles, Paul Tremblay, Andy Weir, N. K. Jemisin |
-| The Handmaids Tale                     | Margaret Atwood                                                                   |
+| Title                                  | Author(s)          |
+| -------------------------------------- | ------------------ |
+| Arcology: The City in the Image of Man | Paolo Soleri       |
+| Project Hail Mary                      | Andy Weir          |
+| The Immortalists                       | Chloe Benjamin     |
+| Omaha Blues: A Memory Loop             | Joseph Lelyveld    |
+| Fear and Loathing in Las Vegas         | Hunter S. Thompson |
+| Turtles All the Way Down               | John Green         |
+| The Handmaids Tale                     | Margaret Atwood    |
