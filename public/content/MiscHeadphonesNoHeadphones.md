@@ -25,22 +25,22 @@ Many individuals wear a single earbud, if I saw that earbud they were counted to
 
 It is easier to conclusively identify headphone usage than a lack of headphone usage. For example if a person with long hair has full size headphones on, that is easy to identify as a headphone user. But, if that same person did not have headphones on, they may not be counted at all as it could be impossible to determines if they were wearing earbuds due to the hair.
 
-A single person collected all this data on various walks. The data is inherently non perfect as it is a subjective human observing and recording this data. Additionally this data was recorded in the researchers mind during data collection and written down only at the conclusion of each walk. Human minds are known to be error prone \[1]\[2]
+A single person collected all this data on various walks. The data is inherently non perfect as it is a subjective human observing and recording this data. Additionally this data was recorded in the researchers mind during data collection and written down only at the conclusion of each walk. Human minds are known to be error prone \[1]\[2].
 
 ## Data
 
-| Where       | When                              | Headphones | No Headphones |
-| ----------- | --------------------------------- | ---------- | ------------- |
-| Madison, WI | February 20, 2024 9:15am → 9:45am | 50         | 22            |
-| Madison, WI | February 20, 2024 1:30pm → 1:40pm | 14         | 6             |
-| Madison, WI | February 21, 2024 3:50pm → 4:00pm | 33         | 17            |
-| Madison, WI | February 27, 2024 2:25pm → 2:30pm | 14         | 3             |
-| Madison, WI | April 4, 2024 2:10pm → 2:25pm     | 83         | 21            |
-| Madison, WI | April 17, 2024 9:45am → 9:55am    | 33         | 15            |
-| Madison, WI | Sept 10, 2024 3:40pm → 3:50pm     | 33         | 27            |
-| Madison, WI | Sept 10 2024, 5:20pm → 5:30pm     | 48         | 32            |
-| Madison, WI | Sept 30 2024, 1:30pm → 2:00pm     | 59         | 30            |
-| Madison, WI | Nov 13 2024, 2:00pm -> 2:30pm     | 77         | 36            |
+| Where       | When                                | Headphones | No Headphones |
+| ----------- | ----------------------------------- | ---------- | ------------- |
+| Madison, WI | February 20, 2024 9:15am → 9:45am   | 50         | 22            |
+| Madison, WI | February 20, 2024 1:30pm → 1:40pm   | 14         | 6             |
+| Madison, WI | February 21, 2024 3:50pm → 4:00pm   | 33         | 17            |
+| Madison, WI | February 27, 2024 2:25pm → 2:30pm   | 14         | 3             |
+| Madison, WI | April 4, 2024 2:10pm → 2:25pm       | 83         | 21            |
+| Madison, WI | April 17, 2024 9:45am → 9:55am      | 33         | 15            |
+| Madison, WI | September 10, 2024 3:40pm → 3:50pm  | 33         | 27            |
+| Madison, WI | September 10, 2024, 5:20pm → 5:30pm | 48         | 32            |
+| Madison, WI | September 30, 2024, 1:30pm → 2:00pm | 59         | 30            |
+| Madison, WI | November 13, 2024, 2:00pm → 2:30pm  | 77         | 36            |
 
 ## Citations
 
