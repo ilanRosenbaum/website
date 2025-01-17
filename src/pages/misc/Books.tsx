@@ -10,7 +10,7 @@ const RANK_MAPPING: SortMapping = {
 };
 
 const BOOKS_COLUMNS: ReadonlyArray<TableColumn> = [
-  { header: "Title", accessor: "Title", sortable: false },
+  { header: "Title", accessor: "Title", sortable: true, sortType: "string" },
   {
     header: "Rank",
     accessor: "Rank",
@@ -19,7 +19,7 @@ const BOOKS_COLUMNS: ReadonlyArray<TableColumn> = [
     sortMapping: RANK_MAPPING,
     default: "asc"
   },
-  { header: "Author(s)", accessor: "Author(s)", sortable: false },
+  { header: "Author(s)", accessor: "Author(s)", sortable: true, sortType: "string" },
   { header: "Date Finished", accessor: "Date Finished", sortable: true, sortType: "date", fallbackSort: true },
   { header: "Notes", accessor: "Notes", sortable: false }
 ];
