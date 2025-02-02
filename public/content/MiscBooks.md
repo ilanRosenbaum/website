@@ -67,6 +67,7 @@
 | Artemis                                     | didn't like | Andy Weir                             | 09-08-2024     | Andy Weir really shouldn't try to write women.                                                                                                                                   |
 | The Lost Apothecary                         | didn't like | Sarah Penner                          | 05-08-2023     |                                                                                                                                                                                  |
 | Stan Lee's Alliances: A Trick of the Light  | didn't like | Stan Lee                              | 08-30-2021     | It was almost nothing? Stan Lee didn't write this, nobody did. Felt almost like a marvel movie it was so uninspired.                                                             |
+| Cloud Cuckoo Land                           | Great       | Anthony Doerr                         | 02-02-2025     | The story of stories. True hope in hopelessness. A slow burn but one of the best endings of any book I've ever read.                                                             |
 ### Date Notes
 If I didn't know when I finished a book, but did know when I purchased it, I listed it as finished two weeks after purchase date. If I didn't know the purchase date, I guesstimated. If I really truly don't know, like for childhood books, I will guess the year and use 06-06 as month and day.
 
