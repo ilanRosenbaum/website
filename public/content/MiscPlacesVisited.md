@@ -1,5 +1,4 @@
 # Visited
-
 | City and Country | Want to Return | Enjoyment |
 | -------------------------------- | -------------- | --------- |
 | Lyon, France | 1 | 9 |

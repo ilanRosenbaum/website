@@ -31,6 +31,17 @@ copy-content:
 	(echo '# To Visit'; cat '../Documents/Obsidian Vault/Places/To Visit.md') > 'public/content/MiscPlacesToVisit.md'
 	(echo '# To Live'; cat '../Documents/Obsidian Vault/React/ToLive.md') > 'public/content/MiscPlacesToLive.md'
 	(echo '# Books'; cat '../Documents/Obsidian Vault/books.md') > 'public/content/MiscBooks.md'
+	
+	# Clean up YAML frontmatter from all markdown files
+	python scripts/remove_frontmatter.py public/content/MiscPlacesLived.md
+	python scripts/remove_frontmatter.py public/content/MiscPlacesVisited.md
+	python scripts/remove_frontmatter.py public/content/MiscPlacesToVisit.md
+	python scripts/remove_frontmatter.py public/content/MiscBooks.md
+	python scripts/remove_frontmatter.py public/content/MiscHeadphonesNoHeadphones.md
+	
+	# Apply table cleanup for visited places
 	python scripts/remove_notes.py public/content/MiscPlacesVisited.md
+	
+	# Convert markdown to React components
 	python scripts/convert_md_to_react.py public/content/MiscPlacesToLive.md src/pages/misc/places/ToLiveRaw.jsx
 	@rm -rf public/content/MiscPlacesToLive.md

@@ -25,6 +25,22 @@ def extract_code_blocks(md_content, languages=['jsx', 'javascript']):
         
     return code_blocks
 
+def remove_yaml_blocks(code_content):
+    """
+    Remove YAML frontmatter blocks (enclosed between --- markers) from the code content.
+    
+    Args:
+        code_content (str): The code content possibly containing YAML blocks.
+        
+    Returns:
+        str: The code content with YAML blocks removed.
+    """
+    # Pattern to match YAML blocks enclosed between --- markers
+    yaml_pattern = re.compile(r'^---\s*\n([\s\S]*?)\n---\s*\n', re.MULTILINE)
+    
+    # Remove the YAML block
+    return yaml_pattern.sub('', code_content)
+
 def extract_imports(code_blocks):
     """
     Extract import statements from the list of code blocks.
@@ -165,11 +181,14 @@ def main():
         print("No React code found in the file.")
         sys.exit(1)
 
+    # Process each code block to remove YAML blocks
+    cleaned_code_blocks = [remove_yaml_blocks(block) for block in code_blocks]
+
     # Extract import statements
-    imports = extract_imports(code_blocks)
+    imports = extract_imports(cleaned_code_blocks)
 
     # Combine all code blocks into a single string
-    combined_code = '\n\n'.join(code_blocks)
+    combined_code = '\n\n'.join(cleaned_code_blocks)
 
     # Check if the code needs to be wrapped in a component
     needs_wrapping = not contains_component_definition(combined_code) or re.search(r'^\s*return\s*\(', combined_code, re.MULTILINE)
