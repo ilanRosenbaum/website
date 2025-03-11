@@ -100,7 +100,16 @@ const VISITED_COLUMNS: ReadonlyArray<TableColumn> = [
 ];
 
 const Visited: React.FC = () => {
-  return <SortableTable source="/content/MiscPlacesVisited.md" backTo="/misc/places" backButtonFill="#603b61" textColor="#ffefdb" useWideContainer={true} columns={VISITED_COLUMNS} />;
+  return (
+    <SortableTable
+      source="/content/MiscPlacesVisited.md"
+      backTo="/misc/places"
+      backButtonFill="#603b61"
+      textColor="#ffefdb"
+      useWideContainer={true}
+      columns={VISITED_COLUMNS}
+    />
+  );
 };
 
 /** Define the column configurations for the To Visit table */
@@ -118,7 +127,16 @@ const TOVISIT_COLUMNS: ReadonlyArray<TableColumn> = [
 ];
 
 const ToVisit: React.FC = () => {
-  return <SortableTable source="/content/MiscPlacesToVisit.md" backTo="/misc/places" backButtonFill="#603b61" textColor="#ffefdb" useWideContainer={true} columns={TOVISIT_COLUMNS} />;
+  return (
+    <SortableTable
+      source="/content/MiscPlacesToVisit.md"
+      backTo="/misc/places"
+      backButtonFill="#603b61"
+      textColor="#ffefdb"
+      useWideContainer={true}
+      columns={TOVISIT_COLUMNS}
+    />
+  );
 };
 
 /** Define the column configurations for the Lived table */
@@ -130,7 +148,16 @@ const LIVED_COLUMNS: ReadonlyArray<TableColumn> = [
 ];
 
 const Lived: React.FC = () => {
-  return <SortableTable source="/content/MiscPlacesLived.md" backTo="/misc/places" backButtonFill="#603b61" textColor="#ffefdb" useWideContainer={true} columns={LIVED_COLUMNS} />;
+  return (
+    <SortableTable
+      source="/content/MiscPlacesLived.md"
+      backTo="/misc/places"
+      backButtonFill="#603b61"
+      textColor="#ffefdb"
+      useWideContainer={true}
+      columns={LIVED_COLUMNS}
+    />
+  );
 };
 
 export { Visited, ToVisit, Lived };

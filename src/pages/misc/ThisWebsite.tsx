@@ -16,7 +16,7 @@ const sharedConfig = {
       opacity: 1.0
     }
   },
-  images: {},
+  images: {}
 };
 
 export const appConfig = {
@@ -46,7 +46,7 @@ const pageConfig = {
     },
     right: () => {
       window.location.href = "/misc/thisWebsite/how";
-    },
+    }
   },
   images: sharedConfig.images,
   text: {
@@ -62,7 +62,7 @@ const pageConfig = {
   backButton: {
     exists: true,
     to: "/misc",
-    fill: "#603b61",
+    fill: "#603b61"
   }
 };
 

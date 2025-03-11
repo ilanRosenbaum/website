@@ -47,9 +47,16 @@ function getComparisonValue(column: TableColumn, value: any): number {
   }
 }
 
-function compareValues(column: TableColumn, valueA: any, valueB: any, sortOrder: "asc" | "desc"): number {
+function compareValues(
+  column: TableColumn,
+  valueA: any,
+  valueB: any,
+  sortOrder: "asc" | "desc"
+): number {
   if (column.customSort) {
-    return sortOrder === "asc" ? column.customSort(valueA, valueB) : column.customSort(valueB, valueA);
+    return sortOrder === "asc"
+      ? column.customSort(valueA, valueB)
+      : column.customSort(valueB, valueA);
   }
 
   let comparison = 0;
@@ -76,7 +83,10 @@ function parseMarkdownTable(node: any): string[][] {
 
   const rowElements: any[] = [];
   node.children?.forEach((child: any) => {
-    if (child.type === "element" && ["thead", "tbody", "tfoot"].includes(child.tagName)) {
+    if (
+      child.type === "element" &&
+      ["thead", "tbody", "tfoot"].includes(child.tagName)
+    ) {
       child.children?.forEach((tr: any) => {
         if (tr.type === "element" && tr.tagName === "tr") {
           rowElements.push(tr);
@@ -87,12 +97,22 @@ function parseMarkdownTable(node: any): string[][] {
 
   const allRows: string[][] = rowElements.map((tr) => {
     const cells = tr.children
-      ?.filter((tdOrTh: any) => tdOrTh.type === "element" && ["td", "th"].includes(tdOrTh.tagName))
+      ?.filter(
+        (tdOrTh: any) =>
+          tdOrTh.type === "element" && ["td", "th"].includes(tdOrTh.tagName)
+      )
       .map((tdOrTh: any) => {
         const textParts = tdOrTh.children
           ?.map((maybeParagraph: any) => {
-            if (maybeParagraph.type === "element" && maybeParagraph.tagName === "p") {
-              return maybeParagraph.children?.map((child: any) => (child.type === "text" ? child.value : "")).join("");
+            if (
+              maybeParagraph.type === "element" &&
+              maybeParagraph.tagName === "p"
+            ) {
+              return maybeParagraph.children
+                ?.map((child: any) =>
+                  child.type === "text" ? child.value : ""
+                )
+                .join("");
             } else if (maybeParagraph.type === "text") {
               return maybeParagraph.value;
             }
@@ -109,13 +129,19 @@ function parseMarkdownTable(node: any): string[][] {
   return allRows.filter((row) => !row.every((cell) => /^[-\s]+$/.test(cell)));
 }
 
-function isMatchingTable(parsedRows: string[][], columns: ReadonlyArray<TableColumn>): boolean {
+function isMatchingTable(
+  parsedRows: string[][],
+  columns: ReadonlyArray<TableColumn>
+): boolean {
   if (!parsedRows.length) return false;
   if (parsedRows[0].length !== columns.length) return false;
   return parsedRows[0].every((cell, idx) => cell === columns[idx].header);
 }
 
-function convertRowsToData(rows: string[][], columns: ReadonlyArray<TableColumn>): any[] {
+function convertRowsToData(
+  rows: string[][],
+  columns: ReadonlyArray<TableColumn>
+): any[] {
   return rows.slice(1).map((row) => {
     const rowData: any = {};
     columns.forEach((col, idx) => {
@@ -127,13 +153,23 @@ function convertRowsToData(rows: string[][], columns: ReadonlyArray<TableColumn>
 
 const SortableTable: React.FC<SortableTableProps> = ({ data, columns }) => {
   // Find default sort column if it exists
-  const defaultColumn = useMemo(() => columns.find((col) => col.default), [columns]);
+  const defaultColumn = useMemo(
+    () => columns.find((col) => col.default),
+    [columns]
+  );
 
-  const [sortColumn, setSortColumn] = useState<string | null>(defaultColumn?.accessor || null);
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">(defaultColumn?.default || "asc");
+  const [sortColumn, setSortColumn] = useState<string | null>(
+    defaultColumn?.accessor || null
+  );
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">(
+    defaultColumn?.default || "asc"
+  );
 
   // Find the fallback sort column if one exists
-  const fallbackColumn = useMemo(() => columns.find((col) => col.fallbackSort), [columns]);
+  const fallbackColumn = useMemo(
+    () => columns.find((col) => col.fallbackSort),
+    [columns]
+  );
 
   // Reset sort state when columns change
   useEffect(() => {
@@ -158,13 +194,24 @@ const SortableTable: React.FC<SortableTableProps> = ({ data, columns }) => {
     return [...data].sort((a, b) => {
       // If we have an active sort column, use it first
       if (sortColumn) {
-        const primaryColumn = columns.find((col) => col.accessor === sortColumn);
+        const primaryColumn = columns.find(
+          (col) => col.accessor === sortColumn
+        );
         if (!primaryColumn) return 0;
 
-        const primaryComparison = compareValues(primaryColumn, a[sortColumn], b[sortColumn], sortOrder);
+        const primaryComparison = compareValues(
+          primaryColumn,
+          a[sortColumn],
+          b[sortColumn],
+          sortOrder
+        );
 
         // If there's a tie and we have a fallback column, use it
-        if (primaryComparison === 0 && fallbackColumn && primaryColumn !== fallbackColumn) {
+        if (
+          primaryComparison === 0 &&
+          fallbackColumn &&
+          primaryColumn !== fallbackColumn
+        ) {
           return compareValues(
             fallbackColumn,
             a[fallbackColumn.accessor],
@@ -178,7 +225,12 @@ const SortableTable: React.FC<SortableTableProps> = ({ data, columns }) => {
 
       // If no active sort column but we have a fallback, use it
       if (fallbackColumn) {
-        return compareValues(fallbackColumn, a[fallbackColumn.accessor], b[fallbackColumn.accessor], "desc");
+        return compareValues(
+          fallbackColumn,
+          a[fallbackColumn.accessor],
+          b[fallbackColumn.accessor],
+          "desc"
+        );
       }
 
       return 0;
@@ -190,11 +242,21 @@ const SortableTable: React.FC<SortableTableProps> = ({ data, columns }) => {
     const triangleClass = "inline-block ml-1 align-middle";
     if (sortColumn === column.accessor) {
       return sortOrder === "asc" ? (
-        <svg className={triangleClass} width="12" height="12" viewBox="0 0 24 24">
+        <svg
+          className={triangleClass}
+          width="12"
+          height="12"
+          viewBox="0 0 24 24"
+        >
           <path d="M12 4 L22 18 L2 18 Z" fill="currentColor" />
         </svg>
       ) : (
-        <svg className={triangleClass} width="12" height="12" viewBox="0 0 24 24">
+        <svg
+          className={triangleClass}
+          width="12"
+          height="12"
+          viewBox="0 0 24 24"
+        >
           <path d="M12 20 L2 6 L22 6 Z" fill="currentColor" />
         </svg>
       );
@@ -214,19 +276,39 @@ const SortableTable: React.FC<SortableTableProps> = ({ data, columns }) => {
       <thead className="bg-gray-800 text-white font-sans">
         <tr>
           {columns.map((column) => (
-            <th key={column.accessor} className={`px-4 py-2 text-left border-b border-gray-700 font-sans text-white max-w-[40ch] ${column.sortable ? "cursor-pointer" : ""}`} onClick={() => handleSortClick(column)}>
+            <th
+              key={column.accessor}
+              className={`px-4 py-2 text-left border-b border-gray-700 font-sans text-white max-w-[40ch] ${
+                column.sortable ? "cursor-pointer" : ""
+              }`}
+              onClick={() => handleSortClick(column)}
+            >
               {column.header}
               {renderSortIndicator(column)}
-              {column.fallbackSort && !sortColumn && <span className="ml-1 text-gray-400 text-sm">(default sort)</span>}
+              {column.fallbackSort && !sortColumn && (
+                <span className="ml-1 text-gray-400 text-sm">
+                  (default sort)
+                </span>
+              )}
             </th>
           ))}
         </tr>
       </thead>
       <tbody>
         {sortedData.map((row, index) => (
-          <tr key={index} className={index % 2 === 0 ? "bg-gray-900 hover:bg-gray-700" : "bg-gray-800 hover:bg-gray-700"}>
+          <tr
+            key={index}
+            className={
+              index % 2 === 0
+                ? "bg-gray-900 hover:bg-gray-700"
+                : "bg-gray-800 hover:bg-gray-700"
+            }
+          >
             {columns.map((column) => (
-              <td key={column.accessor} className="px-4 py-2 border-t border-gray-700 font-sans text-white break-words max-w-[40ch]">
+              <td
+                key={column.accessor}
+                className="px-4 py-2 border-t border-gray-700 font-sans text-white break-words max-w-[40ch]"
+              >
                 {row[column.accessor]}
               </td>
             ))}
@@ -257,7 +339,15 @@ interface WrapperProps {
   data?: any[];
 }
 
-const Wrapper: React.FC<WrapperProps> = ({ source = "/content/MiscBooks.md", backTo = "/misc", backButtonFill = "#603b61", textColor = "#ffefdb", useWideContainer = true, columns, data: initialData }) => {
+const Wrapper: React.FC<WrapperProps> = ({
+  source = "/content/MiscBooks.md",
+  backTo = "/misc",
+  backButtonFill = "#603b61",
+  textColor = "#ffefdb",
+  useWideContainer = true,
+  columns,
+  data: initialData
+}) => {
   const [markdown, setMarkdown] = useState("");
   const [, setTableData] = useState<any[]>([]);
 
@@ -286,18 +376,29 @@ const Wrapper: React.FC<WrapperProps> = ({ source = "/content/MiscBooks.md", bac
           <table className="min-w-full border-collapse border border-gray-700 font-sans text-white">
             <thead className="bg-gray-800">
               <tr>
-                {node.children[0]?.children[0]?.children?.map((th: any, index: number) => (
-                  <th key={index} className="px-4 py-2 text-left border-b border-gray-700 font-sans text-white max-w-[40ch]">
-                    {th.children?.[0]?.value || ""}
-                  </th>
-                ))}
+                {node.children[0]?.children[0]?.children?.map(
+                  (th: any, index: number) => (
+                    <th
+                      key={index}
+                      className="px-4 py-2 text-left border-b border-gray-700 font-sans text-white max-w-[40ch]"
+                    >
+                      {th.children?.[0]?.value || ""}
+                    </th>
+                  )
+                )}
               </tr>
             </thead>
             <tbody>
               {node.children[1]?.children?.map((tr: any, rowIndex: number) => (
-                <tr key={rowIndex} className={rowIndex % 2 === 0 ? "bg-gray-900" : "bg-gray-800"}>
+                <tr
+                  key={rowIndex}
+                  className={rowIndex % 2 === 0 ? "bg-gray-900" : "bg-gray-800"}
+                >
                   {tr.children?.map((td: any, cellIndex: number) => (
-                    <td key={cellIndex} className="px-4 py-2 border-t border-gray-700 font-sans text-white break-words max-w-[40ch]">
+                    <td
+                      key={cellIndex}
+                      className="px-4 py-2 border-t border-gray-700 font-sans text-white break-words max-w-[40ch]"
+                    >
                       {td.children?.[0]?.value || ""}
                     </td>
                   ))}
@@ -317,13 +418,24 @@ const Wrapper: React.FC<WrapperProps> = ({ source = "/content/MiscBooks.md", bac
         <BackButton textColor={textColor} color={backButtonFill} to={backTo} />
       </div>
 
-      <div className={`${useWideContainer ? "markdown-container-wide" : "markdown-container"} h-full overflow-auto`}>
-        <ReactMarkdown className="markdown font-mono text-[#ffebcd]" components={components} remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
+      <div
+        className={`${
+          useWideContainer ? "markdown-container-wide" : "markdown-container"
+        } h-full overflow-auto`}
+      >
+        <ReactMarkdown
+          className="markdown font-mono text-[#ffebcd]"
+          components={components}
+          remarkPlugins={[remarkGfm]}
+          rehypePlugins={[rehypeRaw]}
+        >
           {markdown}
         </ReactMarkdown>
       </div>
 
-      <div className="absolute bottom-2 right-2 text-xs text-white opacity-50">Copyright © 2024-2025 Ilan Rosenbaum. All rights reserved.</div>
+      <div className="absolute bottom-2 right-2 text-xs text-white opacity-50">
+        Copyright © 2024-2025 Ilan Rosenbaum. All rights reserved.
+      </div>
     </div>
   );
 };

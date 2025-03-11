@@ -1,5 +1,7 @@
 import React from "react";
-import SierpinskiHexagon, { HexagonConfig } from "../../components/SierpinskiHexagon";
+import SierpinskiHexagon, {
+  HexagonConfig
+} from "../../components/SierpinskiHexagon";
 import { performTransitionAndRedirect } from "../../App";
 import { appConfig as unitedStatesConfig } from "./UnitedStates";
 import { appConfig as africaConfig } from "./Africa";
@@ -12,7 +14,8 @@ const africaConfigClone: HexagonConfig = structuredClone(africaConfig);
 africaConfigClone.title = "";
 const europeConfigClone: HexagonConfig = structuredClone(europeConfig);
 europeConfigClone.title = "";
-const unitedStatesConfigClone: HexagonConfig = structuredClone(unitedStatesConfig);
+const unitedStatesConfigClone: HexagonConfig =
+  structuredClone(unitedStatesConfig);
 unitedStatesConfigClone.title = "";
 
 const sharedConfig = {
@@ -83,7 +86,8 @@ const pageConfig: HexagonConfig = {
     bottomLeft: africaConfig,
     bottomRight: europeConfig,
     right: unitedStatesConfig
-  }};
+  }
+};
 
 pageConfig.actions = {
   right: (hexagonId: number) => {

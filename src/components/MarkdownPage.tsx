@@ -18,13 +18,24 @@ interface MarkdownPageProps {
   useWideContainer?: boolean;
 }
 
-const MarkdownPage: React.FC<MarkdownPageProps> = ({ source, backTo, backButtonFill, textColor, googleSheetId, googleSheetGids, useWideContainer = false }) => {
+const MarkdownPage: React.FC<MarkdownPageProps> = ({
+  source,
+  backTo,
+  backButtonFill,
+  textColor,
+  googleSheetId,
+  googleSheetGids,
+  useWideContainer = false
+}) => {
   const [markdown, setMarkdown] = useState<string>("");
   const [tableDatas, setTableDatas] = useState<any[][]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchPublicGoogleSheetData = async (sheetId: string, gid: string): Promise<any[]> => {
+    const fetchPublicGoogleSheetData = async (
+      sheetId: string,
+      gid: string
+    ): Promise<any[]> => {
       const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&gid=${gid}`;
       const response = await fetch(url);
       const csvData = await response.text();
@@ -80,7 +91,8 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({ source, backTo, backButtonF
     const headers = rows[0];
     return rows.slice(1).map((row) => {
       return headers.reduce((obj, header, index) => {
-        obj[header.replace(/^"|"$/g, "")] = row[index]?.replace(/^"|"$/g, "") || "";
+        obj[header.replace(/^"|"$/g, "")] =
+          row[index]?.replace(/^"|"$/g, "") || "";
         return obj;
       }, {} as any);
     });
@@ -96,7 +108,12 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({ source, backTo, backButtonF
       }
 
       return !inline && match ? (
-        <SyntaxHighlighter style={vscDarkPlus} language={match[1]} PreTag="div" {...props}>
+        <SyntaxHighlighter
+          style={vscDarkPlus}
+          language={match[1]}
+          PreTag="div"
+          {...props}
+        >
           {content}
         </SyntaxHighlighter>
       ) : (
@@ -106,19 +123,33 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({ source, backTo, backButtonF
       );
     },
     table({ children }: any) {
-      return <table className="min-w-full border-collapse border border-gray-700 font-sans text-white">{children}</table>;
+      return (
+        <table className="min-w-full border-collapse border border-gray-700 font-sans text-white">
+          {children}
+        </table>
+      );
     },
 
     thead({ children }: any) {
-      return <thead className="bg-gray-800 text-white font-sans">{children}</thead>;
+      return (
+        <thead className="bg-gray-800 text-white font-sans">{children}</thead>
+      );
     },
 
     th({ children }: any) {
-      return <th className="px-4 py-2 text-left whitespace-nowrap border-b border-gray-700 font-sans text-white">{children}</th>;
+      return (
+        <th className="px-4 py-2 text-left whitespace-nowrap border-b border-gray-700 font-sans text-white">
+          {children}
+        </th>
+      );
     },
 
     td({ children }: any) {
-      return <td className="px-4 py-2 border-t border-gray-700 whitespace-nowrap font-sans text-white">{children}</td>;
+      return (
+        <td className="px-4 py-2 border-t border-gray-700 whitespace-nowrap font-sans text-white">
+          {children}
+        </td>
+      );
     },
 
     a({ href, children, ...props }: any) {
@@ -140,7 +171,13 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({ source, backTo, backButtonF
     parts.forEach((part, index) => {
       if (part) {
         elements.push(
-          <ReactMarkdown key={`md-${index}`} className="markdown font-mono text-[#ffebcd]" components={components} rehypePlugins={[rehypeRaw]} remarkPlugins={[remarkGfm]}>
+          <ReactMarkdown
+            key={`md-${index}`}
+            className="markdown font-mono text-[#ffebcd]"
+            components={components}
+            rehypePlugins={[rehypeRaw]}
+            remarkPlugins={[remarkGfm]}
+          >
             {part}
           </ReactMarkdown>
         );
@@ -149,14 +186,22 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({ source, backTo, backButtonF
       if (index < parts.length - 1) {
         const placeholderMatch = markdown.match(placeholderRegex);
         const placeholder = placeholderMatch ? placeholderMatch[index] : null;
-        const placeholderIndex = placeholder ? parseInt(placeholder.match(/\d+/)?.[0] || "1") - 1 : 0;
+        const placeholderIndex = placeholder
+          ? parseInt(placeholder.match(/\d+/)?.[0] || "1") - 1
+          : 0;
         elements.push(
           isLoading ? (
-            <div key={`loading-${index}`} className="flex justify-center items-center h-32">
+            <div
+              key={`loading-${index}`}
+              className="flex justify-center items-center h-32"
+            >
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
             </div>
           ) : (
-            <RestaurantTable key={`table-${index}`} data={tableDatas[placeholderIndex] || []} />
+            <RestaurantTable
+              key={`table-${index}`}
+              data={tableDatas[placeholderIndex] || []}
+            />
           )
         );
       }
@@ -168,10 +213,22 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({ source, backTo, backButtonF
   return (
     <div className="h-screen w-screen bg-black/90 text-white overflow-hidden p-4">
       <div className="absolute top-8 left-8 z-10">
-        <BackButton textColor={textColor || "#ffefdb"} color={backButtonFill || "#603b61"} to={backTo || "/"} />
+        <BackButton
+          textColor={textColor || "#ffefdb"}
+          color={backButtonFill || "#603b61"}
+          to={backTo || "/"}
+        />
       </div>
-      <div className={`${useWideContainer ? "markdown-container-wide" : "markdown-container"} h-full overflow-auto`}>{renderContent()}</div>
-      <div className="absolute bottom-2 right-2 text-xs text-white opacity-50">Copyright © 2024-2025 Ilan Rosenbaum. All rights reserved.</div>
+      <div
+        className={`${
+          useWideContainer ? "markdown-container-wide" : "markdown-container"
+        } h-full overflow-auto`}
+      >
+        {renderContent()}
+      </div>
+      <div className="absolute bottom-2 right-2 text-xs text-white opacity-50">
+        Copyright © 2024-2025 Ilan Rosenbaum. All rights reserved.
+      </div>
     </div>
   );
 };

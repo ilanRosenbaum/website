@@ -1,33 +1,36 @@
 import json
 import sys
 
+
 def main():
-    with open('documents/license-checker.json') as json_file:
+    with open("documents/license-checker.json") as json_file:
         data = json.load(json_file)
 
     if len(sys.argv) > 1:
         command = sys.argv[1]
-        if command == 'summary':
+        if command == "summary":
             summary(data)
-        elif command == 'credit':
+        elif command == "credit":
             credit(data)
         else:
             print("Invalid command. Use 'summary' or 'credit'.")
     else:
         print("No command provided. Use 'summary' or 'credit'.")
 
+
 def credit(data):
     for key, value in data.items():
-        if 'publisher' in value:
-            author = value['publisher']
+        if "publisher" in value:
+            author = value["publisher"]
             print(f"Package: {key}\\\nAuthor: {author}\n")
+
 
 def summary(data):
     license_dictionary = {}
 
     for key, value in data.items():
-        if 'licenses' in value:
-            l = value['licenses']
+        if "licenses" in value:
+            l = value["licenses"]
             if l in license_dictionary:
                 license_dictionary[l] += 1
             else:
@@ -46,12 +49,15 @@ def summary(data):
         del license_dictionary[key]
 
     # Sort licenses by count in descending order
-    sorted_licenses = sorted(license_dictionary.items(), key=lambda item: item[1], reverse=True)
+    sorted_licenses = sorted(
+        license_dictionary.items(), key=lambda item: item[1], reverse=True
+    )
 
     # Print licenses in a more readable format
     print("License Summary:")
     for license, count in sorted_licenses:
         print(f"----------------\nLicense: {license}\nCount: {count}")
+
 
 if __name__ == "__main__":
     main()

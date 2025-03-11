@@ -12,15 +12,29 @@ const DataviewTable: React.FC<{ content: string }> = ({ content }) => {
               <table class="min-w-full border-collapse border border-gray-700 font-sans text-white">
                 <thead class="bg-gray-800 text-white font-sans">
                   <tr>
-                    ${headers.map((header) => `<th class="px-4 py-2 text-left whitespace-nowrap border-b border-gray-700 font-sans text-white">${header}</th>`).join("")}
+                    ${headers
+                      .map(
+                        (header) =>
+                          `<th class="px-4 py-2 text-left whitespace-nowrap border-b border-gray-700 font-sans text-white">${header}</th>`
+                      )
+                      .join("")}
                   </tr>
                 </thead>
                 <tbody>
                   ${data
                     .map(
                       (row, index) => `
-                      <tr class="${index % 2 === 0 ? "bg-gray-900" : "bg-gray-800"} hover:bg-gray-700">
-                        ${row.map((cell) => `<td class="px-4 py-2 border-t border-gray-700 whitespace-nowrap font-sans text-white">${cell !== undefined && cell !== null ? cell : ""}</td>`).join("")}
+                      <tr class="${
+                        index % 2 === 0 ? "bg-gray-900" : "bg-gray-800"
+                      } hover:bg-gray-700">
+                        ${row
+                          .map(
+                            (cell) =>
+                              `<td class="px-4 py-2 border-t border-gray-700 whitespace-nowrap font-sans text-white">${
+                                cell !== undefined && cell !== null ? cell : ""
+                              }</td>`
+                          )
+                          .join("")}
                       </tr>
                     `
                     )
@@ -35,15 +49,29 @@ const DataviewTable: React.FC<{ content: string }> = ({ content }) => {
               <table class="min-w-full border-collapse border border-gray-700 font-sans text-white">
                 <thead class="bg-gray-800 text-white font-sans">
                   <tr>
-                    ${headers.map((header) => `<th class="px-4 py-2 text-left whitespace-nowrap border-b border-gray-700 font-sans text-white">${header}</th>`).join("")}
+                    ${headers
+                      .map(
+                        (header) =>
+                          `<th class="px-4 py-2 text-left whitespace-nowrap border-b border-gray-700 font-sans text-white">${header}</th>`
+                      )
+                      .join("")}
                   </tr>
                 </thead>
                 <tbody>
                   ${rows
                     .map(
                       (row, index) => `
-                      <tr class="${index % 2 === 0 ? "bg-gray-900" : "bg-gray-800"} hover:bg-gray-700">
-                        ${row.map((cell) => `<td class="px-4 py-2 border-t border-gray-700 whitespace-nowrap font-sans text-white">${cell !== undefined && cell !== null ? cell : ""}</td>`).join("")}
+                      <tr class="${
+                        index % 2 === 0 ? "bg-gray-900" : "bg-gray-800"
+                      } hover:bg-gray-700">
+                        ${row
+                          .map(
+                            (cell) =>
+                              `<td class="px-4 py-2 border-t border-gray-700 whitespace-nowrap font-sans text-white">${
+                                cell !== undefined && cell !== null ? cell : ""
+                              }</td>`
+                          )
+                          .join("")}
                       </tr>
                     `
                     )
@@ -57,7 +85,7 @@ const DataviewTable: React.FC<{ content: string }> = ({ content }) => {
             const attributes = attrs
               ? Object.entries(attrs)
                   .map(([key, value]) => {
-                    if (key === 'cls') {
+                    if (key === "cls") {
                       return `class="${value}"`; // Map 'cls' to 'class'
                     } else {
                       return `${key}="${value}"`;
@@ -66,7 +94,7 @@ const DataviewTable: React.FC<{ content: string }> = ({ content }) => {
                   .join(" ")
               : "";
             let innerContent = "";
-      
+
             if (content === undefined || content === null) {
               innerContent = "";
             } else if (typeof content === "string") {
@@ -80,16 +108,15 @@ const DataviewTable: React.FC<{ content: string }> = ({ content }) => {
             } else {
               innerContent = String(content);
             }
-      
+
             let toBeAdded = `<${tag} ${attributes}>${innerContent}</${tag}>`;
             toBeAdded = toBeAdded.replace(/\s+/g, " ").trim(); // Clean up any extra whitespace
-      
+
             renderedHTML += toBeAdded;
             return ""; // Explicitly return an empty string
           }
         }
       };
-      
 
       // Wrap the user's code in an IIFE
       const script = `
@@ -106,17 +133,20 @@ const DataviewTable: React.FC<{ content: string }> = ({ content }) => {
       // eslint-disable-next-line no-new-func
       new Function(...argNames, script)(...argValues);
 
-
       return renderedHTML;
     } catch (error) {
       console.error("Error executing dataviewjs:", error);
-      const errorMessage = error instanceof Error ? error.message : String(error);
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
       return `<div class="text-red-500">Error executing dataviewjs: ${errorMessage}</div>`;
     }
   };
 
   return (
-    <div className="font-mono" dangerouslySetInnerHTML={{ __html: executeDataviewJS(content) }} />
+    <div
+      className="font-mono"
+      dangerouslySetInnerHTML={{ __html: executeDataviewJS(content) }}
+    />
   );
 };
 

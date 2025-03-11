@@ -48,7 +48,9 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
    */
   function insertInDescendingOrder(existing: ImageItem[], item: ImageItem) {
     // 1) Check if already present
-    const alreadyIndex = existing.findIndex((x) => x.fullPath === item.fullPath);
+    const alreadyIndex = existing.findIndex(
+      (x) => x.fullPath === item.fullPath
+    );
     if (alreadyIndex !== -1) {
       // Already in the list
       return existing;
@@ -234,7 +236,10 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
       </div>
 
       {/* Main Container */}
-      <div ref={containerRef} className="w-screen h-[calc(80dvh)] mt-[max(9vw,9vh)] mb-[calc(6dvh)] custom-scrollbar overflow-auto">
+      <div
+        ref={containerRef}
+        className="w-screen h-[calc(80dvh)] mt-[max(9vw,9vh)] mb-[calc(6dvh)] custom-scrollbar overflow-auto"
+      >
         {(() => {
           const { width, height } = containerSize;
           if (!width || !height) return null;
@@ -242,14 +247,25 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
           const rowCount = Math.ceil(photos.length / 3);
           const hexRadius = width > height ? height / 4 : width / 6;
           const singleHexHeight = hexRadius * Math.sqrt(3);
-          const svgHeight = Math.max(height, rowCount * singleHexHeight + singleHexHeight);
+          const svgHeight = Math.max(
+            height,
+            rowCount * singleHexHeight + singleHexHeight
+          );
 
           return (
-            <svg width={width} height={svgHeight} className="mx-auto block" style={{ overflow: "visible" }}>
+            <svg
+              width={width}
+              height={svgHeight}
+              className="mx-auto block"
+              style={{ overflow: "visible" }}
+            >
               {/* 1) Define all clip paths in <defs> */}
               <defs>
                 {hexData.map((d) => (
-                  <clipPath key={`clip-hex-${d.index}`} id={`clip-hex-${d.index}`}>
+                  <clipPath
+                    key={`clip-hex-${d.index}`}
+                    id={`clip-hex-${d.index}`}
+                  >
                     <path d={hexPath} transform={`translate(${d.x}, ${d.y})`} />
                   </clipPath>
                 ))}
@@ -306,14 +322,29 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
                       {/* Clipped image */}
                       <g clipPath={`url(#clip-hex-${d.index})`}>
                         <g transform={`translate(${imgX}, ${imgY})`}>
-                          <g transform={`translate(${offsetX}, ${offsetY}) scale(${coverScale})`}>
-                            <image xlinkHref={d.item.thumbUrl} width={300} height={300} preserveAspectRatio="none" style={{ pointerEvents: "none" }} />
+                          <g
+                            transform={`translate(${offsetX}, ${offsetY}) scale(${coverScale})`}
+                          >
+                            <image
+                              xlinkHref={d.item.thumbUrl}
+                              width={300}
+                              height={300}
+                              preserveAspectRatio="none"
+                              style={{ pointerEvents: "none" }}
+                            />
                           </g>
                         </g>
                       </g>
 
                       {/* Optional border */}
-                      <path d={hexPath} fill="none" stroke="black" strokeWidth={2} transform={`translate(${imgX}, ${imgY})`} style={{ pointerEvents: "none" }} />
+                      <path
+                        d={hexPath}
+                        fill="none"
+                        stroke="black"
+                        strokeWidth={2}
+                        transform={`translate(${imgX}, ${imgY})`}
+                        style={{ pointerEvents: "none" }}
+                      />
                     </g>
                   </g>
                 );
@@ -325,17 +356,31 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
 
       {/* Fullscreen Overlay */}
       {selectedPhoto && (
-        <div className="fixed inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center z-20" onClick={closeFullscreen}>
-          <img src={selectedPhoto} alt="" className="max-w-[90%] max-h-[80%] object-contain mb-4" onClick={(e) => e.stopPropagation()} />
+        <div
+          className="fixed inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center z-20"
+          onClick={closeFullscreen}
+        >
+          <img
+            src={selectedPhoto}
+            alt=""
+            className="max-w-[90%] max-h-[80%] object-contain mb-4"
+            onClick={(e) => e.stopPropagation()}
+          />
           <div className="flex justify-center items-center w-full">
             <button
-              className={`mx-4 w-12 h-12 rounded-full bg-transparent text-[#ffebcd] text-4xl font-bold font-mono flex items-center justify-center transition-opacity duration-300 ${selectedIndex === 0 ? "opacity-0" : "opacity-100"}`}
+              className={`mx-4 w-12 h-12 rounded-full bg-transparent text-[#ffebcd] text-4xl font-bold font-mono flex items-center justify-center transition-opacity duration-300 ${
+                selectedIndex === 0 ? "opacity-0" : "opacity-100"
+              }`}
               onClick={handlePrevious}
             >
               &lt;
             </button>
             <button
-              className={`mx-4 w-12 h-12 rounded-full bg-transparent text-[#ffebcd] text-4xl font-bold font-mono flex items-center justify-center transition-opacity duration-300 ${selectedIndex === photos.length - 1 ? "opacity-0" : "opacity-100"}`}
+              className={`mx-4 w-12 h-12 rounded-full bg-transparent text-[#ffebcd] text-4xl font-bold font-mono flex items-center justify-center transition-opacity duration-300 ${
+                selectedIndex === photos.length - 1
+                  ? "opacity-0"
+                  : "opacity-100"
+              }`}
               onClick={handleNext}
             >
               &gt;
@@ -345,7 +390,9 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
       )}
 
       {/* Footer */}
-      <div className="absolute bottom-2 right-2 text-xs text-white opacity-50">Copyright © 2024-2025 Ilan Rosenbaum. All rights reserved.</div>
+      <div className="absolute bottom-2 right-2 text-xs text-white opacity-50">
+        Copyright © 2024-2025 Ilan Rosenbaum. All rights reserved.
+      </div>
     </div>
   );
 };

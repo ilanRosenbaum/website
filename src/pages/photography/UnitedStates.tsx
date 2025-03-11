@@ -1,4 +1,7 @@
-import SierpinskiHexagon, { HexagonConfig, minConfig } from "../../components/SierpinskiHexagon";
+import SierpinskiHexagon, {
+  HexagonConfig,
+  minConfig
+} from "../../components/SierpinskiHexagon";
 import { appConfig as californiaConfig } from "./California";
 import { appConfig as midwestConfig } from "./Midwest";
 import { performTransitionAndRedirect } from "../../App";
@@ -7,7 +10,7 @@ const sharedConfig: HexagonConfig = structuredClone(minConfig);
 sharedConfig.images = {
   bottomLeft: "/Covers/hawaiiVertical.jpg",
   topLeft: "/Covers/charlotteVertical.jpg",
-  left: "/Covers/sedonaVertical.jpeg",
+  left: "/Covers/sedonaVertical.jpeg"
 };
 const appConfig: HexagonConfig = structuredClone(minConfig);
 appConfig.title = "United States";
@@ -54,7 +57,7 @@ pageConfig.titleSize = "2vw";
 pageConfig.text = {
   3: "Hawaii",
   5: "North Carolina",
-  4: "Sedona",
+  4: "Sedona"
 };
 pageConfig.images = sharedConfig.images;
 

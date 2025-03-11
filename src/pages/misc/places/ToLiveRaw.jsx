@@ -1,43 +1,51 @@
-import React from 'react';
+import React from "react";
 
 const Toliveraw = () => {
-// Data
+  // Data
   const communityData = [
     {
       city: "Copenhagen, Denmark",
       score: "vibrant",
-      details: "Extensive community gardens, strong co-op culture, year-round markets, innovative community spaces",
-      highlights: "Christiania free town, numerous housing co-ops, strong cycling community"
+      details:
+        "Extensive community gardens, strong co-op culture, year-round markets, innovative community spaces",
+      highlights:
+        "Christiania free town, numerous housing co-ops, strong cycling community"
     },
     {
       city: "Portland, OR",
       score: "vibrant",
-      details: "Lots of community gardens, People's Food Co-op, Alberta Cooperative Grocery",
+      details:
+        "Lots of community gardens, People's Food Co-op, Alberta Cooperative Grocery",
       highlights: "Strong DIY culture, tool libraries, community workshops"
     },
     {
       city: "Minneapolis, MN",
       score: "vibrant",
       details: "Extensive co-op network, multiple year-round farmers markets",
-      highlights: "Strong food co-op presence, winter markets, Midtown Global Market"
+      highlights:
+        "Strong food co-op presence, winter markets, Midtown Global Market"
     },
     {
       city: "Vancouver, Canada",
       score: "active",
       details: "Lots of community gardens, multiple farmers markets",
-      highlights: "Community garden network, strong neighborhood houses, Vancouver Farmers Markets"
+      highlights:
+        "Community garden network, strong neighborhood houses, Vancouver Farmers Markets"
     },
     {
       city: "Seattle, WA",
       score: "active",
-      details: "Lots of community gardens (P-Patch), multiple year-round markets",
-      highlights: "P-Patch program, PCC Community Markets, Capitol Hill Urban Farm"
+      details:
+        "Lots of community gardens (P-Patch), multiple year-round markets",
+      highlights:
+        "P-Patch program, PCC Community Markets, Capitol Hill Urban Farm"
     },
     {
       city: "Montreal, Canada",
       score: "active",
       details: "Lots of community gardens, strong market culture",
-      highlights: "Jean-Talon Market, extensive community centers, Atwater Market"
+      highlights:
+        "Jean-Talon Market, extensive community centers, Atwater Market"
     },
     {
       city: "Stockholm, Sweden",
@@ -55,19 +63,22 @@ const Toliveraw = () => {
       city: "Boston, MA",
       score: "moderate",
       details: "Some community gardens, seasonal markets",
-      highlights: "Boston Food Co-op, active community centers, SoWa Open Market"
+      highlights:
+        "Boston Food Co-op, active community centers, SoWa Open Market"
     },
     {
       city: "San Francisco, CA",
       score: "moderate",
       details: "Some community gardens, multiple farmers markets",
-      highlights: "Rainbow Grocery Cooperative, People's Grocery, Mission Community Market"
+      highlights:
+        "Rainbow Grocery Cooperative, People's Grocery, Mission Community Market"
     },
     {
       city: "New York, NY",
       score: "vibrant",
       details: "550+ community gardens but spread thin given population",
-      highlights: "GreenThumb program, Park Slope Food Coop, Union Square Greenmarket"
+      highlights:
+        "GreenThumb program, Park Slope Food Coop, Union Square Greenmarket"
     },
     {
       city: "Denver, CO",
@@ -78,8 +89,10 @@ const Toliveraw = () => {
     {
       city: "Madison, WI",
       score: "moderate",
-      details: "Lots of community gardens, seasonal markets. Strong community in small subsets of madison which is itself already a small city.",
-      highlights: "Willy Street Co-op, decent garden network, Dane County Farmers Market"
+      details:
+        "Lots of community gardens, seasonal markets. Strong community in small subsets of madison which is itself already a small city.",
+      highlights:
+        "Willy Street Co-op, decent garden network, Dane County Farmers Market"
     }
   ];
 
@@ -112,7 +125,8 @@ const Toliveraw = () => {
       nature2: "ideal",
       travel: "some",
       snowInY: 0,
-      community: communityData.find((row) => row.city === "San Francisco, CA").score,
+      community: communityData.find((row) => row.city === "San Francisco, CA")
+        .score,
       population: 808437,
       food: (17 / 20) * 100,
       pickupBasketball: (8 / 10) * 100,
@@ -163,7 +177,8 @@ const Toliveraw = () => {
       nature2: "ideal",
       travel: "some",
       snowInY: 15,
-      community: communityData.find((row) => row.city === "Vancouver, Canada").score,
+      community: communityData.find((row) => row.city === "Vancouver, Canada")
+        .score,
       population: 675218,
       food: (15 / 20) * 100,
       pickupBasketball: (5 / 10) * 100,
@@ -180,7 +195,8 @@ const Toliveraw = () => {
       nature2: "ideal",
       travel: "some",
       snowInY: 40.4,
-      community: communityData.find((row) => row.city === "Stockholm, Sweden").score,
+      community: communityData.find((row) => row.city === "Stockholm, Sweden")
+        .score,
       population: 905184,
       food: (13 / 20) * 100,
       pickupBasketball: (2 / 10) * 100,
@@ -214,7 +230,8 @@ const Toliveraw = () => {
       nature2: "good",
       travel: "none",
       snowInY: 82.5,
-      community: communityData.find((row) => row.city === "Montreal, Canada").score,
+      community: communityData.find((row) => row.city === "Montreal, Canada")
+        .score,
       population: 1870000,
       food: (16 / 20) * 100,
       pickupBasketball: (5 / 10) * 100,
@@ -248,7 +265,8 @@ const Toliveraw = () => {
       nature2: "ok",
       travel: "none",
       snowInY: 51.2,
-      community: communityData.find((row) => row.city === "Minneapolis, MN").score,
+      community: communityData.find((row) => row.city === "Minneapolis, MN")
+        .score,
       population: 425336,
       food: (9 / 20) * 100,
       pickupBasketball: (7 / 10) * 100,
@@ -265,7 +283,8 @@ const Toliveraw = () => {
       nature2: "good",
       travel: "some",
       snowInY: 13,
-      community: communityData.find((row) => row.city === "Copenhagen, Denmark").score,
+      community: communityData.find((row) => row.city === "Copenhagen, Denmark")
+        .score,
       population: 600000,
       food: (20 / 20) * 100,
       pickupBasketball: (2 / 10) * 100,
@@ -406,7 +425,14 @@ const Toliveraw = () => {
     "Acceleration",
     "Avg"
   ];
-  const neighborhoodHeaders = ["Neighborhood/Town", "City", "Walk Score", "Bike Score", "Transit Score", "Avg"];
+  const neighborhoodHeaders = [
+    "Neighborhood/Town",
+    "City",
+    "Walk Score",
+    "Bike Score",
+    "Transit Score",
+    "Avg"
+  ];
   const communityHeaders = ["City", "Score", "Details", "Key Highlights"];
 
   // Score Mappings
@@ -458,14 +484,19 @@ const Toliveraw = () => {
     .reduce((acc, curr) => acc + curr, 0); // 165
 
   // List of dynamic categories that require half weighting from neighborhood and half from city
-  const halfWeightedDynamicCategories = ["walkScore", "bikeScore", "transitScore"];
+  const halfWeightedDynamicCategories = [
+    "walkScore",
+    "bikeScore",
+    "transitScore"
+  ];
 
   // **Create a Mapping from City to Community Score**
   const communityScoreMapping = {};
   communityData.forEach((row) => {
     const category = "community";
     if (categoryWeights[category].type === "static") {
-      communityScoreMapping[row.city] = categoryWeights[category].mapping[row.score] || 0;
+      communityScoreMapping[row.city] =
+        categoryWeights[category].mapping[row.score] || 0;
     }
   });
 
@@ -507,13 +538,16 @@ const Toliveraw = () => {
           const neighborhoodScore = row[category] || 0;
           const cityDynamicScore = cityScore[category] || 0;
 
-          const normalizedNeighborhoodScore = (neighborhoodScore / details.max) * (details.weight / 2);
-          const normalizedCityScore = (cityDynamicScore / details.max) * (details.weight / 2);
+          const normalizedNeighborhoodScore =
+            (neighborhoodScore / details.max) * (details.weight / 2);
+          const normalizedCityScore =
+            (cityDynamicScore / details.max) * (details.weight / 2);
 
           sum += normalizedNeighborhoodScore + normalizedCityScore;
         } else {
           const cityDynamicScore = cityScore[category] || 0;
-          const normalizedCityScore = (cityDynamicScore / details.max) * details.weight;
+          const normalizedCityScore =
+            (cityDynamicScore / details.max) * details.weight;
           sum += normalizedCityScore;
         }
       }
@@ -556,7 +590,9 @@ const Toliveraw = () => {
 
   // **Sort Community Data by Score**
   const scoreMap = { vibrant: 3, active: 2, moderate: 1, limited: 0 };
-  const sortedCommunityData = [...communityData].sort((a, b) => scoreMap[b.score] - scoreMap[a.score]);
+  const sortedCommunityData = [...communityData].sort(
+    (a, b) => scoreMap[b.score] - scoreMap[a.score]
+  );
 
   // **Utility Function to Render Tables**
   const renderTable = (headers, data) => (
@@ -564,7 +600,10 @@ const Toliveraw = () => {
       <thead>
         <tr>
           {headers.map((header, idx) => (
-            <th key={idx} className="text-left border-b border-gray-700 font-sans text-white max-w-[40ch]">
+            <th
+              key={idx}
+              className="text-left border-b border-gray-700 font-sans text-white max-w-[40ch]"
+            >
               {header}
             </th>
           ))}
@@ -572,7 +611,10 @@ const Toliveraw = () => {
       </thead>
       <tbody>
         {data.map((row, rowIdx) => (
-          <tr key={rowIdx} className="border-t border-gray-700 font-sans text-white break-words max-w-[40ch]">
+          <tr
+            key={rowIdx}
+            className="border-t border-gray-700 font-sans text-white break-words max-w-[40ch]"
+          >
             {row.map((cell, cellIdx) => (
               <td key={cellIdx}>{cell}</td>
             ))}
@@ -647,10 +689,14 @@ const Toliveraw = () => {
 
   return (
     <div className="pt-14 markdown-container-wide h-full overflow-auto">
-      <h1 className="text-3xl font-mono text-[#ffebcd] font-bold mb-4">To Live</h1>
+      <h1 className="text-3xl font-mono text-[#ffebcd] font-bold mb-4">
+        To Live
+      </h1>
 
       {/* **Cities Table** */}
-      <h2 className="text-2xl font-mono text-[#ffebcd] font-semibold mt-8 mb-4">Cities</h2>
+      <h2 className="text-2xl font-mono text-[#ffebcd] font-semibold mt-8 mb-4">
+        Cities
+      </h2>
       {renderTable(
         cityHeaders,
         processedCityData.map((row) => [
@@ -674,35 +720,63 @@ const Toliveraw = () => {
       )}
 
       {/* **Towns/Neighborhoods Table** */}
-      <h2 className="text-2xl font-mono text-[#ffebcd] font-semibold mt-8 mb-4">Towns/Neighborhoods</h2>
+      <h2 className="text-2xl font-mono text-[#ffebcd] font-semibold mt-8 mb-4">
+        Towns/Neighborhoods
+      </h2>
       {renderTable(
         neighborhoodHeaders,
-        processedNeighborhoodData.map((row) => [row.neighborhood, row.city, row.walkScore, row.bikeScore, row.transitScore, row.Avg.toFixed(2)])
+        processedNeighborhoodData.map((row) => [
+          row.neighborhood,
+          row.city,
+          row.walkScore,
+          row.bikeScore,
+          row.transitScore,
+          row.Avg.toFixed(2)
+        ])
       )}
 
       {/* **Community Score Details Table** */}
-      <h2 className="text-2xl font-mono text-[#ffebcd] font-semibold mt-8 mb-4">Community Score Details</h2>
+      <h2 className="text-2xl font-mono text-[#ffebcd] font-semibold mt-8 mb-4">
+        Community Score Details
+      </h2>
       {renderTable(
         communityHeaders,
-        sortedCommunityData.map((row) => [row.city, row.score, row.details, row.highlights])
+        sortedCommunityData.map((row) => [
+          row.city,
+          row.score,
+          row.details,
+          row.highlights
+        ])
       )}
 
       {/* **Score Weightings Tables** */}
       <div style={{ marginTop: "2rem" }}>
-        <h2 className="text-2xl font-mono text-[#ffebcd] font-semibold mt-8 mb-4">Score Weightings</h2>
+        <h2 className="text-2xl font-mono text-[#ffebcd] font-semibold mt-8 mb-4">
+          Score Weightings
+        </h2>
 
         {/* **City Score Weightings** */}
-        <h3 className="text-xl font-mono text-[#ffebcd] font-semibold mt-6 mb-2">City Score</h3>
+        <h3 className="text-xl font-mono text-[#ffebcd] font-semibold mt-6 mb-2">
+          City Score
+        </h3>
         {renderTable(
           ["Category", "Percentage of Final Score"],
-          sortedCategoriesCity.map((item) => [getReadableCategory(item.category), `${item.percentage}%`])
+          sortedCategoriesCity.map((item) => [
+            getReadableCategory(item.category),
+            `${item.percentage}%`
+          ])
         )}
 
         {/* **Town/Neighborhood Score Weightings** */}
-        <h3 className="text-xl font-mono text-[#ffebcd] font-semibold mt-6 mb-2">Town/Neighborhood Score</h3>
+        <h3 className="text-xl font-mono text-[#ffebcd] font-semibold mt-6 mb-2">
+          Town/Neighborhood Score
+        </h3>
         {renderTable(
           ["Category", "Percentage of Final Score"],
-          sortedCategoriesNeighborhood.map((item) => [getReadableCategory(item.category), `${item.percentage}%`])
+          sortedCategoriesNeighborhood.map((item) => [
+            getReadableCategory(item.category),
+            `${item.percentage}%`
+          ])
         )}
       </div>
     </div>

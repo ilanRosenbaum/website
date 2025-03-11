@@ -1,4 +1,7 @@
-import SierpinskiHexagon, { HexagonConfig, minConfig } from "../../components/SierpinskiHexagon";
+import SierpinskiHexagon, {
+  HexagonConfig,
+  minConfig
+} from "../../components/SierpinskiHexagon";
 
 const appConfig: HexagonConfig = structuredClone(minConfig);
 appConfig.targetLevels = {
@@ -17,7 +20,7 @@ appConfig.images = {
   bottomLeft: "/Covers/lyonVertical.jpg",
   topLeft: "/Covers/gironaVertical.jpg",
   right: "/Covers/copenhagenVertical.jpg"
-}
+};
 
 export { appConfig };
 
@@ -47,13 +50,13 @@ pageConfig.images = {
   bottomLeft: "/Covers/lyonVertical.jpg",
   topLeft: "/Covers/gironaVertical.jpg",
   right: "/Covers/copenhagenVertical.jpg"
-}
+};
 
 pageConfig.text = {
   1: "Denmark",
   3: "France",
   4: "Netherlands",
-  5: "Spain",
+  5: "Spain"
 };
 
 pageConfig.backButton = {

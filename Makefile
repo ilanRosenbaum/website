@@ -21,16 +21,16 @@ license-credits:
 #***************************************************************************
 .PHONY: copy-content
 copy-content:
-	cp '../Documents/Obsidian Vault/Observational Studies/Headphones, No Headphones.md' 'public/content/MiscHeadphonesNoHeadphones.md'
-	cp '../Documents/Obsidian Vault/Places/Lived.md' 'public/content/MiscPlacesLived.md'
-	cp '../Documents/Obsidian Vault/Places/Visited.md' 'public/content/MiscPlacesVisited.md'
-	cp '../Documents/Obsidian Vault/Places/To Visit.md' 'public/content/MiscPlacesToVisit.md'
-	cp '../Documents/Obsidian Vault/Places/To Live.md' 'public/content/MiscPlacesToLive.md'
-	(echo '# Lived'; cat '../Documents/Obsidian Vault/Places/Lived.md') > 'public/content/MiscPlacesLived.md'
-	(echo '# Visited'; cat '../Documents/Obsidian Vault/Places/Visited.md') > 'public/content/MiscPlacesVisited.md'
-	(echo '# To Visit'; cat '../Documents/Obsidian Vault/Places/To Visit.md') > 'public/content/MiscPlacesToVisit.md'
-	(echo '# To Live'; cat '../Documents/Obsidian Vault/React/ToLive.md') > 'public/content/MiscPlacesToLive.md'
-	(echo '# Books'; cat '../Documents/Obsidian Vault/books.md') > 'public/content/MiscBooks.md'
+	cp '$(NOTES_LOCATION)/Observational Studies/Headphones, No Headphones.md' 'public/content/MiscHeadphonesNoHeadphones.md'
+	cp '$(NOTES_LOCATION)/Places/Lived.md' 'public/content/MiscPlacesLived.md'
+	cp '$(NOTES_LOCATION)/Places/Visited.md' 'public/content/MiscPlacesVisited.md'
+	cp '$(NOTES_LOCATION)/Places/To Visit.md' 'public/content/MiscPlacesToVisit.md'
+	cp '$(NOTES_LOCATION)/Places/To Live.md' 'public/content/MiscPlacesToLive.md'
+	(echo '# Lived'; cat '$(NOTES_LOCATION)/Places/Lived.md') > 'public/content/MiscPlacesLived.md'
+	(echo '# Visited'; cat '$(NOTES_LOCATION)/Places/Visited.md') > 'public/content/MiscPlacesVisited.md'
+	(echo '# To Visit'; cat '$(NOTES_LOCATION)/Places/To Visit.md') > 'public/content/MiscPlacesToVisit.md'
+	(echo '# To Live'; cat '$(NOTES_LOCATION)/React/ToLive.md') > 'public/content/MiscPlacesToLive.md'
+	(echo '# Books'; cat '$(NOTES_LOCATION)/books.md') > 'public/content/MiscBooks.md'
 	
 	# Clean up YAML frontmatter from all markdown files
 	python scripts/remove_frontmatter.py public/content/MiscPlacesLived.md

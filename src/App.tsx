@@ -1,10 +1,13 @@
 import React from "react";
-import SierpinskiHexagon, { HexagonConfig } from "./components/SierpinskiHexagon";
+import SierpinskiHexagon, {
+  HexagonConfig
+} from "./components/SierpinskiHexagon";
 import { appConfig as RoomsConfig } from "./pages/Rooms";
 import { appConfig as MiscConfig } from "./pages/misc/Misc";
 import { appConfig as PhotographyConfig } from "./pages/photography/Photography";
 
-const ClonedPhotographyConfig: HexagonConfig = structuredClone(PhotographyConfig);
+const ClonedPhotographyConfig: HexagonConfig =
+  structuredClone(PhotographyConfig);
 ClonedPhotographyConfig.titleSize = "max(0.7vw, 0.6vh)";
 
 const AppConfig: HexagonConfig = {
@@ -65,12 +68,15 @@ const AppConfig: HexagonConfig = {
   config: {
     "topLeft": RoomsConfig,
     "bottomLeft": MiscConfig,
-    "right": ClonedPhotographyConfig,
+    "right": ClonedPhotographyConfig
   },
   titleSize: "max(1.8vw, 1.6vh)"
 };
 
-export const performTransitionAndRedirect = (hexagonId: number, url: string) => {
+export const performTransitionAndRedirect = (
+  hexagonId: number,
+  url: string
+) => {
   const svg = document.querySelector("svg");
   const hexagon = document.querySelector(`#hexagon-${hexagonId}`);
 
@@ -106,7 +112,9 @@ export const performTransitionAndRedirect = (hexagonId: number, url: string) => 
       const zoomScale = 3;
       const adjustedTranslateX = translateX * zoomScale;
       const adjustedTranslateY = translateY * zoomScale;
-      svg.style.transform = `translate(${adjustedTranslateX}px, ${adjustedTranslateY}px) scale(${currentScale * zoomScale})`;
+      svg.style.transform = `translate(${adjustedTranslateX}px, ${adjustedTranslateY}px) scale(${
+        currentScale * zoomScale
+      })`;
 
       // Wait for the animation to complete before redirecting
       setTimeout(() => {

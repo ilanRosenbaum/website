@@ -1,4 +1,7 @@
-import SierpinskiHexagon, { HexagonConfig, minConfig } from "../../components/SierpinskiHexagon";
+import SierpinskiHexagon, {
+  HexagonConfig,
+  minConfig
+} from "../../components/SierpinskiHexagon";
 
 const appConfig: HexagonConfig = structuredClone(minConfig);
 appConfig.targetLevels = {
@@ -44,7 +47,6 @@ pageConfig.text = {
   2: "Minnesota",
   6: "Illinois"
 };
-
 
 const Midwest: React.FC = () => {
   return <SierpinskiHexagon config={pageConfig} />;

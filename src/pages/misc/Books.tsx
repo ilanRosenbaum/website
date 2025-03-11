@@ -1,5 +1,8 @@
 import React from "react";
-import SortableTable, { TableColumn, SortMapping } from "../../components/SortableTable";
+import SortableTable, {
+  TableColumn,
+  SortMapping
+} from "../../components/SortableTable";
 
 /** Define the column configurations for the Books table */
 const RANK_MAPPING: SortMapping = {
@@ -19,13 +22,33 @@ const BOOKS_COLUMNS: ReadonlyArray<TableColumn> = [
     sortMapping: RANK_MAPPING,
     default: "asc"
   },
-  { header: "Author(s)", accessor: "Author(s)", sortable: true, sortType: "string" },
-  { header: "Date Finished", accessor: "Date Finished", sortable: true, sortType: "date", fallbackSort: true },
+  {
+    header: "Author(s)",
+    accessor: "Author(s)",
+    sortable: true,
+    sortType: "string"
+  },
+  {
+    header: "Date Finished",
+    accessor: "Date Finished",
+    sortable: true,
+    sortType: "date",
+    fallbackSort: true
+  },
   { header: "Notes", accessor: "Notes", sortable: false }
 ];
 
 const Books: React.FC = () => {
-  return <SortableTable source="/content/MiscBooks.md" backTo="/misc" backButtonFill="#603b61" textColor="#ffefdb" useWideContainer={true} columns={BOOKS_COLUMNS} />;
+  return (
+    <SortableTable
+      source="/content/MiscBooks.md"
+      backTo="/misc"
+      backButtonFill="#603b61"
+      textColor="#ffefdb"
+      useWideContainer={true}
+      columns={BOOKS_COLUMNS}
+    />
+  );
 };
 
 export default Books;

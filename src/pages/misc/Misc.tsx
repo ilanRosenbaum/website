@@ -1,5 +1,8 @@
 import React from "react";
-import SierpinskiHexagon, { HexagonConfig, minConfig } from "../../components/SierpinskiHexagon";
+import SierpinskiHexagon, {
+  HexagonConfig,
+  minConfig
+} from "../../components/SierpinskiHexagon";
 import { performTransitionAndRedirect } from "../../App";
 import { appConfig as WebsiteConfig } from "./ThisWebsite";
 import { appConfig as PlacesConfig } from "./Places";
@@ -77,7 +80,7 @@ const pageConfig: HexagonConfig = {
     bottomLeft: () => {
       window.location.href = "/misc/restaurants";
     },
-    bottomRight:  (hexagonId: number) => {
+    bottomRight: (hexagonId: number) => {
       performTransitionAndRedirect(hexagonId, "/misc/thisWebsite");
     },
     topRight: () => {
@@ -88,7 +91,7 @@ const pageConfig: HexagonConfig = {
   text: {
     3: "Restaurants",
     5: "Open Source",
-    6: "Books",
+    6: "Books"
   },
   title: "Miscellaneous",
   // textColor: sharedConfig.textColor,

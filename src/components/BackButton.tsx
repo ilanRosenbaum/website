@@ -16,10 +16,11 @@ const BackButton: React.FC<BackButtonProps> = ({ to, color, textColor }) => {
       onClick={handleClick}
       className="relative cursor-pointer"
       style={{
-        width: 'max(8vw, 8vh)',
-        height: 'max(8vw, 8vh)',
+        width: "max(8vw, 8vh)",
+        height: "max(8vw, 8vh)",
         backgroundColor: color,
-        clipPath: "polygon(25% 6.7%, 75% 6.7%, 100% 50%, 75% 93.3%, 25% 93.3%, 0% 50%)",
+        clipPath:
+          "polygon(25% 6.7%, 75% 6.7%, 100% 50%, 75% 93.3%, 25% 93.3%, 0% 50%)",
         border: "0.4px solid black"
       }}
     >
@@ -28,7 +29,7 @@ const BackButton: React.FC<BackButtonProps> = ({ to, color, textColor }) => {
         style={{
           color: textColor || "#ffefdb",
           fontFamily: "Courier new, monospace",
-          fontSize: 'max(1vw, 1vh)',
+          fontSize: "max(1vw, 1vh)",
           fontWeight: "500",
           textShadow: "0 0 0.1em rgba(0, 0, 0, 1)"
         }}

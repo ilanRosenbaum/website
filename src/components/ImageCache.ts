@@ -10,7 +10,7 @@ class ImageCache {
   }
 
   private loadFromLocalStorage() {
-    const savedCache = JSON.parse(localStorage.getItem('imageCache') || '{}');
+    const savedCache = JSON.parse(localStorage.getItem("imageCache") || "{}");
     Object.entries(savedCache).forEach(([key, value]) => {
       this.cache.set(key, Promise.resolve(value as string));
     });
@@ -27,7 +27,7 @@ class ImageCache {
     try {
       const imageRef = ref(storage, path);
       const url = await getDownloadURL(imageRef);
-      
+
       // Store the URL directly instead of converting to data URL
       this.saveToLocalStorage(path, url);
       return url;
@@ -38,9 +38,9 @@ class ImageCache {
   }
 
   private saveToLocalStorage(path: string, url: string) {
-    const savedCache = JSON.parse(localStorage.getItem('imageCache') || '{}');
+    const savedCache = JSON.parse(localStorage.getItem("imageCache") || "{}");
     savedCache[path] = url;
-    localStorage.setItem('imageCache', JSON.stringify(savedCache));
+    localStorage.setItem("imageCache", JSON.stringify(savedCache));
   }
 }
 
