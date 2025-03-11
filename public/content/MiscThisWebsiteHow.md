@@ -1,8 +1,9 @@
 # How
 
-I used a React frontend, Firebase to store photos and host the website, and google sheets for CSV data storage and retrieval. This project would not have been possible without the open source software created and maintained by the various authors listed below. Thank you.
+I used a React frontend, Firebase to store photos and host the website, and google sheets for CSV data storage and retrieval. I chose to build the main visual elements with SVGs. If you have any interest in understanding the architecture of this website all of the source code is open source and can be found [here](https://github.com/ilanRosenbaum/website). This project would not have been possible without the open source software created and maintained by the various authors listed below. Thank you.
 
 ## Authors
+
 Package: @adobe/css-tools@4.4.0\
 Author: TJ Holowaychuk
 
@@ -753,9 +754,6 @@ Author: Jeff Carpenter
 Package: acorn-globals@6.0.0\
 Author: ForbesLindesay
 
-Package: acorn-import-assertions@1.9.0\
-Author: Sven Sauleau
-
 Package: address@1.2.2\
 Author: fengmk2
 
@@ -933,7 +931,7 @@ Author: Jon Schlinkert
 Package: browser-process-hrtime@1.0.0\
 Author: kumavis
 
-Package: browserslist@4.23.0\
+Package: browserslist@4.24.2\
 Author: Andrey Sitnik
 
 Package: bser@2.1.1\
@@ -966,7 +964,7 @@ Author: Sindre Sorhus
 Package: camelcase@6.3.0\
 Author: Sindre Sorhus
 
-Package: caniuse-lite@1.0.30001629\
+Package: caniuse-lite@1.0.30001680\
 Author: Ben Briggs
 
 Package: case-sensitive-paths-webpack-plugin@2.4.0\
@@ -1095,7 +1093,7 @@ Author: Thorsten Lorenz
 Package: cookie-signature@1.0.6\
 Author: TJ Holowaychuk
 
-Package: cookie@0.6.0\
+Package: cookie@0.7.1\
 Author: Roman Shtylman
 
 Package: core-js-compat@3.37.1\
@@ -1419,7 +1417,7 @@ Author: Jonathan Ong
 Package: ejs@3.1.10\
 Author: Matthew Eernisse
 
-Package: electron-to-chromium@1.4.796\
+Package: electron-to-chromium@1.5.60\
 Author: Kilian Valkhof
 
 Package: emittery@0.10.2\
@@ -1437,7 +1435,7 @@ Author: Mathias Bynens
 Package: emojis-list@3.0.0\
 Author: Kiko Beats
 
-Package: enhanced-resolve@5.17.0\
+Package: enhanced-resolve@5.17.1\
 Author: Tobias Koppers @sokra
 
 Package: entities@2.2.0\
@@ -1479,7 +1477,7 @@ Author: Jordan Harband
 Package: es-to-primitive@1.2.1\
 Author: Jordan Harband
 
-Package: escalade@3.1.2\
+Package: escalade@3.2.0\
 Author: Luke Edwards
 
 Package: escape-string-regexp@1.0.5\
@@ -1560,7 +1558,7 @@ Author: Sindre Sorhus
 Package: exit@0.1.2\
 Author: "Cowboy" Ben Alman
 
-Package: express@4.19.2\
+Package: express@4.21.1\
 Author: TJ Holowaychuk
 
 Package: extend@3.0.2\
@@ -1605,7 +1603,7 @@ Author: Jason Mulligan
 Package: fill-range@7.1.1\
 Author: Jon Schlinkert
 
-Package: finalhandler@1.2.0\
+Package: finalhandler@1.3.1\
 Author: Douglas Christopher Wilson
 
 Package: find-up@3.0.0\
@@ -1836,7 +1834,7 @@ Author: Tim Caswell
 Package: http-proxy-agent@4.0.1\
 Author: Nathan Rajlich
 
-Package: http-proxy-middleware@2.0.6\
+Package: http-proxy-middleware@2.0.7\
 Author: Steven Chim
 
 Package: http-proxy@1.18.1\
@@ -2307,7 +2305,7 @@ Author: Mozilla Developer Network
 Package: media-typer@0.3.0\
 Author: Douglas Christopher Wilson
 
-Package: merge-descriptors@1.0.1\
+Package: merge-descriptors@1.0.3\
 Author: Jonathan Ong
 
 Package: merge-stream@2.0.0\
@@ -2397,7 +2395,7 @@ Author: Titus Wormer
 Package: micromark@4.0.0\
 Author: Titus Wormer
 
-Package: micromatch@4.0.7\
+Package: micromatch@4.0.8\
 Author: Jon Schlinkert
 
 Package: mime@1.6.0\
@@ -2454,7 +2452,7 @@ Author: Digital Bazaar, Inc.
 Package: node-int64@0.4.0\
 Author: Robert Kieffer
 
-Package: node-releases@2.0.14\
+Package: node-releases@2.0.18\
 Author: Sergey Rubanov
 
 Package: normalize-path@3.0.0\
@@ -2607,7 +2605,7 @@ Author: Braveg1rl
 Package: picocolors@0.2.1\
 Author: Alexey Raspopov
 
-Package: picocolors@1.0.1\
+Package: picocolors@1.1.1\
 Author: Alexey Raspopov
 
 Package: picomatch@2.3.1\
@@ -3015,7 +3013,7 @@ Author: Vladimir Agafonkin
 Package: rollup-plugin-terser@7.0.2\
 Author: Bogdan Chadkin
 
-Package: rollup@2.79.1\
+Package: rollup@2.79.2\
 Author: Rich Harris
 
 Package: run-parallel@1.2.0\
@@ -3078,7 +3076,7 @@ Author: GitHub Inc.
 Package: semver@7.6.2\
 Author: GitHub Inc.
 
-Package: send@0.18.0\
+Package: send@0.19.0\
 Author: TJ Holowaychuk
 
 Package: serialize-javascript@4.0.0\
@@ -3090,7 +3088,7 @@ Author: Eric Ferraiuolo
 Package: serve-index@1.9.1\
 Author: Douglas Christopher Wilson
 
-Package: serve-static@1.15.0\
+Package: serve-static@1.16.2\
 Author: Douglas Christopher Wilson
 
 Package: set-function-length@1.2.2\
@@ -3456,7 +3454,7 @@ Author: Cameron Lakenen
 Package: upath@1.2.0\
 Author: Angelos Pikoulas
 
-Package: update-browserslist-db@1.0.16\
+Package: update-browserslist-db@1.1.1\
 Author: Andrey Sitnik
 
 Package: uri-js@4.4.1\
@@ -3537,7 +3535,7 @@ Author: Tobias Koppers @sokra
 Package: webpack-sources@3.2.3\
 Author: Tobias Koppers @sokra
 
-Package: webpack@5.91.0\
+Package: webpack@5.96.1\
 Author: Tobias Koppers @sokra
 
 Package: websocket-driver@0.7.4\
