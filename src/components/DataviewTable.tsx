@@ -5,7 +5,7 @@ const DataviewTable: React.FC<{ content: string }> = ({ content }) => {
 
       // Mock dv object
       const sandbox: any = {
-        console: console, // Allow console logging
+        console: console,
         dv: {
           table: (headers: string[], data: any[][]) => {
             const tableHTML = `
@@ -110,15 +110,14 @@ const DataviewTable: React.FC<{ content: string }> = ({ content }) => {
             }
 
             let toBeAdded = `<${tag} ${attributes}>${innerContent}</${tag}>`;
-            toBeAdded = toBeAdded.replace(/\s+/g, " ").trim(); // Clean up any extra whitespace
+            toBeAdded = toBeAdded.replace(/\s+/g, " ").trim();
 
             renderedHTML += toBeAdded;
-            return ""; // Explicitly return an empty string
+            return "";
           }
         }
       };
 
-      // Wrap the user's code in an IIFE
       const script = `
         (function() {
           ${code}
@@ -129,7 +128,6 @@ const DataviewTable: React.FC<{ content: string }> = ({ content }) => {
       const argNames = Object.keys(sandbox);
       const argValues = Object.values(sandbox);
 
-      // Execute the user's code without appending its return value
       // eslint-disable-next-line no-new-func
       new Function(...argNames, script)(...argValues);
 

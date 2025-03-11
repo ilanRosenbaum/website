@@ -31,7 +31,6 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
   // For container sizing
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
 
-  // =================== 1) Fetch on mount ===================
   useEffect(() => {
     // Reset when photoPath changes
     setPhotos([]);
@@ -47,7 +46,7 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
    * but only if it doesn't already exist (avoid duplicates).
    */
   function insertInDescendingOrder(existing: ImageItem[], item: ImageItem) {
-    // 1) Check if already present
+    // Check if already present
     const alreadyIndex = existing.findIndex(
       (x) => x.fullPath === item.fullPath
     );
@@ -56,7 +55,7 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
       return existing;
     }
 
-    // 2) Place item in descending order by lastModified
+    // Place item in descending order by lastModified
     const newTs = new Date(item.lastModified).getTime();
     let i = 0;
     while (i < existing.length) {
@@ -70,10 +69,6 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
     return [...existing.slice(0, i), item, ...existing.slice(i)];
   }
 
-  /**
-   * 2) Incremental approach:
-   *    listAll -> for each thumbnail -> fetch original metadata -> insert
-   */
   const fetchThumbnailsIncremental = async () => {
     try {
       const thumbsRef = ref(storage, `${photoPath}/thumbnails`);
@@ -182,7 +177,7 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
     const columnOffsetX = hexWidth * 0.75;
     const rowOffsetY = hexHeight;
 
-    // We'll do 3 columns (center, left, right)
+    // 3 columns (center, left, right)
     const columns = [0, -1, 1];
     let photoIndex = 0;
     let row = 0;
@@ -194,7 +189,6 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
         if (photoIndex >= photos.length) break;
 
         const x = centerX + col * columnOffsetX - hexWidth / 2;
-        // For honeycomb style, shift half a hex if col != 0
         const y = row * rowOffsetY + (Math.abs(col) === 1 ? rowOffsetY / 2 : 0);
 
         tmp.push({
@@ -297,7 +291,7 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
 
                 return (
                   <g key={`hex-${d.index}`}>
-                    {/* A) Unscaled path to handle pointer events */}
+                    {/* Unscaled path to handle pointer events */}
                     <path
                       d={hexPath}
                       fill="transparent"
@@ -311,7 +305,7 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
                       }}
                     />
 
-                    {/* B) Visual group that shrinks/grows on hover */}
+                    {/* Visual group that shrinks/grows on hover */}
                     <g
                       transform={`translate(${cx}, ${cy}) scale(${scale}) translate(${-cx}, ${-cy})`}
                       style={{

@@ -20,7 +20,6 @@ const sharedConfig = {
   images: {}
 };
 
-// The SierpinskiHexagon config to be used for the Rooms sub hexagon on the home page
 export const appConfig = {
   targetLevels: sharedConfig.targetLevels,
   styles: sharedConfig.styles,
@@ -36,7 +35,6 @@ export const appConfig = {
   }
 };
 
-// The SierpinskiHexagon config to be used for the Rooms page
 const pageConfig = {
   targetLevels: sharedConfig.targetLevels,
   styles: sharedConfig.styles,

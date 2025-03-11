@@ -43,7 +43,7 @@ function getComparisonValue(column: TableColumn, value: any): number {
       return 0;
     case "string":
     default:
-      return 0; // For string comparisons, we'll use localeCompare directly
+      return 0;
   }
 }
 
@@ -318,8 +318,6 @@ const SortableTable: React.FC<SortableTableProps> = ({ data, columns }) => {
     </table>
   );
 };
-
-// The page container component that handles markdown and table detection
 interface WrapperProps {
   source?: string;
   backTo?: string;

@@ -4,7 +4,6 @@ import SortableTable, {
   SortMapping
 } from "../../components/SortableTable";
 
-/** Define the column configurations for the Books table */
 const RANK_MAPPING: SortMapping = {
   favorite: 1,
   great: 2,

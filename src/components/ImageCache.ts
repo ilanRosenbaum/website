@@ -28,7 +28,6 @@ class ImageCache {
       const imageRef = ref(storage, path);
       const url = await getDownloadURL(imageRef);
 
-      // Store the URL directly instead of converting to data URL
       this.saveToLocalStorage(path, url);
       return url;
     } catch (error) {

@@ -123,7 +123,6 @@ html::-webkit-scrollbar {
   display: none;
 }
 
-/* Tailwind Directives */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -138,18 +137,15 @@ pre code {
   font-family: 'Courier New', Courier, monospace;
 }
 
-/* Basic styling for JavaScript keywords */
  .keyword {
   color: #cc99cd;
   font-weight: bold;
 }
 
-/* Basic styling for strings */
  .string {
   color: #7ec699;
 }
 
-/* Basic styling for comments */
  .comment {
   color: #999999;
   font-style: italic;

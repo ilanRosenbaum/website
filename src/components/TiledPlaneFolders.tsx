@@ -11,14 +11,14 @@ import {
 import { imageCache } from "./ImageCache";
 
 interface TiledPlaneFoldersProps {
-  parentFolder: string; // e.g. "Ceramics"
-  backTo?: string; // optional route/string for the BackButton
+  parentFolder: string;
+  backTo?: string;
 }
 
 interface FolderData {
-  coverPhoto: string; // The thumbnail of the newest original (or fallback)
-  allPhotos: string[]; // The full-size URLs for each image
-  folderName: string; // e.g. "x" for "Ceramics/x"
+  coverPhoto: string;
+  allPhotos: string[];
+  folderName: string; 
 }
 
 const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
@@ -26,9 +26,6 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
   backTo
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
-
-  // =============== State ===============
-  // Which folder is open in the fullscreen viewer, and which photo is displayed?
   const [selectedFolder, setSelectedFolder] = useState<FolderData | null>(null);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState<number | null>(
     null
@@ -49,9 +46,6 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
   // For container sizing
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
 
-  // ------------------------------------------------------------------------
-  // 1) List the subfolders of `parentFolder` and sort them by lastModified
-  // ------------------------------------------------------------------------
   useEffect(() => {
     const listFolders = async () => {
       const directoryRef = ref(storage, parentFolder);
@@ -109,14 +103,6 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
     listFolders();
   }, [parentFolder]);
 
-  // ------------------------------------------------------------------------
-  // 2) For each subfolder:
-  //    (a) Find the *original image* that is most recently modified
-  //    (b) Look for its matching thumbnail in /thumbnails
-  //    (c) If found, that thumbnail becomes coverPhoto
-  //    (d) If not, fallback to the original
-  //    (e) allPhotos => sorted big images
-  // ------------------------------------------------------------------------
   useEffect(() => {
     const fetchPhotos = async () => {
       const paths = Array.isArray(photoPaths) ? photoPaths : [photoPaths];
@@ -157,10 +143,7 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
             );
             itemsWithMeta.sort((a, b) => b.date.getTime() - a.date.getTime());
 
-            // Now, allOriginalItems is in descending order
             allOriginalItems = itemsWithMeta.map((obj) => obj.ref);
-
-            // newestOriginal is the item with the largest date
             newestOriginal = allOriginalItems[0] || null;
           } catch (error) {
             console.error(`Error listing original images from ${path}:`, error);
@@ -171,18 +154,16 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
             };
           }
 
-          // 2b) If we have a newest original, look for its matching thumbnail
+          // If we have a newest original, look for its matching thumbnail
           let coverPhotoUrl = "";
           if (newestOriginal) {
             const originalName = newestOriginal.name;
             const lastDotIndex = originalName.lastIndexOf(".");
 
-            // Ensure there's an extension
             if (lastDotIndex !== -1) {
-              const baseFilename = originalName.substring(0, lastDotIndex); // Extract base filename
-              const extension = originalName.substring(lastDotIndex); // Extract extension including the dot
+              const baseFilename = originalName.substring(0, lastDotIndex);
+              const extension = originalName.substring(lastDotIndex);
 
-              // Append "_300x300" before the extension
               const possibleThumbName = `${baseFilename}_300x300${extension}`;
 
               try {
@@ -254,7 +235,6 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
     const { width, height } = containerSize;
     if (!width || !height || folderData.length === 0) return [];
 
-    // Basic sizing for the hex grid (similar logic as before)
     const hexRadius = width > height ? height / 4 : width / 6;
     const hexHeight = hexRadius * Math.sqrt(3);
     const hexWidth = hexRadius * 2;
@@ -263,8 +243,6 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
     const columnOffsetX = hexWidth * 0.75;
     const rowOffsetY = hexHeight;
 
-    // We'll place hexagons in a honeycomb pattern:
-    // 3 columns each row => center(0), left(-1), right(1)
     const columns = [0, -1, 1];
     let folderIndex = 0;
     let row = 0;
@@ -277,7 +255,6 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
 
         const x = centerX + col * columnOffsetX - hexWidth / 2;
         // For honeycomb style, shift half a hex if col != 0
-        // but let's keep your existing offset logic: (Math.abs(col) % 2 === 1)
         const y =
           row * rowOffsetY + (Math.abs(col) % 2 === 1 ? rowOffsetY / 2 : 0);
 
@@ -435,8 +412,6 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
           const { width, height } = containerSize;
           if (!width || !height || hexData.length === 0) return null;
 
-          // Estimate total rows to compute an SVG height that can scroll
-          // (Row count roughly = total folders / 3 columns)
           const rowCount = Math.ceil(folderData.length / 3);
           const hexRadius = width > height ? height / 4 : width / 6;
           const singleHexHeight = hexRadius * Math.sqrt(3);
@@ -452,7 +427,7 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
               className="mx-auto block"
               style={{ overflow: "visible" }}
             >
-              {/* 1) Define clip paths in <defs> for each folder */}
+              {/* Define clip paths in <defs> for each folder */}
               <defs>
                 {hexData.map((d) => (
                   <clipPath
@@ -464,9 +439,8 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
                 ))}
               </defs>
 
-              {/* 2) Render each hex */}
+              {/* Render each hex */}
               {hexData.map((d) => {
-                // Basic geometry
                 const r = width > height ? height / 4 : width / 6;
                 const side = r * 2;
                 const centerX = d.x + side / 2;
@@ -474,16 +448,12 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
                 const isHovered = hoveredIndex === d.index;
                 const scale = isHovered ? 0.9 : 1;
 
-                // For cropping the cover photo into the hex shape
-                // We'll use the same x/y as the hex path
                 const imgX = d.x;
                 const imgY = d.y;
                 const imgW = side;
                 const imgH = r * Math.sqrt(3);
 
-                // "cover-scale" approach: if your images are consistently sized,
-                // this can be simplified. Otherwise, a dynamic approach:
-                const scaleX = imgW / 300; // because we used 300 as an example size
+                const scaleX = imgW / 300;
                 const scaleY = imgH / 300;
                 const coverScale = Math.max(scaleX, scaleY);
                 const scaledW = 300 * coverScale;
@@ -493,7 +463,7 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
 
                 return (
                   <g key={`hex-${d.index}`}>
-                    {/* A) Transparent path for pointer events + hover */}
+                    {/* Transparent path for pointer events + hover */}
                     <path
                       d={hexPath}
                       fill="transparent"
@@ -504,7 +474,7 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
                       style={{ cursor: "pointer" }}
                     />
 
-                    {/* B) Visual group that shrinks/grows on hover */}
+                    {/* Visual group that shrinks/grows on hover */}
                     <g
                       transform={`translate(${centerX}, ${centerY}) scale(${scale}) translate(${-centerX}, ${-centerY})`}
                       style={{

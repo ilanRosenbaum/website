@@ -70,7 +70,7 @@ root.render(
           element={
             <TiledPlaneFolders
               parentFolder={"Ceramics"}
-              backTo="/" // Adjust this to the correct back path
+              backTo="/"
             />
           }
         />

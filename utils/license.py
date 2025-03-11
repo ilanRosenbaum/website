@@ -36,7 +36,6 @@ def summary(data):
             else:
                 license_dictionary[l] = 1
 
-    # Post-processing step
     keys_to_remove = []
     for key in license_dictionary.keys():
         for other_key in license_dictionary.keys():

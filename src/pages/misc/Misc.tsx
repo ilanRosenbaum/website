@@ -53,7 +53,6 @@ if (appConfig.config !== undefined) {
 
 export { appConfig };
 
-// The SierpinskiHexagon config to be used to generate the config for the Misc page
 const pageConfig: HexagonConfig = {
   targetLevels: {
     right: 3,
@@ -94,8 +93,6 @@ const pageConfig: HexagonConfig = {
     6: "Books"
   },
   title: "Miscellaneous",
-  // textColor: sharedConfig.textColor,
-  // dropShadow: sharedConfig.dropShadow,
   backButton: {
     exists: true,
     to: "/",

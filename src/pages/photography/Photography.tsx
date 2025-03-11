@@ -58,7 +58,6 @@ appConfig.title = "Photography";
 
 export { appConfig };
 
-// The SierpinskiHexagon config to be used to generate the config for the Misc page
 const pageConfig: HexagonConfig = {
   targetLevels: {
     right: 0,
