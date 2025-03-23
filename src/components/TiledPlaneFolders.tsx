@@ -18,7 +18,7 @@ interface TiledPlaneFoldersProps {
 interface FolderData {
   coverPhoto: string;
   allPhotos: string[];
-  folderName: string; 
+  folderName: string;
 }
 
 const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
@@ -109,10 +109,8 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
 
       const fetchedFolderData: FolderData[] = await Promise.all(
         paths.map(async (path) => {
-          // e.g. path = "Ceramics/x"
           const folderName = path.split("/").pop() || "";
 
-          // 2a) List all *original* images in the main subfolder, sort descending by lastModified
           let allOriginalItems: StorageReference[] = [];
           let newestOriginal: StorageReference | null = null;
 
@@ -120,7 +118,6 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
             const folderRef = ref(storage, path);
             const folderContents = await listAll(folderRef);
 
-            // If no items, skip
             if (!folderContents.items.length) {
               return {
                 coverPhoto: "",
@@ -370,24 +367,35 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
     }
   };
 
-  // Example helper to fetch the big images
   async function fetchAllPhotosForFolderPath(
     subfolderName: string
   ): Promise<string[]> {
     try {
       const folderRef = ref(storage, `${parentFolder}/${subfolderName}`);
       const result = await listAll(folderRef);
-      const sortedItems = result.items.sort((a, b) =>
-        a.name.localeCompare(b.name)
+
+      const itemsWithMeta = await Promise.all(
+        result.items.map(async (item) => {
+          const meta = await getMetadata(item);
+          const dateString = meta.updated || meta.timeCreated;
+          return {
+            ref: item,
+            date: new Date(dateString)
+          };
+        })
       );
 
+      // Sort by date descending (newest first)
+      itemsWithMeta.sort((a, b) => b.date.getTime() - a.date.getTime());
+
       const allPhotos = await Promise.all(
-        sortedItems.map(async (item) => {
-          const url = await getDownloadURL(item);
-          await imageCache.getImage(url); // Preload big images
+        itemsWithMeta.map(async (item) => {
+          const url = await getDownloadURL(item.ref);
+          await imageCache.getImage(url);
           return url;
         })
       );
+
       return allPhotos;
     } catch (error) {
       console.error("Error fetching all photos from", subfolderName, error);
