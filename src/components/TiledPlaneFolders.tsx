@@ -290,7 +290,7 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
             Z`;
   }, [containerSize]);
 
-  // =============== 4) Fullscreen viewer logic: next/prev/close ===============
+  // =============== Fullscreen viewer logic: next/prev/close ===============
   const handleNext = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (isLoading) return;
@@ -378,7 +378,7 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
       const folderRef = ref(storage, `${parentFolder}/${subfolderName}`);
       const result = await listAll(folderRef);
       const sortedItems = result.items.sort((a, b) =>
-        b.name.localeCompare(a.name)
+        a.name.localeCompare(b.name)
       );
 
       const allPhotos = await Promise.all(
