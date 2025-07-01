@@ -14,8 +14,8 @@
 | Barcelona, Spain | 5 | 7 |
 | Bend, OR, United States | 5 | 2 |
 | Burlington, VT, United States | 5 | 2 |
-| Las Vegas, NV, United States | 5 | 7 |
-| Davis, CA, United States | 5 | 6 |
+| Las Vegas, NV, United States | 10 | 7 |
+| Davis, CA, United States | 8 | 6 |
 | Charlotte, NC, United States | 6 | 6 |
 | Chicago, IL, United States | 6 | 8 |
 | Montreal, Canada | 6 | 4 |
@@ -29,6 +29,8 @@
 | Sacramento, CA, United States | 10 | 5 |
 | Orlando, FL, United States | 20 | 0 |
 | Vidanta, Nuevo Vallarta, Mexico | 20 | 1 |
+| Cancun, Mexico | 10 | 6 |
+| Seattle, WA, United States | 5 | 8 |
 
 ## Key
 - Enjoyment: Enjoyment is a 1-10 rating of how much I enjoyed my specific trip to the place in question. Higher numbers better. It may say very little about the place itself, sometimes I go on a great trip to a bad place or a bad trip to a great place. 
