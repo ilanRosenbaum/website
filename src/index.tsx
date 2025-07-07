@@ -85,6 +85,7 @@ root.render(
         <Route path="/photography/mexico/puertoVallarta" element={<TiledPlane photoPath={"/Photography/Mexico"} backTo={"/photography/mexico"} />} />
         <Route path="/photography/usa/hawaii" element={<TiledPlane photoPath={"/Photography/UnitedStates/Hawaii"} backTo={"/photography/usa"} />} />
         <Route path="/photography/usa/arizona" element={<TiledPlane photoPath={"/Photography/UnitedStates/Arizona/Sedona"} backTo={"/photography/usa"} />} />
+        <Route path="/photography/usa/washington" element={<TiledPlane photoPath={"/Photography/UnitedStates/Washington"} backTo={"/photography/usa"} />} />
 
         <Route path="/photography/usa/midwest" element={<Midwest />} />
         <Route path="/photography/usa/midwest/minnesota" element={<TiledPlane photoPath={"/Photography/UnitedStates/Minnesota/Minneapolis"} backTo={"/photography/usa/midwest"} />} />

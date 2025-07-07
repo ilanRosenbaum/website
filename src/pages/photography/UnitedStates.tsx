@@ -10,7 +10,8 @@ const sharedConfig: HexagonConfig = structuredClone(minConfig);
 sharedConfig.images = {
   bottomLeft: "/Covers/hawaiiVertical.jpg",
   topLeft: "/Covers/charlotteVertical.jpg",
-  left: "/Covers/sedonaVertical.jpeg"
+  left: "/Covers/sedonaVertical.jpeg",
+  topRight: "/Covers/seattleVertical.jpg",
 };
 const appConfig: HexagonConfig = structuredClone(minConfig);
 appConfig.title = "United States";
@@ -22,7 +23,7 @@ appConfig.targetLevels = {
   bottomLeft: 3,
   left: 3,
   topLeft: 3,
-  topRight: 0
+  topRight: 3
 };
 appConfig.config = {};
 appConfig.config.bottomRight = structuredClone(californiaConfig);
@@ -51,13 +52,17 @@ pageConfig.actions = {
   },
   topLeft: () => {
     window.location.href = "/photography/usa/northCarolina";
+  },
+  topRight: () => {
+    window.location.href = "/photography/usa/washington";
   }
 };
 pageConfig.titleSize = "2vw";
 pageConfig.text = {
   3: "Hawaii",
   5: "North Carolina",
-  4: "Sedona"
+  4: "Sedona",
+  6: "Washington",
 };
 pageConfig.images = sharedConfig.images;
 
