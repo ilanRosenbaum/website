@@ -82,18 +82,18 @@
 | A Gathering of Shaddows                                | good        | V.E. Shwab                                 | 08-26-2025     | I am Delilah Bard                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | Omaha Blues, A Memory Loop                             | great       | Joseph Lelyveld                            | 09-10-2025     | It's strange to feel yourself in the author of an autobiography. To feel seen in the self indulgence of it's writing style then further in the guilty reflection of that indulgence in the credits. It took me a while to finish but this book made me feel connected to a part of my family I've never known. The picture Joseph drew of himself was clearer in what he didn't discuss, how he structured the book, and his writing style than in any of the content. The end was tough but really well done. Family is hard.                                                                                                                    |
 | A Conjuring of Light                                   | good        | V.E. Shwab                                 | 09-11-2025     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| The Serviceberry                                       | good        | Robin Wall Kimmerer &John Burgoyne         | 09-15-2025     | gets a bit repetitive.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 ### Date Notes
 If I didn't know when I finished a book, but did know when I purchased it, I listed it as finished two weeks after purchase date. If I didn't know the purchase date, I guesstimated. If I really truly don't know, like for childhood books, I will guess the year and use 06-06 as month and day.
 
 ### Category Notes
 For all categories other than "Favorite" the category given is how I felt after first reading the book at whatever age I was then. Favorites I have to still love. If a book was a favorite and I no longer like it at all, or not nearly as much, it gets moved down to great to acknowledge the joy it once brought me even if it doesn't any longer. 
 
-## Unread
-| Title                                  | Author(s)          |
-| -------------------------------------- | ------------------ |
-| Arcology: The City in the Image of Man | Paolo Soleri       |
-| Project Hail Mary                      | Andy Weir          |
-| The Immortalists                       | Chloe Benjamin     |
-| Fear and Loathing in Las Vegas         | Hunter S. Thompson |
-| Turtles All the Way Down               | John Green         |
-| The Handmaids Tale                     | Margaret Atwood    |
+## Reading List
+
+| Title                                  | Author(s)         |
+| -------------------------------------- | ----------------- |
+| Arcology: The City in the Image of Man | Paolo Soleri      |
+| The Handmaids Tale                     | Margaret Atwood   |
+| Sapiens: A Brief History of Humankind  | Yuval Noah Harari |
+
