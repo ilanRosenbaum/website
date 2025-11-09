@@ -95,6 +95,9 @@ If I didn't know when I finished a book, but did know when I purchased it, I lis
 ### Category Notes
 For all categories other than "Favorite" the category given is how I felt after first reading the book at whatever age I was then. Favorites I have to still love. If a book was a favorite and I no longer like it at all, or not nearly as much, it gets moved down to great to acknowledge the joy it once brought me even if it doesn't any longer. 
 
+# Inclusion Criteria
+I chose to include more or less any written words that exceeded 100 pages or had what I deemed to be literary value. Obviously that is inherently subjective, but this is my list, so I make the rules. If there are any paid advertisements within a text it will be excluded. The spirit of the criteria is to count any written texts that took large amounts of creativity, effort, and care to produce. With that being said I wanted a filter on text length, so I did chose to exclude all shorter texts (newspapers, individual news articles, newsletters, etc.). The actual amount of characters/pages can be limited and still be included in for example, the case of poetry books. Anything with literary value, a sustained and cohesive intent, no advertisements, sufficient length, and extensive love, effort, and care in it's creation.  
+
 ## Reading List
 
 | Title                                                               | Author(s)         |
