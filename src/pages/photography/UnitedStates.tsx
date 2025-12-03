@@ -15,34 +15,40 @@ import SierpinskiHexagon, {
   HexagonConfig,
   minConfig
 } from "../../components/SierpinskiHexagon";
-import { appConfig as californiaConfig } from "./California";
+import { appConfig as westCoastConfig } from "./WestCoast";
 import { appConfig as midwestConfig } from "./Midwest";
+import { appConfig as northEastConfig } from "./NorthEast";
+import { appConfig as southConfig } from "./South";
+import { appConfig as sunbeltConfig } from "./Sunbelt";
 import { performTransitionAndRedirect } from "../../App";
 
 const sharedConfig: HexagonConfig = structuredClone(minConfig);
 sharedConfig.images = {
   bottomLeft: "/Covers/hawaiiVertical.jpg",
-  topLeft: "/Covers/charlotteVertical.jpg",
-  left: "/Covers/sedonaVertical.jpeg",
-  topRight: "/Covers/seattleVertical.jpg",
 };
 const appConfig: HexagonConfig = structuredClone(minConfig);
 appConfig.title = "United States";
 appConfig.imageId = "United States";
-appConfig.titleSize = "max(0.5vw, 0.5vh)";
+appConfig.titleSize = "max(0.9vw, 0.9vh)";
 appConfig.targetLevels = {
   right: 0,
   bottomRight: 0,
   bottomLeft: 3,
-  left: 3,
-  topLeft: 3,
-  topRight: 3
+  left: 0,
+  topLeft: 0,
+  topRight: 0
 };
 appConfig.config = {};
-appConfig.config.bottomRight = structuredClone(californiaConfig);
+appConfig.config.bottomRight = structuredClone(westCoastConfig);
 appConfig.config.bottomRight.title = "";
 appConfig.config.right = structuredClone(midwestConfig);
 appConfig.config.right.title = "";
+appConfig.config.topRight = structuredClone(northEastConfig);
+appConfig.config.topRight.title = "";
+appConfig.config.topLeft = structuredClone(southConfig);
+appConfig.config.topLeft.title = "";
+appConfig.config.left = structuredClone(sunbeltConfig);
+appConfig.config.left.title = "";
 const pageConfig: HexagonConfig = structuredClone(appConfig);
 pageConfig.backButton = {
   exists: true,
@@ -55,35 +61,38 @@ pageConfig.actions = {
     performTransitionAndRedirect(hexagonId, "/photography/usa/midwest");
   },
   bottomRight: (hexagonId: number) => {
-    performTransitionAndRedirect(hexagonId, "/photography/usa/california");
+    performTransitionAndRedirect(hexagonId, "/photography/usa/westCoast");
   },
   bottomLeft: () => {
     window.location.href = "/photography/usa/hawaii";
   },
-  left: () => {
-    window.location.href = "/photography/usa/arizona";
+  left: (hexagonId: number) => {
+    performTransitionAndRedirect(hexagonId, "/photography/usa/sunbelt");
   },
-  topLeft: () => {
-    window.location.href = "/photography/usa/northCarolina";
+  topLeft: (hexagonId: number) => {
+    performTransitionAndRedirect(hexagonId, "/photography/usa/south");
   },
-  topRight: () => {
-    window.location.href = "/photography/usa/washington";
+  topRight: (hexagonId: number) => {
+    performTransitionAndRedirect(hexagonId, "/photography/usa/northEast");
   }
 };
 pageConfig.titleSize = "2vw";
 pageConfig.text = {
   3: "Hawaii",
-  5: "North Carolina",
-  4: "Sedona",
-  6: "Washington",
 };
 pageConfig.images = sharedConfig.images;
 
 pageConfig.config = {};
-pageConfig.config.bottomRight = structuredClone(californiaConfig);
+pageConfig.config.bottomRight = structuredClone(westCoastConfig);
 pageConfig.config.bottomRight.titleSize = "max(0.8vw, 0.7vh)";
 pageConfig.config.right = structuredClone(midwestConfig);
 pageConfig.config.right.titleSize = "max(0.9vw, 0.8vh)";
+pageConfig.config.topRight = structuredClone(northEastConfig);
+pageConfig.config.topRight.titleSize = "max(0.9vw, 0.8vh)";
+pageConfig.config.topLeft = structuredClone(southConfig);
+pageConfig.config.topLeft.titleSize = "max(0.9vw, 0.8vh)";
+pageConfig.config.left = structuredClone(sunbeltConfig);
+pageConfig.config.left.titleSize = "max(0.9vw, 0.8vh)";
 
 const UnitedStates: React.FC = () => {
   return <SierpinskiHexagon config={pageConfig} />;
