@@ -18,6 +18,7 @@ import SierpinskiHexagon, {
 import { appConfig as RoomsConfig } from "./pages/Rooms";
 import { appConfig as MiscConfig } from "./pages/misc/Misc";
 import { appConfig as PhotographyConfig } from "./pages/photography/Photography";
+import { appConfig as AboutConfig } from "./pages/about/About";
 
 const ClonedPhotographyConfig: HexagonConfig =
   structuredClone(PhotographyConfig);
@@ -30,7 +31,7 @@ const AppConfig: HexagonConfig = {
     bottomLeft: 0,
     left: 3,
     topLeft: 0,
-    topRight: 3
+    topRight: 0
   },
   styles: {
     default: {
@@ -48,24 +49,20 @@ const AppConfig: HexagonConfig = {
     right: (hexagonId: number) => {
       performTransitionAndRedirect(hexagonId, "/photography");
     },
-    topRight: () => {
-      window.location.href = "/about";
+    topRight: (hexagonId: number) => {
+      performTransitionAndRedirect(hexagonId, "/about");
     },
     left: () => {
       window.location.href = "/cooking";
     },
     bottomRight: () => {
       window.location.href = "/art";
-    },
-    default: (hexagonId: number) => {
-      alert(`Hexagon ${hexagonId} clicked!`);
     }
   },
   images: {
     bottomRight: "/Covers/garlicVertical.jpg",
     right: "/Covers/birdVertical.jpg",
-    left: "/Covers/chickenPastaVertical.jpg",
-    topRight: "/Covers/meVertical.jpg"
+    left: "/Covers/chickenPastaVertical.jpg"
   },
   text: {
     2: "Ceramics",
@@ -81,7 +78,8 @@ const AppConfig: HexagonConfig = {
   config: {
     "topLeft": RoomsConfig,
     "bottomLeft": MiscConfig,
-    "right": ClonedPhotographyConfig
+    "right": ClonedPhotographyConfig,
+    "topRight": AboutConfig
   },
   titleSize: "max(1.8vw, 1.6vh)"
 };

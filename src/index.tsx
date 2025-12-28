@@ -17,10 +17,12 @@ import "./index.css";
 import App from "./App";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import MarkdownPage from "./components/MarkdownPage";
-import Rooms from "./pages/Rooms";
 
+import About from "./pages/about/About";
+import ThisWebsite from "./pages/about/pages/ThisWebsite";
+
+import Rooms from "./pages/Rooms";
 import Misc from "./pages/misc/Misc";
-import ThisWebsite from "./pages/misc/ThisWebsite";
 import Places from "./pages/misc/Places";
 
 import Photography from "./pages/photography/Photography";
@@ -49,6 +51,14 @@ root.render(
     <Router>
       <Routes>
         <Route path="/" element={<App />} />
+
+        <Route path="/about" element={<About />} />
+        <Route path="/about/me" element={<MarkdownPage source={"/content/AboutMe.md"} backTo="/" />} />
+        <Route path="/about/thisWebsite" element={<ThisWebsite />} />
+        <Route path="/about/thisWebsite/what" element={<MarkdownPage source={"/content/AboutThisWebsiteWhat.md"} backTo="/about/thisWebsite" />} />
+        <Route path="/about/thisWebsite/why" element={<MarkdownPage source={"/content/AboutThisWebsiteWhy.md"} backTo="/about/thisWebsite" />} />
+        <Route path="/about/thisWebsite/how" element={<MarkdownPage source={"/content/AboutThisWebsiteHow.md"} backTo="/about/thisWebsite" />} />
+
         <Route path="/rooms" element={<Rooms />} />
         <Route path="/rooms/what" element={<MarkdownPage source={"/content/RoomsWhat.md"} backTo="/rooms" />} />
         <Route path="/rooms/why" element={<MarkdownPage source={"/content/RoomsWhy.md"} backTo="/rooms" />} />
@@ -58,10 +68,7 @@ root.render(
         <Route path="/misc/books" element={<Books />} />
         <Route path="/misc/openSource" element={<MarkdownPage source={"/content/MiscOpenSource.md"} backTo="/misc" />} />
         <Route path="/misc/headphonesNoHeadphones" element={<MarkdownPage source={"/content/MiscHeadphonesNoHeadphones.md"} backTo="/misc" />} />
-        <Route path="/misc/thisWebsite" element={<ThisWebsite />} />
-        <Route path="/misc/thisWebsite/what" element={<MarkdownPage source={"/content/MiscThisWebsiteWhat.md"} backTo="/misc/thisWebsite" />} />
-        <Route path="/misc/thisWebsite/why" element={<MarkdownPage source={"/content/MiscThisWebsiteWhy.md"} backTo="/misc/thisWebsite" />} />
-        <Route path="/misc/thisWebsite/how" element={<MarkdownPage source={"/content/MiscThisWebsiteHow.md"} backTo="/misc/thisWebsite" />} />
+
         <Route path="/misc/places/toVisit" element={<ToVisit />} />
         <Route path="/misc/places/visited" element={<Visited />} />
         <Route path="/misc/places/toLive" element={<ToLive />} />
@@ -81,68 +88,101 @@ root.render(
         <Route path="/misc/places" element={<Places />} />
 
         <Route path="/cooking" element={<TiledPlane photoPath={"/Cooking"} backTo="/" />} />
-        <Route path="/about" element={<MarkdownPage source={"/content/AboutMe.md"} backTo="/" />} />
-        <Route
-          path="/art"
-          element={
-            <TiledPlaneFolders
-              parentFolder={"Ceramics"}
-              backTo="/"
-            />
-          }
-        />
+        <Route path="/art" element={<TiledPlaneFolders parentFolder={"Ceramics"} backTo="/" />} />
 
         <Route path="/photography" element={<Photography />} />
         <Route path="/photography/usa" element={<UnitedStates />} />
         <Route path="/photography/info" element={<MarkdownPage source={"/content/PhotographyInfo.md"} backTo="/photography" />} />
         <Route path="/photography/inBetween" element={<TiledPlane photoPath={"/Photography/Travel"} backTo={"/photography"} />} />
-        
+
         {/* Africa */}
         <Route path="/photography/africa" element={<Africa />} />
         <Route path="/photography/africa/morocco" element={<TiledPlane photoPath={"/Photography/Africa/Morocco"} backTo={"/photography/africa"} />} />
-        
+
         {/* Mexico */}
         <Route path="/photography/mexico" element={<Mexico />} />
         <Route path="/photography/mexico/puertoVallarta" element={<TiledPlane photoPath={"/Photography/Mexico"} backTo={"/photography/mexico"} />} />
-        
+
         {/* US Regions */}
         <Route path="/photography/usa/midwest" element={<Midwest />} />
         <Route path="/photography/usa/northEast" element={<NorthEast />} />
         <Route path="/photography/usa/westCoast" element={<WestCoast />} />
         <Route path="/photography/usa/south" element={<South />} />
         <Route path="/photography/usa/sunbelt" element={<Sunbelt />} />
-        
+
         {/* Hawaii */}
         <Route path="/photography/usa/hawaii" element={<TiledPlane photoPath={"/Photography/UnitedStates/Hawaii"} backTo={"/photography/usa"} />} />
-        
+
         {/* Midwest States */}
-        <Route path="/photography/usa/midwest/minnesota" element={<TiledPlane photoPath={"/Photography/UnitedStates/Minnesota/Minneapolis"} backTo={"/photography/usa/midwest"} />} />
-        <Route path="/photography/usa/midwest/wisconsin" element={<TiledPlane photoPath={"/Photography/UnitedStates/Wisconsin/Madison"} backTo={"/photography/usa/midwest"} />} />
-        <Route path="/photography/usa/midwest/illinois" element={<TiledPlane photoPath={"/Photography/UnitedStates/Illinois/Chicago"} backTo={"/photography/usa/midwest"} />} />
-        
+        <Route
+          path="/photography/usa/midwest/minnesota"
+          element={<TiledPlane photoPath={"/Photography/UnitedStates/Minnesota/Minneapolis"} backTo={"/photography/usa/midwest"} />}
+        />
+        <Route
+          path="/photography/usa/midwest/wisconsin"
+          element={<TiledPlane photoPath={"/Photography/UnitedStates/Wisconsin/Madison"} backTo={"/photography/usa/midwest"} />}
+        />
+        <Route
+          path="/photography/usa/midwest/illinois"
+          element={<TiledPlane photoPath={"/Photography/UnitedStates/Illinois/Chicago"} backTo={"/photography/usa/midwest"} />}
+        />
+
         {/* North East States */}
-        <Route path="/photography/usa/northEast/newYork/nyc" element={<TiledPlane photoPath={"/Photography/UnitedStates/NewYork/NYC"} backTo={"/photography/usa/northEast"} />} />
-        
+        <Route
+          path="/photography/usa/northEast/newYork/nyc"
+          element={<TiledPlane photoPath={"/Photography/UnitedStates/NewYork/NYC"} backTo={"/photography/usa/northEast"} />}
+        />
+
         {/* West Coast - California */}
         <Route path="/photography/usa/westCoast/california" element={<California />} />
-        <Route path="/photography/usa/westCoast/california/bayArea" element={<TiledPlane photoPath={"/Photography/UnitedStates/California/BayArea"} backTo={"/photography/usa/westCoast/california"} />} />
-        <Route path="/photography/usa/westCoast/california/sacramento" element={<TiledPlane photoPath={"/Photography/UnitedStates/California/Sacramento"} backTo={"/photography/usa/westCoast/california"} />} />
-        <Route path="/photography/usa/westCoast/california/sequoia" element={<TiledPlane photoPath={"/Photography/UnitedStates/California/Sequoia"} backTo={"/photography/usa/westCoast/california"} />} />
-        <Route path="/photography/usa/westCoast/california/tahoe" element={<TiledPlane photoPath={"/Photography/UnitedStates/California/Tahoe"} backTo={"/photography/usa/westCoast/california"} />} />
-        <Route path="/photography/usa/westCoast/california/yosemite" element={<TiledPlane photoPath={"/Photography/UnitedStates/California/Yosemite"} backTo={"/photography/usa/westCoast/california"} />} />
-        <Route path="/photography/usa/westCoast/washington" element={<TiledPlane photoPath={"/Photography/UnitedStates/Washington"} backTo={"/photography/usa/westCoast"} />} />
-        
+        <Route
+          path="/photography/usa/westCoast/california/bayArea"
+          element={<TiledPlane photoPath={"/Photography/UnitedStates/California/BayArea"} backTo={"/photography/usa/westCoast/california"} />}
+        />
+        <Route
+          path="/photography/usa/westCoast/california/sacramento"
+          element={<TiledPlane photoPath={"/Photography/UnitedStates/California/Sacramento"} backTo={"/photography/usa/westCoast/california"} />}
+        />
+        <Route
+          path="/photography/usa/westCoast/california/sequoia"
+          element={<TiledPlane photoPath={"/Photography/UnitedStates/California/Sequoia"} backTo={"/photography/usa/westCoast/california"} />}
+        />
+        <Route
+          path="/photography/usa/westCoast/california/tahoe"
+          element={<TiledPlane photoPath={"/Photography/UnitedStates/California/Tahoe"} backTo={"/photography/usa/westCoast/california"} />}
+        />
+        <Route
+          path="/photography/usa/westCoast/california/yosemite"
+          element={<TiledPlane photoPath={"/Photography/UnitedStates/California/Yosemite"} backTo={"/photography/usa/westCoast/california"} />}
+        />
+        <Route
+          path="/photography/usa/westCoast/washington"
+          element={<TiledPlane photoPath={"/Photography/UnitedStates/Washington"} backTo={"/photography/usa/westCoast"} />}
+        />
+
         {/* South States */}
-        <Route path="/photography/usa/south/northCarolina" element={<TiledPlane photoPath={"/Photography/UnitedStates/NorthCarolina/Charlotte"} backTo={"/photography/usa/south"} />} />
-        
+        <Route
+          path="/photography/usa/south/northCarolina"
+          element={<TiledPlane photoPath={"/Photography/UnitedStates/NorthCarolina/Charlotte"} backTo={"/photography/usa/south"} />}
+        />
+
         {/* Sunbelt States */}
-        <Route path="/photography/usa/sunbelt/arizona" element={<TiledPlane photoPath={"/Photography/UnitedStates/Arizona/Sedona"} backTo={"/photography/usa/sunbelt"} />} />
-        
+        <Route
+          path="/photography/usa/sunbelt/arizona"
+          element={<TiledPlane photoPath={"/Photography/UnitedStates/Arizona/Sedona"} backTo={"/photography/usa/sunbelt"} />}
+        />
+
         {/* Europe */}
         <Route path="/photography/europe" element={<Europe />} />
-        <Route path="/photography/europe/netherlands" element={<TiledPlane photoPath={"/Photography/Europe/Amsterdam"} backTo={"/photography/europe"} />} />
+        <Route
+          path="/photography/europe/netherlands"
+          element={<TiledPlane photoPath={"/Photography/Europe/Amsterdam"} backTo={"/photography/europe"} />}
+        />
         <Route path="/photography/europe/spain" element={<TiledPlane photoPath={"/Photography/Europe/Girona"} backTo={"/photography/europe"} />} />
-        <Route path="/photography/europe/denmark" element={<TiledPlane photoPath={"/Photography/Europe/Copenhagen"} backTo={"/photography/europe"} />} />
+        <Route
+          path="/photography/europe/denmark"
+          element={<TiledPlane photoPath={"/Photography/Europe/Copenhagen"} backTo={"/photography/europe"} />}
+        />
         <Route path="/photography/europe/france" element={<TiledPlane photoPath={"/Photography/Europe/Lyon"} backTo={"/photography/europe"} />} />
 
         <Route path="*" element={<Navigate to="/" replace />} />
