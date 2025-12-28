@@ -19,18 +19,19 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-d
 import MarkdownPage from "./components/MarkdownPage";
 
 // Top right
-import About from "./pages/about/About";
-import ThisWebsite from "./pages/about/pages/ThisWebsite";
+import About from "./pages/About";
+import ThisWebsite from "./pages/about/ThisWebsite";
 
 // Bottom Left
-import Leaderboards from "./pages/leaderboards/Leaderboards";
-import Books from "./pages/leaderboards/pages/Books";
-import Places, { Lived, ToVisit, Visited } from "./pages/leaderboards/pages/Places";
-import ToLive from "./pages/leaderboards/pages/places/ToLive";
+import Leaderboards from "./pages/Leaderboards";
+import Books from "./pages/leaderboards/Books";
+import Places, { Lived, ToVisit, Visited } from "./pages/leaderboards/Places";
+import ToLive from "./pages/leaderboards/places/ToLive";
 
-import Rooms from "./pages/Rooms";
+import Projects from "./pages/Projects";
+import Rooms from "./pages/projects/Rooms";
 
-import Photography from "./pages/photography/Photography";
+import Photography from "./pages/Photography";
 import UnitedStates from "./pages/photography/UnitedStates";
 import TiledPlane from "./components/TiledPlane";
 import Africa from "./pages/photography/Africa";
@@ -60,10 +61,16 @@ root.render(
         <Route path="/about/thisWebsite/why" element={<MarkdownPage source={"/content/ThisWebsiteWhy.md"} backTo="/about/thisWebsite" />} />
         <Route path="/about/thisWebsite/how" element={<MarkdownPage source={"/content/ThisWebsiteHow.md"} backTo="/about/thisWebsite" />} />
 
-        <Route path="/rooms" element={<Rooms />} />
-        <Route path="/rooms/what" element={<MarkdownPage source={"/content/RoomsWhat.md"} backTo="/rooms" />} />
-        <Route path="/rooms/why" element={<MarkdownPage source={"/content/RoomsWhy.md"} backTo="/rooms" />} />
-        <Route path="/rooms/how" element={<MarkdownPage source={"/content/RoomsHow.md"} backTo="/rooms" />} />
+        <Route path="/projects" element={<Projects />} />
+        <Route path="/projects/openSource" element={<MarkdownPage source={"/content/OpenSource.md"} backTo="/projects" />} />
+        <Route
+          path="/projects/headphonesNoHeadphones"
+          element={<MarkdownPage source={"/content/HeadphonesNoHeadphones.md"} backTo="/projects" />}
+        />
+        <Route path="/projects/rooms" element={<Rooms />} />
+        <Route path="/projects/rooms/what" element={<MarkdownPage source={"/content/RoomsWhat.md"} backTo="/projects/rooms" />} />
+        <Route path="/projects/rooms/why" element={<MarkdownPage source={"/content/RoomsWhy.md"} backTo="/projects/rooms" />} />
+        <Route path="/projects/rooms/how" element={<MarkdownPage source={"/content/RoomsHow.md"} backTo="/projects/rooms" />} />
 
         <Route path="/leaderboards" element={<Leaderboards />} />
         <Route path="/leaderboards/places" element={<Places />} />
@@ -84,12 +91,6 @@ root.render(
           }
         />
         <Route path="/leaderboards/books" element={<Books />} />
-
-
-
-
-        <Route path="/misc/openSource" element={<MarkdownPage source={"/content/MiscOpenSource.md"} backTo="/misc" />} />
-        <Route path="/misc/headphonesNoHeadphones" element={<MarkdownPage source={"/content/MiscHeadphonesNoHeadphones.md"} backTo="/misc" />} />
 
         <Route path="/cooking" element={<TiledPlane photoPath={"/Cooking"} backTo="/" />} />
         <Route path="/art" element={<TiledPlaneFolders parentFolder={"Ceramics"} backTo="/" />} />

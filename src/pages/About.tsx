@@ -15,9 +15,9 @@ import React from "react";
 import SierpinskiHexagon, {
   HexagonConfig,
   minConfig
-} from "../../components/SierpinskiHexagon";
-import { performTransitionAndRedirect } from "../../App";
-import { appConfig as WebsiteConfig } from "./pages/ThisWebsite";
+} from "../components/SierpinskiHexagon";
+import { performTransitionAndRedirect } from "../App";
+import { appConfig as WebsiteConfig } from "./about/ThisWebsite";
 
 const sharedConfig = {
   styles: {

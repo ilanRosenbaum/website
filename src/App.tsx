@@ -15,10 +15,10 @@ import React from "react";
 import SierpinskiHexagon, {
   HexagonConfig
 } from "./components/SierpinskiHexagon";
-import { appConfig as RoomsConfig } from "./pages/Rooms";
-import { appConfig as LeaderboardsConfig } from "./pages/leaderboards/Leaderboards";
-import { appConfig as PhotographyConfig } from "./pages/photography/Photography";
-import { appConfig as AboutConfig } from "./pages/about/About";
+import { appConfig as ProjectsConfig } from "./pages/Projects";
+import { appConfig as LeaderboardsConfig } from "./pages/Leaderboards";
+import { appConfig as PhotographyConfig } from "./pages/Photography";
+import { appConfig as AboutConfig } from "./pages/About";
 
 const ClonedPhotographyConfig: HexagonConfig =
   structuredClone(PhotographyConfig);
@@ -44,7 +44,7 @@ const AppConfig: HexagonConfig = {
       performTransitionAndRedirect(hexagonId, "/leaderboards");
     },
     topLeft: (hexagonId: number) => {
-      performTransitionAndRedirect(hexagonId, "/rooms");
+      performTransitionAndRedirect(hexagonId, "/projects");
     },
     right: (hexagonId: number) => {
       performTransitionAndRedirect(hexagonId, "/photography");
@@ -67,7 +67,6 @@ const AppConfig: HexagonConfig = {
   text: {
     2: "Ceramics",
     4: "Cooking",
-    5: "roōms",
     6: "About"
   },
   title: "Ilan Rosenbaum",
@@ -75,7 +74,7 @@ const AppConfig: HexagonConfig = {
     exists: false
   },
   config: {
-    "topLeft": RoomsConfig,
+    "topLeft": ProjectsConfig,
     "bottomLeft": LeaderboardsConfig,
     "right": ClonedPhotographyConfig,
     "topRight": AboutConfig

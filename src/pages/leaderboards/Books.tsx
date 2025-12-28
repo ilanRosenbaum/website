@@ -15,7 +15,7 @@ import React from "react";
 import SortableTable, {
   TableColumn,
   SortMapping
-} from "../../../components/SortableTable";
+} from "../../components/SortableTable";
 
 const RANK_MAPPING: SortMapping = {
   favorite: 1,

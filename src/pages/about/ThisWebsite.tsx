@@ -12,26 +12,24 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
 import React from "react";
-import SierpinskiHexagon from "../components/SierpinskiHexagon";
+import SierpinskiHexagon from "../../components/SierpinskiHexagon";
 
 const sharedConfig = {
   targetLevels: {
     right: 3,
     bottomRight: 0,
     bottomLeft: 0,
-    left: 3,
+    left: 0,
     topLeft: 3,
     topRight: 3
   },
   styles: {
     default: {
-      fill: "#4c0013",
+      fill: "#603b61",
       opacity: 1.0
     }
   },
-  images: {},
-  textColor: "#F2EFDE",
-  dropShadow: "#F2EFDE"
+  images: {}
 };
 
 export const appConfig = {
@@ -39,13 +37,11 @@ export const appConfig = {
   styles: sharedConfig.styles,
   actions: {
     default: () => {
-      window.location.href = "/rooms";
+      window.location.href = "/misc/thisWebsite";
     }
   },
   images: sharedConfig.images,
   text: {},
-  textColor: sharedConfig.textColor,
-  dropShadow: sharedConfig.dropShadow,
   backButton: {
     exists: false
   }
@@ -55,23 +51,14 @@ const pageConfig = {
   targetLevels: sharedConfig.targetLevels,
   styles: sharedConfig.styles,
   actions: {
-    default: (hexagonId: number) => {
-      alert(`Hexagon ${hexagonId} clicked!`);
-    },
-    left: () => {
-      window.open(
-        "https://innovate.wisc.edu/business-entrepreneurship-clinic-a-room-with-a-view-ilan-rosenbaums-app-helps-students-find-housing/",
-        "_blank"
-      );
-    },
     topLeft: () => {
-      window.location.href = "/rooms/what";
+      window.location.href = "/misc/thisWebsite/what";
     },
     topRight: () => {
-      window.location.href = "/rooms/why";
+      window.location.href = "/misc/thisWebsite/why";
     },
     right: () => {
-      window.location.href = "/rooms/how";
+      window.location.href = "/misc/thisWebsite/how";
     }
   },
   images: sharedConfig.images,
@@ -79,18 +66,16 @@ const pageConfig = {
     1: "How",
     2: "",
     3: "",
-    4: "Press",
+    4: "",
     5: "What",
     6: "Why"
   },
-  title: "roōms",
-  titleSize: "5vw",
-  textColor: sharedConfig.textColor,
-  dropShadow: sharedConfig.dropShadow,
+  title: "This Website",
+  titleSize: "2vw",
   backButton: {
     exists: true,
-    to: "/",
-    color: "#4c0013"
+    to: "/misc",
+    fill: "#603b61"
   }
 };
 

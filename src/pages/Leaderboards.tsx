@@ -12,9 +12,9 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
 import React from "react";
-import SierpinskiHexagon, { HexagonConfig, minConfig } from "../../components/SierpinskiHexagon";
-import { performTransitionAndRedirect } from "../../App";
-import { appConfig as PlacesConfig } from "./pages/Places";
+import SierpinskiHexagon, { HexagonConfig, minConfig } from "../components/SierpinskiHexagon";
+import { performTransitionAndRedirect } from "../App";
+import { appConfig as PlacesConfig } from "./leaderboards/Places";
 
 const sharedConfig = {
   styles: {

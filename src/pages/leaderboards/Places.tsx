@@ -12,8 +12,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
 import React from "react";
-import SierpinskiHexagon from "../../../components/SierpinskiHexagon";
-import SortableTable, { TableColumn } from "../../../components/SortableTable";
+import SierpinskiHexagon from "../../components/SierpinskiHexagon";
+import SortableTable, { TableColumn } from "../../components/SortableTable";
 
 const sharedConfig = {
   targetLevels: {

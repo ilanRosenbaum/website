@@ -14,12 +14,12 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 import React from "react";
 import SierpinskiHexagon, {
   HexagonConfig
-} from "../../components/SierpinskiHexagon";
-import { performTransitionAndRedirect } from "../../App";
-import { appConfig as unitedStatesConfig } from "./UnitedStates";
-import { appConfig as africaConfig } from "./Africa";
-import { appConfig as mexicoConfig } from "./Mexico";
-import { appConfig as europeConfig } from "./Europe";
+} from "../components/SierpinskiHexagon";
+import { performTransitionAndRedirect } from "../App";
+import { appConfig as unitedStatesConfig } from "./photography/UnitedStates";
+import { appConfig as africaConfig } from "./photography/Africa";
+import { appConfig as mexicoConfig } from "./photography/Mexico";
+import { appConfig as europeConfig } from "./photography/Europe";
 
 const mexicoConfigClone: HexagonConfig = structuredClone(mexicoConfig);
 mexicoConfigClone.title = "";
