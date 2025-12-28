@@ -28,8 +28,12 @@ import Books from "./pages/leaderboards/Books";
 import Places, { Lived, ToVisit, Visited } from "./pages/leaderboards/Places";
 import ToLive from "./pages/leaderboards/places/ToLive";
 
+// Top right
 import Projects from "./pages/Projects";
 import Rooms from "./pages/projects/Rooms";
+
+// Bottom left
+import Art from "./pages/Art"
 
 import Photography from "./pages/Photography";
 import UnitedStates from "./pages/photography/UnitedStates";
@@ -53,6 +57,9 @@ root.render(
     <Router>
       <Routes>
         <Route path="/" element={<App />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+
+        <Route path="/blog" element={<MarkdownPage source={"/content/Blog.md"} backTo="/" />} />
 
         <Route path="/about" element={<About />} />
         <Route path="/about/me" element={<MarkdownPage source={"/content/Me.md"} backTo="/" />} />
@@ -92,8 +99,9 @@ root.render(
         />
         <Route path="/leaderboards/books" element={<Books />} />
 
-        <Route path="/cooking" element={<TiledPlane photoPath={"/Cooking"} backTo="/" />} />
-        <Route path="/art" element={<TiledPlaneFolders parentFolder={"Ceramics"} backTo="/" />} />
+        <Route path="/art" element={<Art />} />
+        <Route path="/art/cooking" element={<TiledPlane photoPath={"/Cooking"} backTo="/" />} />
+        <Route path="/art/pottery" element={<TiledPlaneFolders parentFolder={"Ceramics"} backTo="/" />} />
 
         <Route path="/photography" element={<Photography />} />
         <Route path="/photography/usa" element={<UnitedStates />} />
@@ -190,7 +198,6 @@ root.render(
         />
         <Route path="/photography/europe/france" element={<TiledPlane photoPath={"/Photography/Europe/Lyon"} backTo={"/photography/europe"} />} />
 
-        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   </React.StrictMode>

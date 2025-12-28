@@ -19,6 +19,7 @@ import { appConfig as ProjectsConfig } from "./pages/Projects";
 import { appConfig as LeaderboardsConfig } from "./pages/Leaderboards";
 import { appConfig as PhotographyConfig } from "./pages/Photography";
 import { appConfig as AboutConfig } from "./pages/About";
+import { appConfig as ArtConfig } from "./pages/Art";
 
 const ClonedPhotographyConfig: HexagonConfig =
   structuredClone(PhotographyConfig);
@@ -27,7 +28,7 @@ ClonedPhotographyConfig.titleSize = "max(0.7vw, 0.6vh)";
 const AppConfig: HexagonConfig = {
   targetLevels: {
     right: 0,
-    bottomRight: 3,
+    bottomRight: 0,
     bottomLeft: 0,
     left: 3,
     topLeft: 0,
@@ -53,21 +54,19 @@ const AppConfig: HexagonConfig = {
       performTransitionAndRedirect(hexagonId, "/about");
     },
     left: () => {
-      window.location.href = "/cooking";
+      window.location.href = "/blog";
     },
-    bottomRight: () => {
-      window.location.href = "/art";
-    }
+    bottomRight: (hexagonId: number) => {
+      performTransitionAndRedirect(hexagonId, "/art");
+    },
   },
   images: {
-    bottomRight: "/Covers/garlicVertical.jpg",
     right: "/Covers/birdVertical.jpg",
-    left: "/Covers/chickenPastaVertical.jpg"
   },
   text: {
-    2: "Ceramics",
-    4: "Cooking",
-    6: "About"
+    4: "Blog",
+    6: "About",
+    2: "Art"
   },
   title: "Ilan Rosenbaum",
   backButton: {
@@ -77,7 +76,8 @@ const AppConfig: HexagonConfig = {
     "topLeft": ProjectsConfig,
     "bottomLeft": LeaderboardsConfig,
     "right": ClonedPhotographyConfig,
-    "topRight": AboutConfig
+    "topRight": AboutConfig,
+    "bottomRight": ArtConfig
   },
   titleSize: "max(1.8vw, 1.6vh)"
 };
