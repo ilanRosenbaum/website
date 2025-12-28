@@ -21,6 +21,7 @@ import { appConfig as LeaderboardsConfig } from "./pages/Leaderboards";
 import { appConfig as PhotographyConfig } from "./pages/Photography";
 import { appConfig as AboutConfig } from "./pages/About";
 import { appConfig as ArtConfig } from "./pages/Art";
+import { getFastMode } from "./components/FastModeToggle";
 
 const ClonedPhotographyConfig: HexagonConfig =
   structuredClone(PhotographyConfig);
@@ -88,6 +89,12 @@ export const performTransitionAndRedirect = (
   url: string,
   navigate?: (url: string) => void
 ) => {
+  // Fast mode is true, navigate immediately 
+  if (navigate && getFastMode()) {
+    navigate(url);
+    return;
+  }
+
   const svg = document.querySelector("svg");
   const hexagon = document.querySelector(`#hexagon-${hexagonId}`);
 

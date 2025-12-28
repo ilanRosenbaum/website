@@ -16,6 +16,7 @@ import * as d3 from "d3";
 import BackButton from "./BackButton";
 import { imageCache } from "./ImageCache";
 import { Footer } from "../Constants";
+import FastModeToggle from "./FastModeToggle";
 
 export interface HexagonConfig {
   targetLevels: Record<string, number>;
@@ -515,6 +516,7 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
 
   return (
     <div className="h-screen w-screen bg-black/90 fixed overflow-hidden">
+      <FastModeToggle />
       <div className="absolute pt-8 pl-8 z-10">
         {config.backButton.exists && (
           <BackButton textColor={config.textColor || "#ffefdb"} color={config.styles.default.fill || "#603b61"} to={config.backButton.to || "/"} />
