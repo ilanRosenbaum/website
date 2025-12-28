@@ -15,6 +15,7 @@ import React, { useRef, useEffect, useState, useMemo } from "react";
 import * as d3 from "d3";
 import BackButton from "./BackButton";
 import { imageCache } from "./ImageCache";
+import { Footer } from "../Constants";
 
 export interface HexagonConfig {
   targetLevels: Record<string, number>;
@@ -84,19 +85,12 @@ function hexToRgbA(hex: string, opacity = 0.5) {
       c = [c[0], c[0], c[1], c[1], c[2], c[2]];
     }
     c = "0x" + c.join("");
-    return (
-      "rgba(" +
-      [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(",") +
-      `,${opacity})`
-    );
+    return "rgba(" + [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(",") + `,${opacity})`;
   }
   throw new Error("Bad Hex");
 }
 
-export function throttle<F extends (...args: any[]) => any>(
-  func: F,
-  limit: number
-): (...args: Parameters<F>) => void {
+export function throttle<F extends (...args: any[]) => any>(func: F, limit: number): (...args: Parameters<F>) => void {
   let lastFunc: ReturnType<typeof setTimeout>;
   let lastRan: number;
   return function (this: any, ...args: Parameters<F>) {
@@ -130,10 +124,7 @@ function getThumbPath(originalPath: string): string {
   return `/Covers/thumbnails/${baseFilename}_300x300${extension}`;
 }
 
-async function addPatterns(
-  defs: d3.Selection<SVGDefsElement, unknown, null, undefined>,
-  config: HexagonConfig
-) {
+async function addPatterns(defs: d3.Selection<SVGDefsElement, unknown, null, undefined>, config: HexagonConfig) {
   // Helper function to create a pattern
   const createPattern = (uniqueId: string, imageUrl: string) => {
     const pattern = defs
@@ -144,12 +135,7 @@ async function addPatterns(
       .attr("width", 1)
       .attr("height", 1);
 
-    pattern
-      .append("image")
-      .attr("xlink:href", imageUrl)
-      .attr("width", 1)
-      .attr("height", 1)
-      .attr("preserveAspectRatio", "xMidYMid slice");
+    pattern.append("image").attr("xlink:href", imageUrl).attr("width", 1).attr("height", 1).attr("preserveAspectRatio", "xMidYMid slice");
   };
 
   // Collect all configs including nested ones
@@ -177,9 +163,7 @@ async function addPatterns(
         return { uniqueId, imageUrl };
       } catch (error) {
         // Fallback to original
-        console.warn(
-          `Failed to load thumbnail for ${imagePath}, falling back to original`
-        );
+        console.warn(`Failed to load thumbnail for ${imagePath}, falling back to original`);
         const imageUrl = await imageCache.getImage(imagePath);
         return { uniqueId, imageUrl };
       }
@@ -208,15 +192,10 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
 
   // Memoized geometry calculations
   const geometry = useMemo(() => {
-    const getSize = (width: number, height: number) =>
-      Math.min(width, height) * 0.9;
+    const getSize = (width: number, height: number) => Math.min(width, height) * 0.9;
 
     return {
-      createHexagonPoints: (
-        x: number,
-        y: number,
-        size: number
-      ): [number, number][] => {
+      createHexagonPoints: (x: number, y: number, size: number): [number, number][] => {
         const key = `${x}-${y}-${size}`;
         if (hexagonPathCache.has(key)) {
           return hexagonPathCache
@@ -230,20 +209,15 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
 
         const points = d3.range(6).map((i) => {
           const angle = (i * Math.PI) / 3;
-          return [Math.cos(angle) * size + x, Math.sin(angle) * size + y] as [
-            number,
-            number
-          ];
+          return [Math.cos(angle) * size + x, Math.sin(angle) * size + y] as [number, number];
         });
 
         hexagonPathCache.set(key, points.map((p) => p.join(",")).join(" "));
         return points;
       },
       getPolygonCenter: (points: [number, number][]): [number, number] => {
-        const x =
-          points.reduce((acc, point) => acc + point[0], 0) / points.length;
-        const y =
-          points.reduce((acc, point) => acc + point[1], 0) / points.length;
+        const x = points.reduce((acc, point) => acc + point[0], 0) / points.length;
+        const y = points.reduce((acc, point) => acc + point[1], 0) / points.length;
         return [x, y];
       },
       getSubHexOffsets: (size: number) => [
@@ -319,68 +293,29 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
       if (level > 3) {
         offsets.forEach(([dx, dy], index) => {
           const newSection = Object.keys(currentConfig.targetLevels)[index];
-          drawHexagon(
-            x + dx,
-            y + dy,
-            size / 3,
-            level - 1,
-            newSection,
-            currentConfig,
-            isMainHexagon,
-            currentConfig
-          );
+          drawHexagon(x + dx, y + dy, size / 3, level - 1, newSection, currentConfig, isMainHexagon, currentConfig);
         });
       } else if (level > targetLevel) {
         offsets.forEach(([dx, dy]) => {
-          drawHexagon(
-            x + dx,
-            y + dy,
-            size / 3,
-            level - 1,
-            section,
-            currentConfig,
-            isMainHexagon,
-            currentConfig
-          );
+          drawHexagon(x + dx, y + dy, size / 3, level - 1, section, currentConfig, isMainHexagon, currentConfig);
         });
       }
 
-      if (
-        level === 3 &&
-        currentConfig.config &&
-        currentConfig.config[section]
-      ) {
-        drawHexagon(
-          x,
-          y,
-          size,
-          4,
-          section,
-          currentConfig.config[section],
-          false,
-          currentConfig
-        );
+      if (level === 3 && currentConfig.config && currentConfig.config[section]) {
+        drawHexagon(x, y, size, 4, section, currentConfig.config[section], false, currentConfig);
       }
 
       if (level === targetLevel) {
         // Use memoized point generation
         const hexPoints = geometry.createHexagonPoints(x, y, size);
-        const style =
-          currentConfig.styles[section] || currentConfig.styles.default;
-        const dropShadowColor = currentConfig.dropShadow
-          ? hexToRgbA(currentConfig.dropShadow)
-          : "rgba(75, 0, 130, 0.5)";
+        const style = currentConfig.styles[section] || currentConfig.styles.default;
+        const dropShadowColor = currentConfig.dropShadow ? hexToRgbA(currentConfig.dropShadow) : "rgba(75, 0, 130, 0.5)";
 
         const hexagonPolygon = group.append("polygon");
 
-        const imageSource =
-          currentConfig.images[section] ||
-          (parentConfig && parentConfig.images[section]);
+        const imageSource = currentConfig.images[section] || (parentConfig && parentConfig.images[section]);
         if (imageSource) {
-          const uniqueId = generateUniqueId(
-            currentConfig.images[section] ? currentConfig : parentConfig!,
-            section
-          );
+          const uniqueId = generateUniqueId(currentConfig.images[section] ? currentConfig : parentConfig!, section);
           hexagonPolygon
             .attr("points", hexPoints.map((p) => p.join(",")).join(" "))
             .attr("stroke", "black")
@@ -406,11 +341,8 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
           .style("pointer-events", "fill");
 
         group.on("click", () => {
-          const possibleSection = Object.keys(currentConfig.targetLevels)[
-            currentHexagonId - 1
-          ];
-          const action =
-            config.actions[possibleSection] || config.actions.default;
+          const possibleSection = Object.keys(currentConfig.targetLevels)[currentHexagonId - 1];
+          const action = config.actions[possibleSection] || config.actions.default;
           action(currentHexagonId);
           setIsTransitioning(true);
         });
@@ -462,14 +394,12 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
         } else if (targetLevel !== 3) {
           group.on("click", () => {
             setIsTransitioning(true);
-            const action =
-              currentConfig.actions[section] || config.actions.default;
+            const action = currentConfig.actions[section] || config.actions.default;
             action(currentHexagonId);
           });
         } else {
           group.on("click", () => {
-            const action =
-              currentConfig.actions[section] || config.actions.default;
+            const action = currentConfig.actions[section] || config.actions.default;
             action(currentHexagonId);
           });
         }
@@ -496,30 +426,19 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
           .attr("dominant-baseline", "middle")
           .attr("fill", "#ffebcd")
           .style("pointer-events", "none")
-          .style(
-            "font-size",
-            currentConfig.titleSize || config.titleSize || "max(1.8vw, 1.8vh)"
-          )
+          .style("font-size", currentConfig.titleSize || config.titleSize || "max(1.8vw, 1.8vh)")
           .style("font-family", "Courier New, monospace")
           .style("text-shadow", "0em 0em 0.2em rgba(143, 107, 143, 1)")
           .text(currentConfig.title || "");
 
         if (currentConfig.title !== config.title) {
-          group
-            .style("opacity", 0)
-            .transition()
-            .duration(500)
-            .ease(d3.easeCubicInOut)
-            .style("opacity", 1);
+          group.style("opacity", 0).transition().duration(500).ease(d3.easeCubicInOut).style("opacity", 1);
         }
       }
     }
 
     svg.selectAll("*").remove();
-    svg
-      .attr("viewBox", `0 0 ${width} ${height}`)
-      .attr("width", "100%")
-      .attr("height", "100%");
+    svg.attr("viewBox", `0 0 ${width} ${height}`).attr("width", "100%").attr("height", "100%");
 
     const defs = svg.append("defs");
     addPatterns(defs, config);
@@ -527,15 +446,7 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
     const maxTargetLevel = 4;
     const centerX = width / 2;
     const centerY = height / 2;
-    drawHexagon(
-      centerX,
-      centerY,
-      hexagonWidth / 2,
-      maxTargetLevel,
-      "center",
-      config,
-      true
-    );
+    drawHexagon(centerX, centerY, hexagonWidth / 2, maxTargetLevel, "center", config, true);
 
     const handleMouseMove = throttle((event: MouseEvent) => {
       const svgElement = svgRef.current;
@@ -606,19 +517,13 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
     <div className="h-screen w-screen bg-black/90 fixed overflow-hidden">
       <div className="absolute pt-8 pl-8 z-10">
         {config.backButton.exists && (
-          <BackButton
-            textColor={config.textColor || "#ffefdb"}
-            color={config.styles.default.fill || "#603b61"}
-            to={config.backButton.to || "/"}
-          />
+          <BackButton textColor={config.textColor || "#ffefdb"} color={config.styles.default.fill || "#603b61"} to={config.backButton.to || "/"} />
         )}
       </div>
       <div className="items-center justify-center">
         <svg ref={svgRef} style={{ position: "relative", zIndex: 1 }} />
       </div>
-      <div className="absolute bottom-2 right-2 text-xs text-white opacity-50">
-        Copyright © 2024-2025 Ilan Rosenbaum. All rights reserved.
-      </div>
+      <Footer />
     </div>
   );
 };

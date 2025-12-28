@@ -14,14 +14,9 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 import React, { useEffect, useRef, useState, useMemo } from "react";
 import BackButton from "./BackButton";
 import { storage } from "./../firebase";
-import {
-  ref,
-  listAll,
-  getMetadata,
-  getDownloadURL,
-  StorageReference
-} from "firebase/storage";
+import { ref, listAll, getMetadata, getDownloadURL, StorageReference } from "firebase/storage";
 import { imageCache } from "./ImageCache";
+import { Footer } from "../Constants";
 
 interface TiledPlaneFoldersProps {
   parentFolder: string;
@@ -34,15 +29,10 @@ interface FolderData {
   folderName: string;
 }
 
-const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
-  parentFolder,
-  backTo
-}) => {
+const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, backTo }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [selectedFolder, setSelectedFolder] = useState<FolderData | null>(null);
-  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState<number | null>(
-    null
-  );
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState<number | null>(null);
 
   const [folderData, setFolderData] = useState<FolderData[]>([]);
   const [photoPaths, setPhotoPaths] = useState<string[]>([]);
@@ -57,41 +47,30 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
       try {
         const result = await listAll(directoryRef);
 
-        const folderPromises = result.prefixes.map(
-          async (folderRef: StorageReference) => {
-            const folderPath = `${parentFolder}/${folderRef.name}`;
-            const folderContents = await listAll(ref(storage, folderPath));
-            if (folderContents.items.length === 0) {
-              return { path: folderPath, lastModified: new Date(0) };
-            }
-
-            const metadataPromises = folderContents.items.map((item) =>
-              getMetadata(item)
-            );
-            const metadataResults = await Promise.all(metadataPromises);
-
-            const validDates = metadataResults
-              .map((meta) => meta.updated)
-              .filter(
-                (updated): updated is string => typeof updated === "string"
-              )
-              .map((updated) => new Date(updated))
-              .filter((date) => !isNaN(date.getTime()));
-
-            const lastModified =
-              validDates.length > 0
-                ? new Date(Math.max(...validDates.map((d) => d.getTime())))
-                : new Date(0);
-
-            return { path: folderPath, lastModified };
+        const folderPromises = result.prefixes.map(async (folderRef: StorageReference) => {
+          const folderPath = `${parentFolder}/${folderRef.name}`;
+          const folderContents = await listAll(ref(storage, folderPath));
+          if (folderContents.items.length === 0) {
+            return { path: folderPath, lastModified: new Date(0) };
           }
-        );
+
+          const metadataPromises = folderContents.items.map((item) => getMetadata(item));
+          const metadataResults = await Promise.all(metadataPromises);
+
+          const validDates = metadataResults
+            .map((meta) => meta.updated)
+            .filter((updated): updated is string => typeof updated === "string")
+            .map((updated) => new Date(updated))
+            .filter((date) => !isNaN(date.getTime()));
+
+          const lastModified = validDates.length > 0 ? new Date(Math.max(...validDates.map((d) => d.getTime()))) : new Date(0);
+
+          return { path: folderPath, lastModified };
+        });
 
         const foldersWithDates = await Promise.all(folderPromises);
 
-        const sortedFolders = foldersWithDates.sort(
-          (a, b) => b.lastModified.getTime() - a.lastModified.getTime()
-        );
+        const sortedFolders = foldersWithDates.sort((a, b) => b.lastModified.getTime() - a.lastModified.getTime());
         setPhotoPaths(sortedFolders.map((folder) => folder.path));
       } catch (error) {
         console.error("Error listing folders:", error);
@@ -162,22 +141,14 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
               const possibleThumbName = `${baseFilename}_300x300${extension}`;
 
               try {
-                const thumbRef = ref(
-                  storage,
-                  `${path}/thumbnails/${possibleThumbName}`
-                );
+                const thumbRef = ref(storage, `${path}/thumbnails/${possibleThumbName}`);
                 coverPhotoUrl = await getDownloadURL(thumbRef);
                 await imageCache.getImage(coverPhotoUrl); // Preload
               } catch (error) {
-                console.warn(
-                  `No matching thumbnail for newest original ${originalName}`,
-                  error
-                );
+                console.warn(`No matching thumbnail for newest original ${originalName}`, error);
               }
             } else {
-              console.warn(
-                `Original file "${originalName}" does not have an extension.`
-              );
+              console.warn(`Original file "${originalName}" does not have an extension.`);
             }
           }
 
@@ -190,9 +161,7 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
       );
 
       // Filter out any empty or broken folders
-      const validData = fetchedFolderData.filter(
-        (data) => data.coverPhoto !== ""
-      );
+      const validData = fetchedFolderData.filter((data) => data.coverPhoto !== "");
       setFolderData(validData);
     };
 
@@ -247,8 +216,7 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
 
         const x = centerX + col * columnOffsetX - hexWidth / 2;
         // For honeycomb style, shift half a hex if col != 0
-        const y =
-          row * rowOffsetY + (Math.abs(col) % 2 === 1 ? rowOffsetY / 2 : 0);
+        const y = row * rowOffsetY + (Math.abs(col) % 2 === 1 ? rowOffsetY / 2 : 0);
 
         tmp.push({
           x,
@@ -359,9 +327,7 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
     }
   };
 
-  async function fetchAllPhotosForFolderPath(
-    subfolderName: string
-  ): Promise<string[]> {
+  async function fetchAllPhotosForFolderPath(subfolderName: string): Promise<string[]> {
     try {
       const folderRef = ref(storage, `${parentFolder}/${subfolderName}`);
       const result = await listAll(folderRef);
@@ -400,10 +366,7 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
         <BackButton textColor="#ffefdb" color="#603b61" to={backTo || ""} />
       </div>
 
-      <div
-        ref={containerRef}
-        className="w-screen h-[calc(80dvh)] mt-[max(9vw,9vh)] mb-[calc(6dvh)] custom-scrollbar overflow-auto"
-      >
+      <div ref={containerRef} className="w-screen h-[calc(80dvh)] mt-[max(9vw,9vh)] mb-[calc(6dvh)] custom-scrollbar overflow-auto">
         {(() => {
           const { width, height } = containerSize;
           if (!width || !height || hexData.length === 0) return null;
@@ -411,25 +374,14 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
           const rowCount = Math.ceil(folderData.length / 3);
           const hexRadius = width > height ? height / 4 : width / 6;
           const singleHexHeight = hexRadius * Math.sqrt(3);
-          const svgHeight = Math.max(
-            height,
-            rowCount * singleHexHeight + singleHexHeight
-          );
+          const svgHeight = Math.max(height, rowCount * singleHexHeight + singleHexHeight);
 
           return (
-            <svg
-              width={width}
-              height={svgHeight}
-              className="mx-auto block"
-              style={{ overflow: "visible" }}
-            >
+            <svg width={width} height={svgHeight} className="mx-auto block" style={{ overflow: "visible" }}>
               {/* Define clip paths in <defs> for each folder */}
               <defs>
                 {hexData.map((d) => (
-                  <clipPath
-                    key={`clip-hex-${d.index}`}
-                    id={`clip-hex-${d.index}`}
-                  >
+                  <clipPath key={`clip-hex-${d.index}`} id={`clip-hex-${d.index}`}>
                     <path d={hexPath} transform={`translate(${d.x}, ${d.y})`} />
                   </clipPath>
                 ))}
@@ -481,9 +433,7 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
                       {/* Clipped image */}
                       <g clipPath={`url(#clip-hex-${d.index})`}>
                         <g transform={`translate(${imgX}, ${imgY})`}>
-                          <g
-                            transform={`translate(${offsetX}, ${offsetY}) scale(${coverScale})`}
-                          >
+                          <g transform={`translate(${offsetX}, ${offsetY}) scale(${coverScale})`}>
                             <image
                               xlinkHref={d.folder.coverPhoto}
                               width={300}
@@ -515,10 +465,7 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
 
       {/* Fullscreen photo viewer */}
       {selectedFolder && selectedPhotoIndex !== null && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center z-20"
-          onClick={closeFullscreen}
-        >
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center z-20" onClick={closeFullscreen}>
           <img
             src={selectedFolder.allPhotos[selectedPhotoIndex]}
             alt=""
@@ -526,9 +473,7 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
             onClick={(e) => e.stopPropagation()}
             onLoad={() => setIsLoading(false)}
           />
-          <div className="text-[#ffebcd] font-mono text-xl mb-4">
-            {selectedFolder.folderName}
-          </div>
+          <div className="text-[#ffebcd] font-mono text-xl mb-4">{selectedFolder.folderName}</div>
 
           {/* Next/Prev arrows */}
           <div className="flex justify-center items-center w-full">
@@ -536,11 +481,7 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
             <button
               className={`mx-4 w-12 h-12 rounded-full bg-transparent text-4xl font-bold font-mono flex items-center justify-center transition-opacity duration-300 ${
                 isLoading ? "text-[#a09f9e]" : "text-[#ffebcd]"
-              } ${
-                selectedPhotoIndex === 0
-                  ? "opacity-0 cursor-default"
-                  : "opacity-100 cursor-pointer"
-              }`}
+              } ${selectedPhotoIndex === 0 ? "opacity-0 cursor-default" : "opacity-100 cursor-pointer"}`}
               onClick={handlePrevious}
               disabled={isLoading || selectedPhotoIndex === 0}
             >
@@ -551,16 +492,9 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
             <button
               className={`mx-4 w-12 h-12 rounded-full bg-transparent text-4xl font-bold font-mono flex items-center justify-center transition-opacity duration-300 ${
                 isLoading ? "text-[#a09f9e]" : "text-[#ffebcd]"
-              } ${
-                selectedPhotoIndex === selectedFolder.allPhotos.length - 1
-                  ? "opacity-0 cursor-default"
-                  : "opacity-100 cursor-pointer"
-              }`}
+              } ${selectedPhotoIndex === selectedFolder.allPhotos.length - 1 ? "opacity-0 cursor-default" : "opacity-100 cursor-pointer"}`}
               onClick={handleNext}
-              disabled={
-                isLoading ||
-                selectedPhotoIndex === selectedFolder.allPhotos.length - 1
-              }
+              disabled={isLoading || selectedPhotoIndex === selectedFolder.allPhotos.length - 1}
             >
               &gt;
             </button>
@@ -568,10 +502,7 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
         </div>
       )}
 
-      {/* Footer */}
-      <div className="absolute bottom-2 right-2 text-xs text-white opacity-50">
-        Copyright © 2024-2025 Ilan Rosenbaum. All rights reserved.
-      </div>
+      <Footer />
     </div>
   );
 };

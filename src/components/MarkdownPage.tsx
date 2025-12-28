@@ -20,6 +20,7 @@ import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import DataviewTable from "./DataviewTable";
+import { Footer } from "../Constants";
 
 interface MarkdownPageProps {
   source: string;
@@ -239,9 +240,7 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({
       >
         {renderContent()}
       </div>
-      <div className="absolute bottom-2 right-2 text-xs text-white opacity-50">
-        Copyright © 2024-2025 Ilan Rosenbaum. All rights reserved.
-      </div>
+      <Footer />
     </div>
   );
 };
