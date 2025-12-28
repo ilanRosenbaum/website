@@ -100,8 +100,9 @@ root.render(
         <Route path="/leaderboards/books" element={<Books />} />
 
         <Route path="/art" element={<Art />} />
-        <Route path="/art/cooking" element={<TiledPlane photoPath={"/Cooking"} backTo="/" />} />
-        <Route path="/art/pottery" element={<TiledPlaneFolders parentFolder={"Ceramics"} backTo="/" />} />
+        <Route path="/art/cooking" element={<TiledPlane photoPath={"/Cooking"} backTo="/art" />} />
+        <Route path="/art/pottery" element={<TiledPlaneFolders parentFolder={"Ceramics"} backTo="/art" />} />
+        <Route path="/art/RichAndFrank" element={<TiledPlaneFolders parentFolder={"RichAndFrank"} backTo="/art" />} />
 
         <Route path="/photography" element={<Photography />} />
         <Route path="/photography/usa" element={<UnitedStates />} />

@@ -44,19 +44,10 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
     null
   );
 
-  // Our array of subfolders (each with a coverPhoto and an allPhotos list)
   const [folderData, setFolderData] = useState<FolderData[]>([]);
-
-  // Just storing the raw sorted folder paths here
   const [photoPaths, setPhotoPaths] = useState<string[]>([]);
-
-  // Prevent double-clicking Next/Prev from causing flickers
   const [isLoading, setIsLoading] = useState(false);
-
-  // Track hovered index for optional hover animation
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-
-  // For container sizing
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
@@ -66,19 +57,14 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
       try {
         const result = await listAll(directoryRef);
 
-        // We only care about subfolders (prefixes)
         const folderPromises = result.prefixes.map(
           async (folderRef: StorageReference) => {
-            // Example folderRef: "Ceramics/x"
             const folderPath = `${parentFolder}/${folderRef.name}`;
-
-            // Get all items in that subfolder to find the newest date
             const folderContents = await listAll(ref(storage, folderPath));
             if (folderContents.items.length === 0) {
               return { path: folderPath, lastModified: new Date(0) };
             }
 
-            // Get metadata for each file, pick the newest date
             const metadataPromises = folderContents.items.map((item) =>
               getMetadata(item)
             );
@@ -103,7 +89,6 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
 
         const foldersWithDates = await Promise.all(folderPromises);
 
-        // Sort by newest first
         const sortedFolders = foldersWithDates.sort(
           (a, b) => b.lastModified.getTime() - a.lastModified.getTime()
         );
@@ -181,7 +166,6 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
                   storage,
                   `${path}/thumbnails/${possibleThumbName}`
                 );
-                // Attempt to get the download URL for the thumbnail
                 coverPhotoUrl = await getDownloadURL(thumbRef);
                 await imageCache.getImage(coverPhotoUrl); // Preload
               } catch (error) {
@@ -217,7 +201,6 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
     }
   }, [photoPaths]);
 
-  // =============== Container Size ===============
   useEffect(() => {
     const updateContainerSize = () => {
       if (!containerRef.current) return;
@@ -233,7 +216,6 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
     };
   }, []);
 
-  // =============== 3) Prepare the Honeycomb Data in a React Way ===============
   interface HexDatum {
     x: number;
     y: number;
@@ -283,7 +265,6 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
     return tmp;
   }, [containerSize, folderData]);
 
-  // =============== Hex Path ===============
   const hexPath = useMemo(() => {
     const { width, height } = containerSize;
     if (!width || !height) return "";
@@ -350,7 +331,6 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
     }
   }, [selectedFolder, selectedPhotoIndex]);
 
-  // =============== On Click: Show Fullscreen ===============
   const handleHexClick = async (folderIndex: number) => {
     const folder = folderData[folderIndex];
     if (folder.allPhotos.length > 0) {
@@ -359,7 +339,6 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
       return;
     }
 
-    // Otherwise, load on-demand
     try {
       const allPhotos = await fetchAllPhotosForFolderPath(folder.folderName);
       setFolderData((prev) => {
@@ -398,7 +377,6 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
         })
       );
 
-      // Sort by date descending (newest first)
       itemsWithMeta.sort((a, b) => b.date.getTime() - a.date.getTime());
 
       const allPhotos = await Promise.all(
@@ -416,15 +394,12 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
     }
   }
 
-  // =============== Render ===============
   return (
     <div className="h-screen w-screen bg-black/90 flex flex-col items-center">
-      {/* Back button at top-left */}
       <div className="absolute top-[2vw] left-[2vw] z-10">
         <BackButton textColor="#ffefdb" color="#603b61" to={backTo || ""} />
       </div>
 
-      {/* Main container (for the honeycomb of subfolders) */}
       <div
         ref={containerRef}
         className="w-screen h-[calc(80dvh)] mt-[max(9vw,9vh)] mb-[calc(6dvh)] custom-scrollbar overflow-auto"
@@ -551,7 +526,6 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({
             onClick={(e) => e.stopPropagation()}
             onLoad={() => setIsLoading(false)}
           />
-          {/* Show folder name or other info if desired */}
           <div className="text-[#ffebcd] font-mono text-xl mb-4">
             {selectedFolder.folderName}
           </div>

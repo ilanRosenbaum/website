@@ -29,7 +29,7 @@ appConfig.title = "Mexico";
 appConfig.imageId = "Mexico";
 appConfig.titleSize = "max(1.2vw, 1.2vh)";
 appConfig.images = {
-  left: "/Covers/PuertoVallartaVertical.jpg"
+  left: "/Covers/PuertoVallartaVertical.JPG"
 };
 
 const pageConfig: HexagonConfig = {

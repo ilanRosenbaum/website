@@ -23,7 +23,7 @@ const sharedConfig = {
   },
   targetLevels: {
     right: 3,
-    bottomRight: 0,
+    bottomRight: 3,
     bottomLeft: 0,
     left: 3,
     topLeft: 0,
@@ -31,6 +31,7 @@ const sharedConfig = {
   },
   images: {
     right: "/Covers/garlicVertical.jpg",
+    bottomRight: "/Covers/RichAndFrankVertical.jpg",
     left: "/Covers/chickenPastaVertical.jpg"
   }
 };
@@ -60,14 +61,18 @@ const pageConfig: HexagonConfig = {
     right: () => {
       window.location.href = "/art/pottery";
     },
+    bottomRight: () => {
+       window.location.href = "/art/RichAndFrank";
+    },
     left: () => {
       window.location.href = "/art/cooking";
     }
   },
   images: sharedConfig.images,
   text: {
-    1: "Cooking",
-    4: "Pottery"
+    4: "Cooking",
+    1: "Pottery",
+    2: "Rich & Frank"
   },
   title: "Art",
   backButton: {
