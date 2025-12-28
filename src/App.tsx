@@ -12,6 +12,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import SierpinskiHexagon, {
   HexagonConfig
 } from "./components/SierpinskiHexagon";
@@ -66,7 +67,7 @@ const AppConfig: HexagonConfig = {
   text: {
     4: "Blog",
     6: "About",
-    2: "Art"
+    3: "Art"
   },
   title: "Ilan Rosenbaum",
   backButton: {
@@ -74,17 +75,18 @@ const AppConfig: HexagonConfig = {
   },
   config: {
     "topLeft": ProjectsConfig,
-    "bottomLeft": LeaderboardsConfig,
+    "bottomLeft": ArtConfig,
     "right": ClonedPhotographyConfig,
     "topRight": AboutConfig,
-    "bottomRight": ArtConfig
+    "bottomRight": LeaderboardsConfig
   },
   titleSize: "max(1.8vw, 1.6vh)"
 };
 
 export const performTransitionAndRedirect = (
   hexagonId: number,
-  url: string
+  url: string,
+  navigate?: (url: string) => void
 ) => {
   const svg = document.querySelector("svg");
   const hexagon = document.querySelector(`#hexagon-${hexagonId}`);
@@ -127,17 +129,52 @@ export const performTransitionAndRedirect = (
 
       // Wait for the animation to complete before redirecting
       setTimeout(() => {
-        window.location.href = url;
+        if (navigate) {
+          navigate(url);
+        } else {
+          window.location.href = url;
+        }
       }, 2300);
     }, 2300);
   } else {
     // Fallback if SVG or hexagon is not found
-    window.location.href = url;
+    if (navigate) {
+      navigate(url);
+    } else {
+      window.location.href = url;
+    }
   }
 };
 
 const App: React.FC = () => {
-  return <SierpinskiHexagon config={AppConfig} />;
+  const navigate = useNavigate();
+  
+  const configWithNavigate = React.useMemo(() => {
+    const config = { ...AppConfig };
+    config.actions = {
+      bottomLeft: (hexagonId: number) => {
+        performTransitionAndRedirect(hexagonId, "/art", navigate);
+      },
+      topLeft: (hexagonId: number) => {
+        performTransitionAndRedirect(hexagonId, "/projects", navigate);
+      },
+      right: (hexagonId: number) => {
+        performTransitionAndRedirect(hexagonId, "/photography", navigate);
+      },
+      topRight: (hexagonId: number) => {
+        performTransitionAndRedirect(hexagonId, "/about", navigate);
+      },
+      left: () => {
+        navigate("/blog");
+      },
+      bottomRight: (hexagonId: number) => {
+        performTransitionAndRedirect(hexagonId, "/leaderboards", navigate);
+      },
+    };
+    return config;
+  }, [navigate]);
+
+  return <SierpinskiHexagon config={configWithNavigate} />;
 };
 
 export default App;

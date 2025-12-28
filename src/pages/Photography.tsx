@@ -12,9 +12,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
 import React from "react";
-import SierpinskiHexagon, {
-  HexagonConfig
-} from "../components/SierpinskiHexagon";
+import { useNavigate } from "react-router-dom";
+import SierpinskiHexagon, { HexagonConfig } from "../components/SierpinskiHexagon";
 import { performTransitionAndRedirect } from "../App";
 import { appConfig as unitedStatesConfig } from "./photography/UnitedStates";
 import { appConfig as africaConfig } from "./photography/Africa";
@@ -27,8 +26,7 @@ const africaConfigClone: HexagonConfig = structuredClone(africaConfig);
 africaConfigClone.title = "";
 const europeConfigClone: HexagonConfig = structuredClone(europeConfig);
 europeConfigClone.title = "";
-const unitedStatesConfigClone: HexagonConfig =
-  structuredClone(unitedStatesConfig);
+const unitedStatesConfigClone: HexagonConfig = structuredClone(unitedStatesConfig);
 unitedStatesConfigClone.title = "";
 
 const sharedConfig = {
@@ -101,28 +99,30 @@ const pageConfig: HexagonConfig = {
   }
 };
 
-pageConfig.actions = {
-  right: (hexagonId: number) => {
-    performTransitionAndRedirect(hexagonId, "/photography/usa");
-  },
-  topRight: () => {
-    window.location.href = "/photography/info";
-  },
-  topLeft: () => {
-    window.location.href = "/photography/InBetween";
-  },
-  left: (hexagonId: number) => {
-    performTransitionAndRedirect(hexagonId, "/photography/mexico");
-  },
-  bottomLeft: (hexagonId: number) => {
-    performTransitionAndRedirect(hexagonId, "/photography/africa");
-  },
-  bottomRight: (hexagonId: number) => {
-    performTransitionAndRedirect(hexagonId, "/photography/europe");
-  }
-};
-
 const Photography: React.FC = () => {
+  const navigate = useNavigate();
+
+  pageConfig.actions = {
+    right: (hexagonId: number) => {
+      performTransitionAndRedirect(hexagonId, "/photography/usa", navigate);
+    },
+    topRight: () => {
+      navigate("/photography/info");
+    },
+    topLeft: () => {
+      navigate("/photography/InBetween");
+    },
+    left: (hexagonId: number) => {
+      performTransitionAndRedirect(hexagonId, "/photography/mexico", navigate);
+    },
+    bottomLeft: (hexagonId: number) => {
+      performTransitionAndRedirect(hexagonId, "/photography/africa", navigate);
+    },
+    bottomRight: (hexagonId: number) => {
+      performTransitionAndRedirect(hexagonId, "/photography/europe", navigate);
+    }
+  };
+
   return <SierpinskiHexagon config={pageConfig} />;
 };
 

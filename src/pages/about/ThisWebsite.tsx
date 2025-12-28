@@ -12,6 +12,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import SierpinskiHexagon from "../../components/SierpinskiHexagon";
 
 const sharedConfig = {
@@ -50,17 +51,7 @@ export const appConfig = {
 const pageConfig = {
   targetLevels: sharedConfig.targetLevels,
   styles: sharedConfig.styles,
-  actions: {
-    topLeft: () => {
-      window.location.href = "/misc/thisWebsite/what";
-    },
-    topRight: () => {
-      window.location.href = "/misc/thisWebsite/why";
-    },
-    right: () => {
-      window.location.href = "/misc/thisWebsite/how";
-    }
-  },
+  actions: {},
   images: sharedConfig.images,
   text: {
     1: "How",
@@ -80,6 +71,20 @@ const pageConfig = {
 };
 
 const Rooms: React.FC = () => {
+  const navigate = useNavigate();
+
+  pageConfig.actions = {
+      topLeft: () => {
+        navigate("/about/thisWebsite/what");
+      },
+      topRight: () => {
+        navigate("/about/thisWebsite/why");
+      },
+      right: () => {
+        navigate("/about/thisWebsite/how");
+      }
+    }
+
   return <SierpinskiHexagon config={pageConfig} />;
 };
 

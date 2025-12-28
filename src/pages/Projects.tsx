@@ -12,6 +12,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import SierpinskiHexagon, { HexagonConfig, minConfig } from "../components/SierpinskiHexagon";
 import { performTransitionAndRedirect } from "../App";
 import { appConfig as RoomsConfig } from "./projects/Rooms";
@@ -63,17 +64,7 @@ headphonesNoHeadphonesConfig.titleSize = "max(0.8vw, 0.8vh)";
 const pageConfig: HexagonConfig = {
   targetLevels: sharedConfig.targetLevels,
   styles: sharedConfig.styles,
-  actions: {
-    topLeft: (hexagonId: number) => {
-      performTransitionAndRedirect(hexagonId, "/projects/rooms");
-    },
-    left: () => {
-      window.location.href = "/projects/headphonesNoHeadphones";
-    },
-    bottomLeft: () => {
-      window.location.href = "/projects/openSource";
-    }
-  },
+  actions: {},
   images: sharedConfig.images,
   text: {
     5: "roōms",
@@ -87,11 +78,25 @@ const pageConfig: HexagonConfig = {
   },
   config: {
     topLeft: RoomsConfig,
-    left: headphonesNoHeadphonesConfig, 
+    left: headphonesNoHeadphonesConfig
   }
 };
 
 const Projects: React.FC = () => {
+  const navigate = useNavigate();
+
+  pageConfig.actions = {
+    topLeft: (hexagonId: number) => {
+      performTransitionAndRedirect(hexagonId, "/projects/rooms", navigate);
+    },
+    left: () => {
+      navigate("/projects/headphonesNoHeadphones");
+    },
+    bottomLeft: () => {
+      navigate("/projects/openSource");
+    }
+  };
+
   return <SierpinskiHexagon config={pageConfig} />;
 };
 

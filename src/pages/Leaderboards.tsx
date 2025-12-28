@@ -12,6 +12,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import SierpinskiHexagon, { HexagonConfig, minConfig } from "../components/SierpinskiHexagon";
 import { performTransitionAndRedirect } from "../App";
 import { appConfig as PlacesConfig } from "./leaderboards/Places";
@@ -72,17 +73,7 @@ const pageConfig: HexagonConfig = {
     topRight: 3
   },
   styles: sharedConfig.styles,
-  actions: {
-    left: (hexagonId: number) => {
-      performTransitionAndRedirect(hexagonId, "/leaderboards/places");
-    },
-    bottomLeft: () => {
-      window.location.href = "/leaderboards/restaurants";
-    },
-    topRight: () => {
-      window.location.href = "/leaderboards/books";
-    }
-  },
+  actions: {},
   images: sharedConfig.images,
   text: {
     3: "Restaurants",
@@ -104,6 +95,19 @@ leftConfig.title = "Places";
 pageConfig.config = { left: leftConfig };
 
 const Leaderboards: React.FC = () => {
+  const navigate = useNavigate();
+  pageConfig.actions = {
+      left: (hexagonId: number) => {
+        performTransitionAndRedirect(hexagonId, "/leaderboards/places", navigate);
+      },
+      bottomLeft: () => {
+        navigate("/leaderboards/restaurants");
+      },
+      topRight: () => {
+        navigate("/leaderboards/books");
+      }
+    }
+
   return <SierpinskiHexagon config={pageConfig} />;
 };
 

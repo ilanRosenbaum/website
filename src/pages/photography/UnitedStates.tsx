@@ -11,10 +11,9 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import SierpinskiHexagon, {
-  HexagonConfig,
-  minConfig
-} from "../../components/SierpinskiHexagon";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import SierpinskiHexagon, { HexagonConfig, minConfig } from "../../components/SierpinskiHexagon";
 import { appConfig as westCoastConfig } from "./WestCoast";
 import { appConfig as midwestConfig } from "./Midwest";
 import { appConfig as northEastConfig } from "./NorthEast";
@@ -24,7 +23,7 @@ import { performTransitionAndRedirect } from "../../App";
 
 const sharedConfig: HexagonConfig = structuredClone(minConfig);
 sharedConfig.images = {
-  bottomLeft: "/Covers/hawaiiVertical.jpg",
+  bottomLeft: "/Covers/hawaiiVertical.jpg"
 };
 const appConfig: HexagonConfig = structuredClone(minConfig);
 appConfig.title = "United States";
@@ -56,29 +55,9 @@ pageConfig.backButton = {
 };
 appConfig.images = sharedConfig.images;
 
-pageConfig.actions = {
-  right: (hexagonId: number) => {
-    performTransitionAndRedirect(hexagonId, "/photography/usa/midwest");
-  },
-  bottomRight: (hexagonId: number) => {
-    performTransitionAndRedirect(hexagonId, "/photography/usa/westCoast");
-  },
-  bottomLeft: () => {
-    window.location.href = "/photography/usa/hawaii";
-  },
-  left: (hexagonId: number) => {
-    performTransitionAndRedirect(hexagonId, "/photography/usa/sunbelt");
-  },
-  topLeft: (hexagonId: number) => {
-    performTransitionAndRedirect(hexagonId, "/photography/usa/south");
-  },
-  topRight: (hexagonId: number) => {
-    performTransitionAndRedirect(hexagonId, "/photography/usa/northEast");
-  }
-};
 pageConfig.titleSize = "2vw";
 pageConfig.text = {
-  3: "Hawaii",
+  3: "Hawaii"
 };
 pageConfig.images = sharedConfig.images;
 
@@ -95,6 +74,29 @@ pageConfig.config.left = structuredClone(sunbeltConfig);
 pageConfig.config.left.titleSize = "max(0.9vw, 0.8vh)";
 
 const UnitedStates: React.FC = () => {
+  const navigate = useNavigate();
+
+  pageConfig.actions = {
+    right: (hexagonId: number) => {
+      performTransitionAndRedirect(hexagonId, "/photography/usa/midwest", navigate);
+    },
+    bottomRight: (hexagonId: number) => {
+      performTransitionAndRedirect(hexagonId, "/photography/usa/westCoast", navigate);
+    },
+    bottomLeft: () => {
+      navigate("/photography/usa/hawaii");
+    },
+    left: (hexagonId: number) => {
+      performTransitionAndRedirect(hexagonId, "/photography/usa/sunbelt", navigate);
+    },
+    topLeft: (hexagonId: number) => {
+      performTransitionAndRedirect(hexagonId, "/photography/usa/south", navigate);
+    },
+    topRight: (hexagonId: number) => {
+      performTransitionAndRedirect(hexagonId, "/photography/usa/northEast", navigate);
+    }
+  };
+
   return <SierpinskiHexagon config={pageConfig} />;
 };
 

@@ -11,10 +11,9 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import SierpinskiHexagon, {
-  HexagonConfig,
-  minConfig
-} from "../../components/SierpinskiHexagon";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import SierpinskiHexagon, { HexagonConfig, minConfig } from "../../components/SierpinskiHexagon";
 
 const appConfig: HexagonConfig = structuredClone(minConfig);
 appConfig.targetLevels = {
@@ -39,11 +38,7 @@ const pageConfig: HexagonConfig = {
       opacity: 1.0
     }
   },
-  actions: {
-    left: () => {
-      window.location.href = "/photography/africa/morocco";
-    }
-  },
+  actions: {},
   targetLevels: {
     right: 0,
     bottomRight: 0,
@@ -67,6 +62,14 @@ const pageConfig: HexagonConfig = {
 };
 
 const Africa: React.FC = () => {
+  const navigate = useNavigate();
+
+  pageConfig.actions = {
+    left: () => {
+      navigate("/photography/africa/morocco");
+    }
+  };
+
   return <SierpinskiHexagon config={pageConfig} />;
 };
 

@@ -12,6 +12,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import SierpinskiHexagon from "../../components/SierpinskiHexagon";
 import SortableTable, { TableColumn } from "../../components/SortableTable";
 
@@ -51,23 +52,7 @@ export const appConfig = {
 const pageConfig = {
   targetLevels: sharedConfig.targetLevels,
   styles: sharedConfig.styles,
-  actions: {
-    default: (hexagonId: number) => {
-      alert(`Hexagon ${hexagonId} clicked!`);
-    },
-    left: () => {
-      window.location.href = "/leaderboards/places/visited";
-    },
-    topLeft: () => {
-      window.location.href = "/leaderboards/places/toVisit";
-    },
-    bottomRight: () => {
-      window.location.href = "/leaderboards/places/toLive";
-    },
-    right: () => {
-      window.location.href = "/leaderboards/places/lived";
-    }
-  },
+  actions: {},
   images: sharedConfig.images,
   text: {
     1: "Lived",
@@ -87,6 +72,25 @@ const pageConfig = {
 };
 
 const Places: React.FC = () => {
+  const navigate = useNavigate();
+
+  pageConfig.actions = {
+    default: (hexagonId: number) => {
+      alert(`Hexagon ${hexagonId} clicked!`);
+    },
+    left: () => {
+      navigate("/leaderboards/places/visited");
+    },
+    topLeft: () => {
+      navigate("/leaderboards/places/toVisit");
+    },
+    bottomRight: () => {
+      navigate("/leaderboards/places/toLive");
+    },
+    right: () => {
+      navigate("/leaderboards/places/lived");
+    }
+  };
   return <SierpinskiHexagon config={pageConfig} />;
 };
 

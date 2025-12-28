@@ -12,10 +12,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
 import React from "react";
-import SierpinskiHexagon, {
-  HexagonConfig,
-  minConfig
-} from "../components/SierpinskiHexagon";
+import { useNavigate } from "react-router-dom";
+import SierpinskiHexagon, { HexagonConfig, minConfig } from "../components/SierpinskiHexagon";
 import { performTransitionAndRedirect } from "../App";
 import { appConfig as WebsiteConfig } from "./about/ThisWebsite";
 
@@ -77,17 +75,10 @@ const pageConfig: HexagonConfig = {
     topRight: 3
   },
   styles: sharedConfig.styles,
-  actions: {
-    right: () => {
-      window.location.href = "/about/thisWebsite";
-    },
-    topRight: () => {
-      window.location.href = "/about/me";
-    }
-  },
+  actions: {},
   images: sharedConfig.images,
   text: {
-    6: "Me",
+    6: "Me"
   },
   title: "About",
   backButton: {
@@ -106,7 +97,16 @@ pageConfig.config = {};
 pageConfig.config.right = rightConfig;
 
 const About: React.FC = () => {
+  const navigate = useNavigate();
+  pageConfig.actions = {
+      right: () => {
+        navigate("/about/thisWebsite");
+      },
+      topRight: () => {
+        navigate("/about/me");
+      }
+    }
+
   return <SierpinskiHexagon config={pageConfig} />;
 };
-
 export default About;

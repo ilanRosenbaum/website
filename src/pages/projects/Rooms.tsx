@@ -12,6 +12,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import SierpinskiHexagon from "../../components/SierpinskiHexagon";
 
 const sharedConfig = {
@@ -54,26 +55,7 @@ export const appConfig = {
 const pageConfig = {
   targetLevels: sharedConfig.targetLevels,
   styles: sharedConfig.styles,
-  actions: {
-    default: (hexagonId: number) => {
-      alert(`Hexagon ${hexagonId} clicked!`);
-    },
-    left: () => {
-      window.open(
-        "https://innovate.wisc.edu/business-entrepreneurship-clinic-a-room-with-a-view-ilan-rosenbaums-app-helps-students-find-housing/",
-        "_blank"
-      );
-    },
-    topLeft: () => {
-      window.location.href = "/rooms/what";
-    },
-    topRight: () => {
-      window.location.href = "/rooms/why";
-    },
-    right: () => {
-      window.location.href = "/rooms/how";
-    }
-  },
+  actions: {},
   images: sharedConfig.images,
   text: {
     1: "How",
@@ -95,6 +77,29 @@ const pageConfig = {
 };
 
 const Rooms: React.FC = () => {
+  const navigate = useNavigate();
+
+  pageConfig.actions = {
+    default: (hexagonId: number) => {
+      alert(`Hexagon ${hexagonId} clicked!`);
+    },
+    left: () => {
+      window.open(
+        "https://innovate.wisc.edu/business-entrepreneurship-clinic-a-room-with-a-view-ilan-rosenbaums-app-helps-students-find-housing/",
+        "_blank"
+      );
+    },
+    topLeft: () => {
+      navigate("/projects/rooms/what");
+    },
+    topRight: () => {
+      navigate("/projects/rooms/why");
+    },
+    right: () => {
+      navigate("/projects/rooms/how");
+    }
+  };
+
   return <SierpinskiHexagon config={pageConfig} />;
 };
 

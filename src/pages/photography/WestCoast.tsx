@@ -11,10 +11,9 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import SierpinskiHexagon, {
-  HexagonConfig,
-  minConfig
-} from "../../components/SierpinskiHexagon";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import SierpinskiHexagon, { HexagonConfig, minConfig } from "../../components/SierpinskiHexagon";
 import { appConfig as californiaConfig } from "./California";
 import { performTransitionAndRedirect } from "../../App";
 
@@ -30,7 +29,7 @@ appConfig.targetLevels = {
 appConfig.title = "West Coast";
 
 appConfig.images = {
-  right: "/Covers/seattleVertical.jpg",
+  right: "/Covers/seattleVertical.jpg"
 };
 appConfig.imageId = "WestCoast";
 appConfig.config = {};
@@ -41,28 +40,30 @@ export { appConfig };
 
 const pageConfig = structuredClone(appConfig);
 
-pageConfig.actions = {
-  topLeft: (hexagonId: number) => {
-    performTransitionAndRedirect(hexagonId, "/photography/usa/westCoast/california");
-  },
-  right: () => {
-    window.location.href = "/photography/usa/westCoast/washington";
-  }
-};
-
 pageConfig.backButton = {
   exists: true,
   to: "/photography/usa"
 };
 
 pageConfig.text = {
-  1: "Washington",
+  1: "Washington"
 };
 pageConfig.config = {};
 pageConfig.config.topLeft = structuredClone(californiaConfig);
 pageConfig.config.topLeft.titleSize = "max(0.8vw, 0.7vh)";
 
 const WestCoast: React.FC = () => {
+  const navigate = useNavigate();
+
+  pageConfig.actions = {
+    topLeft: (hexagonId: number) => {
+      performTransitionAndRedirect(hexagonId, "/photography/usa/westCoast/california", navigate);
+    },
+    right: () => {
+      navigate("/photography/usa/westCoast/washington");
+    }
+  };
+
   return <SierpinskiHexagon config={pageConfig} />;
 };
 

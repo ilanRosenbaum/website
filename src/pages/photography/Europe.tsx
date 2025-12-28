@@ -11,10 +11,9 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import SierpinskiHexagon, {
-  HexagonConfig,
-  minConfig
-} from "../../components/SierpinskiHexagon";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import SierpinskiHexagon, { HexagonConfig, minConfig } from "../../components/SierpinskiHexagon";
 
 const appConfig: HexagonConfig = structuredClone(minConfig);
 appConfig.targetLevels = {
@@ -43,21 +42,6 @@ pageConfig.backButton = {
   to: "/photography"
 };
 
-pageConfig.actions = {
-  left: () => {
-    window.location.href = "/photography/europe/netherlands";
-  },
-  bottomLeft: () => {
-    window.location.href = "/photography/europe/france";
-  },
-  topLeft: () => {
-    window.location.href = "/photography/europe/spain";
-  },
-  right: () => {
-    window.location.href = "/photography/europe/denmark";
-  }
-};
-
 pageConfig.images = {
   left: "/Covers/amsterdamVertical.jpg",
   bottomLeft: "/Covers/lyonVertical.jpg",
@@ -78,6 +62,23 @@ pageConfig.backButton = {
 };
 
 const California: React.FC = () => {
+  const navigate = useNavigate();
+
+  pageConfig.actions = {
+    left: () => {
+      navigate("/photography/europe/netherlands");
+    },
+    bottomLeft: () => {
+      navigate("/photography/europe/france");
+    },
+    topLeft: () => {
+      navigate("/photography/europe/spain");
+    },
+    right: () => {
+      navigate("/photography/europe/denmark");
+    }
+  };
+
   return <SierpinskiHexagon config={pageConfig} />;
 };
 

@@ -11,10 +11,9 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import SierpinskiHexagon, {
-  HexagonConfig,
-  minConfig
-} from "../../components/SierpinskiHexagon";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import SierpinskiHexagon, { HexagonConfig, minConfig } from "../../components/SierpinskiHexagon";
 
 const appConfig: HexagonConfig = structuredClone(minConfig);
 appConfig.targetLevels = {
@@ -28,7 +27,7 @@ appConfig.targetLevels = {
 appConfig.title = "Sunbelt";
 
 appConfig.images = {
-  left: "/Covers/sedonaVertical.jpeg",
+  left: "/Covers/sedonaVertical.jpeg"
 };
 appConfig.imageId = "Sunbelt";
 
@@ -36,22 +35,24 @@ export { appConfig };
 
 const pageConfig = structuredClone(appConfig);
 
-pageConfig.actions = {
-  left: () => {
-    window.location.href = "/photography/usa/sunbelt/arizona";
-  }
-};
-
 pageConfig.backButton = {
   exists: true,
   to: "/photography/usa"
 };
 
 pageConfig.text = {
-  4: "Arizona",
+  4: "Arizona"
 };
 
 const Sunbelt: React.FC = () => {
+  const navigate = useNavigate();
+
+  pageConfig.actions = {
+    left: () => {
+      navigate("/photography/usa/sunbelt/arizona");
+    }
+  };
+
   return <SierpinskiHexagon config={pageConfig} />;
 };
 

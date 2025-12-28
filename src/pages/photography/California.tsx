@@ -11,10 +11,9 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import SierpinskiHexagon, {
-  HexagonConfig,
-  minConfig
-} from "../../components/SierpinskiHexagon";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import SierpinskiHexagon, { HexagonConfig, minConfig } from "../../components/SierpinskiHexagon";
 
 const appConfig: HexagonConfig = structuredClone(minConfig);
 appConfig.targetLevels = {
@@ -44,24 +43,6 @@ pageConfig.backButton = {
   to: "/photography/unitedStates"
 };
 
-pageConfig.actions = {
-  left: () => {
-    window.location.href = "/photography/usa/california/bayArea";
-  },
-  bottomLeft: () => {
-    window.location.href = "/photography/usa/california/sacramento";
-  },
-  topRight: () => {
-    window.location.href = "/photography/usa/california/tahoe";
-  },
-  topLeft: () => {
-    window.location.href = "/photography/usa/california/yosemite";
-  },
-  bottomRight: () => {
-    window.location.href = "/photography/usa/california/sequoia";
-  }
-};
-
 pageConfig.images = {
   topLeft: "/Covers/yosemiteVertical.jpg",
   topRight: "/Covers/tahoeVertical.jpg",
@@ -84,6 +65,26 @@ pageConfig.backButton = {
 };
 
 const California: React.FC = () => {
+  const navigate = useNavigate();
+
+  pageConfig.actions = {
+    left: () => {
+      navigate("/photography/usa/westCoast/california/bayArea");
+    },
+    bottomLeft: () => {
+      navigate("/photography/usa/westCoast/california/sacramento");
+    },
+    topRight: () => {
+      navigate("/photography/usa/westCoast/california/tahoe");
+    },
+    topLeft: () => {
+      navigate("/photography/usa/westCoast/california/yosemite");
+    },
+    bottomRight: () => {
+      navigate("/photography/usa/westCoast/california/sequoia");
+    }
+  };
+
   return <SierpinskiHexagon config={pageConfig} />;
 };
 

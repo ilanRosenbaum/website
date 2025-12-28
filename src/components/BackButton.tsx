@@ -12,6 +12,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 interface BackButtonProps {
   to: string;
@@ -20,8 +21,10 @@ interface BackButtonProps {
 }
 
 const BackButton: React.FC<BackButtonProps> = ({ to, color, textColor }) => {
+  const navigate = useNavigate();
+
   const handleClick = () => {
-    window.location.href = to;
+    navigate(to);
   };
 
   return (
