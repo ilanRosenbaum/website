@@ -15,7 +15,7 @@ import React from "react";
 import SortableTable, {
   TableColumn,
   SortMapping
-} from "../../components/SortableTable";
+} from "../../../components/SortableTable";
 
 const RANK_MAPPING: SortMapping = {
   favorite: 1,
@@ -53,8 +53,8 @@ const BOOKS_COLUMNS: ReadonlyArray<TableColumn> = [
 const Books: React.FC = () => {
   return (
     <SortableTable
-      source="/content/MiscBooks.md"
-      backTo="/misc"
+      source="/content/Books.md"
+      backTo="/leaderboards"
       backButtonFill="#603b61"
       textColor="#ffefdb"
       useWideContainer={true}

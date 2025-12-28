@@ -16,7 +16,7 @@ import SierpinskiHexagon, {
   HexagonConfig
 } from "./components/SierpinskiHexagon";
 import { appConfig as RoomsConfig } from "./pages/Rooms";
-import { appConfig as MiscConfig } from "./pages/misc/Misc";
+import { appConfig as LeaderboardsConfig } from "./pages/leaderboards/Leaderboards";
 import { appConfig as PhotographyConfig } from "./pages/photography/Photography";
 import { appConfig as AboutConfig } from "./pages/about/About";
 
@@ -41,7 +41,7 @@ const AppConfig: HexagonConfig = {
   },
   actions: {
     bottomLeft: (hexagonId: number) => {
-      performTransitionAndRedirect(hexagonId, "/misc");
+      performTransitionAndRedirect(hexagonId, "/leaderboards");
     },
     topLeft: (hexagonId: number) => {
       performTransitionAndRedirect(hexagonId, "/rooms");
@@ -66,7 +66,6 @@ const AppConfig: HexagonConfig = {
   },
   text: {
     2: "Ceramics",
-    3: "Misc",
     4: "Cooking",
     5: "roōms",
     6: "About"
@@ -77,7 +76,7 @@ const AppConfig: HexagonConfig = {
   },
   config: {
     "topLeft": RoomsConfig,
-    "bottomLeft": MiscConfig,
+    "bottomLeft": LeaderboardsConfig,
     "right": ClonedPhotographyConfig,
     "topRight": AboutConfig
   },

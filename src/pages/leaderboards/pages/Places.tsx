@@ -12,8 +12,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
 import React from "react";
-import SierpinskiHexagon from "../../components/SierpinskiHexagon";
-import SortableTable, { TableColumn } from "../../components/SortableTable";
+import SierpinskiHexagon from "../../../components/SierpinskiHexagon";
+import SortableTable, { TableColumn } from "../../../components/SortableTable";
 
 const sharedConfig = {
   targetLevels: {
@@ -56,16 +56,16 @@ const pageConfig = {
       alert(`Hexagon ${hexagonId} clicked!`);
     },
     left: () => {
-      window.location.href = "/misc/places/visited";
+      window.location.href = "/leaderboards/places/visited";
     },
     topLeft: () => {
-      window.location.href = "/misc/places/toVisit";
+      window.location.href = "/leaderboards/places/toVisit";
     },
     bottomRight: () => {
-      window.location.href = "/misc/places/toLive";
+      window.location.href = "/leaderboards/places/toLive";
     },
     right: () => {
-      window.location.href = "/misc/places/lived";
+      window.location.href = "/leaderboards/places/lived";
     }
   },
   images: sharedConfig.images,
@@ -81,7 +81,7 @@ const pageConfig = {
   titleSize: "4vw",
   backButton: {
     exists: true,
-    to: "/misc",
+    to: "/leaderboards",
     fill: "#603b61"
   }
 };
@@ -113,8 +113,8 @@ const VISITED_COLUMNS: ReadonlyArray<TableColumn> = [
 const Visited: React.FC = () => {
   return (
     <SortableTable
-      source="/content/MiscPlacesVisited.md"
-      backTo="/misc/places"
+      source="/content/PlacesVisited.md"
+      backTo="/leaderboards/places"
       backButtonFill="#603b61"
       textColor="#ffefdb"
       useWideContainer={true}
@@ -140,8 +140,8 @@ const TOVISIT_COLUMNS: ReadonlyArray<TableColumn> = [
 const ToVisit: React.FC = () => {
   return (
     <SortableTable
-      source="/content/MiscPlacesToVisit.md"
-      backTo="/misc/places"
+      source="/content/PlacesToVisit.md"
+      backTo="/leaderboards/places"
       backButtonFill="#603b61"
       textColor="#ffefdb"
       useWideContainer={true}
@@ -161,8 +161,8 @@ const LIVED_COLUMNS: ReadonlyArray<TableColumn> = [
 const Lived: React.FC = () => {
   return (
     <SortableTable
-      source="/content/MiscPlacesLived.md"
-      backTo="/misc/places"
+      source="/content/PlacesLived.md"
+      backTo="/leaderboards/places"
       backButtonFill="#603b61"
       textColor="#ffefdb"
       useWideContainer={true}

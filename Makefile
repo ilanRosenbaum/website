@@ -21,27 +21,27 @@ license-credits:
 #***************************************************************************
 .PHONY: copy-content
 copy-content:
-	cp '$(NOTES_LOCATION)/Observational Studies/Headphones, No Headphones.md' 'public/content/MiscHeadphonesNoHeadphones.md'
-	cp '$(NOTES_LOCATION)/Places/Lived.md' 'public/content/MiscPlacesLived.md'
-	cp '$(NOTES_LOCATION)/Places/Visited.md' 'public/content/MiscPlacesVisited.md'
-	cp '$(NOTES_LOCATION)/Places/To Visit.md' 'public/content/MiscPlacesToVisit.md'
-	cp '$(NOTES_LOCATION)/Places/To Live.md' 'public/content/MiscPlacesToLive.md'
-	(echo '# Lived'; cat '$(NOTES_LOCATION)/Places/Lived.md') > 'public/content/MiscPlacesLived.md'
-	(echo '# Visited'; cat '$(NOTES_LOCATION)/Places/Visited.md') > 'public/content/MiscPlacesVisited.md'
-	(echo '# To Visit'; cat '$(NOTES_LOCATION)/Places/To Visit.md') > 'public/content/MiscPlacesToVisit.md'
-	(echo '# To Live'; cat '$(NOTES_LOCATION)/React/ToLive.md') > 'public/content/MiscPlacesToLive.md'
-	(echo '# Books'; cat '$(NOTES_LOCATION)/books.md') > 'public/content/MiscBooks.md'
+	cp '$(NOTES_LOCATION)/Research/Headphones, No Headphones.md' 'public/content/HeadphonesNoHeadphones.md'
+	cp '$(NOTES_LOCATION)/Places/Lived.md' 'public/content/PlacesLived.md'
+	cp '$(NOTES_LOCATION)/Places/Visited.md' 'public/content/PlacesVisited.md'
+	cp '$(NOTES_LOCATION)/Places/To Visit.md' 'public/content/PlacesToVisit.md'
+	cp '$(NOTES_LOCATION)/Places/To Live.md' 'public/content/PlacesToLive.md'
+	(echo '# Lived'; cat '$(NOTES_LOCATION)/Places/Lived.md') > 'public/content/PlacesLived.md'
+	(echo '# Visited'; cat '$(NOTES_LOCATION)/Places/Visited.md') > 'public/content/PlacesVisited.md'
+	(echo '# To Visit'; cat '$(NOTES_LOCATION)/Places/To Visit.md') > 'public/content/PlacesToVisit.md'
+	(echo '# To Live'; cat '$(NOTES_LOCATION)/React/ToLive.md') > 'public/content/PlacesToLive.md'
+	(echo '# Books'; cat '$(NOTES_LOCATION)/books.md') > 'public/content/Books.md'
 	
 	# Clean up YAML frontmatter from all markdown files
-	python scripts/remove_frontmatter.py public/content/MiscPlacesLived.md
-	python scripts/remove_frontmatter.py public/content/MiscPlacesVisited.md
-	python scripts/remove_frontmatter.py public/content/MiscPlacesToVisit.md
-	python scripts/remove_frontmatter.py public/content/MiscBooks.md
-	python scripts/remove_frontmatter.py public/content/MiscHeadphonesNoHeadphones.md
+	python scripts/remove_frontmatter.py public/content/PlacesLived.md
+	python scripts/remove_frontmatter.py public/content/PlacesVisited.md
+	python scripts/remove_frontmatter.py public/content/PlacesToVisit.md
+	python scripts/remove_frontmatter.py public/content/Books.md
+	python scripts/remove_frontmatter.py public/content/HeadphonesNoHeadphones.md
 	
 	# Apply table cleanup for visited places
-	python scripts/remove_notes.py public/content/MiscPlacesVisited.md
+	python scripts/remove_notes.py public/content/PlacesVisited.md
 	
 	# Convert markdown to React components
-	python scripts/convert_md_to_react.py public/content/MiscPlacesToLive.md src/pages/misc/places/ToLiveRaw.jsx
-	@rm -rf public/content/MiscPlacesToLive.md
+	python scripts/convert_md_to_react.py public/content/PlacesToLive.md src/pages/misc/places/ToLiveRaw.jsx
+	@rm -rf public/content/PlacesToLive.md

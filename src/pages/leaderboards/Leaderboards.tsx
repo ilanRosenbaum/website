@@ -12,13 +12,9 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
 import React from "react";
-import SierpinskiHexagon, {
-  HexagonConfig,
-  minConfig
-} from "../../components/SierpinskiHexagon";
+import SierpinskiHexagon, { HexagonConfig, minConfig } from "../../components/SierpinskiHexagon";
 import { performTransitionAndRedirect } from "../../App";
-import { appConfig as WebsiteConfig } from "../about/pages/ThisWebsite";
-import { appConfig as PlacesConfig } from "./Places";
+import { appConfig as PlacesConfig } from "./pages/Places";
 
 const sharedConfig = {
   styles: {
@@ -30,20 +26,19 @@ const sharedConfig = {
   images: {}
 };
 
-// The SierpinskiHexagon config to be used for the Misc sub hexagon on the home page
 const appConfig: HexagonConfig = {
   targetLevels: {
-    right: 3,
+    right: 0,
     bottomRight: 0,
     bottomLeft: 3,
     left: 0,
-    topLeft: 3,
+    topLeft: 0,
     topRight: 3
   },
   styles: sharedConfig.styles,
   actions: {
     default: () => {
-      window.location.href = "/misc";
+      window.location.href = "/leaderboards";
     }
   },
   images: sharedConfig.images,
@@ -58,9 +53,10 @@ const appConfig: HexagonConfig = {
   }
 };
 
+appConfig.titleSize = "max(0.7vw, 0.7vh)";
+appConfig.title = "Leaderboards";
 // If statement exists so TS doesn't get mad. Literally should never matter.
 if (appConfig.config !== undefined) {
-  appConfig.config.bottomRight.targetLevels = WebsiteConfig.targetLevels;
   appConfig.config.left.targetLevels = PlacesConfig.targetLevels;
 }
 
@@ -68,44 +64,31 @@ export { appConfig };
 
 const pageConfig: HexagonConfig = {
   targetLevels: {
-    right: 3,
+    right: 0,
     bottomRight: 0,
     bottomLeft: 3,
     left: 0,
-    topLeft: 3,
+    topLeft: 0,
     topRight: 3
   },
   styles: sharedConfig.styles,
   actions: {
-    default: (hexagonId: number) => {
-      alert(`Hexagon ${hexagonId} clicked!`);
-    },
-    topLeft: () => {
-      window.location.href = "/misc/openSource";
-    },
-    right: () => {
-      window.location.href = "/misc/headphonesNoHeadphones";
-    },
     left: (hexagonId: number) => {
-      performTransitionAndRedirect(hexagonId, "/misc/places");
+      performTransitionAndRedirect(hexagonId, "/leaderboards/places");
     },
     bottomLeft: () => {
-      window.location.href = "/misc/restaurants";
-    },
-    bottomRight: (hexagonId: number) => {
-      performTransitionAndRedirect(hexagonId, "/misc/thisWebsite");
+      window.location.href = "/leaderboards/restaurants";
     },
     topRight: () => {
-      window.location.href = "/misc/books";
+      window.location.href = "/leaderboards/books";
     }
   },
   images: sharedConfig.images,
   text: {
     3: "Restaurants",
-    5: "Open Source",
     6: "Books"
   },
-  title: "Miscellaneous",
+  title: "Leaderboards",
   backButton: {
     exists: true,
     to: "/",
@@ -113,27 +96,15 @@ const pageConfig: HexagonConfig = {
   }
 };
 
-const bottomRightConfig = structuredClone(minConfig);
-bottomRightConfig.targetLevels = WebsiteConfig.targetLevels;
-bottomRightConfig.titleSize = "0.65vw";
-bottomRightConfig.title = "This Website";
-
 const leftConfig = structuredClone(minConfig);
 leftConfig.targetLevels = PlacesConfig.targetLevels;
 leftConfig.titleSize = "0.9vw";
 leftConfig.title = "Places";
 
-const rightConfig = structuredClone(minConfig);
-rightConfig.title = "Headphones, No Headphones";
-rightConfig.titleSize = "0.8vw";
+pageConfig.config = { left: leftConfig };
 
-pageConfig.config = {}; // Initialize pageConfig.config as an empty object
-pageConfig.config.bottomRight = bottomRightConfig;
-pageConfig.config.left = leftConfig;
-pageConfig.config.right = rightConfig;
-
-const Misc: React.FC = () => {
+const Leaderboards: React.FC = () => {
   return <SierpinskiHexagon config={pageConfig} />;
 };
 
-export default Misc;
+export default Leaderboards;

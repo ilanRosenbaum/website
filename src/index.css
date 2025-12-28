@@ -112,6 +112,7 @@ body {
 }
 
 /* Apply these styles to the body and html elements to hide scrollbars globally */
+*{scrollbar-width: none;}
 body,
 html {
   scrollbar-width: none;

@@ -18,12 +18,17 @@ import App from "./App";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import MarkdownPage from "./components/MarkdownPage";
 
+// Top right
 import About from "./pages/about/About";
 import ThisWebsite from "./pages/about/pages/ThisWebsite";
 
+// Bottom Left
+import Leaderboards from "./pages/leaderboards/Leaderboards";
+import Books from "./pages/leaderboards/pages/Books";
+import Places, { Lived, ToVisit, Visited } from "./pages/leaderboards/pages/Places";
+import ToLive from "./pages/leaderboards/pages/places/ToLive";
+
 import Rooms from "./pages/Rooms";
-import Misc from "./pages/misc/Misc";
-import Places from "./pages/misc/Places";
 
 import Photography from "./pages/photography/Photography";
 import UnitedStates from "./pages/photography/UnitedStates";
@@ -40,10 +45,6 @@ import Sunbelt from "./pages/photography/Sunbelt";
 import TiledPlaneFolders from "./components/TiledPlaneFolders";
 import Midwest from "./pages/photography/Midwest";
 
-import Books from "./pages/misc/Books";
-import { Lived, ToVisit, Visited } from "./pages/misc/Places";
-import ToLive from "./pages/misc/places/ToLive";
-
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 
 root.render(
@@ -53,39 +54,42 @@ root.render(
         <Route path="/" element={<App />} />
 
         <Route path="/about" element={<About />} />
-        <Route path="/about/me" element={<MarkdownPage source={"/content/AboutMe.md"} backTo="/" />} />
+        <Route path="/about/me" element={<MarkdownPage source={"/content/Me.md"} backTo="/" />} />
         <Route path="/about/thisWebsite" element={<ThisWebsite />} />
-        <Route path="/about/thisWebsite/what" element={<MarkdownPage source={"/content/AboutThisWebsiteWhat.md"} backTo="/about/thisWebsite" />} />
-        <Route path="/about/thisWebsite/why" element={<MarkdownPage source={"/content/AboutThisWebsiteWhy.md"} backTo="/about/thisWebsite" />} />
-        <Route path="/about/thisWebsite/how" element={<MarkdownPage source={"/content/AboutThisWebsiteHow.md"} backTo="/about/thisWebsite" />} />
+        <Route path="/about/thisWebsite/what" element={<MarkdownPage source={"/content/ThisWebsiteWhat.md"} backTo="/about/thisWebsite" />} />
+        <Route path="/about/thisWebsite/why" element={<MarkdownPage source={"/content/ThisWebsiteWhy.md"} backTo="/about/thisWebsite" />} />
+        <Route path="/about/thisWebsite/how" element={<MarkdownPage source={"/content/ThisWebsiteHow.md"} backTo="/about/thisWebsite" />} />
 
         <Route path="/rooms" element={<Rooms />} />
         <Route path="/rooms/what" element={<MarkdownPage source={"/content/RoomsWhat.md"} backTo="/rooms" />} />
         <Route path="/rooms/why" element={<MarkdownPage source={"/content/RoomsWhy.md"} backTo="/rooms" />} />
         <Route path="/rooms/how" element={<MarkdownPage source={"/content/RoomsHow.md"} backTo="/rooms" />} />
 
-        <Route path="/misc" element={<Misc />} />
-        <Route path="/misc/books" element={<Books />} />
-        <Route path="/misc/openSource" element={<MarkdownPage source={"/content/MiscOpenSource.md"} backTo="/misc" />} />
-        <Route path="/misc/headphonesNoHeadphones" element={<MarkdownPage source={"/content/MiscHeadphonesNoHeadphones.md"} backTo="/misc" />} />
-
-        <Route path="/misc/places/toVisit" element={<ToVisit />} />
-        <Route path="/misc/places/visited" element={<Visited />} />
-        <Route path="/misc/places/toLive" element={<ToLive />} />
-        <Route path="/misc/places/lived" element={<Lived />} />
+        <Route path="/leaderboards" element={<Leaderboards />} />
+        <Route path="/leaderboards/places" element={<Places />} />
+        <Route path="/leaderboards/places/toVisit" element={<ToVisit />} />
+        <Route path="/leaderboards/places/visited" element={<Visited />} />
+        <Route path="/leaderboards/places/toLive" element={<ToLive />} />
+        <Route path="/leaderboards/places/lived" element={<Lived />} />
         <Route
-          path="/misc/restaurants"
+          path="/leaderboards/restaurants"
           element={
             <MarkdownPage
-              source="/content/MiscRestaurants.md"
-              backTo="/misc"
+              source="/content/Restaurants.md"
+              backTo="/leaderboards"
               googleSheetId="1q0LWe6wJalAIB0cciybzVOgQxYCs48Jv0zhhim3iwGw"
               googleSheetGids={["0", "1055759508"]}
               useWideContainer={true}
             />
           }
         />
-        <Route path="/misc/places" element={<Places />} />
+        <Route path="/leaderboards/books" element={<Books />} />
+
+
+
+
+        <Route path="/misc/openSource" element={<MarkdownPage source={"/content/MiscOpenSource.md"} backTo="/misc" />} />
+        <Route path="/misc/headphonesNoHeadphones" element={<MarkdownPage source={"/content/MiscHeadphonesNoHeadphones.md"} backTo="/misc" />} />
 
         <Route path="/cooking" element={<TiledPlane photoPath={"/Cooking"} backTo="/" />} />
         <Route path="/art" element={<TiledPlaneFolders parentFolder={"Ceramics"} backTo="/" />} />
