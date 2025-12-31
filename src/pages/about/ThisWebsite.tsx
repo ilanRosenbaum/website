@@ -65,7 +65,7 @@ const pageConfig = {
   titleSize: "2vw",
   backButton: {
     exists: true,
-    to: "/misc",
+    to: "/about",
     fill: "#603b61"
   }
 };
