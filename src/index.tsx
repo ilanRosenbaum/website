@@ -49,6 +49,7 @@ import Sunbelt from "./pages/photography/Sunbelt";
 
 import TiledPlaneFolders from "./components/TiledPlaneFolders";
 import Midwest from "./pages/photography/Midwest";
+// import SierpinskiExport from "./pages/SierpinskiExport";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 
@@ -60,6 +61,7 @@ root.render(
         <Route path="*" element={<Navigate to="/" replace />} />
 
         <Route path="/blog" element={<MarkdownPage source={"/content/Blog.md"} backTo="/" />} />
+        {/* <Route path="/sierpinski/export" element={<SierpinskiExport />} /> */}
 
         <Route path="/about" element={<About />} />
         <Route path="/about/me" element={<MarkdownPage source={"/content/Me.md"} backTo="/" />} />
