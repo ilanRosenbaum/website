@@ -34,7 +34,7 @@ const sharedConfig = {
     right: "/Covers/garlicVertical.jpg",
     bottomRight: "/Covers/RichAndFrankVertical.jpg",
     left: "/Covers/chickenPastaVertical.jpg",
-    topLeft: "/Covers/woodVertical.jpg"
+    topLeft: "/Covers/woodVertical.jpeg"
   }
 };
 
