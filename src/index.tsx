@@ -33,7 +33,7 @@ import Projects from "./pages/Projects";
 import Rooms from "./pages/projects/Rooms";
 
 // Bottom left
-import Art from "./pages/Art"
+import Art from "./pages/Art";
 
 import Photography from "./pages/Photography";
 import UnitedStates from "./pages/photography/UnitedStates";
@@ -72,10 +72,7 @@ root.render(
 
         <Route path="/projects" element={<Projects />} />
         <Route path="/projects/openSource" element={<MarkdownPage source={"/content/OpenSource.md"} backTo="/projects" />} />
-        <Route
-          path="/projects/headphonesNoHeadphones"
-          element={<MarkdownPage source={"/content/HeadphonesNoHeadphones.md"} backTo="/projects" />}
-        />
+        <Route path="/projects/headphonesNoHeadphones" element={<MarkdownPage source={"/content/HeadphonesNoHeadphones.md"} backTo="/projects" />} />
         <Route path="/projects/rooms" element={<Rooms />} />
         <Route path="/projects/rooms/what" element={<MarkdownPage source={"/content/RoomsWhat.md"} backTo="/projects/rooms" />} />
         <Route path="/projects/rooms/why" element={<MarkdownPage source={"/content/RoomsWhy.md"} backTo="/projects/rooms" />} />
@@ -105,6 +102,7 @@ root.render(
         <Route path="/art/cooking" element={<TiledPlane photoPath={"/Cooking"} backTo="/art" />} />
         <Route path="/art/pottery" element={<TiledPlaneFolders parentFolder={"Ceramics"} backTo="/art" />} />
         <Route path="/art/RichAndFrank" element={<TiledPlaneFolders parentFolder={"RichAndFrank"} backTo="/art" />} />
+        <Route path="/art/wood" element={<TiledPlaneFolders parentFolder={"Wood"} backTo="/art" />} />
 
         <Route path="/photography" element={<Photography />} />
         <Route path="/photography/usa" element={<UnitedStates />} />
@@ -200,7 +198,6 @@ root.render(
           element={<TiledPlane photoPath={"/Photography/Europe/Copenhagen"} backTo={"/photography/europe"} />}
         />
         <Route path="/photography/europe/france" element={<TiledPlane photoPath={"/Photography/Europe/Lyon"} backTo={"/photography/europe"} />} />
-
       </Routes>
     </Router>
   </React.StrictMode>

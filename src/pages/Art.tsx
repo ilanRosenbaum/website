@@ -27,13 +27,14 @@ const sharedConfig = {
     bottomRight: 3,
     bottomLeft: 0,
     left: 3,
-    topLeft: 0,
+    topLeft: 3,
     topRight: 0
   },
   images: {
     right: "/Covers/garlicVertical.jpg",
     bottomRight: "/Covers/RichAndFrankVertical.jpg",
-    left: "/Covers/chickenPastaVertical.jpg"
+    left: "/Covers/chickenPastaVertical.jpg",
+    topLeft: "/Covers/woodVertical.jpg"
   }
 };
 
@@ -61,6 +62,7 @@ const pageConfig: HexagonConfig = {
   actions: {},
   images: sharedConfig.images,
   text: {
+    5: "Wood",
     4: "Cooking",
     1: "Pottery",
     2: "Rich & Frank"
@@ -84,6 +86,9 @@ const About: React.FC = () => {
     },
     left: () => {
       navigate("/art/cooking");
+    },
+    topLeft: () => {
+      navigate("/art/wood");
     }
   };
 
