@@ -35,19 +35,12 @@ const appConfig: HexagonConfig = {
     right: 0,
     bottomRight: 0,
     bottomLeft: 0,
-    left: 0,
+    left: 3,
     topLeft: 0,
     topRight: 3
   },
   styles: sharedConfig.styles,
-  actions: {
-    right: (hexagonId: number) => {
-      performTransitionAndRedirect(hexagonId, "/about/thisWebsite");
-    },
-    topRight: () => {
-      window.location.href = "/about/me";
-    }
-  },
+  actions: {},
   images: sharedConfig.images,
   text: {},
   backButton: {
@@ -78,7 +71,7 @@ const pageConfig: HexagonConfig = {
   actions: {},
   images: sharedConfig.images,
   text: {
-    6: "Me"
+    6: "Me",
   },
   title: "About",
   backButton: {
@@ -99,13 +92,13 @@ pageConfig.config.right = rightConfig;
 const About: React.FC = () => {
   const navigate = useNavigate();
   pageConfig.actions = {
-      right: () => {
-        navigate("/about/thisWebsite");
-      },
-      topRight: () => {
-        navigate("/about/me");
-      }
+    right: (hexagonId: number) => {
+      performTransitionAndRedirect(hexagonId, "/about/thisWebsite", navigate);
+    },
+    topRight: () => {
+      navigate("/about/me");
     }
+  };
 
   return <SierpinskiHexagon config={pageConfig} />;
 };

@@ -1792,6 +1792,18 @@
     "path": "/Users/irosenba/website/node_modules/@leichtgewicht/ip-codec",
     "licenseFile": "/Users/irosenba/website/node_modules/@leichtgewicht/ip-codec/LICENSE"
   },
+  "@napi-rs/canvas-darwin-arm64@0.1.88": {
+    "licenses": "MIT",
+    "repository": "https://github.com/Brooooooklyn/canvas",
+    "path": "/Users/irosenba/website/node_modules/@napi-rs/canvas-darwin-arm64",
+    "licenseFile": "/Users/irosenba/website/node_modules/@napi-rs/canvas-darwin-arm64/README.md"
+  },
+  "@napi-rs/canvas@0.1.88": {
+    "licenses": "MIT",
+    "repository": "https://github.com/Brooooooklyn/canvas",
+    "path": "/Users/irosenba/website/node_modules/@napi-rs/canvas",
+    "licenseFile": "/Users/irosenba/website/node_modules/@napi-rs/canvas/LICENSE"
+  },
   "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1": {
     "licenses": "MIT",
     "path": "/Users/irosenba/website/node_modules/@nicolo-ribaudo/eslint-scope-5-internals",
@@ -3788,6 +3800,15 @@
     "email": "ben@npmjs.com",
     "path": "/Users/irosenba/website/node_modules/@grpc/proto-loader/node_modules/cliui",
     "licenseFile": "/Users/irosenba/website/node_modules/@grpc/proto-loader/node_modules/cliui/LICENSE.txt"
+  },
+  "clsx@2.1.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/lukeed/clsx",
+    "publisher": "Luke Edwards",
+    "email": "luke.edwards05@gmail.com",
+    "url": "https://lukeed.com",
+    "path": "/Users/irosenba/website/node_modules/clsx",
+    "licenseFile": "/Users/irosenba/website/node_modules/clsx/license"
   },
   "co@4.6.0": {
     "licenses": "MIT",
@@ -7612,6 +7633,14 @@
     "path": "/Users/irosenba/website/node_modules/magic-string",
     "licenseFile": "/Users/irosenba/website/node_modules/magic-string/LICENSE"
   },
+  "make-cancellable-promise@2.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/wojtekmaj/make-cancellable-promise",
+    "publisher": "Wojciech Maj",
+    "email": "kontakt@wojtekmaj.pl",
+    "path": "/Users/irosenba/website/node_modules/make-cancellable-promise",
+    "licenseFile": "/Users/irosenba/website/node_modules/make-cancellable-promise/LICENSE"
+  },
   "make-dir@3.1.0": {
     "licenses": "MIT",
     "repository": "https://github.com/sindresorhus/make-dir",
@@ -7629,6 +7658,14 @@
     "url": "https://sindresorhus.com",
     "path": "/Users/irosenba/website/node_modules/istanbul-lib-report/node_modules/make-dir",
     "licenseFile": "/Users/irosenba/website/node_modules/istanbul-lib-report/node_modules/make-dir/license"
+  },
+  "make-event-props@2.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/wojtekmaj/make-event-props",
+    "publisher": "Wojciech Maj",
+    "email": "kontakt@wojtekmaj.pl",
+    "path": "/Users/irosenba/website/node_modules/make-event-props",
+    "licenseFile": "/Users/irosenba/website/node_modules/make-event-props/LICENSE"
   },
   "makeerror@1.0.12": {
     "licenses": "BSD-3-Clause",
@@ -7818,6 +7855,14 @@
     "url": "http://jongleberry.com",
     "path": "/Users/irosenba/website/node_modules/merge-descriptors",
     "licenseFile": "/Users/irosenba/website/node_modules/merge-descriptors/LICENSE"
+  },
+  "merge-refs@2.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/wojtekmaj/merge-refs",
+    "publisher": "Wojciech Maj",
+    "email": "kontakt@wojtekmaj.pl",
+    "path": "/Users/irosenba/website/node_modules/merge-refs",
+    "licenseFile": "/Users/irosenba/website/node_modules/merge-refs/LICENSE"
   },
   "merge-stream@2.0.0": {
     "licenses": "MIT",
@@ -8740,6 +8785,12 @@
     "path": "/Users/irosenba/website/node_modules/path-type",
     "licenseFile": "/Users/irosenba/website/node_modules/path-type/license"
   },
+  "pdfjs-dist@5.4.296": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/mozilla/pdf.js",
+    "path": "/Users/irosenba/website/node_modules/pdfjs-dist",
+    "licenseFile": "/Users/irosenba/website/node_modules/pdfjs-dist/LICENSE"
+  },
   "performance-now@2.1.0": {
     "licenses": "MIT",
     "repository": "https://github.com/braveg1rl/performance-now",
@@ -9646,6 +9697,14 @@
     "email": "espen@hovlandsdal.com",
     "path": "/Users/irosenba/website/node_modules/react-markdown",
     "licenseFile": "/Users/irosenba/website/node_modules/react-markdown/license"
+  },
+  "react-pdf@10.3.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/wojtekmaj/react-pdf",
+    "publisher": "Wojciech Maj",
+    "email": "kontakt@wojtekmaj.pl",
+    "path": "/Users/irosenba/website/node_modules/react-pdf",
+    "licenseFile": "/Users/irosenba/website/node_modules/react-pdf/LICENSE"
   },
   "react-refresh@0.11.0": {
     "licenses": "MIT",
@@ -10897,6 +10956,14 @@
     "path": "/Users/irosenba/website/node_modules/thunky",
     "licenseFile": "/Users/irosenba/website/node_modules/thunky/LICENSE"
   },
+  "tiny-invariant@1.3.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/alexreardon/tiny-invariant",
+    "publisher": "Alex Reardon",
+    "email": "alexreardon@gmail.com",
+    "path": "/Users/irosenba/website/node_modules/tiny-invariant",
+    "licenseFile": "/Users/irosenba/website/node_modules/tiny-invariant/LICENSE"
+  },
   "tmpl@1.0.5": {
     "licenses": "BSD-3-Clause",
     "repository": "https://github.com/daaku/nodejs-tmpl",
@@ -11414,6 +11481,15 @@
     "email": "n@daaku.org",
     "path": "/Users/irosenba/website/node_modules/walker",
     "licenseFile": "/Users/irosenba/website/node_modules/walker/LICENSE"
+  },
+  "warning@4.0.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/BerkeleyTrue/warning",
+    "publisher": "Berkeley Martinez",
+    "email": "berkeley@berkeleytrue.com",
+    "url": "http://www.berkeleytrue.com",
+    "path": "/Users/irosenba/website/node_modules/warning",
+    "licenseFile": "/Users/irosenba/website/node_modules/warning/LICENSE.md"
   },
   "watchpack@2.4.1": {
     "licenses": "MIT",

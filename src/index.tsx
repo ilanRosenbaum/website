@@ -35,6 +35,9 @@ import Rooms from "./pages/projects/Rooms";
 // Bottom left
 import Art from "./pages/Art";
 
+// Blog
+import Blog from "./pages/Blog";
+
 import Photography from "./pages/Photography";
 import UnitedStates from "./pages/photography/UnitedStates";
 import TiledPlane from "./components/TiledPlane";
@@ -58,9 +61,9 @@ root.render(
     <Router>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
 
-        <Route path="/blog" element={<MarkdownPage source={"/content/Blog.md"} backTo="/" />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:articleId" element={<Blog />} />
         {/* <Route path="/sierpinski/export" element={<SierpinskiExport />} /> */}
 
         <Route path="/about" element={<About />} />
@@ -69,6 +72,7 @@ root.render(
         <Route path="/about/thisWebsite/what" element={<MarkdownPage source={"/content/ThisWebsiteWhat.md"} backTo="/about/thisWebsite" />} />
         <Route path="/about/thisWebsite/why" element={<MarkdownPage source={"/content/ThisWebsiteWhy.md"} backTo="/about/thisWebsite" />} />
         <Route path="/about/thisWebsite/how" element={<MarkdownPage source={"/content/ThisWebsiteHow.md"} backTo="/about/thisWebsite" />} />
+        <Route path="/about/thisWebsite/versioning" element={<MarkdownPage source={"/content/Versioning.md"} backTo="/about/thisWebsite" />} />
 
         <Route path="/projects" element={<Projects />} />
         <Route path="/projects/openSource" element={<MarkdownPage source={"/content/OpenSource.md"} backTo="/projects" />} />
@@ -198,6 +202,8 @@ root.render(
           element={<TiledPlane photoPath={"/Photography/Europe/Copenhagen"} backTo={"/photography/europe"} />}
         />
         <Route path="/photography/europe/france" element={<TiledPlane photoPath={"/Photography/Europe/Lyon"} backTo={"/photography/europe"} />} />
+        
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   </React.StrictMode>

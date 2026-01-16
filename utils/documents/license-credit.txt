@@ -1018,6 +1018,9 @@ Author: Ben Coe
 Package: cliui@8.0.1\
 Author: Ben Coe
 
+Package: clsx@2.1.1\
+Author: Luke Edwards
+
 Package: coa@2.0.2\
 Author: Sergey Berezhnoy
 
@@ -2233,11 +2236,17 @@ Author: pieroxy
 Package: magic-string@0.25.9\
 Author: Rich Harris
 
+Package: make-cancellable-promise@2.0.0\
+Author: Wojciech Maj
+
 Package: make-dir@3.1.0\
 Author: Sindre Sorhus
 
 Package: make-dir@4.0.0\
 Author: Sindre Sorhus
+
+Package: make-event-props@2.0.0\
+Author: Wojciech Maj
 
 Package: makeerror@1.0.12\
 Author: Naitik Shah
@@ -2301,6 +2310,9 @@ Author: Douglas Christopher Wilson
 
 Package: merge-descriptors@1.0.3\
 Author: Jonathan Ong
+
+Package: merge-refs@2.0.0\
+Author: Wojciech Maj
 
 Package: merge-stream@2.0.0\
 Author: Stephen Sugden
@@ -2887,6 +2899,9 @@ Author: Joe Haddad
 Package: react-markdown@9.0.1\
 Author: Espen Hovlandsdal
 
+Package: react-pdf@10.3.0\
+Author: Wojciech Maj
+
 Package: react-router-dom@6.23.1\
 Author: Remix Software
 
@@ -3310,6 +3325,9 @@ Author: ForbesLindesay
 Package: thunky@1.1.0\
 Author: Mathias Buus Madsen
 
+Package: tiny-invariant@1.3.3\
+Author: Alex Reardon
+
 Package: tmpl@1.0.5\
 Author: Naitik Shah
 
@@ -3489,6 +3507,9 @@ Author: Timothy Gu
 
 Package: walker@1.0.8\
 Author: Naitik Shah
+
+Package: warning@4.0.3\
+Author: Berkeley Martinez
 
 Package: watchpack@2.4.1\
 Author: Tobias Koppers @sokra

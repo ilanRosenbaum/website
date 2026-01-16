@@ -13,9 +13,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import SierpinskiHexagon, {
-  HexagonConfig
-} from "./components/SierpinskiHexagon";
+import SierpinskiHexagon, { HexagonConfig } from "./components/SierpinskiHexagon";
 import { appConfig as ProjectsConfig } from "./pages/Projects";
 import { appConfig as LeaderboardsConfig } from "./pages/Leaderboards";
 import { appConfig as PhotographyConfig } from "./pages/Photography";
@@ -23,8 +21,7 @@ import { appConfig as AboutConfig } from "./pages/About";
 import { appConfig as ArtConfig } from "./pages/Art";
 import { getFastMode } from "./components/FastModeToggle";
 
-const ClonedPhotographyConfig: HexagonConfig =
-  structuredClone(PhotographyConfig);
+const ClonedPhotographyConfig: HexagonConfig = structuredClone(PhotographyConfig);
 ClonedPhotographyConfig.titleSize = "max(0.7vw, 0.6vh)";
 
 const AppConfig: HexagonConfig = {
@@ -42,28 +39,9 @@ const AppConfig: HexagonConfig = {
       opacity: 0.6
     }
   },
-  actions: {
-    bottomLeft: (hexagonId: number) => {
-      performTransitionAndRedirect(hexagonId, "/leaderboards");
-    },
-    topLeft: (hexagonId: number) => {
-      performTransitionAndRedirect(hexagonId, "/projects");
-    },
-    right: (hexagonId: number) => {
-      performTransitionAndRedirect(hexagonId, "/photography");
-    },
-    topRight: (hexagonId: number) => {
-      performTransitionAndRedirect(hexagonId, "/about");
-    },
-    left: () => {
-      window.location.href = "/blog";
-    },
-    bottomRight: (hexagonId: number) => {
-      performTransitionAndRedirect(hexagonId, "/art");
-    },
-  },
+  actions: {},
   images: {
-    right: "/Covers/birdVertical.jpg",
+    right: "/Covers/birdVertical.jpg"
   },
   text: {
     4: "Blog",
@@ -84,12 +62,8 @@ const AppConfig: HexagonConfig = {
   titleSize: "max(1.8vw, 1.6vh)"
 };
 
-export const performTransitionAndRedirect = (
-  hexagonId: number,
-  url: string,
-  navigate?: (url: string) => void
-) => {
-  // Fast mode is true, navigate immediately 
+export const performTransitionAndRedirect = (hexagonId: number, url: string, navigate?: (url: string) => void) => {
+  // Fast mode is true, navigate immediately
   if (navigate && getFastMode()) {
     navigate(url);
     return;
@@ -130,9 +104,7 @@ export const performTransitionAndRedirect = (
       const zoomScale = 3;
       const adjustedTranslateX = translateX * zoomScale;
       const adjustedTranslateY = translateY * zoomScale;
-      svg.style.transform = `translate(${adjustedTranslateX}px, ${adjustedTranslateY}px) scale(${
-        currentScale * zoomScale
-      })`;
+      svg.style.transform = `translate(${adjustedTranslateX}px, ${adjustedTranslateY}px) scale(${currentScale * zoomScale})`;
 
       // Wait for the animation to complete before redirecting
       setTimeout(() => {
@@ -155,7 +127,7 @@ export const performTransitionAndRedirect = (
 
 const App: React.FC = () => {
   const navigate = useNavigate();
-  
+
   const configWithNavigate = React.useMemo(() => {
     const config = { ...AppConfig };
     config.actions = {
@@ -176,7 +148,7 @@ const App: React.FC = () => {
       },
       bottomRight: (hexagonId: number) => {
         performTransitionAndRedirect(hexagonId, "/leaderboards", navigate);
-      },
+      }
     };
     return config;
   }, [navigate]);

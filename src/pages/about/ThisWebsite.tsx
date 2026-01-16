@@ -20,7 +20,7 @@ const sharedConfig = {
     right: 3,
     bottomRight: 0,
     bottomLeft: 0,
-    left: 0,
+    left: 3,
     topLeft: 3,
     topRight: 3
   },
@@ -55,9 +55,7 @@ const pageConfig = {
   images: sharedConfig.images,
   text: {
     1: "How",
-    2: "",
-    3: "",
-    4: "",
+    4: "Versioning",
     5: "What",
     6: "Why"
   },
@@ -74,16 +72,19 @@ const Rooms: React.FC = () => {
   const navigate = useNavigate();
 
   pageConfig.actions = {
-      topLeft: () => {
-        navigate("/about/thisWebsite/what");
-      },
-      topRight: () => {
-        navigate("/about/thisWebsite/why");
-      },
-      right: () => {
-        navigate("/about/thisWebsite/how");
-      }
+    topLeft: () => {
+      navigate("/about/thisWebsite/what");
+    },
+    topRight: () => {
+      navigate("/about/thisWebsite/why");
+    },
+    right: () => {
+      navigate("/about/thisWebsite/how");
+    },
+    left: () => {
+      navigate("/about/thisWebsite/versioning");
     }
+  };
 
   return <SierpinskiHexagon config={pageConfig} />;
 };
