@@ -177,7 +177,7 @@ const Blog: React.FC = () => {
           /* Home/Intro Content */
           <div className="h-full overflow-y-auto">
             <div className="markdown-container p-8">
-              <div className="markdown text-gray-100">
+              <div className="markdown font-mono text-[#ffebcd]">
                 <ReactMarkdown rehypePlugins={[rehypeRaw]} remarkPlugins={[remarkGfm]}>
                   {homeContent}
                 </ReactMarkdown>
