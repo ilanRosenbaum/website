@@ -138,9 +138,11 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({
     },
     table({ children }: any) {
       return (
-        <table className="min-w-full border-collapse border border-gray-700 font-sans text-white">
-          {children}
-        </table>
+        <div className="overflow-x-auto">
+          <table className="min-w-full border-collapse border border-gray-700 font-sans text-white text-sm sm:text-base">
+            {children}
+          </table>
+        </div>
       );
     },
 
@@ -152,7 +154,7 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({
 
     th({ children }: any) {
       return (
-        <th className="px-4 py-2 text-left whitespace-nowrap border-b border-gray-700 font-sans text-white">
+        <th className="px-2 py-1 sm:px-4 sm:py-2 text-left whitespace-nowrap border-b border-gray-700 font-sans text-white text-xs sm:text-sm">
           {children}
         </th>
       );
@@ -160,7 +162,7 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({
 
     td({ children }: any) {
       return (
-        <td className="px-4 py-2 border-t border-gray-700 whitespace-nowrap font-sans text-white">
+        <td className="px-2 py-1 sm:px-4 sm:py-2 border-t border-gray-700 whitespace-nowrap font-sans text-white text-xs sm:text-sm">
           {children}
         </td>
       );
@@ -225,20 +227,24 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({
   };
 
   return (
-    <div className="h-screen w-screen bg-black/90 text-white overflow-hidden p-4">
-      <div className="absolute top-8 left-8 z-10">
+    <div className="h-screen w-screen bg-black/90 text-white overflow-hidden flex flex-col">
+      {/* Fixed header with back button */}
+      <div className="flex-shrink-0 p-4 sm:p-8">
         <BackButton
           textColor={textColor || "#ffefdb"}
           color={backButtonFill || "#603b61"}
           to={backTo || "/"}
         />
       </div>
-      <div
-        className={`${
-          useWideContainer ? "markdown-container-wide" : "markdown-container"
-        } h-full overflow-auto`}
-      >
-        {renderContent()}
+      {/* Scrollable content area */}
+      <div className="flex-1 overflow-auto min-h-0">
+        <div
+          className={`${
+            useWideContainer ? "markdown-container-wide" : "markdown-container"
+          }`}
+        >
+          {renderContent()}
+        </div>
       </div>
       <Footer />
     </div>

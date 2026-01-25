@@ -58,11 +58,7 @@
 /* Container Styles */
 .markdown-container,
 .markdown-container-wide {
-  flex: 1;
-  overflow-y: auto;
-  padding: 2rem;
-  margin-top: 5vh;
-  max-height: calc(95vh - 4rem);
+  padding: 0 2rem 2rem 2rem;
 }
 
 .markdown-container {
@@ -78,8 +74,43 @@
 }
 
 @media (max-width: 768px) {
-  .markdown-container {
-    width: 75%;
+  .markdown-container,
+  .markdown-container-wide {
+    width: 92%;
+    padding: 0 1rem 1rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .markdown h1 {
+    font-size: 1.4rem;
+  }
+
+  .markdown h2 {
+    font-size: 1.2rem;
+  }
+
+  .markdown h3 {
+    font-size: 1.05rem;
+  }
+
+  .markdown p,
+  .markdown li {
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  /* Responsive tables on mobile */
+  .markdown table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    font-size: 0.75rem;
+  }
+
+  .markdown table th,
+  .markdown table td {
+    padding: 0.4rem 0.6rem;
+    white-space: nowrap;
   }
 }
 

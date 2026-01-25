@@ -224,34 +224,36 @@ const SortableTable: React.FC<SortableTableProps> = ({ data, columns }) => {
   }
 
   return (
-    <table className="min-w-full border-collapse border border-gray-700 font-sans text-white">
-      <thead className="bg-gray-800 text-white font-sans">
-        <tr>
-          {columns.map((column) => (
-            <th
-              key={column.accessor}
-              className={`px-4 py-2 text-left border-b border-gray-700 font-sans text-white max-w-[40ch] ${column.sortable ? "cursor-pointer" : ""}`}
-              onClick={() => handleSortClick(column)}
-            >
-              {column.header}
-              {renderSortIndicator(column)}
-              {column.fallbackSort && !sortColumn && <span className="ml-1 text-gray-400 text-sm">(default sort)</span>}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {sortedData.map((row, index) => (
-          <tr key={index} className={index % 2 === 0 ? "bg-gray-900 hover:bg-gray-700" : "bg-gray-800 hover:bg-gray-700"}>
+    <div className="overflow-x-auto">
+      <table className="min-w-full border-collapse border border-gray-700 font-sans text-white text-xs sm:text-base">
+        <thead className="bg-gray-800 text-white font-sans">
+          <tr>
             {columns.map((column) => (
-              <td key={column.accessor} className="px-4 py-2 border-t border-gray-700 font-sans text-white break-words max-w-[40ch]">
-                {row[column.accessor]}
-              </td>
+              <th
+                key={column.accessor}
+                className={`px-2 py-1 sm:px-4 sm:py-2 text-left border-b border-gray-700 font-sans text-white max-w-[40ch] whitespace-nowrap ${column.sortable ? "cursor-pointer" : ""}`}
+                onClick={() => handleSortClick(column)}
+              >
+                {column.header}
+                {renderSortIndicator(column)}
+                {column.fallbackSort && !sortColumn && <span className="ml-1 text-gray-400 text-xs sm:text-sm hidden sm:inline">(default sort)</span>}
+              </th>
             ))}
           </tr>
+        </thead>
+        <tbody>
+          {sortedData.map((row, index) => (
+            <tr key={index} className={index % 2 === 0 ? "bg-gray-900 hover:bg-gray-700" : "bg-gray-800 hover:bg-gray-700"}>
+              {columns.map((column) => (
+                <td key={column.accessor} className="px-2 py-1 sm:px-4 sm:py-2 border-t border-gray-700 font-sans text-white break-words max-w-[40ch]">
+                  {row[column.accessor]}
+                </td>
+              ))}
+          </tr>
         ))}
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
   );
 };
 interface WrapperProps {
@@ -336,15 +338,19 @@ const Wrapper: React.FC<WrapperProps> = ({
   );
 
   return (
-    <div className="h-screen w-screen bg-black/90 text-white overflow-hidden p-4">
-      <div className="absolute top-8 left-8 z-10">
+    <div className="h-screen w-screen bg-black/90 text-white overflow-hidden flex flex-col">
+      {/* Fixed header with back button */}
+      <div className="flex-shrink-0 p-4 sm:p-8">
         <BackButton textColor={textColor} color={backButtonFill} to={backTo} />
       </div>
 
-      <div className={`${useWideContainer ? "markdown-container-wide" : "markdown-container"} h-full overflow-auto`}>
-        <ReactMarkdown className="markdown font-mono text-[#ffebcd]" components={components} remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
-          {markdown}
-        </ReactMarkdown>
+      {/* Scrollable content area */}
+      <div className="flex-1 overflow-auto min-h-0">
+        <div className={`${useWideContainer ? "markdown-container-wide" : "markdown-container"}`}>
+          <ReactMarkdown className="markdown font-mono text-[#ffebcd]" components={components} remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
+            {markdown}
+          </ReactMarkdown>
+        </div>
       </div>
 
       <Footer />

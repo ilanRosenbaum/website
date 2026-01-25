@@ -105,7 +105,7 @@ const Blog: React.FC = () => {
       {/* Main content area - takes up all space except footer */}
       <div className="flex flex-1 overflow-hidden">
         {/* Left Sidebar Panel */}
-        <div className="w-[15%] min-w-[200px] h-full border-r border-gray-700 flex flex-col overflow-hidden" style={{ backgroundColor: "#2d2d2d" }}>
+        <div className="w-[25%] sm:w-[15%] h-full border-r border-gray-700 flex flex-col overflow-hidden" style={{ backgroundColor: "#2d2d2d" }}>
         {/* Back Button */}
         <div className="p-4 flex justify-center">
           <BackButton to="/" color="#603b61" textColor="#ffefdb" />
@@ -132,7 +132,7 @@ const Blog: React.FC = () => {
               <div
                 key={article.id}
                 onClick={() => handleArticleClick(article.id)}
-                className="py-3 px-2 my-1 cursor-pointer transition-colors text-gray-300 hover:opacity-80 rounded-lg"
+                className="py-3 px-3 my-1 cursor-pointer transition-colors text-gray-300 hover:opacity-80 rounded-lg"
                 style={articleId === article.id ? { backgroundColor: "#603b61" } : undefined}
               >
                 <div className="text-xs text-gray-500 font-mono mb-1">{formatDate(article.date)}</div>
