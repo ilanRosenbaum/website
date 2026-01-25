@@ -124,19 +124,19 @@ const Blog: React.FC = () => {
         <div className="border-b border-gray-600 mx-4" />
 
         {/* Articles List */}
-        <div className="flex-1 overflow-y-auto px-4 py-2">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden px-4 py-2">
           {sortedArticles.length === 0 ? (
-            <div className="py-3 text-gray-500 text-sm font-mono italic">No articles yet...</div>
+            <div className="py-3 text-gray-500 text-[10px] sm:text-sm font-mono italic">No articles yet...</div>
           ) : (
             sortedArticles.map((article) => (
               <div
                 key={article.id}
                 onClick={() => handleArticleClick(article.id)}
-                className="py-3 px-3 my-1 cursor-pointer transition-colors text-gray-300 hover:opacity-80 rounded-lg"
+                className="py-2 sm:py-3 px-2 sm:px-3 my-1 cursor-pointer transition-colors text-gray-300 hover:opacity-80 rounded-lg overflow-hidden"
                 style={articleId === article.id ? { backgroundColor: "#603b61" } : undefined}
               >
-                <div className="text-xs text-gray-500 font-mono mb-1">{formatDate(article.date)}</div>
-                <div className="text-sm font-mono leading-tight">{article.title}</div>
+                <div className="text-[8px] sm:text-xs text-gray-500 font-mono mb-1">{formatDate(article.date)}</div>
+                <div className="text-[10px] sm:text-sm font-mono leading-tight break-words">{article.title}</div>
               </div>
             ))
           )}
