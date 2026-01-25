@@ -15,19 +15,23 @@ import React from "react";
 
 interface RestaurantData {
   Name: string;
-  Price: string;
-  "Inflation Adjusted Price": string;
-  Link: string;
   Where: string;
   When: string;
   "Meal Type": string;
+  "Final Score": string;
+  "Inflation Adjusted Price": string;
   "Value 0 - 10": string;
   "Food 0 - 50": string;
   "Vibes 0 - 20": string;
   "Service 0 - 10": string;
   "Location 0 -  5(Overall enjoyment of surrounding area, parking, walkability, ect)": string;
+  "Want To Return 0 - 10": string;
   "Bonus Points - Must have explanation": string;
-  "Final Score": string;
+  Link: string;
+  "Original Price": string;
+  Notes: string;
+  "Why go back?": string;
+  "If I go back, for what?": string;
 }
 
 interface CustomTableProps {
@@ -49,21 +53,22 @@ const RestaurantTable: React.FC<CustomTableProps> = ({
         <thead>
           <tr className="bg-gray-800 text-white">
             <th className="px-2 py-1 sm:px-4 sm:py-2 text-left whitespace-nowrap">Name</th>
+            <th className="px-2 py-1 sm:px-4 sm:py-2 text-left whitespace-nowrap">Where</th>
             <th className="px-2 py-1 sm:px-4 sm:py-2 text-left whitespace-nowrap">When</th>
             <th className="px-2 py-1 sm:px-4 sm:py-2 text-left whitespace-nowrap">Meal</th>
+            <th className="px-2 py-1 sm:px-4 sm:py-2 text-left whitespace-nowrap">Score</th>
+            <th className="px-2 py-1 sm:px-4 sm:py-2 text-left whitespace-nowrap">Adj. Price</th>
             <th className="px-2 py-1 sm:px-4 sm:py-2 text-left whitespace-nowrap">Value</th>
             <th className="px-2 py-1 sm:px-4 sm:py-2 text-left whitespace-nowrap">Food</th>
             <th className="px-2 py-1 sm:px-4 sm:py-2 text-left whitespace-nowrap">Vibes</th>
             <th className="px-2 py-1 sm:px-4 sm:py-2 text-left whitespace-nowrap">Service</th>
             <th className="px-2 py-1 sm:px-4 sm:py-2 text-left whitespace-nowrap">Location</th>
+            <th className="px-2 py-1 sm:px-4 sm:py-2 text-left whitespace-nowrap">Return</th>
             <th className="px-2 py-1 sm:px-4 sm:py-2 text-left whitespace-nowrap">Bonus</th>
-            <th className="px-2 py-1 sm:px-4 sm:py-2 text-left whitespace-nowrap">Final Score</th>
-
-            <th className="px-2 py-1 sm:px-4 sm:py-2 text-left whitespace-nowrap">Price</th>
-            <th className="px-2 py-1 sm:px-4 sm:py-2 text-left whitespace-nowrap">
-              Inflation Adj. Price
-            </th>
-            <th className="px-2 py-1 sm:px-4 sm:py-2 text-left whitespace-nowrap">Where</th>
+            <th className="px-2 py-1 sm:px-4 sm:py-2 text-left whitespace-nowrap">Orig. Price</th>
+            <th className="px-2 py-1 sm:px-4 sm:py-2 text-left whitespace-nowrap">Notes</th>
+            <th className="px-2 py-1 sm:px-4 sm:py-2 text-left whitespace-nowrap">Why Return?</th>
+            <th className="px-2 py-1 sm:px-4 sm:py-2 text-left whitespace-nowrap">Order What?</th>
           </tr>
         </thead>
         <tbody>
@@ -87,10 +92,19 @@ const RestaurantTable: React.FC<CustomTableProps> = ({
                 </a>
               </td>
               <td className="px-2 py-1 sm:px-4 sm:py-2 border-t border-gray-700 whitespace-nowrap">
+                {row.Where}
+              </td>
+              <td className="px-2 py-1 sm:px-4 sm:py-2 border-t border-gray-700 whitespace-nowrap">
                 {row.When}
               </td>
               <td className="px-2 py-1 sm:px-4 sm:py-2 border-t border-gray-700 whitespace-nowrap">
                 {row["Meal Type"]}
+              </td>
+              <td className="px-2 py-1 sm:px-4 sm:py-2 border-t border-gray-700 whitespace-nowrap font-bold">
+                {row["Final Score"]}
+              </td>
+              <td className="px-2 py-1 sm:px-4 sm:py-2 border-t border-gray-700 whitespace-nowrap">
+                {formatPrice(row["Inflation Adjusted Price"])}
               </td>
               <td className="px-2 py-1 sm:px-4 sm:py-2 border-t border-gray-700 whitespace-nowrap">
                 {row["Value 0 - 10"]}
@@ -105,27 +119,25 @@ const RestaurantTable: React.FC<CustomTableProps> = ({
                 {row["Service 0 - 10"]}
               </td>
               <td className="px-2 py-1 sm:px-4 sm:py-2 border-t border-gray-700 whitespace-nowrap">
-                {
-                  row[
-                    "Location 0 -  5(Overall enjoyment of surrounding area, parking, walkability, ect)"
-                  ]
-                }
+                {row["Location 0 -  5(Overall enjoyment of surrounding area, parking, walkability, ect)"]}
+              </td>
+              <td className="px-2 py-1 sm:px-4 sm:py-2 border-t border-gray-700 whitespace-nowrap">
+                {row["Want To Return 0 - 10"]}
               </td>
               <td className="px-2 py-1 sm:px-4 sm:py-2 border-t border-gray-700 whitespace-nowrap">
                 {row["Bonus Points - Must have explanation"]}
               </td>
-              <td className="px-2 py-1 sm:px-4 sm:py-2 border-t border-gray-700 font-bold whitespace-nowrap">
-                {row["Final Score"]}
-              </td>
-
               <td className="px-2 py-1 sm:px-4 sm:py-2 border-t border-gray-700 whitespace-nowrap">
-                {formatPrice(row.Price)}
+                {formatPrice(row["Original Price"])}
               </td>
               <td className="px-2 py-1 sm:px-4 sm:py-2 border-t border-gray-700 whitespace-nowrap">
-                {formatPrice(row["Inflation Adjusted Price"])}
+                {row.Notes}
               </td>
               <td className="px-2 py-1 sm:px-4 sm:py-2 border-t border-gray-700 whitespace-nowrap">
-                {row.Where}
+                {row["Why go back?"]}
+              </td>
+              <td className="px-2 py-1 sm:px-4 sm:py-2 border-t border-gray-700 whitespace-nowrap">
+                {row["If I go back, for what?"]}
               </td>
             </tr>
           ))}
