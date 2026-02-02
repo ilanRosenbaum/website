@@ -11,7 +11,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import BackButton from "../components/BackButton";
 import { Footer } from "../Constants";
@@ -47,7 +47,9 @@ const Blog: React.FC = () => {
   const [homeContent, setHomeContent] = useState<string>("");
   const [numPages, setNumPages] = useState<number>(0);
   const [containerWidth, setContainerWidth] = useState<number>(0);
+  const [isMobileView, setIsMobileView] = useState<boolean>(false);
   const containerRef = React.useRef<HTMLDivElement>(null);
+  const selectedArticle = articleId ? blogArticles.find((article) => article.id === articleId) : null;
 
   const onDocumentLoadSuccess = useCallback(({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
@@ -73,14 +75,37 @@ const Blog: React.FC = () => {
     return () => window.removeEventListener("resize", updateWidth);
   }, []);
 
+  useEffect(() => {
+    const detectMobile = () => {
+      const ua = window.navigator.userAgent;
+      const isTouchDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+      setIsMobileView(window.innerWidth <= 820 || isTouchDevice);
+    };
+
+    detectMobile();
+    window.addEventListener("resize", detectMobile);
+    return () => window.removeEventListener("resize", detectMobile);
+  }, []);
+
+  const pdfUrl = useMemo(() => {
+    if (!selectedArticle) {
+      return "";
+    }
+    if (/^https?:\/\//i.test(selectedArticle.pdfPath)) {
+      return selectedArticle.pdfPath;
+    }
+    if (typeof window !== "undefined") {
+      return `${window.location.origin}${selectedArticle.pdfPath}`;
+    }
+    return selectedArticle.pdfPath;
+  }, [selectedArticle]);
+
   // Sort articles by date, newest first
   const sortedArticles = [...blogArticles].sort((a, b) => {
     const dateA = new Date(a.date + "T00:00:00").getTime();
     const dateB = new Date(b.date + "T00:00:00").getTime();
     return dateB - dateA;
   });
-
-  const selectedArticle = articleId ? blogArticles.find((article) => article.id === articleId) : null;
 
   const handleArticleClick = (id: string) => {
     navigate(`/blog/${id}`);
@@ -146,33 +171,47 @@ const Blog: React.FC = () => {
         {/* Main Content Area */}
         <div ref={containerRef} className="flex-1 h-full overflow-y-auto overflow-x-hidden" style={{ backgroundColor: "#1e1e1e" }}>
         {selectedArticle ? (
-          /* PDF Viewer using react-pdf */
-          <Document
-            file={selectedArticle.pdfPath}
-            onLoadSuccess={onDocumentLoadSuccess}
-            loading={
-                <div className="flex items-center justify-center min-h-screen text-gray-400 font-mono" style={{ backgroundColor: "#1e1e1e" }}>
-                Loading Too Many of Ilan's Words...
-                </div>
-            }
-            error={
-              <div className="flex items-center justify-center h-full text-gray-400 font-mono" style={{ backgroundColor: "#1e1e1e" }}>
-                Failed to load. Try again. If that doesn't work clear your cookies + cache and try again. If that doesn't work then text me.
-              </div>
-            }
-          >
-            {Array.from(new Array(numPages), (_, index) => (
-              <Page
-                key={`page_${index + 1}`}
-                pageNumber={index + 1}
-                width={containerWidth > 0 ? containerWidth : undefined}
-                renderTextLayer={false}
-                renderAnnotationLayer={false}
-                loading={<div style={{ backgroundColor: "#1e1e1e", width: containerWidth, height: containerWidth * 1.4 }} />}
-                canvasBackground="#1e1e1e"
+          isMobileView ? (
+            <div className="h-full flex flex-col" style={{ backgroundColor: "#1e1e1e" }}>
+              <iframe
+                title={selectedArticle.title}
+                src={pdfUrl}
+                className="flex-1 w-full"
+                style={{ border: "none", minHeight: "100%" }}
               />
-            ))}
-          </Document>
+              <div className="p-4 text-center text-gray-400 font-mono text-xs">
+                Trouble loading? <a className="underline" href={pdfUrl} target="_blank" rel="noopener noreferrer">Open the PDF in a new tab</a>.
+              </div>
+            </div>
+          ) : (
+            /* PDF Viewer using react-pdf */
+            <Document
+              file={pdfUrl}
+              onLoadSuccess={onDocumentLoadSuccess}
+              loading={
+                  <div className="flex items-center justify-center min-h-screen text-gray-400 font-mono" style={{ backgroundColor: "#1e1e1e" }}>
+                  Loading Too Many of Ilan's Words...
+                  </div>
+              }
+              error={
+                <div className="flex items-center justify-center h-full text-gray-400 font-mono" style={{ backgroundColor: "#1e1e1e" }}>
+                  Failed to load. Try again. If that doesn't work clear your cookies + cache and try again. If that doesn't work then text me.
+                </div>
+              }
+            >
+              {Array.from(new Array(numPages), (_, index) => (
+                <Page
+                  key={`page_${index + 1}`}
+                  pageNumber={index + 1}
+                  width={containerWidth > 0 ? containerWidth : undefined}
+                  renderTextLayer={false}
+                  renderAnnotationLayer={false}
+                  loading={<div style={{ backgroundColor: "#1e1e1e", width: containerWidth, height: containerWidth * 1.4 }} />}
+                  canvasBackground="#1e1e1e"
+                />
+              ))}
+            </Document>
+          )
         ) : (
           /* Home/Intro Content */
           <div className="h-full overflow-y-auto">
