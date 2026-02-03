@@ -1,10 +1,10 @@
 # Visited
 | City and Country | Want to Return | Enjoyment |
 | -------------------------------- | -------------- | --------- |
-| Lyon, France | 1 | 9 |
+| Lyon, France | 1 | 10 |
 | Copenhagen, Denmark | 2 | 9 |
 | Yosemite, CA, United States | 2 | 9 |
-| New York, NY, United States | 2 | 8 |
+| New York, NY, United States | 6 | 8 |
 | Amsterdam, Netherlands | 3 | 6 |
 | Boston, MA, United States | 3 | 5 |
 | Fez, Morocco | 4 | 7 |
@@ -31,6 +31,9 @@
 | Vidanta, Nuevo Vallarta, Mexico | 20 | 1 |
 | Cancun, Mexico | 10 | 6 |
 | Seattle, WA, United States | 5 | 8 |
+| Tokyo, Japan | 7 | 5 |
+| Osaka, Japan | 6 | 6 |
+| Kyoto, Japan | 5 | 7 |
 
 ## Key
 - Enjoyment: Enjoyment is a 1-10 rating of how much I enjoyed my specific trip to the place in question. Higher numbers better. It may say very little about the place itself, sometimes I go on a great trip to a bad place or a bad trip to a great place. 
