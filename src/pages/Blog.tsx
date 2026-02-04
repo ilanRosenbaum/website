@@ -48,6 +48,7 @@ const Blog: React.FC = () => {
   const [numPages, setNumPages] = useState<number>(0);
   const [containerWidth, setContainerWidth] = useState<number>(0);
   const [isMobileView, setIsMobileView] = useState<boolean>(false);
+  const [mobilePdfStatus, setMobilePdfStatus] = useState<"idle" | "loading" | "loaded" | "error">("idle");
   const containerRef = React.useRef<HTMLDivElement>(null);
   const selectedArticle = articleId ? blogArticles.find((article) => article.id === articleId) : null;
 
@@ -86,6 +87,14 @@ const Blog: React.FC = () => {
     window.addEventListener("resize", detectMobile);
     return () => window.removeEventListener("resize", detectMobile);
   }, []);
+
+  useEffect(() => {
+    if (selectedArticle && isMobileView) {
+      setMobilePdfStatus("loading");
+    } else {
+      setMobilePdfStatus("idle");
+    }
+  }, [selectedArticle, isMobileView]);
 
   const pdfUrl = useMemo(() => {
     if (!selectedArticle) {
@@ -169,7 +178,7 @@ const Blog: React.FC = () => {
       </div>
 
         {/* Main Content Area */}
-        <div ref={containerRef} className="flex-1 h-full overflow-y-auto overflow-x-hidden" style={{ backgroundColor: "#1e1e1e" }}>
+        <div ref={containerRef} className="flex-1 h-full overflow-y-auto overflow-x-hidden pb-16" style={{ backgroundColor: "#1e1e1e" }}>
         {selectedArticle ? (
           isMobileView ? (
             <div className="h-full flex flex-col" style={{ backgroundColor: "#1e1e1e" }}>
@@ -178,10 +187,14 @@ const Blog: React.FC = () => {
                 src={pdfUrl}
                 className="flex-1 w-full"
                 style={{ border: "none", minHeight: "100%" }}
+                onLoad={() => setMobilePdfStatus("loaded")}
+                onError={() => setMobilePdfStatus("error")}
               />
-              <div className="p-4 text-center text-gray-400 font-mono text-xs">
-                Trouble loading? <a className="underline" href={pdfUrl} target="_blank" rel="noopener noreferrer">Open the PDF in a new tab</a>.
-              </div>
+              {mobilePdfStatus === "error" && (
+                <div className="p-4 text-center text-gray-400 font-mono text-xs">
+                  Trouble loading? <a className="underline" href={pdfUrl} target="_blank" rel="noopener noreferrer">Open the PDF in a new tab</a>.
+                </div>
+              )}
             </div>
           ) : (
             /* PDF Viewer using react-pdf */
@@ -214,7 +227,7 @@ const Blog: React.FC = () => {
           )
         ) : (
           /* Home/Intro Content */
-          <div className="h-full overflow-y-auto">
+          <div className="h-full overflow-y-auto pb-16">
             <div className="markdown-container p-8">
               <div className="markdown font-mono text-[#ffebcd]">
                 <ReactMarkdown rehypePlugins={[rehypeRaw]} remarkPlugins={[remarkGfm]}>

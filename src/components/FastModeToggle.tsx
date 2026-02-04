@@ -46,7 +46,7 @@ const FastModeToggle: React.FC = () => {
   };
 
   return (
-    <div className="absolute top-2 right-2 z-20 flex items-center gap-2">
+    <div className="absolute mr-1 top-2 right-2 z-20 flex items-center gap-2">
       <label className="text-xs text-white opacity-70 select-none cursor-pointer flex items-center gap-2">
         <span>Fast Mode</span>
         <div

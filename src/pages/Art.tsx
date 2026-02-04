@@ -82,7 +82,7 @@ const About: React.FC = () => {
       navigate("/art/pottery");
     },
     bottomRight: () => {
-      navigate("/art/RichAndFrank");
+      navigate("/art/richAndFrank");
     },
     left: () => {
       navigate("/art/cooking");
