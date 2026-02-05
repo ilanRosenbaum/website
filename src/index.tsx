@@ -52,6 +52,7 @@ import Sunbelt from "./pages/photography/Sunbelt";
 
 import TiledPlaneFolders from "./components/TiledPlaneFolders";
 import Midwest from "./pages/photography/Midwest";
+import Japan from "./pages/photography/Japan";
 // import SierpinskiExport from "./pages/SierpinskiExport";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
@@ -73,6 +74,7 @@ root.render(
         <Route path="/about/thisWebsite/why" element={<MarkdownPage source={"/content/ThisWebsiteWhy.md"} backTo="/about/thisWebsite" />} />
         <Route path="/about/thisWebsite/how" element={<MarkdownPage source={"/content/ThisWebsiteHow.md"} backTo="/about/thisWebsite" />} />
         <Route path="/about/thisWebsite/versioning" element={<MarkdownPage source={"/content/Versioning.md"} backTo="/about/thisWebsite" />} />
+        <Route path="/about/photography" element={<MarkdownPage source={"/content/PhotographyInfo.md"} backTo="/about/" />} />
 
         <Route path="/projects" element={<Projects />} />
         <Route path="/projects/openSource" element={<MarkdownPage source={"/content/OpenSource.md"} backTo="/projects" />} />
@@ -110,7 +112,6 @@ root.render(
 
         <Route path="/photography" element={<Photography />} />
         <Route path="/photography/usa" element={<UnitedStates />} />
-        <Route path="/photography/info" element={<MarkdownPage source={"/content/PhotographyInfo.md"} backTo="/photography" />} />
         <Route path="/photography/inBetween" element={<TiledPlane photoPath={"/Photography/Travel"} backTo={"/photography"} />} />
 
         {/* Africa */}
@@ -120,6 +121,7 @@ root.render(
         {/* Mexico */}
         <Route path="/photography/mexico" element={<Mexico />} />
         <Route path="/photography/mexico/puertoVallarta" element={<TiledPlane photoPath={"/Photography/Mexico"} backTo={"/photography/mexico"} />} />
+        <Route path="/photography/mexico/cancun" element={<TiledPlane photoPath={"/Photography/Mexico/Cancun"} backTo={"/photography/mexico"} />} />
 
         {/* US Regions */}
         <Route path="/photography/usa/midwest" element={<Midwest />} />
@@ -203,6 +205,26 @@ root.render(
         />
         <Route path="/photography/europe/france" element={<TiledPlane photoPath={"/Photography/Europe/Lyon"} backTo={"/photography/europe"} />} />
         
+
+        {/* Japan */}
+        <Route path="/photography/japan" element={<Japan />} />
+        <Route
+          path="/photography/japan/kyoto"
+          element={<TiledPlane photoPath={"/Photography/Japan/Kyoto"} backTo={"/photography/japan"} />}
+        />
+        <Route
+          path="/photography/japan/mountFuji"
+          element={<TiledPlane photoPath={"/Photography/Japan/MountFuji"} backTo={"/photography/japan"} />}
+        />  
+        <Route
+          path="/photography/japan/tokyo"
+          element={<TiledPlane photoPath={"/Photography/Japan/Tokyo"} backTo={"/photography/japan"} />}
+        />
+        <Route
+          path="/photography/japan/osaka"
+          element={<TiledPlane photoPath={"/Photography/Japan/Osaka"} backTo={"/photography/japan"} />}
+        />
+
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>

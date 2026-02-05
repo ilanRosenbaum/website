@@ -17,19 +17,21 @@ import SierpinskiHexagon, { HexagonConfig, minConfig } from "../../components/Si
 
 const appConfig: HexagonConfig = structuredClone(minConfig);
 appConfig.targetLevels = {
-  right: 3,
+  right: 0,
   bottomRight: 0,
-  bottomLeft: 0,
+  bottomLeft: 3,
   left: 3,
-  topLeft: 0,
-  topRight: 0
+  topLeft: 3,
+  topRight: 3
 };
-appConfig.title = "Mexico";
-appConfig.imageId = "Mexico";
+appConfig.title = "Japan";
+appConfig.imageId = "Japan";
 appConfig.titleSize = "max(1.2vw, 1.2vh)";
 appConfig.images = {
-  left: "/Covers/PuertoVallartaVertical.JPG",
-  right: "/Covers/CancunVertical.jpg"
+  left: "/Covers/kyotoVertical.JPG",
+  topLeft: "/Covers/mtFujiVertical.JPG",
+  bottomLeft: "/Covers/tokyoVertical.JPG",
+  topRight: "/Covers/osakaVertical.JPG"
 };
 
 const pageConfig: HexagonConfig = {
@@ -40,23 +42,15 @@ const pageConfig: HexagonConfig = {
     }
   },
   actions: {},
-  targetLevels: {
-    right: 3,
-    bottomRight: 0,
-    bottomLeft: 0,
-    left: 3,
-    topLeft: 0,
-    topRight: 0
-  },
-  images: {
-    left: "/Covers/PuertoVallartaVertical.JPG",
-    right: "/Covers/CancunVertical.jpg"
-  },
+  targetLevels: appConfig.targetLevels,
+  images: appConfig.images,
   text: {
-    4: "Puerto Vallarta",
-    1: "Cancun"
+    4: "Kyoto",
+    5: "Mt. Fuji",
+    3: "Tokyo",
+    6: "Osaka"
   },
-  title: "Mexico",
+  title: "Japan",
   titleSize: "2vw",
   backButton: {
     exists: true,
@@ -64,21 +58,27 @@ const pageConfig: HexagonConfig = {
   }
 };
 
-const Mexico: React.FC = () => {
+const Japan: React.FC = () => {
   const navigate = useNavigate();
 
   pageConfig.actions = {
     left: () => {
-      navigate("/photography/mexico/puertoVallarta");
+      navigate("/photography/japan/kyoto");
     },
-    right: () => {
-      navigate("/photography/mexico/cancun");
+    topLeft: () => {
+      navigate("/photography/japan/mountFuji");
+    },
+    bottomLeft: () => {
+      navigate("/photography/japan/tokyo");
+    },
+    topRight: () => {
+      navigate("/photography/japan/osaka");
     }
   };
 
   return <SierpinskiHexagon config={pageConfig} />;
 };
 
-export default Mexico;
+export default Japan;
 
 export { appConfig };

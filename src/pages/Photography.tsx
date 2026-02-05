@@ -19,6 +19,7 @@ import { appConfig as unitedStatesConfig } from "./photography/UnitedStates";
 import { appConfig as africaConfig } from "./photography/Africa";
 import { appConfig as mexicoConfig } from "./photography/Mexico";
 import { appConfig as europeConfig } from "./photography/Europe";
+import { appConfig as japanConfig } from "./photography/Japan";
 
 const mexicoConfigClone: HexagonConfig = structuredClone(mexicoConfig);
 mexicoConfigClone.title = "";
@@ -28,6 +29,8 @@ const europeConfigClone: HexagonConfig = structuredClone(europeConfig);
 europeConfigClone.title = "";
 const unitedStatesConfigClone: HexagonConfig = structuredClone(unitedStatesConfig);
 unitedStatesConfigClone.title = "";
+const japanConfigClone: HexagonConfig = structuredClone(japanConfig);
+japanConfigClone.title = "";
 
 const sharedConfig = {
   styles: {
@@ -48,7 +51,7 @@ const appConfig: HexagonConfig = {
     bottomLeft: 0,
     left: 0,
     topLeft: 3,
-    topRight: 3
+    topRight: 0
   },
   styles: sharedConfig.styles,
   actions: {},
@@ -61,7 +64,8 @@ const appConfig: HexagonConfig = {
     left: mexicoConfigClone,
     bottomLeft: africaConfigClone,
     bottomRight: europeConfigClone,
-    right: unitedStatesConfigClone
+    right: unitedStatesConfigClone,
+    topRight: japanConfigClone
   }
 };
 appConfig.titleSize = "max(1.2vw, 1.2vh)";
@@ -76,14 +80,13 @@ const pageConfig: HexagonConfig = {
     bottomLeft: 0,
     left: 0,
     topLeft: 3,
-    topRight: 3
+    topRight: 0
   },
   styles: sharedConfig.styles,
   actions: {},
   images: sharedConfig.images,
   text: {
     5: "In Between",
-    6: "Info"
   },
   title: "Photography",
   backButton: {
@@ -95,7 +98,8 @@ const pageConfig: HexagonConfig = {
     left: mexicoConfig,
     bottomLeft: africaConfig,
     bottomRight: europeConfig,
-    right: unitedStatesConfig
+    right: unitedStatesConfig,
+    topRight: japanConfig
   }
 };
 
@@ -106,8 +110,8 @@ const Photography: React.FC = () => {
     right: (hexagonId: number) => {
       performTransitionAndRedirect(hexagonId, "/photography/usa", navigate);
     },
-    topRight: () => {
-      navigate("/photography/info");
+    topRight: (hexagonId: number) => {
+      performTransitionAndRedirect(hexagonId, "/photography/japan", navigate);
     },
     topLeft: () => {
       navigate("/photography/InBetween");

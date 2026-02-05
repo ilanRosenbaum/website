@@ -63,7 +63,7 @@ const pageConfig: HexagonConfig = {
     right: 0,
     bottomRight: 0,
     bottomLeft: 0,
-    left: 0,
+    left: 3,
     topLeft: 0,
     topRight: 3
   },
@@ -72,6 +72,7 @@ const pageConfig: HexagonConfig = {
   images: sharedConfig.images,
   text: {
     6: "Me",
+    4: "Photography"
   },
   title: "About",
   backButton: {
@@ -97,6 +98,9 @@ const About: React.FC = () => {
     },
     topRight: () => {
       navigate("/about/me");
+    },
+    left: () => {
+      navigate("/about/photography");
     }
   };
 

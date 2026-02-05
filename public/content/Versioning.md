@@ -8,6 +8,9 @@
 
 - A content version change (final number, far right) means content was added or otherwise substantively changed. 
 
+#### Patch notes
+
+If you want a more detailed understanding of what changed (what content, more granular versions like bugfixes, etc.) please see the commit log on GitHub. Here is the link to the [commit log](https://github.com/ilanRosenbaum/website/commits/main/)
 #### Note on edge case
 
 Say the version number is 1.0.0 if I update content and make new functionality in the same change but don't change any of the top level hexagon the new version number is 1.1.1. If I also change the top level hexagons is 2.1.1. This does mean some version numbers will be skipped but the goal is to provide the user information on if anything they care about changed since the last time they visited the website as quickly as possible. 
