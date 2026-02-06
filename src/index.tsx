@@ -214,7 +214,7 @@ root.render(
         />
         <Route
           path="/photography/japan/mountFuji"
-          element={<TiledPlane photoPath={"/Photography/Japan/MountFuji"} backTo={"/photography/japan"} />}
+          element={<TiledPlane photoPath={"/Photography/Japan/MtFuji"} backTo={"/photography/japan"} />}
         />  
         <Route
           path="/photography/japan/tokyo"
