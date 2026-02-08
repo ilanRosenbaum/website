@@ -25,7 +25,7 @@ const sharedConfig = {
   targetLevels: {
     right: 3,
     bottomRight: 3,
-    bottomLeft: 0,
+    bottomLeft: 3,
     left: 3,
     topLeft: 3,
     topRight: 0
@@ -34,7 +34,8 @@ const sharedConfig = {
     right: "/Covers/garlicVertical.jpg",
     bottomRight: "/Covers/RichAndFrankVertical.jpg",
     left: "/Covers/chickenPastaVertical.jpg",
-    topLeft: "/Covers/woodVertical.jpeg"
+    topLeft: "/Covers/woodVertical.jpeg",
+    bottomLeft: "/Covers/leatherVertical.jpg"
   }
 };
 
@@ -65,7 +66,8 @@ const pageConfig: HexagonConfig = {
     5: "Wood",
     4: "Cooking",
     1: "Pottery",
-    2: "Rich & Frank"
+    2: "Rich & Frank",
+    3: "Leather"
   },
   title: "Art",
   backButton: {
@@ -89,6 +91,9 @@ const About: React.FC = () => {
     },
     topLeft: () => {
       navigate("/art/wood");
+    },
+    bottomLeft: () => {
+      navigate("/art/leather");
     }
   };
 

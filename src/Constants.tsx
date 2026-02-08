@@ -1,5 +1,5 @@
 export const COPYRIGHT_TEXT = `© Ilan Rosenbaum ${new Date().getFullYear()}`;
-export const VERSION_TEXT = "Version 2.2.4";
+export const VERSION_TEXT = "Version 2.2.5";
 export const Footer = () => {
   return (
     <>
