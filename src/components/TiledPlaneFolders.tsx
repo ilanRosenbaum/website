@@ -39,6 +39,7 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
   const [isLoading, setIsLoading] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
+  const [skeletonCount, setSkeletonCount] = useState<number>(0);
 
   useEffect(() => {
     const listFolders = async () => {
@@ -46,6 +47,8 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
 
       try {
         const result = await listAll(directoryRef);
+
+        setSkeletonCount(result.prefixes.length);
 
         const folderPromises = result.prefixes.map(async (folderRef: StorageReference) => {
           const folderPath = `${parentFolder}/${folderRef.name}`;
@@ -188,13 +191,17 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
   interface HexDatum {
     x: number;
     y: number;
-    folder: FolderData;
+    folder: FolderData | null; // null for skeleton items
     index: number;
   }
 
   const hexData: HexDatum[] = useMemo(() => {
     const { width, height } = containerSize;
-    if (!width || !height || folderData.length === 0) return [];
+    if (!width || !height) return [];
+
+    // Use folderData if available, otherwise use skeletonCount for placeholders
+    const itemCount = folderData.length > 0 ? folderData.length : skeletonCount;
+    if (itemCount === 0) return [];
 
     const hexRadius = width > height ? height / 4 : width / 6;
     const hexHeight = hexRadius * Math.sqrt(3);
@@ -210,9 +217,9 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
 
     const tmp: HexDatum[] = [];
 
-    while (folderIndex < folderData.length) {
+    while (folderIndex < itemCount) {
       for (const col of columns) {
-        if (folderIndex >= folderData.length) break;
+        if (folderIndex >= itemCount) break;
 
         const x = centerX + col * columnOffsetX - hexWidth / 2;
         // For honeycomb style, shift half a hex if col != 0
@@ -221,7 +228,7 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
         tmp.push({
           x,
           y,
-          folder: folderData[folderIndex],
+          folder: folderData.length > 0 ? folderData[folderIndex] : null,
           index: folderIndex
         });
 
@@ -231,7 +238,7 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
     }
 
     return tmp;
-  }, [containerSize, folderData]);
+  }, [containerSize, folderData, skeletonCount]);
 
   const hexPath = useMemo(() => {
     const { width, height } = containerSize;
@@ -371,7 +378,8 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
           const { width, height } = containerSize;
           if (!width || !height || hexData.length === 0) return null;
 
-          const rowCount = Math.ceil(folderData.length / 3);
+          const itemCount = folderData.length > 0 ? folderData.length : skeletonCount;
+          const rowCount = Math.ceil(itemCount / 3);
           const hexRadius = width > height ? height / 4 : width / 6;
           const singleHexHeight = hexRadius * Math.sqrt(3);
           const svgHeight = Math.max(height, rowCount * singleHexHeight + singleHexHeight);
@@ -408,6 +416,35 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
                 const scaledH = 300 * coverScale;
                 const offsetX = (imgW - scaledW) / 2;
                 const offsetY = (imgH - scaledH) / 2;
+
+                // Skeleton state - show pulsing placeholder
+                if (!d.folder) {
+                  return (
+                    <g key={`hex-skeleton-${d.index}`}>
+                      <path
+                        d={hexPath}
+                        fill="#2a2a2a"
+                        transform={`translate(${imgX}, ${imgY})`}
+                        style={{ pointerEvents: "none" }}
+                      >
+                        <animate
+                          attributeName="opacity"
+                          values="0.3;0.6;0.3"
+                          dur="1.5s"
+                          repeatCount="indefinite"
+                        />
+                      </path>
+                      <path
+                        d={hexPath}
+                        fill="none"
+                        stroke="#3a3a3a"
+                        strokeWidth={2}
+                        transform={`translate(${imgX}, ${imgY})`}
+                        style={{ pointerEvents: "none" }}
+                      />
+                    </g>
+                  );
+                }
 
                 return (
                   <g key={`hex-${d.index}`}>
