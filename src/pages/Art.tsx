@@ -28,14 +28,15 @@ const sharedConfig = {
     bottomLeft: 3,
     left: 3,
     topLeft: 3,
-    topRight: 0
+    topRight: 3
   },
   images: {
     right: "/Covers/garlicVertical.jpg",
     bottomRight: "/Covers/RichAndFrankVertical.jpg",
     left: "/Covers/chickenPastaVertical.jpg",
     topLeft: "/Covers/woodVertical.jpeg",
-    bottomLeft: "/Covers/leatherVertical.jpg"
+    bottomLeft: "/Covers/leatherVertical.jpg",
+    topRight: "/Covers/mugVertical.jpg",
   }
 };
 
@@ -67,7 +68,8 @@ const pageConfig: HexagonConfig = {
     4: "Cooking",
     1: "Pottery",
     2: "Rich & Frank",
-    3: "Leather"
+    3: "Leather",
+    6: "Favorites"
   },
   title: "Art",
   backButton: {
@@ -94,6 +96,9 @@ const About: React.FC = () => {
     },
     bottomLeft: () => {
       navigate("/art/leather");
+    },
+    topRight: () => {
+      navigate("/art/favorites");
     }
   };
 

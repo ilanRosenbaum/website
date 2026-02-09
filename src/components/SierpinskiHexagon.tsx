@@ -74,9 +74,10 @@ function preloadImages(config: HexagonConfig) {
   }
 }
 
-function generateUniqueId(config: HexagonConfig, section: string): string {
+function generateUniqueId(config: HexagonConfig, section: string, sectionPath: string = ""): string {
   const baseId = config.imageId || config.title || "root";
-  return `image-fill-${baseId}-${section}`.replace(/\s+/g, "-").toLowerCase();
+  const pathPrefix = sectionPath ? `${sectionPath}-` : "";
+  return `image-fill-${pathPrefix}${baseId}-${section}`.replace(/\s+/g, "-").toLowerCase();
 }
 
 function hexToRgbA(hex: string, opacity = 0.5) {
@@ -139,21 +140,22 @@ async function addPatterns(defs: d3.Selection<SVGDefsElement, unknown, null, und
     pattern.append("image").attr("xlink:href", imageUrl).attr("width", 1).attr("height", 1).attr("preserveAspectRatio", "xMidYMid slice");
   };
 
-  // Collect all configs including nested ones
-  const getAllConfigs = (config: HexagonConfig): HexagonConfig[] => {
-    const configs = [config];
+  // Collect all configs including nested ones with their section paths
+  const getAllConfigs = (config: HexagonConfig, sectionPath: string = ""): Array<{ config: HexagonConfig; path: string }> => {
+    const configs = [{ config, path: sectionPath }];
     if (config.config) {
-      Object.values(config.config).forEach((subConfig) => {
-        configs.push(...getAllConfigs(subConfig));
+      Object.entries(config.config).forEach(([section, subConfig]) => {
+        const newPath = sectionPath ? `${sectionPath}-${section}` : section;
+        configs.push(...getAllConfigs(subConfig, newPath));
       });
     }
     return configs;
   };
 
   // Get all image loading promises
-  const imageLoadPromises = getAllConfigs(config).flatMap((cfg) =>
+  const imageLoadPromises = getAllConfigs(config).flatMap(({ config: cfg, path }) =>
     Object.entries(cfg.images).map(async ([key, imagePath]) => {
-      const uniqueId = generateUniqueId(cfg, key);
+      const uniqueId = generateUniqueId(cfg, key, path);
       const thumbPath = getThumbPath(imagePath);
 
       try {
@@ -279,7 +281,8 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
       section: string,
       currentConfig: HexagonConfig,
       isMainHexagon: boolean,
-      parentConfig?: HexagonConfig
+      parentConfig?: HexagonConfig,
+      sectionPath: string = ""
     ) {
       if (level <= 0) return;
 
@@ -294,16 +297,17 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
       if (level > 3) {
         offsets.forEach(([dx, dy], index) => {
           const newSection = Object.keys(currentConfig.targetLevels)[index];
-          drawHexagon(x + dx, y + dy, size / 3, level - 1, newSection, currentConfig, isMainHexagon, currentConfig);
+          drawHexagon(x + dx, y + dy, size / 3, level - 1, newSection, currentConfig, isMainHexagon, currentConfig, sectionPath);
         });
       } else if (level > targetLevel) {
         offsets.forEach(([dx, dy]) => {
-          drawHexagon(x + dx, y + dy, size / 3, level - 1, section, currentConfig, isMainHexagon, currentConfig);
+          drawHexagon(x + dx, y + dy, size / 3, level - 1, section, currentConfig, isMainHexagon, currentConfig, sectionPath);
         });
       }
 
       if (level === 3 && currentConfig.config && currentConfig.config[section]) {
-        drawHexagon(x, y, size, 4, section, currentConfig.config[section], false, currentConfig);
+        const newPath = sectionPath ? `${sectionPath}-${section}` : section;
+        drawHexagon(x, y, size, 4, section, currentConfig.config[section], false, currentConfig, newPath);
       }
 
       if (level === targetLevel) {
@@ -316,7 +320,7 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
 
         const imageSource = currentConfig.images[section] || (parentConfig && parentConfig.images[section]);
         if (imageSource) {
-          const uniqueId = generateUniqueId(currentConfig.images[section] ? currentConfig : parentConfig!, section);
+          const uniqueId = generateUniqueId(currentConfig.images[section] ? currentConfig : parentConfig!, section, sectionPath);
           hexagonPolygon
             .attr("points", hexPoints.map((p) => p.join(",")).join(" "))
             .attr("stroke", "black")

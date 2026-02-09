@@ -14,7 +14,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 import React, { useEffect, useRef, useState, useMemo } from "react";
 import BackButton from "./BackButton";
 import { storage } from "./../firebase";
-import { ref, listAll, getDownloadURL, getMetadata } from "firebase/storage";
+import { ref, getDownloadURL } from "firebase/storage";
 import { imageCache } from "./ImageCache";
 import { Footer } from "../Constants";
 
@@ -83,8 +83,7 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
 
   const fetchThumbnailsIncremental = async () => {
     try {
-      const thumbsRef = ref(storage, `${photoPath}/thumbnails`);
-      const { items: thumbRefs } = await listAll(thumbsRef);
+      const { items: thumbRefs } = await imageCache.listAll(`${photoPath}/thumbnails`);
 
       // For each thumbnail, do the fetching
       thumbRefs.forEach(async (thumbRef) => {
@@ -95,12 +94,14 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
           const originalFullPath = `${photoPath}/${baseName}`;
 
           // 1) Thumbnail URL
-          const thumbUrl = await getDownloadURL(thumbRef);
-          await imageCache.getImage(thumbUrl);
+          const thumbUrl = await imageCache.getDownloadURL(thumbRef.fullPath);
+          if (thumbUrl) {
+            await imageCache.getImage(thumbUrl);
+          }
 
           // 2) Original metadata (for lastModified)
           const originalRef = ref(storage, originalFullPath);
-          const originalMeta = await getMetadata(originalRef);
+          const originalMeta = await imageCache.getMetadata(originalRef);
 
           const lastModified = originalMeta.updated || originalMeta.timeCreated;
 

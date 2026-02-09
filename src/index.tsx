@@ -106,10 +106,11 @@ root.render(
 
         <Route path="/art" element={<Art />} />
         <Route path="/art/cooking" element={<TiledPlane photoPath={"Cooking"} backTo="/art" />} />
-        <Route path="/art/pottery" element={<TiledPlaneFolders parentFolder={"Ceramics"} backTo="/art" />} />
-        <Route path="/art/richAndFrank" element={<TiledPlaneFolders parentFolder={"RichAndFrank"} backTo="/art" />} />
-        <Route path="/art/wood" element={<TiledPlaneFolders parentFolder={"Wood"} backTo="/art" />} />
-        <Route path="/art/leather" element={<TiledPlaneFolders parentFolder={"Leather"} backTo="/art" />} />
+        <Route path="/art/pottery" element={<TiledPlaneFolders parentFolders={"Ceramics"} backTo="/art" />} />
+        <Route path="/art/richAndFrank" element={<TiledPlaneFolders parentFolders={"RichAndFrank"} backTo="/art" />} />
+        <Route path="/art/wood" element={<TiledPlaneFolders parentFolders={"Wood"} backTo="/art" />} />
+        <Route path="/art/leather" element={<TiledPlaneFolders parentFolders={"Leather"} backTo="/art" />} />
+        <Route path="/art/favorites" element={<TiledPlaneFolders parentFolders={["RichAndFrank/The Coolest Planter Ever", "RichAndFrank/Adine's Jewelry Bowl", "Ceramics/Porcelain Mug?!", "Favorites/Tree Vase", "Favorites/Lydia's Mug", "Ceramics/Garlic Holder", "Ceramics/Pièce de Résistance", "Ceramics/Mug & Saucer", "Leather/Knife Drawer Patchwork Thingy"]} backTo="/art" />} />
 
         <Route path="/photography" element={<Photography />} />
         <Route path="/photography/usa" element={<UnitedStates />} />

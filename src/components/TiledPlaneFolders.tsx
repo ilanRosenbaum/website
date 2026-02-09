@@ -14,12 +14,12 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 import React, { useEffect, useRef, useState, useMemo } from "react";
 import BackButton from "./BackButton";
 import { storage } from "./../firebase";
-import { ref, listAll, getMetadata, getDownloadURL, StorageReference } from "firebase/storage";
+import { ref, getDownloadURL, StorageReference } from "firebase/storage";
 import { imageCache } from "./ImageCache";
 import { Footer } from "../Constants";
 
 interface TiledPlaneFoldersProps {
-  parentFolder: string;
+  parentFolders: string | string[];
   backTo?: string;
 }
 
@@ -29,7 +29,7 @@ interface FolderData {
   folderName: string;
 }
 
-const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, backTo }) => {
+const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolders, backTo }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [selectedFolder, setSelectedFolder] = useState<FolderData | null>(null);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState<number | null>(null);
@@ -43,35 +43,71 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
 
   useEffect(() => {
     const listFolders = async () => {
-      const directoryRef = ref(storage, parentFolder);
+      const parentFoldersArray = Array.isArray(parentFolders) ? parentFolders : [parentFolders];
 
       try {
-        const result = await listAll(directoryRef);
+        // Collect all subfolders from all parent folders
+        const allFolderPromises: Promise<{ path: string; lastModified: Date }>[] = [];
+        let totalSkeletonCount = 0;
 
-        setSkeletonCount(result.prefixes.length);
+        for (const parentFolder of parentFoldersArray) {
+          const result = await imageCache.listAll(parentFolder);
 
-        const folderPromises = result.prefixes.map(async (folderRef: StorageReference) => {
-          const folderPath = `${parentFolder}/${folderRef.name}`;
-          const folderContents = await listAll(ref(storage, folderPath));
-          if (folderContents.items.length === 0) {
-            return { path: folderPath, lastModified: new Date(0) };
+          const validPrefixes = result.prefixes.filter((folderRef) => folderRef.name !== "thumbnails");
+
+          // If no subfolders but has items, treat this folder itself as the target
+          if (validPrefixes.length === 0 && result.items.length > 0) {
+            totalSkeletonCount += 1;
+
+            const folderPromise = (async () => {
+              const metadataResults = await Promise.all(
+                result.items.map((item) => imageCache.getMetadata(item))
+              );
+
+              const validDates = metadataResults
+                .map((meta) => meta.updated)
+                .filter((updated): updated is string => typeof updated === "string" && updated !== "")
+                .map((updated) => new Date(updated))
+                .filter((date) => !isNaN(date.getTime()));
+
+              const lastModified = validDates.length > 0 ? new Date(Math.max(...validDates.map((d) => d.getTime()))) : new Date(0);
+
+              return { path: parentFolder, lastModified };
+            })();
+
+            allFolderPromises.push(folderPromise);
+          } else {
+            totalSkeletonCount += validPrefixes.length;
+
+            const folderPromises = validPrefixes.map(async (folderRef: StorageReference) => {
+              const folderPath = `${parentFolder}/${folderRef.name}`;
+              const folderContents = await imageCache.listAll(folderPath);
+              if (folderContents.items.length === 0) {
+                return { path: folderPath, lastModified: new Date(0) };
+              }
+
+              const metadataResults = await Promise.all(
+                folderContents.items.map((item) => imageCache.getMetadata(item))
+              );
+
+              const validDates = metadataResults
+                .map((meta) => meta.updated)
+                .filter((updated): updated is string => typeof updated === "string" && updated !== "")
+                .map((updated) => new Date(updated))
+                .filter((date) => !isNaN(date.getTime()));
+
+              const lastModified = validDates.length > 0 ? new Date(Math.max(...validDates.map((d) => d.getTime()))) : new Date(0);
+
+              return { path: folderPath, lastModified };
+            });
+
+            allFolderPromises.push(...folderPromises);
           }
+        }
 
-          const metadataPromises = folderContents.items.map((item) => getMetadata(item));
-          const metadataResults = await Promise.all(metadataPromises);
+        setSkeletonCount(totalSkeletonCount);
 
-          const validDates = metadataResults
-            .map((meta) => meta.updated)
-            .filter((updated): updated is string => typeof updated === "string")
-            .map((updated) => new Date(updated))
-            .filter((date) => !isNaN(date.getTime()));
-
-          const lastModified = validDates.length > 0 ? new Date(Math.max(...validDates.map((d) => d.getTime()))) : new Date(0);
-
-          return { path: folderPath, lastModified };
-        });
-
-        const foldersWithDates = await Promise.all(folderPromises);
+        const foldersWithDates = await Promise.all(allFolderPromises);
 
         const sortedFolders = foldersWithDates.sort((a, b) => b.lastModified.getTime() - a.lastModified.getTime());
         setPhotoPaths(sortedFolders.map((folder) => folder.path));
@@ -81,7 +117,7 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
     };
 
     listFolders();
-  }, [parentFolder]);
+  }, [parentFolders]);
 
   useEffect(() => {
     const fetchPhotos = async () => {
@@ -95,8 +131,7 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
           let newestOriginal: StorageReference | null = null;
 
           try {
-            const folderRef = ref(storage, path);
-            const folderContents = await listAll(folderRef);
+            const folderContents = await imageCache.listAll(path);
 
             if (!folderContents.items.length) {
               return {
@@ -109,7 +144,7 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
             // Sort the folder items by lastModified descending
             const itemsWithMeta = await Promise.all(
               folderContents.items.map(async (item) => {
-                const meta = await getMetadata(item);
+                const meta = await imageCache.getMetadata(item);
                 // fallback to timeCreated if updated not present
                 const dateString = meta.updated || meta.timeCreated;
                 return {
@@ -144,9 +179,10 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
               const possibleThumbName = `${baseFilename}_300x300${extension}`;
 
               try {
-                const thumbRef = ref(storage, `${path}/thumbnails/${possibleThumbName}`);
-                coverPhotoUrl = await getDownloadURL(thumbRef);
-                await imageCache.getImage(coverPhotoUrl); // Preload
+                coverPhotoUrl = await imageCache.getDownloadURL(`${path}/thumbnails/${possibleThumbName}`);
+                if (coverPhotoUrl) {
+                  await imageCache.getImage(coverPhotoUrl); // Preload
+                }
               } catch (error) {
                 console.warn(`No matching thumbnail for newest original ${originalName}`, error);
               }
@@ -315,7 +351,8 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
     }
 
     try {
-      const allPhotos = await fetchAllPhotosForFolderPath(folder.folderName);
+      // Use the full path stored in photoPaths
+      const allPhotos = await fetchAllPhotosForFolderPath(photoPaths[folderIndex]);
       setFolderData((prev) => {
         const newArr = [...prev];
         newArr[folderIndex] = {
@@ -334,14 +371,13 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
     }
   };
 
-  async function fetchAllPhotosForFolderPath(subfolderName: string): Promise<string[]> {
+  async function fetchAllPhotosForFolderPath(folderPath: string): Promise<string[]> {
     try {
-      const folderRef = ref(storage, `${parentFolder}/${subfolderName}`);
-      const result = await listAll(folderRef);
+      const result = await imageCache.listAll(folderPath);
 
       const itemsWithMeta = await Promise.all(
         result.items.map(async (item) => {
-          const meta = await getMetadata(item);
+          const meta = await imageCache.getMetadata(item);
           const dateString = meta.updated || meta.timeCreated;
           return {
             ref: item,
@@ -362,7 +398,7 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
 
       return allPhotos;
     } catch (error) {
-      console.error("Error fetching all photos from", subfolderName, error);
+      console.error("Error fetching all photos from", folderPath, error);
       return [];
     }
   }
@@ -421,18 +457,8 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolder, bac
                 if (!d.folder) {
                   return (
                     <g key={`hex-skeleton-${d.index}`}>
-                      <path
-                        d={hexPath}
-                        fill="#2a2a2a"
-                        transform={`translate(${imgX}, ${imgY})`}
-                        style={{ pointerEvents: "none" }}
-                      >
-                        <animate
-                          attributeName="opacity"
-                          values="0.3;0.6;0.3"
-                          dur="1.5s"
-                          repeatCount="indefinite"
-                        />
+                      <path d={hexPath} fill="#2a2a2a" transform={`translate(${imgX}, ${imgY})`} style={{ pointerEvents: "none" }}>
+                        <animate attributeName="opacity" values="0.3;0.6;0.3" dur="1.5s" repeatCount="indefinite" />
                       </path>
                       <path
                         d={hexPath}
