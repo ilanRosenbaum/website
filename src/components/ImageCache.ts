@@ -1,4 +1,4 @@
-import { ref, getDownloadURL, listAll, getMetadata, StorageReference, ListResult } from "firebase/storage";
+import { ref, getDownloadURL, listAll, getMetadata, StorageReference } from "firebase/storage";
 import { storage } from "./../firebase";
 
 interface CachedFolderListing {

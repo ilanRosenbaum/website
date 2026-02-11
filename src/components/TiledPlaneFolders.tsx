@@ -13,8 +13,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 import React, { useEffect, useRef, useState, useMemo } from "react";
 import BackButton from "./BackButton";
-import { storage } from "./../firebase";
-import { ref, getDownloadURL, StorageReference } from "firebase/storage";
+import { getDownloadURL, StorageReference } from "firebase/storage";
 import { imageCache } from "./ImageCache";
 import { Footer } from "../Constants";
 
@@ -60,9 +59,7 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolders, ba
             totalSkeletonCount += 1;
 
             const folderPromise = (async () => {
-              const metadataResults = await Promise.all(
-                result.items.map((item) => imageCache.getMetadata(item))
-              );
+              const metadataResults = await Promise.all(result.items.map((item) => imageCache.getMetadata(item)));
 
               const validDates = metadataResults
                 .map((meta) => meta.updated)
@@ -86,9 +83,7 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolders, ba
                 return { path: folderPath, lastModified: new Date(0) };
               }
 
-              const metadataResults = await Promise.all(
-                folderContents.items.map((item) => imageCache.getMetadata(item))
-              );
+              const metadataResults = await Promise.all(folderContents.items.map((item) => imageCache.getMetadata(item)));
 
               const validDates = metadataResults
                 .map((meta) => meta.updated)
