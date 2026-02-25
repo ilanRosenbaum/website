@@ -13,6 +13,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 import React, { ReactNode, useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
+import { useLocation } from "react-router-dom";
 import BackButton from "./BackButton";
 import RestaurantTable from "./RestaurantTable";
 import rehypeRaw from "rehype-raw";
@@ -44,6 +45,8 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({
   const [markdown, setMarkdown] = useState<string>("");
   const [tableDatas, setTableDatas] = useState<any[][]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const location = useLocation();
+  const effectiveBackTo = (location.state as any)?.backTo || backTo;
 
   useEffect(() => {
     const fetchPublicGoogleSheetData = async (
@@ -233,7 +236,7 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({
         <BackButton
           textColor={textColor || "#ffefdb"}
           color={backButtonFill || "#603b61"}
-          to={backTo || "/"}
+          to={effectiveBackTo || "/"}
         />
       </div>
       {/* Scrollable content area */}

@@ -13,96 +13,80 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import SierpinskiHexagon, { HexagonConfig } from "../components/SierpinskiHexagon";
+import SierpinskiHexagon from "../../components/SierpinskiHexagon";
 
 const sharedConfig = {
+  targetLevels: {
+    right: 3,
+    bottomRight: 3,
+    bottomLeft: 0,
+    left: 3,
+    topLeft: 0,
+    topRight: 3
+  },
   styles: {
     default: {
       fill: "#603b61",
       opacity: 0.6
     }
   },
-  targetLevels: {
-    right: 3,
-    bottomRight: 3,
-    bottomLeft: 3,
-    left: 3,
-    topLeft: 3,
-    topRight: 3
-  },
-  images: {
-    right: "/Covers/garlicVertical.jpg",
-    bottomRight: "/Covers/RichAndFrankVertical.jpg",
-    left: "/Covers/chickenPastaVertical.jpg",
-    topLeft: "/Covers/woodVertical.jpeg",
-    bottomLeft: "/Covers/leatherVertical.jpg",
-    topRight: "/Covers/mugVertical.jpg",
-  }
+  images: {}
 };
 
-const appConfig: HexagonConfig = {
+export const appConfig = {
   targetLevels: sharedConfig.targetLevels,
   styles: sharedConfig.styles,
   actions: {
     default: () => {
-      window.location.href = "/art";
+      window.location.href = "/about/links";
     }
   },
   images: sharedConfig.images,
   text: {},
   backButton: {
     exists: false
-  },
-  config: {}
+  }
 };
 
-export { appConfig };
-
-const pageConfig: HexagonConfig = {
+const pageConfig = {
   targetLevels: sharedConfig.targetLevels,
   styles: sharedConfig.styles,
   actions: {},
   images: sharedConfig.images,
   text: {
-    5: "Wood",
-    4: "Cooking",
-    1: "Pottery",
-    2: "Rich & Frank",
-    3: "Leather",
-    6: "Favorites"
+    1: "Aggregators",
+    2: "Journalism",
+    4: "Cool",
+    6: "Why"
   },
-  title: "Art",
+  title: "Links",
+  titleSize: "2vw",
   backButton: {
     exists: true,
-    to: "/",
-    textColor: "#4c0013"
+    to: "/about",
+    fill: "#603b61"
   }
 };
 
-const About: React.FC = () => {
+const AboutLinks: React.FC = () => {
   const navigate = useNavigate();
+
   pageConfig.actions = {
     right: () => {
-      navigate("/art/pottery");
+      navigate("/about/links/aggregators");
     },
     bottomRight: () => {
-      navigate("/art/richAndFrank");
+      navigate("/about/links/journalism");
     },
     left: () => {
-      navigate("/art/cooking");
-    },
-    topLeft: () => {
-      navigate("/art/wood");
-    },
-    bottomLeft: () => {
-      navigate("/art/leather");
-    },
+      navigate("/about/links/cool");
+    }, 
     topRight: () => {
-      navigate("/art/favorites");
+      window.open("https://thoughts.melonking.net/thoughts/every-site-needs-a-links-page-why-linking-matters", "_blank");
     }
   };
 
   return <SierpinskiHexagon config={pageConfig} />;
 };
 
-export default About;
+export default AboutLinks;

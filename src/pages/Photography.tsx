@@ -36,7 +36,7 @@ const sharedConfig = {
   styles: {
     default: {
       fill: "#603b61",
-      opacity: 1.0
+      opacity: 0.6
     }
   },
   images: {
@@ -93,6 +93,9 @@ const pageConfig: HexagonConfig = {
     exists: true,
     to: "/",
     textColor: "#4c0013"
+  },
+  confusedButton: {
+    link: "/about/photography"
   },
   config: {
     left: mexicoConfig,

@@ -21,6 +21,7 @@ import MarkdownPage from "./components/MarkdownPage";
 // Top right
 import About from "./pages/About";
 import ThisWebsite from "./pages/about/ThisWebsite";
+import AboutLinks from "./pages/about/Links";
 
 // Bottom Left
 import Leaderboards from "./pages/Leaderboards";
@@ -31,6 +32,12 @@ import ToLive from "./pages/leaderboards/places/ToLive";
 // Top right
 import Projects from "./pages/Projects";
 import Rooms from "./pages/projects/Rooms";
+
+// Links
+import Links from "./pages/Links";
+import Aggregators from "./pages/links/Aggregators";
+import Journalism from "./pages/links/Journalism";
+import CoolWebsites from "./pages/links/Cool";
 
 // Bottom left
 import Art from "./pages/Art";
@@ -75,6 +82,12 @@ root.render(
         <Route path="/about/thisWebsite/how" element={<MarkdownPage source={"/content/ThisWebsiteHow.md"} backTo="/about/thisWebsite" />} />
         <Route path="/about/thisWebsite/versioning" element={<MarkdownPage source={"/content/Versioning.md"} backTo="/about/thisWebsite" />} />
         <Route path="/about/photography" element={<MarkdownPage source={"/content/PhotographyInfo.md"} backTo="/about/" />} />
+        <Route path="/about/leaderboards" element={<MarkdownPage source={"/content/Leaderboards.md"} backTo="/about" />} />
+        <Route path="/about/links" element={<AboutLinks />} />
+        <Route path="/about/links/aggregators" element={<MarkdownPage source={"/content/LinksAggregators.md"} backTo="/about/links" />} />
+        <Route path="/about/links/journalism" element={<MarkdownPage source={"/content/LinksJournalism.md"} backTo="/about/links" />} />
+        <Route path="/about/links/products" element={<MarkdownPage source={"/content/LinksProducts.md"} backTo="/about/links" />} />
+        <Route path="/about/links/cool" element={<MarkdownPage source={"/content/LinksCool.md"} backTo="/about/links" />} />
 
         <Route path="/projects" element={<Projects />} />
         <Route path="/projects/openSource" element={<MarkdownPage source={"/content/OpenSource.md"} backTo="/projects" />} />
@@ -83,6 +96,11 @@ root.render(
         <Route path="/projects/rooms/what" element={<MarkdownPage source={"/content/RoomsWhat.md"} backTo="/projects/rooms" />} />
         <Route path="/projects/rooms/why" element={<MarkdownPage source={"/content/RoomsWhy.md"} backTo="/projects/rooms" />} />
         <Route path="/projects/rooms/how" element={<MarkdownPage source={"/content/RoomsHow.md"} backTo="/projects/rooms" />} />
+
+        <Route path="/links" element={<Links />} />
+        <Route path="/links/aggregators" element={<Aggregators />} />
+        <Route path="/links/journalism" element={<Journalism />} />
+        <Route path="/links/coolWebsites" element={<CoolWebsites />} />
 
         <Route path="/leaderboards" element={<Leaderboards />} />
         <Route path="/leaderboards/places" element={<Places />} />

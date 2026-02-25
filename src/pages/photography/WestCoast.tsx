@@ -44,6 +44,9 @@ pageConfig.backButton = {
   exists: true,
   to: "/photography/usa"
 };
+pageConfig.confusedButton = {
+  link: "/about/photography"
+};
 
 pageConfig.text = {
   1: "Washington"

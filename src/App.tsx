@@ -14,12 +14,13 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import SierpinskiHexagon, { HexagonConfig } from "./components/SierpinskiHexagon";
-import { appConfig as ProjectsConfig } from "./pages/Projects";
+import { appConfig as LinksConfig } from "./pages/Links";
 import { appConfig as LeaderboardsConfig } from "./pages/Leaderboards";
 import { appConfig as PhotographyConfig } from "./pages/Photography";
 import { appConfig as AboutConfig } from "./pages/About";
 import { appConfig as ArtConfig } from "./pages/Art";
 import { getFastMode } from "./components/FastModeToggle";
+import { appConfig as ProjectsConfig } from "./pages/Projects";
 
 const ClonedPhotographyConfig: HexagonConfig = structuredClone(PhotographyConfig);
 ClonedPhotographyConfig.titleSize = "max(0.7vw, 0.6vh)";
@@ -29,7 +30,7 @@ const AppConfig: HexagonConfig = {
     right: 0,
     bottomRight: 0,
     bottomLeft: 0,
-    left: 3,
+    left: 0,
     topLeft: 0,
     topRight: 0
   },
@@ -44,7 +45,6 @@ const AppConfig: HexagonConfig = {
     right: "/Covers/birdVertical.jpg"
   },
   text: {
-    4: "Blog",
     6: "About",
     3: "Art"
   },
@@ -53,7 +53,8 @@ const AppConfig: HexagonConfig = {
     exists: false
   },
   config: {
-    "topLeft": ProjectsConfig,
+    "topLeft": LinksConfig,
+    "left": ProjectsConfig,
     "bottomLeft": ArtConfig,
     "right": ClonedPhotographyConfig,
     "topRight": AboutConfig,
@@ -135,7 +136,7 @@ const App: React.FC = () => {
         performTransitionAndRedirect(hexagonId, "/art", navigate);
       },
       topLeft: (hexagonId: number) => {
-        performTransitionAndRedirect(hexagonId, "/projects", navigate);
+        performTransitionAndRedirect(hexagonId, "/links", navigate);
       },
       right: (hexagonId: number) => {
         performTransitionAndRedirect(hexagonId, "/photography", navigate);
@@ -143,12 +144,12 @@ const App: React.FC = () => {
       topRight: (hexagonId: number) => {
         performTransitionAndRedirect(hexagonId, "/about", navigate);
       },
-      left: () => {
-        navigate("/blog");
+      left:(hexagonId: number) => {
+        performTransitionAndRedirect(hexagonId, "/projects", navigate);
       },
       bottomRight: (hexagonId: number) => {
         performTransitionAndRedirect(hexagonId, "/leaderboards", navigate);
-      }
+      },
     };
     return config;
   }, [navigate]);

@@ -8,6 +8,8 @@
 
 - A content version change (final number, far right) means content was added or otherwise substantively changed. 
 
+Whenever a more major version changes, the versions more minor to it reset. For example if before we were on version 1.99.22 then a new top level hexagon is created and new functionality is added along with new content the new version number is 2.1.1. 
+
 #### Patch notes
 
 If you want a more detailed understanding of what changed (what content, more granular versions like bugfixes, etc.) please see the commit log on GitHub. Here is the link to the [commit log](https://github.com/ilanRosenbaum/website/commits/main/)

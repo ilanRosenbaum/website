@@ -1,0 +1,3 @@
+# Aggregators
+
+Across the other pages within the "Links" hexagon I curated a group of pages I think have value. But other people have put more time and effort into creating wonderful, regularly updated and beautiful pages dedicated to the aggregation of wonderful, thoughtful, creative, interesting, and silly websites. I decided to dedicate one of the sections of my links page to a small collection of those pages I've enjoyed visiting. 

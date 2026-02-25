@@ -12,8 +12,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import SierpinskiHexagon, { HexagonConfig } from "../components/SierpinskiHexagon";
+import SierpinskiHexagon, { HexagonConfig } from "../../components/SierpinskiHexagon";
 
 const sharedConfig = {
   styles: {
@@ -25,18 +24,15 @@ const sharedConfig = {
   targetLevels: {
     right: 3,
     bottomRight: 3,
-    bottomLeft: 3,
+    bottomLeft: 0,
     left: 3,
-    topLeft: 3,
-    topRight: 3
+    topLeft: 0,
+    topRight: 0
   },
   images: {
-    right: "/Covers/garlicVertical.jpg",
-    bottomRight: "/Covers/RichAndFrankVertical.jpg",
-    left: "/Covers/chickenPastaVertical.jpg",
-    topLeft: "/Covers/woodVertical.jpeg",
-    bottomLeft: "/Covers/leatherVertical.jpg",
-    topRight: "/Covers/mugVertical.jpg",
+    right: "/Covers/goodgoodgoodVertical.jpg",
+    left: "/Covers/slowjournalismVertical.jpg",
+    bottomRight: "/Covers/cherrybonesVertical.jpg"
   }
 };
 
@@ -45,16 +41,17 @@ const appConfig: HexagonConfig = {
   styles: sharedConfig.styles,
   actions: {
     default: () => {
-      window.location.href = "/art";
+      window.location.href = "/links/journalism";
     }
   },
   images: sharedConfig.images,
   text: {},
   backButton: {
     exists: false
-  },
-  config: {}
+  }
 };
+appConfig.title = "Journalism";
+appConfig.titleSize = "max(0.7vw, 0.7vh)";
 
 export { appConfig };
 
@@ -64,45 +61,35 @@ const pageConfig: HexagonConfig = {
   actions: {},
   images: sharedConfig.images,
   text: {
-    5: "Wood",
-    4: "Cooking",
-    1: "Pottery",
-    2: "Rich & Frank",
-    3: "Leather",
-    6: "Favorites"
+    1: "GoodGoodGood",
+    4: "Slow Journalism",
+    2: "Cherry Bones"
   },
-  title: "Art",
+  title: "Journalism",
   backButton: {
     exists: true,
-    to: "/",
+    to: "/links",
     textColor: "#4c0013"
+  },
+  confusedButton: {
+    link: "/about/links/journalism"
   }
 };
 
-const About: React.FC = () => {
-  const navigate = useNavigate();
+const Journalism: React.FC = () => {
   pageConfig.actions = {
     right: () => {
-      navigate("/art/pottery");
-    },
-    bottomRight: () => {
-      navigate("/art/richAndFrank");
+      window.open("https://www.goodgoodgood.co/", "_blank");
     },
     left: () => {
-      navigate("/art/cooking");
+      window.open("https://www.slow-journalism.com/", "_blank");
     },
-    topLeft: () => {
-      navigate("/art/wood");
-    },
-    bottomLeft: () => {
-      navigate("/art/leather");
-    },
-    topRight: () => {
-      navigate("/art/favorites");
+    bottomRight: () => {
+      window.open("https://cherrybonesmag.com/", "_blank");
     }
   };
 
   return <SierpinskiHexagon config={pageConfig} />;
 };
 
-export default About;
+export default Journalism;

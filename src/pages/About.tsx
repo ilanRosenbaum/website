@@ -16,12 +16,13 @@ import { useNavigate } from "react-router-dom";
 import SierpinskiHexagon, { HexagonConfig, minConfig } from "../components/SierpinskiHexagon";
 import { performTransitionAndRedirect } from "../App";
 import { appConfig as WebsiteConfig } from "./about/ThisWebsite";
+import { appConfig as AboutLinksConfig } from "./about/Links";
 
 const sharedConfig = {
   styles: {
     default: {
       fill: "#603b61",
-      opacity: 1.0
+      opacity: 0.6
     }
   },
   images: {
@@ -34,7 +35,7 @@ const appConfig: HexagonConfig = {
   targetLevels: {
     right: 0,
     bottomRight: 0,
-    bottomLeft: 0,
+    bottomLeft: 3,
     left: 3,
     topLeft: 0,
     topRight: 3
@@ -47,7 +48,8 @@ const appConfig: HexagonConfig = {
     exists: false
   },
   config: {
-    right: WebsiteConfig
+    right: WebsiteConfig,
+    topLeft: AboutLinksConfig
   }
 };
 
@@ -62,7 +64,7 @@ const pageConfig: HexagonConfig = {
   targetLevels: {
     right: 0,
     bottomRight: 0,
-    bottomLeft: 0,
+    bottomLeft: 3,
     left: 3,
     topLeft: 0,
     topRight: 3
@@ -71,8 +73,10 @@ const pageConfig: HexagonConfig = {
   actions: {},
   images: sharedConfig.images,
   text: {
+    5: "Links",
     6: "Me",
-    4: "Photography"
+    4: "Photography",
+    3: "Leaderboards"
   },
   title: "About",
   backButton: {
@@ -87,8 +91,13 @@ rightConfig.targetLevels = WebsiteConfig.targetLevels;
 rightConfig.titleSize = "0.65vw";
 rightConfig.title = "This Website";
 
+const linksConfig = structuredClone(minConfig);
+linksConfig.targetLevels = AboutLinksConfig.targetLevels;
+
+
 pageConfig.config = {};
 pageConfig.config.right = rightConfig;
+pageConfig.config.topLeft = linksConfig;
 
 const About: React.FC = () => {
   const navigate = useNavigate();
@@ -96,11 +105,17 @@ const About: React.FC = () => {
     right: (hexagonId: number) => {
       performTransitionAndRedirect(hexagonId, "/about/thisWebsite", navigate);
     },
+    topLeft: (hexagonId: number) => {
+      performTransitionAndRedirect(hexagonId, "/about/links", navigate);
+    },
     topRight: () => {
       navigate("/about/me");
     },
     left: () => {
       navigate("/about/photography");
+    },
+    bottomLeft: () => {
+      navigate("/about/leaderboards");
     }
   };
 

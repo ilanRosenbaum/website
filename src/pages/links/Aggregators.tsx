@@ -12,8 +12,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import SierpinskiHexagon, { HexagonConfig } from "../components/SierpinskiHexagon";
+import SierpinskiHexagon, { HexagonConfig } from "../../components/SierpinskiHexagon";
 
 const sharedConfig = {
   styles: {
@@ -23,20 +22,16 @@ const sharedConfig = {
     }
   },
   targetLevels: {
-    right: 3,
-    bottomRight: 3,
+    right: 0,
+    bottomRight: 0,
     bottomLeft: 3,
-    left: 3,
-    topLeft: 3,
+    left: 0,
+    topLeft: 0,
     topRight: 3
   },
   images: {
-    right: "/Covers/garlicVertical.jpg",
-    bottomRight: "/Covers/RichAndFrankVertical.jpg",
-    left: "/Covers/chickenPastaVertical.jpg",
-    topLeft: "/Covers/woodVertical.jpeg",
-    bottomLeft: "/Covers/leatherVertical.jpg",
-    topRight: "/Covers/mugVertical.jpg",
+    topRight: "/Covers/neocitiesCover.png",
+    bottomLeft: "/Covers/melonlandVertical.png"
   }
 };
 
@@ -45,16 +40,17 @@ const appConfig: HexagonConfig = {
   styles: sharedConfig.styles,
   actions: {
     default: () => {
-      window.location.href = "/art";
+      window.location.href = "/links/aggregators";
     }
   },
   images: sharedConfig.images,
   text: {},
   backButton: {
     exists: false
-  },
-  config: {}
+  }
 };
+appConfig.title = "Aggregators";
+appConfig.titleSize = "max(0.7vw, 0.7vh)";
 
 export { appConfig };
 
@@ -64,45 +60,31 @@ const pageConfig: HexagonConfig = {
   actions: {},
   images: sharedConfig.images,
   text: {
-    5: "Wood",
-    4: "Cooking",
-    1: "Pottery",
-    2: "Rich & Frank",
-    3: "Leather",
-    6: "Favorites"
+    3: "MelonLand",
+    6: "Neocities"
   },
-  title: "Art",
+  title: "Aggregators",
   backButton: {
     exists: true,
-    to: "/",
+    to: "/links",
     textColor: "#4c0013"
+  },
+  confusedButton: {
+    link: "/about/links/aggregators"
   }
 };
 
-const About: React.FC = () => {
-  const navigate = useNavigate();
+const Aggregators: React.FC = () => {
   pageConfig.actions = {
-    right: () => {
-      navigate("/art/pottery");
-    },
-    bottomRight: () => {
-      navigate("/art/richAndFrank");
-    },
-    left: () => {
-      navigate("/art/cooking");
-    },
-    topLeft: () => {
-      navigate("/art/wood");
-    },
     bottomLeft: () => {
-      navigate("/art/leather");
+      window.open("https://melonland.net/surf-club", "_blank");
     },
     topRight: () => {
-      navigate("/art/favorites");
+      window.open("https://neocities.org/browse", "_blank");
     }
   };
 
   return <SierpinskiHexagon config={pageConfig} />;
 };
 
-export default About;
+export default Aggregators;

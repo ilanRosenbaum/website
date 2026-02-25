@@ -1,0 +1,3 @@
+# Leaderboards
+
+I have this habit of ranking stuff and things. Occasionally I think it'd be fun to throw one of these leaderboards on my website. Maybe it's all the books I've ever read sorted into tiers. Other times it's a super complex weighted scoring system for places I've never lives but would like to speculate on how much I could maybe like living there. I know this may sound strange, but for me, making these is super fun. 

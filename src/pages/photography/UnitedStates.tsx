@@ -53,6 +53,9 @@ pageConfig.backButton = {
   exists: true,
   to: "/photography"
 };
+pageConfig.confusedButton = {
+  link: "/about/photography"
+};
 appConfig.images = sharedConfig.images;
 
 pageConfig.titleSize = "2vw";

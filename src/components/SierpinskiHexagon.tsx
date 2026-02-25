@@ -13,6 +13,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 import React, { useRef, useEffect, useState, useMemo } from "react";
 import * as d3 from "d3";
+import { useNavigate, useLocation } from "react-router-dom";
 import BackButton from "./BackButton";
 import { imageCache } from "./ImageCache";
 import { Footer } from "../Constants";
@@ -35,6 +36,9 @@ export interface HexagonConfig {
     to?: string;
     textColor?: string;
   };
+  confusedButton?: {
+    link: string;
+  };
   config?: Record<string, HexagonConfig>;
 }
 
@@ -50,7 +54,7 @@ export const minConfig: HexagonConfig = {
   styles: {
     default: {
       fill: "#603b61",
-      opacity: 1.0
+      opacity: 0.6
     }
   },
   actions: {},
@@ -185,6 +189,9 @@ async function addPatterns(defs: d3.Selection<SVGDefsElement, unknown, null, und
 const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const effectiveBackTo = (location.state as any)?.backTo || config.backButton.to || "/";
   const [dimensions, setDimensions] = useState({
     width: window.innerWidth,
     height: window.innerHeight
@@ -521,9 +528,60 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
   return (
     <div className="h-screen w-screen bg-black/90 fixed overflow-hidden">
       <FastModeToggle />
-      <div className="absolute pt-8 pl-8 z-10">
+      <div className="absolute pt-8 pl-8 z-10 flex flex-col">
         {config.backButton.exists && (
-          <BackButton textColor={config.textColor || "#ffefdb"} color={config.styles.default.fill || "#603b61"} to={config.backButton.to || "/"} />
+          <BackButton textColor={config.textColor || "#ffefdb"} color={config.styles.default.fill || "#603b61"} to={effectiveBackTo} />
+        )}
+        {config.confusedButton && (
+          <div className="relative" style={{ marginTop: "calc(max(8vw, 8vh) * -0.134)" }}>
+            {/* Black border hexagon behind, offset up slightly to create top-edge border */}
+            <div
+              className="absolute"
+              style={{
+                width: "max(8vw, 8vh)",
+                height: "max(8vw, 8vh)",
+                top: "-1px",
+                backgroundColor: "black",
+                clipPath:
+                  "polygon(25% 6.7%, 75% 6.7%, 100% 50%, 75% 93.3%, 25% 93.3%, 0% 50%)",
+              }}
+            />
+            <div
+              onClick={() => {
+                const link = config.confusedButton!.link;
+                if (link.startsWith("http://") || link.startsWith("https://")) {
+                  window.open(link, "_blank", "noopener,noreferrer");
+                } else {
+                  navigate(link, {
+                    state: { backTo: location.pathname }
+                  });
+                }
+              }}
+              className="relative"
+              style={{
+                width: "max(8vw, 8vh)",
+                height: "max(8vw, 8vh)",
+                backgroundColor: "#364928",
+                opacity: 0.75,
+                clipPath:
+                  "polygon(25% 6.7%, 75% 6.7%, 100% 50%, 75% 93.3%, 25% 93.3%, 0% 50%)",
+              }}
+            >
+              <p
+                className="absolute inset-0 flex items-center justify-center text-center"
+                style={{
+                  color: config.textColor || "#ffefdb",
+                  fontFamily: "Courier new, monospace",
+                  fontSize: "max(0.7vw, 0.7vh)",
+                  fontWeight: "500",
+                  textShadow: "0 0 0.1em rgba(0, 0, 0, 1)",
+                  padding: "0 15%"
+                }}
+              >
+                Confused?<br />Click me.
+              </p>
+            </div>
+          </div>
         )}
       </div>
       <div className="items-center justify-center">

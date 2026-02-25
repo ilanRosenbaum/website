@@ -63,6 +63,9 @@ pageConfig.backButton = {
   exists: true,
   to: "/photography/usa"
 };
+pageConfig.confusedButton = {
+  link: "/about/photography"
+};
 
 const California: React.FC = () => {
   const navigate = useNavigate();

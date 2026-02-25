@@ -13,9 +13,15 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import SierpinskiHexagon, { HexagonConfig, minConfig } from "../components/SierpinskiHexagon";
+import SierpinskiHexagon, { HexagonConfig } from "../components/SierpinskiHexagon";
 import { performTransitionAndRedirect } from "../App";
-import { appConfig as RoomsConfig } from "./projects/Rooms";
+import { appConfig as AggregatorsConfig } from "./links/Aggregators";
+import { appConfig as JournalismConfig } from "./links/Journalism";
+import { appConfig as CoolConfig } from "./links/Cool";
+
+const titleLessAggregatorsConfig = { ...AggregatorsConfig, title: "" };
+const titleLessJournalismConfig = { ...JournalismConfig, title: "" };
+const titleLessCoolConfig = { ...CoolConfig, title: "" };
 
 const sharedConfig = {
   styles: {
@@ -26,10 +32,10 @@ const sharedConfig = {
   },
   images: {},
   targetLevels: {
-    right: 3,
+    right: 0,
     bottomRight: 0,
-    bottomLeft: 3,
-    left: 3,
+    bottomLeft: 0,
+    left: 0,
     topLeft: 0,
     topRight: 0
   }
@@ -40,7 +46,7 @@ const appConfig: HexagonConfig = {
   styles: sharedConfig.styles,
   actions: {
     default: () => {
-      window.location.href = "/projects";
+      window.location.href = "/links";
     }
   },
   images: sharedConfig.images,
@@ -49,64 +55,53 @@ const appConfig: HexagonConfig = {
     exists: false
   },
   config: {
-    topLeft: RoomsConfig
+    right: titleLessAggregatorsConfig,
+    bottomRight: titleLessJournalismConfig,
+    left: titleLessCoolConfig
   }
 };
-appConfig.title = "Projects";
-
-const blogConfig = structuredClone(minConfig);
-blogConfig.title = "Blog";
-blogConfig.titleSize = "max(0.8vw, 0.8vh)";
-appConfig.titleSize = "max(1vw, 1vh)";
+appConfig.title = "Links";
 
 export { appConfig };
-
-const headphonesNoHeadphonesConfig = structuredClone(minConfig);
-headphonesNoHeadphonesConfig.title = "Headphones, No Headphones";
-headphonesNoHeadphonesConfig.titleSize = "max(0.8vw, 0.8vh)";
 
 const pageConfig: HexagonConfig = {
   targetLevels: sharedConfig.targetLevels,
   styles: sharedConfig.styles,
   actions: {},
   images: sharedConfig.images,
-  text: {
-    1: "Blog",
-    5: "roōms",
-    3: "Open Source"
-  },
-  title: "Projects",
+  text: {},
+  title: "Links",
   backButton: {
     exists: true,
     to: "/",
     textColor: "#4c0013"
   },
   config: {
-    topLeft: RoomsConfig,
-    left: headphonesNoHeadphonesConfig,
-    right: blogConfig
+    right: AggregatorsConfig,
+    bottomRight: JournalismConfig,
+    left: CoolConfig
+  },
+  confusedButton: {
+    link: "https://thoughts.melonking.net/thoughts/every-site-needs-a-links-page-why-linking-matters"
   }
 };
 
-const Projects: React.FC = () => {
+const Links: React.FC = () => {
   const navigate = useNavigate();
 
   pageConfig.actions = {
-    right: () => {
-      navigate("/blog");
+    right: (hexagonId: number) => {
+      performTransitionAndRedirect(hexagonId, "/links/aggregators", navigate);
     },
-    topLeft: (hexagonId: number) => {
-      performTransitionAndRedirect(hexagonId, "/projects/rooms", navigate);
+    bottomRight: (hexagonId: number) => {
+      performTransitionAndRedirect(hexagonId, "/links/journalism", navigate);
     },
-    left: () => {
-      navigate("/projects/headphonesNoHeadphones");
-    },
-    bottomLeft: () => {
-      navigate("/projects/openSource");
+    left: (hexagonId: number) => {
+      performTransitionAndRedirect(hexagonId, "/links/coolWebsites", navigate);
     }
   };
 
   return <SierpinskiHexagon config={pageConfig} />;
 };
 
-export default Projects;
+export default Links;

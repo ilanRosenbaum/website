@@ -27,7 +27,7 @@ const sharedConfig = {
   styles: {
     default: {
       fill: "#4c0013",
-      opacity: 1.0
+      opacity: 0.6
     }
   },
   images: {},

@@ -38,7 +38,7 @@ const pageConfig: HexagonConfig = {
   styles: {
     default: {
       fill: "#603b61",
-      opacity: 1.0
+      opacity: 0.6
     }
   },
   actions: {},
@@ -55,6 +55,9 @@ const pageConfig: HexagonConfig = {
   backButton: {
     exists: true,
     to: "/photography"
+  },
+  confusedButton: {
+    link: "/about/photography"
   }
 };
 
