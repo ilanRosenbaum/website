@@ -22,7 +22,7 @@ const sharedConfig = {
     }
   },
   targetLevels: {
-    right: 0,
+    right: 3,
     bottomRight: 0,
     bottomLeft: 0,
     left: 3,
@@ -30,7 +30,8 @@ const sharedConfig = {
     topRight: 0
   },
   images: {
-    left: "/Covers/recipetsplitterVertical.png"
+    left: "/Covers/recipetsplitterVertical.png",
+    right: "/Covers/ribozoneVertical.png"
   }
 };
 
@@ -59,6 +60,7 @@ const pageConfig: HexagonConfig = {
   images: sharedConfig.images,
   text: {
     4: "Receipt Splitter",
+    1: "Ribo.zone"
   },
   title: "Cool Websites",
   backButton: {
@@ -76,6 +78,9 @@ const CoolWebsites: React.FC = () => {
     left: () => {
       window.open("https://receiptsplitter.org/", "_blank");
     },
+    right: () => {
+      window.open("https://ribo.zone/", "_blank");
+    }
   };
 
   return <SierpinskiHexagon config={pageConfig} />;
