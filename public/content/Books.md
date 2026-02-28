@@ -118,7 +118,6 @@ I chose to include more or less any written words that exceeded 100 pages or had
 | ----------------------------------------- | ------------------- |
 | Arcology: The City in the Image of Man    | Paolo Soleri        |
 | The Handmaids Tale                        | Margaret Atwood     |
-| Sapiens: A Brief History of Humankind     | Yuval Noah Harari   |
 | Little Women                              | Louisa May Alcott   |
 | Zen and the art of motorcycle maintenance | Robert M. Pirsig    |
 | Bowling Alone                             | Robert D. Putnam    |
