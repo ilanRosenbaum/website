@@ -41,6 +41,7 @@ import CoolWebsites from "./pages/links/Cool";
 
 // Bottom left
 import Art from "./pages/Art";
+import Misc from "./pages/art/Misc";
 
 // Blog
 import Blog from "./pages/Blog";
@@ -126,8 +127,10 @@ root.render(
         <Route path="/art/cooking" element={<TiledPlane photoPath={"Cooking"} backTo="/art" />} />
         <Route path="/art/pottery" element={<TiledPlaneFolders parentFolders={"Ceramics"} backTo="/art" />} />
         <Route path="/art/richAndFrank" element={<TiledPlaneFolders parentFolders={"RichAndFrank"} backTo="/art" />} />
-        <Route path="/art/wood" element={<TiledPlaneFolders parentFolders={"Wood"} backTo="/art" />} />
-        <Route path="/art/leather" element={<TiledPlaneFolders parentFolders={"Leather"} backTo="/art" />} />
+        <Route path="/art/misc" element={<Misc />} />
+        <Route path="/art/misc/wood" element={<TiledPlaneFolders parentFolders={"Wood"} backTo="/art/misc" />} />
+        <Route path="/art/misc/leather" element={<TiledPlaneFolders parentFolders={"Leather"} backTo="/art/misc" />} />
+        <Route path="/art/misc/jewelry" element={<TiledPlaneFolders parentFolders={"Jewelry"} backTo="/art/misc" />} />
         <Route path="/art/favorites" element={<TiledPlaneFolders parentFolders={["RichAndFrank/The Coolest Planter Ever", "RichAndFrank/Adine's Jewelry Bowl", "Ceramics/Porcelain Mug?!", "Favorites/Tree Vase", "Favorites/Lydia's Mug", "Ceramics/Garlic Holder", "Ceramics/Pièce de Résistance", "Ceramics/Mug & Saucer", "Leather/Knife Drawer Patchwork Thingy"]} backTo="/art" />} />
 
         <Route path="/photography" element={<Photography />} />

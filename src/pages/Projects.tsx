@@ -55,8 +55,6 @@ const appConfig: HexagonConfig = {
 appConfig.title = "Projects";
 
 const blogConfig = structuredClone(minConfig);
-blogConfig.title = "Blog";
-blogConfig.titleSize = "max(0.8vw, 0.8vh)";
 appConfig.titleSize = "max(1vw, 1vh)";
 
 export { appConfig };

@@ -13,8 +13,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import SierpinskiHexagon, { HexagonConfig } from "../components/SierpinskiHexagon";
-import { appConfig as miscConfig } from "./art/Misc";
+import SierpinskiHexagon, { HexagonConfig } from "../../components/SierpinskiHexagon";
 
 const sharedConfig = {
   styles: {
@@ -24,27 +23,26 @@ const sharedConfig = {
     }
   },
   targetLevels: {
-    right: 3,
-    bottomRight: 3,
-    bottomLeft: 0,
+    right: 0,
+    bottomRight: 0,
+    bottomLeft: 3,
     left: 3,
-    topLeft: 0,
-    topRight: 3
+    topLeft: 3,
+    topRight: 0
   },
   images: {
-    right: "/Covers/garlicVertical.jpg",
-    bottomRight: "/Covers/RichAndFrankVertical.jpg",
-    left: "/Covers/chickenPastaVertical.jpg",
-    topRight: "/Covers/mugVertical.jpg"
+    bottomLeft: "/Covers/leatherVertical.jpg",
+    left: "/Covers/woodVertical.jpeg",
+    topLeft: "/Covers/jewelryVertical.jpg"
   }
 };
 
-const appConfig: HexagonConfig = {
+export const appConfig: HexagonConfig = {
   targetLevels: sharedConfig.targetLevels,
   styles: sharedConfig.styles,
   actions: {
     default: () => {
-      window.location.href = "/art";
+      window.location.href = "/art/misc";
     }
   },
   images: sharedConfig.images,
@@ -52,12 +50,8 @@ const appConfig: HexagonConfig = {
   backButton: {
     exists: false
   },
-  config: {
-    "bottomLeft": miscConfig
-  }
+  config: {}
 };
-
-export { appConfig };
 
 const pageConfig: HexagonConfig = {
   targetLevels: sharedConfig.targetLevels,
@@ -65,44 +59,33 @@ const pageConfig: HexagonConfig = {
   actions: {},
   images: sharedConfig.images,
   text: {
-    4: "Cooking",
-    1: "Pottery",
-    2: "Rich & Frank",
-    3: "Misc",
-    6: "Favorites"
+    3: "Leather",
+    4: "Wood",
+    5: "Jewelry"
   },
-  title: "Art",
+  title: "Misc",
   backButton: {
     exists: true,
-    to: "/",
+    to: "/art",
     textColor: "#4c0013"
-  },
-  config: {
-    "bottomLeft": miscConfig
   }
 };
 
-const About: React.FC = () => {
+const Misc: React.FC = () => {
   const navigate = useNavigate();
   pageConfig.actions = {
-    right: () => {
-      navigate("/art/pottery");
-    },
-    bottomRight: () => {
-      navigate("/art/richAndFrank");
+    bottomLeft: () => {
+      navigate("/art/misc/leather");
     },
     left: () => {
-      navigate("/art/cooking");
+      navigate("/art/misc/wood");
     },
-    bottomLeft: () => {
-      navigate("/art/misc");
-    },
-    topRight: () => {
-      navigate("/art/favorites");
+    topLeft: () => {
+      navigate("/art/misc/jewelry");
     }
   };
 
   return <SierpinskiHexagon config={pageConfig} />;
 };
 
-export default About;
+export default Misc;
