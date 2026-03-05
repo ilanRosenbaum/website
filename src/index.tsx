@@ -131,7 +131,24 @@ root.render(
         <Route path="/art/misc/wood" element={<TiledPlaneFolders parentFolders={"Wood"} backTo="/art/misc" />} />
         <Route path="/art/misc/leather" element={<TiledPlaneFolders parentFolders={"Leather"} backTo="/art/misc" />} />
         <Route path="/art/misc/jewelry" element={<TiledPlaneFolders parentFolders={"Jewelry"} backTo="/art/misc" />} />
-        <Route path="/art/favorites" element={<TiledPlaneFolders parentFolders={["RichAndFrank/The Coolest Planter Ever", "RichAndFrank/Adine's Jewelry Bowl", "Ceramics/Porcelain Mug?!", "Favorites/Tree Vase", "Favorites/Lydia's Mug", "Ceramics/Garlic Holder", "Ceramics/Pièce de Résistance", "Ceramics/Mug & Saucer", "Leather/Knife Drawer Patchwork Thingy"]} backTo="/art" />} />
+        <Route
+          path="/art/favorites"
+          element={
+            <TiledPlaneFolders
+              parentFolders={[
+                "RichAndFrank/The Coolest Planter Ever",
+                "Ceramics/Porcelain Mug?!",
+                "Favorites/Tree Vase",
+                "Favorites/Lydia's Mug",
+                "Ceramics/Garlic Holder",
+                "Ceramics/Pièce de Résistance",
+                "Ceramics/Mug & Saucer",
+                "Leather/Knife Drawer Patchwork Thingy"
+              ]}
+              backTo="/art"
+            />
+          }
+        />
 
         <Route path="/photography" element={<Photography />} />
         <Route path="/photography/usa" element={<UnitedStates />} />
@@ -227,26 +244,13 @@ root.render(
           element={<TiledPlane photoPath={"/Photography/Europe/Copenhagen"} backTo={"/photography/europe"} />}
         />
         <Route path="/photography/europe/france" element={<TiledPlane photoPath={"/Photography/Europe/Lyon"} backTo={"/photography/europe"} />} />
-        
 
         {/* Japan */}
         <Route path="/photography/japan" element={<Japan />} />
-        <Route
-          path="/photography/japan/kyoto"
-          element={<TiledPlane photoPath={"/Photography/Japan/Kyoto"} backTo={"/photography/japan"} />}
-        />
-        <Route
-          path="/photography/japan/mountFuji"
-          element={<TiledPlane photoPath={"/Photography/Japan/MtFuji"} backTo={"/photography/japan"} />}
-        />  
-        <Route
-          path="/photography/japan/tokyo"
-          element={<TiledPlane photoPath={"/Photography/Japan/Tokyo"} backTo={"/photography/japan"} />}
-        />
-        <Route
-          path="/photography/japan/osaka"
-          element={<TiledPlane photoPath={"/Photography/Japan/Osaka"} backTo={"/photography/japan"} />}
-        />
+        <Route path="/photography/japan/kyoto" element={<TiledPlane photoPath={"/Photography/Japan/Kyoto"} backTo={"/photography/japan"} />} />
+        <Route path="/photography/japan/mountFuji" element={<TiledPlane photoPath={"/Photography/Japan/MtFuji"} backTo={"/photography/japan"} />} />
+        <Route path="/photography/japan/tokyo" element={<TiledPlane photoPath={"/Photography/Japan/Tokyo"} backTo={"/photography/japan"} />} />
+        <Route path="/photography/japan/osaka" element={<TiledPlane photoPath={"/Photography/Japan/Osaka"} backTo={"/photography/japan"} />} />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
