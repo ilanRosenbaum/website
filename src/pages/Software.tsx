@@ -53,7 +53,7 @@ const appConfig: HexagonConfig = {
   }
 };
 appConfig.title = "Software";
-appConfig.titleSize = "max(1vw, 1vh)";
+appConfig.titleSize = "max(1.4vw, 1.4vh)";
 
 export { appConfig };
 
