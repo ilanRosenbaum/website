@@ -90,13 +90,13 @@ const Rooms: React.FC = () => {
       );
     },
     topLeft: () => {
-      navigate("/projects/rooms/what");
+      navigate("/software/rooms/what");
     },
     topRight: () => {
-      navigate("/projects/rooms/why");
+      navigate("/software/rooms/why");
     },
     right: () => {
-      navigate("/projects/rooms/how");
+      navigate("/software/rooms/how");
     }
   };
 

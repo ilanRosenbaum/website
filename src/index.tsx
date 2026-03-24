@@ -30,8 +30,8 @@ import Places, { Lived, ToVisit, Visited } from "./pages/leaderboards/Places";
 import ToLive from "./pages/leaderboards/places/ToLive";
 
 // Top right
-import Projects from "./pages/Projects";
-import Rooms from "./pages/projects/Rooms";
+import Software from "./pages/Software";
+import Rooms from "./pages/software/Rooms";
 
 // Links
 import Links from "./pages/Links";
@@ -99,13 +99,12 @@ root.render(
         <Route path="/writing/about/links/products" element={<MarkdownPage source={"/content/LinksProducts.md"} backTo="/writing/about/links" />} />
         <Route path="/writing/about/links/cool" element={<MarkdownPage source={"/content/LinksCool.md"} backTo="/writing/about/links" />} />
 
-        <Route path="/projects" element={<Projects />} />
-        <Route path="/projects/openSource" element={<MarkdownPage source={"/content/OpenSource.md"} backTo="/projects" />} />
-        <Route path="/projects/headphonesNoHeadphones" element={<MarkdownPage source={"/content/HeadphonesNoHeadphones.md"} backTo="/projects" />} />
-        <Route path="/projects/rooms" element={<Rooms />} />
-        <Route path="/projects/rooms/what" element={<MarkdownPage source={"/content/RoomsWhat.md"} backTo="/projects/rooms" />} />
-        <Route path="/projects/rooms/why" element={<MarkdownPage source={"/content/RoomsWhy.md"} backTo="/projects/rooms" />} />
-        <Route path="/projects/rooms/how" element={<MarkdownPage source={"/content/RoomsHow.md"} backTo="/projects/rooms" />} />
+        <Route path="/software" element={<Software />} />
+        <Route path="/software/openSource" element={<MarkdownPage source={"/content/OpenSource.md"} backTo="/software" />} />
+        <Route path="/software/rooms" element={<Rooms />} />
+        <Route path="/software/rooms/what" element={<MarkdownPage source={"/content/RoomsWhat.md"} backTo="/software/rooms" />} />
+        <Route path="/software/rooms/why" element={<MarkdownPage source={"/content/RoomsWhy.md"} backTo="/software/rooms" />} />
+        <Route path="/software/rooms/how" element={<MarkdownPage source={"/content/RoomsHow.md"} backTo="/software/rooms" />} />
 
         <Route path="/links" element={<Links />} />
         <Route path="/links/aggregators" element={<Aggregators />} />

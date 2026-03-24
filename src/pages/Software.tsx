@@ -13,9 +13,9 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import SierpinskiHexagon, { HexagonConfig, minConfig } from "../components/SierpinskiHexagon";
+import SierpinskiHexagon, { HexagonConfig } from "../components/SierpinskiHexagon";
 import { performTransitionAndRedirect } from "../App";
-import { appConfig as RoomsConfig } from "./projects/Rooms";
+import { appConfig as RoomsConfig } from "./software/Rooms";
 
 const sharedConfig = {
   styles: {
@@ -29,7 +29,7 @@ const sharedConfig = {
     right: 0,
     bottomRight: 0,
     bottomLeft: 3,
-    left: 3,
+    left: 0,
     topLeft: 0,
     topRight: 0
   }
@@ -40,7 +40,7 @@ const appConfig: HexagonConfig = {
   styles: sharedConfig.styles,
   actions: {
     default: () => {
-      window.location.href = "/projects";
+      window.location.href = "/software";
     }
   },
   images: sharedConfig.images,
@@ -52,14 +52,10 @@ const appConfig: HexagonConfig = {
     topLeft: RoomsConfig
   }
 };
-appConfig.title = "Projects";
+appConfig.title = "Software";
 appConfig.titleSize = "max(1vw, 1vh)";
 
 export { appConfig };
-
-const headphonesNoHeadphonesConfig = structuredClone(minConfig);
-headphonesNoHeadphonesConfig.title = "Headphones, No Headphones";
-headphonesNoHeadphonesConfig.titleSize = "max(0.8vw, 0.8vh)";
 
 const pageConfig: HexagonConfig = {
   targetLevels: sharedConfig.targetLevels,
@@ -70,7 +66,7 @@ const pageConfig: HexagonConfig = {
     5: "roōms",
     3: "Open Source"
   },
-  title: "Projects",
+  title: "Software",
   backButton: {
     exists: true,
     to: "/",
@@ -78,26 +74,25 @@ const pageConfig: HexagonConfig = {
   },
   config: {
     topLeft: RoomsConfig,
-    left: headphonesNoHeadphonesConfig
   }
 };
 
-const Projects: React.FC = () => {
+const Software: React.FC = () => {
   const navigate = useNavigate();
 
   pageConfig.actions = {
     topLeft: (hexagonId: number) => {
-      performTransitionAndRedirect(hexagonId, "/projects/rooms", navigate);
+      performTransitionAndRedirect(hexagonId, "/software/rooms", navigate);
     },
     left: () => {
-      navigate("/projects/headphonesNoHeadphones");
+      navigate("/software/headphonesNoHeadphones");
     },
     bottomLeft: () => {
-      navigate("/projects/openSource");
+      navigate("/software/openSource");
     }
   };
 
   return <SierpinskiHexagon config={pageConfig} />;
 };
 
-export default Projects;
+export default Software;

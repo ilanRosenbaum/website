@@ -20,7 +20,7 @@ import { appConfig as PhotographyConfig } from "./pages/Photography";
 import { appConfig as WritingConfig } from "./pages/Writing";
 import { appConfig as TradesConfig } from "./pages/Trades";
 import { getFastMode } from "./components/FastModeToggle";
-import { appConfig as ProjectsConfig } from "./pages/Projects";
+import { appConfig as SoftwareConfig } from "./pages/Software";
 
 const ClonedPhotographyConfig: HexagonConfig = structuredClone(PhotographyConfig);
 ClonedPhotographyConfig.titleSize = "max(0.7vw, 0.6vh)";
@@ -53,7 +53,7 @@ const AppConfig: HexagonConfig = {
   },
   config: {
     "topLeft": LinksConfig,
-    "left": ProjectsConfig,
+    "left": SoftwareConfig,
     "bottomLeft": TradesConfig,
     "right": ClonedPhotographyConfig,
     "topRight": WritingConfig,
@@ -144,7 +144,7 @@ const App: React.FC = () => {
         performTransitionAndRedirect(hexagonId, "/writing", navigate);
       },
       left:(hexagonId: number) => {
-        performTransitionAndRedirect(hexagonId, "/projects", navigate);
+        performTransitionAndRedirect(hexagonId, "/software", navigate);
       },
       bottomRight: (hexagonId: number) => {
         performTransitionAndRedirect(hexagonId, "/leaderboards", navigate);
