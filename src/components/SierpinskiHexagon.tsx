@@ -188,7 +188,7 @@ async function addPatterns(defs: d3.Selection<SVGDefsElement, unknown, null, und
 
 const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
-  const [isTransitioning, setIsTransitioning] = useState(false);
+  const isTransitioningRef = useRef(false);
   const navigate = useNavigate();
   const location = useLocation();
   const effectiveBackTo = (location.state as any)?.backTo || config.backButton.to || "/";
@@ -289,13 +289,14 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
       currentConfig: HexagonConfig,
       isMainHexagon: boolean,
       parentConfig?: HexagonConfig,
-      sectionPath: string = ""
+      sectionPath: string = "",
+      hexIdOverride?: number
     ) {
       if (level <= 0) return;
 
       const currentHexagonId = hexagonCounter;
       const targetLevel = currentConfig.targetLevels[section];
-      const groupClass = `hexagon-group-${level < 4 ? currentHexagonId : 0}`;
+      const groupClass = `hexagon-group-${level < 4 ? currentHexagonId : (hexIdOverride ?? 0)}`;
       const group = svg.append("g").attr("class", groupClass);
 
       // Use memoized offsets for sub-hexagons
@@ -314,7 +315,7 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
 
       if (level === 3 && currentConfig.config && currentConfig.config[section]) {
         const newPath = sectionPath ? `${sectionPath}-${section}` : section;
-        drawHexagon(x, y, size, 4, section, currentConfig.config[section], false, currentConfig, newPath);
+        drawHexagon(x, y, size, 4, section, currentConfig.config[section], false, currentConfig, newPath, currentHexagonId);
       }
 
       if (level === targetLevel) {
@@ -356,7 +357,7 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
           const possibleSection = Object.keys(currentConfig.targetLevels)[currentHexagonId - 1];
           const action = config.actions[possibleSection] || config.actions.default;
           action(currentHexagonId);
-          setIsTransitioning(true);
+          isTransitioningRef.current = true;
         });
 
         if (!isMainHexagon) {
@@ -399,13 +400,13 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
 
         if (targetLevel === 0) {
           group.on("click", () => {
-            setIsTransitioning(true);
+            isTransitioningRef.current = true;
             const action = currentConfig.actions[section] || (() => {});
             action(currentHexagonId);
           });
         } else if (targetLevel !== 3) {
           group.on("click", () => {
-            setIsTransitioning(true);
+            isTransitioningRef.current = true;
             const action = currentConfig.actions[section] || config.actions.default;
             action(currentHexagonId);
           });
@@ -444,7 +445,7 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
           .text(currentConfig.title || "");
 
         if (currentConfig.title !== config.title) {
-          group.style("opacity", 0).transition().duration(500).ease(d3.easeCubicInOut).style("opacity", 1);
+          group.style("opacity", 0).transition("fade").duration(500).ease(d3.easeCubicInOut).style("opacity", 1);
         }
       }
     }
@@ -494,7 +495,7 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
           targetScale = 1; // Outside hexagon
         }
 
-        if (isTransitioning) {
+        if (isTransitioningRef.current) {
           targetScale = 1;
         }
 
@@ -523,7 +524,7 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
     };
-  }, [config, isTransitioning, geometry]);
+  }, [config, geometry]);
 
   return (
     <div className="h-screen w-screen bg-black/90 fixed overflow-hidden">

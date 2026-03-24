@@ -26,7 +26,7 @@ const sharedConfig = {
   },
   images: {},
   targetLevels: {
-    right: 3,
+    right: 0,
     bottomRight: 0,
     bottomLeft: 3,
     left: 3,
@@ -53,8 +53,6 @@ const appConfig: HexagonConfig = {
   }
 };
 appConfig.title = "Projects";
-
-const blogConfig = structuredClone(minConfig);
 appConfig.titleSize = "max(1vw, 1vh)";
 
 export { appConfig };
@@ -69,7 +67,6 @@ const pageConfig: HexagonConfig = {
   actions: {},
   images: sharedConfig.images,
   text: {
-    1: "Blog",
     5: "roōms",
     3: "Open Source"
   },
@@ -81,8 +78,7 @@ const pageConfig: HexagonConfig = {
   },
   config: {
     topLeft: RoomsConfig,
-    left: headphonesNoHeadphonesConfig,
-    right: blogConfig
+    left: headphonesNoHeadphonesConfig
   }
 };
 
@@ -90,9 +86,6 @@ const Projects: React.FC = () => {
   const navigate = useNavigate();
 
   pageConfig.actions = {
-    right: () => {
-      navigate("/blog");
-    },
     topLeft: (hexagonId: number) => {
       performTransitionAndRedirect(hexagonId, "/projects/rooms", navigate);
     },

@@ -13,7 +13,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 import React, { ReactNode, useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import BackButton from "./BackButton";
 import RestaurantTable from "./RestaurantTable";
 import rehypeRaw from "rehype-raw";
@@ -46,6 +46,7 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({
   const [tableDatas, setTableDatas] = useState<any[][]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const location = useLocation();
+  const navigate = useNavigate();
   const effectiveBackTo = (location.state as any)?.backTo || backTo;
 
   useEffect(() => {
@@ -172,8 +173,21 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({
     },
 
     a({ href, children, ...props }: any) {
+      const isInternal = href && (href.startsWith("/") || href.startsWith("#"));
+      if (isInternal) {
+        return (
+          <a
+            href={href}
+            style={{ color: "#c084fc" }}
+            onClick={(e) => { e.preventDefault(); navigate(href); }}
+            {...props}
+          >
+            {children}
+          </a>
+        );
+      }
       return (
-        <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
+        <a href={href} target="_blank" rel="noopener noreferrer" style={{ color: "#c084fc" }} {...props}>
           {children}
         </a>
       );

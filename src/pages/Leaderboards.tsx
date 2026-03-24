@@ -86,7 +86,7 @@ const pageConfig: HexagonConfig = {
     textColor: "#4c0013"
   },
   confusedButton: {
-    link: "/about/leaderboards"
+    link: "/writing/about/leaderboards"
   }
 };
 

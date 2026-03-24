@@ -64,7 +64,7 @@ pageConfig.backButton = {
   to: "/photography/usa"
 };
 pageConfig.confusedButton = {
-  link: "/about/photography"
+  link: "/writing/about/photography"
 };
 
 const California: React.FC = () => {

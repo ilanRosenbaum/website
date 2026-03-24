@@ -70,7 +70,7 @@ const pageConfig = {
     fill: "#603b61"
   },
   confusedButton: {
-    link: "/about/leaderboards"
+    link: "/writing/about/leaderboards"
   }
 };
 

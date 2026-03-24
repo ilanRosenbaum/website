@@ -32,6 +32,8 @@ copy-content:
 	(echo '# To Live'; cat '$(NOTES_LOCATION)/React/ToLive.md') > 'public/content/PlacesToLive.md'
 	(echo '# Books'; cat '$(NOTES_LOCATION)/books.md') > 'public/content/Books.md'
 	
+	python scripts/copy_glazes.py '$(NOTES_LOCATION)'
+
 	# Clean up YAML frontmatter from all markdown files
 	python scripts/remove_frontmatter.py public/content/PlacesLived.md
 	python scripts/remove_frontmatter.py public/content/PlacesVisited.md

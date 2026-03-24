@@ -95,7 +95,7 @@ const pageConfig: HexagonConfig = {
     textColor: "#4c0013"
   },
   confusedButton: {
-    link: "/about/photography"
+    link: "/writing/about/photography"
   },
   config: {
     left: mexicoConfig,

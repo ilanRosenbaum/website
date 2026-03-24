@@ -81,7 +81,7 @@ const pageConfig: HexagonConfig = {
   title: "About",
   backButton: {
     exists: true,
-    to: "/",
+    to: "/writing",
     textColor: "#4c0013"
   }
 };

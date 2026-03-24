@@ -45,7 +45,7 @@ pageConfig.backButton = {
   to: "/photography/usa"
 };
 pageConfig.confusedButton = {
-  link: "/about/photography"
+  link: "/writing/about/photography"
 };
 
 pageConfig.text = {

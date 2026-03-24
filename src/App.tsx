@@ -17,8 +17,8 @@ import SierpinskiHexagon, { HexagonConfig } from "./components/SierpinskiHexagon
 import { appConfig as LinksConfig } from "./pages/Links";
 import { appConfig as LeaderboardsConfig } from "./pages/Leaderboards";
 import { appConfig as PhotographyConfig } from "./pages/Photography";
-import { appConfig as AboutConfig } from "./pages/About";
-import { appConfig as ArtConfig } from "./pages/Art";
+import { appConfig as WritingConfig } from "./pages/Writing";
+import { appConfig as TradesConfig } from "./pages/Trades";
 import { getFastMode } from "./components/FastModeToggle";
 import { appConfig as ProjectsConfig } from "./pages/Projects";
 
@@ -45,8 +45,7 @@ const AppConfig: HexagonConfig = {
     right: "/Covers/birdVertical.jpg"
   },
   text: {
-    6: "About",
-    3: "Art"
+    3: "Trades"
   },
   title: "Ilan Rosenbaum",
   backButton: {
@@ -55,9 +54,9 @@ const AppConfig: HexagonConfig = {
   config: {
     "topLeft": LinksConfig,
     "left": ProjectsConfig,
-    "bottomLeft": ArtConfig,
+    "bottomLeft": TradesConfig,
     "right": ClonedPhotographyConfig,
-    "topRight": AboutConfig,
+    "topRight": WritingConfig,
     "bottomRight": LeaderboardsConfig
   },
   titleSize: "max(1.8vw, 1.6vh)"
@@ -133,7 +132,7 @@ const App: React.FC = () => {
     const config = { ...AppConfig };
     config.actions = {
       bottomLeft: (hexagonId: number) => {
-        performTransitionAndRedirect(hexagonId, "/art", navigate);
+        performTransitionAndRedirect(hexagonId, "/trades", navigate);
       },
       topLeft: (hexagonId: number) => {
         performTransitionAndRedirect(hexagonId, "/links", navigate);
@@ -142,7 +141,7 @@ const App: React.FC = () => {
         performTransitionAndRedirect(hexagonId, "/photography", navigate);
       },
       topRight: (hexagonId: number) => {
-        performTransitionAndRedirect(hexagonId, "/about", navigate);
+        performTransitionAndRedirect(hexagonId, "/writing", navigate);
       },
       left:(hexagonId: number) => {
         performTransitionAndRedirect(hexagonId, "/projects", navigate);

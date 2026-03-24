@@ -63,7 +63,7 @@ const pageConfig: HexagonConfig = {
     to: "/photography"
   },
   confusedButton: {
-    link: "/about/photography"
+    link: "/writing/about/photography"
   }
 };
 

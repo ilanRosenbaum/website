@@ -18,10 +18,10 @@ import App from "./App";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import MarkdownPage from "./components/MarkdownPage";
 
-// Top right
-import About from "./pages/About";
-import ThisWebsite from "./pages/about/ThisWebsite";
-import AboutLinks from "./pages/about/Links";
+// Writing
+import About from "./pages/writing/About";
+import ThisWebsite from "./pages/writing/about/ThisWebsite";
+import AboutLinks from "./pages/writing/about/Links";
 
 // Bottom Left
 import Leaderboards from "./pages/Leaderboards";
@@ -40,11 +40,15 @@ import Journalism from "./pages/links/Journalism";
 import CoolWebsites from "./pages/links/Cool";
 
 // Bottom left
-import Art from "./pages/Art";
-import Misc from "./pages/art/Misc";
+import Art from "./pages/Trades";
+import Misc from "./pages/trades/Misc";
+import Ceramics from "./pages/trades/Ceramics";
+import GlazeRecipe from "./pages/trades/glazes/Recipe";
 
 // Blog
-import Blog from "./pages/Blog";
+import Blog from "./pages/writing/Blog";
+import Writing from "./pages/Writing";
+import Research from "./pages/writing/Research";
 
 import Photography from "./pages/Photography";
 import UnitedStates from "./pages/photography/UnitedStates";
@@ -71,24 +75,29 @@ root.render(
       <Routes>
         <Route path="/" element={<App />} />
 
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/blog/:articleId" element={<Blog />} />
+        <Route path="/writing/blog" element={<Blog />} />
+        <Route path="/writing/blog/:articleId" element={<Blog />} />
+
+        <Route path="/writing" element={<Writing />} />
+
+        <Route path="/writing/research" element={<Research />} />
+        <Route path="/writing/research/:paperId" element={<Research />} />
         {/* <Route path="/sierpinski/export" element={<SierpinskiExport />} /> */}
 
-        <Route path="/about" element={<About />} />
-        <Route path="/about/me" element={<MarkdownPage source={"/content/Me.md"} backTo="/" />} />
-        <Route path="/about/thisWebsite" element={<ThisWebsite />} />
-        <Route path="/about/thisWebsite/what" element={<MarkdownPage source={"/content/ThisWebsiteWhat.md"} backTo="/about/thisWebsite" />} />
-        <Route path="/about/thisWebsite/why" element={<MarkdownPage source={"/content/ThisWebsiteWhy.md"} backTo="/about/thisWebsite" />} />
-        <Route path="/about/thisWebsite/how" element={<MarkdownPage source={"/content/ThisWebsiteHow.md"} backTo="/about/thisWebsite" />} />
-        <Route path="/about/thisWebsite/versioning" element={<MarkdownPage source={"/content/Versioning.md"} backTo="/about/thisWebsite" />} />
-        <Route path="/about/photography" element={<MarkdownPage source={"/content/PhotographyInfo.md"} backTo="/about/" />} />
-        <Route path="/about/leaderboards" element={<MarkdownPage source={"/content/Leaderboards.md"} backTo="/about" />} />
-        <Route path="/about/links" element={<AboutLinks />} />
-        <Route path="/about/links/aggregators" element={<MarkdownPage source={"/content/LinksAggregators.md"} backTo="/about/links" />} />
-        <Route path="/about/links/journalism" element={<MarkdownPage source={"/content/LinksJournalism.md"} backTo="/about/links" />} />
-        <Route path="/about/links/products" element={<MarkdownPage source={"/content/LinksProducts.md"} backTo="/about/links" />} />
-        <Route path="/about/links/cool" element={<MarkdownPage source={"/content/LinksCool.md"} backTo="/about/links" />} />
+        <Route path="/writing/about" element={<About />} />
+        <Route path="/writing/about/me" element={<MarkdownPage source={"/content/Me.md"} backTo="/writing/about" />} />
+        <Route path="/writing/about/thisWebsite" element={<ThisWebsite />} />
+        <Route path="/writing/about/thisWebsite/what" element={<MarkdownPage source={"/content/ThisWebsiteWhat.md"} backTo="/writing/about/thisWebsite" />} />
+        <Route path="/writing/about/thisWebsite/why" element={<MarkdownPage source={"/content/ThisWebsiteWhy.md"} backTo="/writing/about/thisWebsite" />} />
+        <Route path="/writing/about/thisWebsite/how" element={<MarkdownPage source={"/content/ThisWebsiteHow.md"} backTo="/writing/about/thisWebsite" />} />
+        <Route path="/writing/about/thisWebsite/versioning" element={<MarkdownPage source={"/content/Versioning.md"} backTo="/writing/about/thisWebsite"  />} />
+        <Route path="/writing/about/photography" element={<MarkdownPage source={"/content/PhotographyInfo.md"} backTo="/writing/about" />} />
+        <Route path="/writing/about/leaderboards" element={<MarkdownPage source={"/content/Leaderboards.md"} backTo="/writing/about" />} />
+        <Route path="/writing/about/links" element={<AboutLinks />} />
+        <Route path="/writing/about/links/aggregators" element={<MarkdownPage source={"/content/LinksAggregators.md"} backTo="/writing/about/links" />} />
+        <Route path="/writing/about/links/journalism" element={<MarkdownPage source={"/content/LinksJournalism.md"} backTo="/writing/about/links" />} />
+        <Route path="/writing/about/links/products" element={<MarkdownPage source={"/content/LinksProducts.md"} backTo="/writing/about/links" />} />
+        <Route path="/writing/about/links/cool" element={<MarkdownPage source={"/content/LinksCool.md"} backTo="/writing/about/links" />} />
 
         <Route path="/projects" element={<Projects />} />
         <Route path="/projects/openSource" element={<MarkdownPage source={"/content/OpenSource.md"} backTo="/projects" />} />
@@ -123,16 +132,19 @@ root.render(
         />
         <Route path="/leaderboards/books" element={<Books />} />
 
-        <Route path="/art" element={<Art />} />
-        <Route path="/art/cooking" element={<TiledPlane photoPath={"Cooking"} backTo="/art" />} />
-        <Route path="/art/pottery" element={<TiledPlaneFolders parentFolders={"Ceramics"} backTo="/art" />} />
-        <Route path="/art/richAndFrank" element={<TiledPlaneFolders parentFolders={"RichAndFrank"} backTo="/art" />} />
-        <Route path="/art/misc" element={<Misc />} />
-        <Route path="/art/misc/wood" element={<TiledPlaneFolders parentFolders={"Wood"} backTo="/art/misc" />} />
-        <Route path="/art/misc/leather" element={<TiledPlaneFolders parentFolders={"Leather"} backTo="/art/misc" />} />
-        <Route path="/art/misc/jewelry" element={<TiledPlaneFolders parentFolders={"Jewelry"} backTo="/art/misc" />} />
+        <Route path="/trades" element={<Art />} />
+        <Route path="/trades/cooking" element={<TiledPlane photoPath={"Cooking"} backTo="/trades" />} />
+        <Route path="/trades/ceramics" element={<Ceramics />} />
+        <Route path="/trades/ceramics/works" element={<TiledPlaneFolders parentFolders={"Ceramics"} backTo="/trades/ceramics" />} />
+        <Route path="/trades/ceramics/glazes" element={<MarkdownPage source="/content/glazes/Spreadsheet.md" backTo="/trades/ceramics" />} />
+        <Route path="/trades/ceramics/glazes/:glazeId" element={<GlazeRecipe />} />
+        <Route path="/trades/richAndFrank" element={<TiledPlaneFolders parentFolders={"RichAndFrank"} backTo="/trades" />} />
+        <Route path="/trades/misc" element={<Misc />} />
+        <Route path="/trades/misc/wood" element={<TiledPlaneFolders parentFolders={"Wood"} backTo="/trades/misc" />} />
+        <Route path="/trades/misc/leather" element={<TiledPlaneFolders parentFolders={"Leather"} backTo="/trades/misc" />} />
+        <Route path="/trades/misc/jewelry" element={<TiledPlaneFolders parentFolders={"Jewelry"} backTo="/trades/misc" />} />
         <Route
-          path="/art/favorites"
+          path="/trades/favorites"
           element={
             <TiledPlaneFolders
               parentFolders={[
@@ -143,9 +155,10 @@ root.render(
                 "Ceramics/Garlic Holder",
                 "Ceramics/Pièce de Résistance",
                 "Ceramics/Mug & Saucer",
-                "Leather/Knife Drawer Patchwork Thingy"
+                "Leather/Knife Drawer Patchwork Thingy",
+                "Ceramics/Sheldon"
               ]}
-              backTo="/art"
+              backTo="/trades"
             />
           }
         />

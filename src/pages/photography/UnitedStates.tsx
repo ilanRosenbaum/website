@@ -54,7 +54,7 @@ pageConfig.backButton = {
   to: "/photography"
 };
 pageConfig.confusedButton = {
-  link: "/about/photography"
+  link: "/writing/about/photography"
 };
 appConfig.images = sharedConfig.images;
 
