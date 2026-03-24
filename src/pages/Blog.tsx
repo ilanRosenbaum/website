@@ -37,7 +37,6 @@ const Blog: React.FC = () => {
       backTo="/writing"
       homeContentUrl="/content/BlogHome.md"
       homeContentFallback="# Welcome to the Blog\n\nSelect an article from the sidebar to begin reading."
-      loadingText="Loading Too Many of Ilan's Words..."
       emptyText="No articles yet..."
     />
   );

@@ -47,7 +47,6 @@ const Research: React.FC = () => {
       backTo="/writing"
       homeContentUrl="/content/ResearchHome.md"
       homeContentFallback="# Research\n\nSelect a paper from the sidebar to begin reading."
-      loadingText="Loading..."
       emptyText="No papers yet..."
     />
   );

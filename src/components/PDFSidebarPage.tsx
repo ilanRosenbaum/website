@@ -50,7 +50,7 @@ const PDFSidebarPage: React.FC<PDFSidebarPageProps> = ({
   backTo,
   homeContentUrl,
   homeContentFallback,
-  loadingText = "Loading...",
+  loadingText = "Loading Too Many of Ilan's Words...",
   emptyText = "No items yet...",
 }) => {
   const navigate = useNavigate();
