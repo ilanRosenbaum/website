@@ -38,7 +38,6 @@ copy-content:
 	python scripts/remove_frontmatter.py public/content/PlacesVisited.md
 	python scripts/remove_frontmatter.py public/content/PlacesToVisit.md
 	python scripts/remove_frontmatter.py public/content/Books.md
-	python scripts/remove_frontmatter.py public/content/HeadphonesNoHeadphones.md
 	
 	# Apply table cleanup for visited places
 	python scripts/remove_notes.py public/content/PlacesVisited.md
