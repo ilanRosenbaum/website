@@ -21,7 +21,6 @@ license-credits:
 #***************************************************************************
 .PHONY: copy-content
 copy-content:
-	cp '$(NOTES_LOCATION)/Research/Headphones, No Headphones.md' 'public/content/HeadphonesNoHeadphones.md'
 	cp '$(NOTES_LOCATION)/Places/Lived.md' 'public/content/PlacesLived.md'
 	cp '$(NOTES_LOCATION)/Places/Visited.md' 'public/content/PlacesVisited.md'
 	cp '$(NOTES_LOCATION)/Places/To Visit.md' 'public/content/PlacesToVisit.md'
