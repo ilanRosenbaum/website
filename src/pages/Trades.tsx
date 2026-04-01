@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import SierpinskiHexagon, { HexagonConfig } from "../components/SierpinskiHexagon";
 import { appConfig as miscConfig } from "./trades/Misc";
 import { appConfig as ceramicsConfig } from "./trades/Ceramics";
+import { COLORS } from "../Constants";
 
 const ceramicsConfigClone: HexagonConfig = structuredClone(ceramicsConfig);
 ceramicsConfigClone.title = "Ceramics";
@@ -24,7 +25,7 @@ ceramicsConfigClone.titleSize = "max(1vw, 1vh)";
 const sharedConfig = {
   styles: {
     default: {
-      fill: "#603b61",
+      fill: COLORS.BACK_BUTTON_PURPLE,
       opacity: 0.6
     }
   },
@@ -82,7 +83,7 @@ const pageConfig: HexagonConfig = {
   backButton: {
     exists: true,
     to: "/",
-    textColor: "#4c0013"
+    textColor: COLORS.DARK_MAROON
   },
   config: {
     "bottomLeft": miscConfig,

@@ -15,7 +15,7 @@ import React, { useEffect, useRef, useState, useMemo } from "react";
 import BackButton from "./BackButton";
 import { getDownloadURL, StorageReference } from "firebase/storage";
 import { imageCache } from "./ImageCache";
-import { Footer } from "../Constants";
+import { COLORS, Footer } from "../Constants";
 
 interface TiledPlaneFoldersProps {
   parentFolders: string | string[];
@@ -401,7 +401,7 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolders, ba
   return (
     <div className="h-screen w-screen bg-black/90 flex flex-col items-center">
       <div className="absolute top-[2vw] left-[2vw] z-10">
-        <BackButton textColor="#ffefdb" color="#603b61" to={backTo || ""} />
+        <BackButton textColor={COLORS.BACK_BUTTON_TEXT} color={COLORS.BACK_BUTTON_PURPLE} to={backTo || ""} />
       </div>
 
       <div ref={containerRef} className="w-screen h-[calc(80dvh)] mt-[max(9vw,9vh)] mb-[calc(6dvh)] custom-scrollbar overflow-auto">

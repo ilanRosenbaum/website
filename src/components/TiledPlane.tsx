@@ -16,7 +16,7 @@ import BackButton from "./BackButton";
 import { storage } from "./../firebase";
 import { ref, getDownloadURL } from "firebase/storage";
 import { imageCache } from "./ImageCache";
-import { Footer } from "../Constants";
+import { COLORS, Footer } from "../Constants";
 
 interface TiledPlaneProps {
   photoPath: string;
@@ -239,7 +239,7 @@ const TiledPlane: React.FC<TiledPlaneProps> = ({ photoPath, backTo }) => {
     <div className="h-screen w-screen bg-black/90 flex flex-col items-center">
       {/* Back Button */}
       <div className="absolute top-[2vw] left-[2vw] z-10">
-        <BackButton textColor="#ffefdb" color="#603b61" to={backTo || ""} />
+        <BackButton textColor={COLORS.BACK_BUTTON_TEXT} color={COLORS.BACK_BUTTON_PURPLE} to={backTo || ""} />
       </div>
 
       {/* Main Container */}

@@ -13,6 +13,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { COLORS } from "../Constants";
 
 interface BackButtonProps {
   to: string;
@@ -43,7 +44,7 @@ const BackButton: React.FC<BackButtonProps> = ({ to, color, textColor }) => {
       <p
         className="absolute inset-0 flex items-center justify-center"
         style={{
-          color: textColor || "#ffefdb",
+          color: textColor || COLORS.BACK_BUTTON_TEXT,
           fontFamily: "Courier new, monospace",
           fontSize: "max(1vw, 1vh)",
           fontWeight: "500",

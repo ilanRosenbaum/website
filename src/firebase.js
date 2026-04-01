@@ -14,6 +14,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getStorage } from "firebase/storage";
+import { getDatabase } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY || "",
@@ -28,5 +29,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
 const analytics = getAnalytics(app);
+const realtimeDb = getDatabase(app, "https://ilan-web-default-rtdb.firebaseio.com/");
 
-export { storage, firebaseConfig, analytics };
+export { app, storage, firebaseConfig, analytics, realtimeDb };

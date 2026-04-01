@@ -16,6 +16,7 @@ import SortableTable, {
   TableColumn,
   SortMapping
 } from "../../components/SortableTable";
+import { COLORS } from "../../Constants";
 
 const RANK_MAPPING: SortMapping = {
   favorite: 1,
@@ -55,8 +56,8 @@ const Books: React.FC = () => {
     <SortableTable
       source="/content/Books.md"
       backTo="/leaderboards"
-      backButtonFill="#603b61"
-      textColor="#ffefdb"
+      backButtonFill={COLORS.BACK_BUTTON_PURPLE}
+      textColor={COLORS.BACK_BUTTON_TEXT}
       useWideContainer={true}
       columns={BOOKS_COLUMNS}
     />

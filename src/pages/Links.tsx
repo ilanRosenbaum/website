@@ -18,6 +18,7 @@ import { performTransitionAndRedirect } from "../App";
 import { appConfig as AggregatorsConfig } from "./links/Aggregators";
 import { appConfig as JournalismConfig } from "./links/Journalism";
 import { appConfig as CoolConfig } from "./links/Cool";
+import { COLORS } from "../Constants";
 
 const titleLessAggregatorsConfig = { ...AggregatorsConfig, title: "" };
 const titleLessJournalismConfig = { ...JournalismConfig, title: "" };
@@ -26,7 +27,7 @@ const titleLessCoolConfig = { ...CoolConfig, title: "" };
 const sharedConfig = {
   styles: {
     default: {
-      fill: "#603b61",
+      fill: COLORS.BACK_BUTTON_PURPLE,
       opacity: 0.6
     }
   },
@@ -74,7 +75,7 @@ const pageConfig: HexagonConfig = {
   backButton: {
     exists: true,
     to: "/",
-    textColor: "#4c0013"
+    textColor: COLORS.DARK_MAROON
   },
   config: {
     right: AggregatorsConfig,

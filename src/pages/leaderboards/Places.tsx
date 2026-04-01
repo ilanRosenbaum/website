@@ -15,6 +15,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import SierpinskiHexagon from "../../components/SierpinskiHexagon";
 import SortableTable, { TableColumn } from "../../components/SortableTable";
+import { COLORS } from "../../Constants";
 
 const sharedConfig = {
   targetLevels: {
@@ -27,7 +28,7 @@ const sharedConfig = {
   },
   styles: {
     default: {
-      fill: "#603b61",
+      fill: COLORS.BACK_BUTTON_PURPLE,
       opacity: 0.6
     }
   },
@@ -67,7 +68,7 @@ const pageConfig = {
   backButton: {
     exists: true,
     to: "/leaderboards",
-    fill: "#603b61"
+    fill: COLORS.BACK_BUTTON_PURPLE
   },
   confusedButton: {
     link: "/writing/about/leaderboards"
@@ -122,8 +123,8 @@ const Visited: React.FC = () => {
     <SortableTable
       source="/content/PlacesVisited.md"
       backTo="/leaderboards/places"
-      backButtonFill="#603b61"
-      textColor="#ffefdb"
+      backButtonFill={COLORS.BACK_BUTTON_PURPLE}
+      textColor={COLORS.BACK_BUTTON_TEXT}
       useWideContainer={true}
       columns={VISITED_COLUMNS}
     />
@@ -149,8 +150,8 @@ const ToVisit: React.FC = () => {
     <SortableTable
       source="/content/PlacesToVisit.md"
       backTo="/leaderboards/places"
-      backButtonFill="#603b61"
-      textColor="#ffefdb"
+      backButtonFill={COLORS.BACK_BUTTON_PURPLE}
+      textColor={COLORS.BACK_BUTTON_TEXT}
       useWideContainer={true}
       columns={TOVISIT_COLUMNS}
     />
@@ -170,8 +171,8 @@ const Lived: React.FC = () => {
     <SortableTable
       source="/content/PlacesLived.md"
       backTo="/leaderboards/places"
-      backButtonFill="#603b61"
-      textColor="#ffefdb"
+      backButtonFill={COLORS.BACK_BUTTON_PURPLE}
+      textColor={COLORS.BACK_BUTTON_TEXT}
       useWideContainer={true}
       columns={LIVED_COLUMNS}
     />

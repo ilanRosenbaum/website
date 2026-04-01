@@ -21,7 +21,7 @@ import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import DataviewTable from "./DataviewTable";
-import { Footer } from "../Constants";
+import { COLORS, Footer } from "../Constants";
 
 interface MarkdownPageProps {
   source: string;
@@ -178,7 +178,7 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({
         return (
           <a
             href={href}
-            style={{ color: "#c084fc" }}
+              style={{ color: COLORS.ACCENT_LINK_PURPLE }}
             onClick={(e) => { e.preventDefault(); navigate(href); }}
             {...props}
           >
@@ -187,7 +187,7 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({
         );
       }
       return (
-        <a href={href} target="_blank" rel="noopener noreferrer" style={{ color: "#c084fc" }} {...props}>
+        <a href={href} target="_blank" rel="noopener noreferrer" style={{ color: COLORS.ACCENT_LINK_PURPLE }} {...props}>
           {children}
         </a>
       );
@@ -248,8 +248,8 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({
       {/* Fixed header with back button */}
       <div className="flex-shrink-0 p-4 sm:p-8">
         <BackButton
-          textColor={textColor || "#ffefdb"}
-          color={backButtonFill || "#603b61"}
+          textColor={textColor || COLORS.BACK_BUTTON_TEXT}
+          color={backButtonFill || COLORS.BACK_BUTTON_PURPLE}
           to={effectiveBackTo || "/"}
         />
       </div>

@@ -16,7 +16,7 @@ import * as d3 from "d3";
 import { useNavigate, useLocation } from "react-router-dom";
 import BackButton from "./BackButton";
 import { imageCache } from "./ImageCache";
-import { Footer } from "../Constants";
+import { COLORS, Footer } from "../Constants";
 import FastModeToggle from "./FastModeToggle";
 
 export interface HexagonConfig {
@@ -53,7 +53,7 @@ export const minConfig: HexagonConfig = {
   },
   styles: {
     default: {
-      fill: "#603b61",
+      fill: COLORS.BACK_BUTTON_PURPLE,
       opacity: 0.6
     }
   },
@@ -376,7 +376,7 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
           .attr("y", centerY)
           .attr("text-anchor", "middle")
           .attr("dominant-baseline", "middle")
-          .attr("fill", currentConfig.textColor || "#ffefdb")
+          .attr("fill", currentConfig.textColor || COLORS.BACK_BUTTON_TEXT)
           .style("font-size", config.textSize || "1.5vw")
           .style("font-family", "Courier new, monospace")
           .style("font-weight", "500")
@@ -437,7 +437,7 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
           .attr("y", centerY)
           .attr("text-anchor", "middle")
           .attr("dominant-baseline", "middle")
-          .attr("fill", "#ffebcd")
+          .attr("fill", COLORS.MARKDOWN_TEXT)
           .style("pointer-events", "none")
           .style("font-size", currentConfig.titleSize || config.titleSize || "max(1.8vw, 1.8vh)")
           .style("font-family", "Courier New, monospace")
@@ -531,7 +531,7 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
       <FastModeToggle />
       <div className="absolute pt-8 pl-8 z-10 flex flex-col">
         {config.backButton.exists && (
-          <BackButton textColor={config.textColor || "#ffefdb"} color={config.styles.default.fill || "#603b61"} to={effectiveBackTo} />
+          <BackButton textColor={config.textColor || COLORS.BACK_BUTTON_TEXT} color={config.styles.default.fill || COLORS.BACK_BUTTON_PURPLE} to={effectiveBackTo} />
         )}
         {config.confusedButton && (
           <div className="relative" style={{ marginTop: "calc(max(8vw, 8vh) * -0.134)" }}>
@@ -571,7 +571,7 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
               <p
                 className="absolute inset-0 flex items-center justify-center text-center"
                 style={{
-                  color: config.textColor || "#ffefdb",
+                  color: config.textColor || COLORS.BACK_BUTTON_TEXT,
                   fontFamily: "Courier new, monospace",
                   fontSize: "max(0.7vw, 0.7vh)",
                   fontWeight: "500",

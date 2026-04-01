@@ -17,11 +17,12 @@ import SierpinskiHexagon, { HexagonConfig, minConfig } from "../components/Sierp
 import { performTransitionAndRedirect } from "../App";
 import { appConfig as WebsiteConfig } from "./about/ThisWebsite";
 import { appConfig as AboutLinksConfig } from "./about/Links";
+import { COLORS } from "../Constants";
 
 const sharedConfig = {
   styles: {
     default: {
-      fill: "#603b61",
+      fill: COLORS.BACK_BUTTON_PURPLE,
       opacity: 0.6
     }
   },
@@ -82,7 +83,7 @@ const pageConfig: HexagonConfig = {
   backButton: {
     exists: true,
     to: "/writing",
-    textColor: "#4c0013"
+    textColor: COLORS.DARK_MAROON
   }
 };
 

@@ -14,11 +14,12 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import BackButton from "./BackButton";
-import { Footer } from "../Constants";
+import { COLORS, Footer } from "../Constants";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import { Document, Page, pdfjs } from "react-pdf";
+import NewsletterSubscription from "./NewsletterSubscription";
 
 // Set up the worker for pdf.js
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
@@ -61,9 +62,19 @@ const PDFSidebarPage: React.FC<PDFSidebarPageProps> = ({
   const [mobilePdfStatus, setMobilePdfStatus] = useState<"idle" | "loading" | "loaded" | "error">("idle");
   const containerRef = React.useRef<HTMLDivElement>(null);
   const selectedItem = selectedId ? items.find((item) => item.id === selectedId) : null;
-  const pdfBg = selectedItem?.bgColor ?? "#1e1e1e";
+  const pdfBg = selectedItem?.bgColor ?? COLORS.SURFACE_DARK;
   const pageBreaks = selectedItem?.pageBreaks ?? false;
-  const containerBg = pageBreaks ? "#1e1e1e" : pdfBg;
+  const containerBg = pageBreaks ? COLORS.SURFACE_DARK : pdfBg;
+  const currentTopic = useMemo<"blog" | "research" | null>(() => {
+    const lowerPath = basePath.toLowerCase();
+    if (lowerPath.includes("blog")) {
+      return "blog";
+    }
+    if (lowerPath.includes("research")) {
+      return "research";
+    }
+    return null;
+  }, [basePath]);
 
   const onDocumentLoadSuccess = useCallback(({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
@@ -152,21 +163,21 @@ const PDFSidebarPage: React.FC<PDFSidebarPageProps> = ({
   };
 
   return (
-    <div className="flex flex-col h-screen w-screen" style={{ backgroundColor: "#1e1e1e" }}>
+    <div className="flex flex-col h-screen w-screen" style={{ backgroundColor: COLORS.SURFACE_DARK }}>
       {/* Main content area - takes up all space except footer */}
       <div className="flex flex-1 overflow-hidden">
         {/* Left Sidebar Panel */}
-        <div className="w-[25%] sm:w-[15%] h-full border-r border-gray-700 flex flex-col overflow-hidden" style={{ backgroundColor: "#2d2d2d" }}>
+        <div className="w-[25%] sm:w-[15%] h-full border-r border-gray-700 flex flex-col overflow-hidden" style={{ backgroundColor: COLORS.SURFACE_DARK_ALT }}>
           {/* Back Button */}
           <div className="p-4 flex justify-center">
-            <BackButton to={backTo} color="#603b61" textColor="#ffefdb" />
+            <BackButton to={backTo} color={COLORS.BACK_BUTTON_PURPLE} textColor={COLORS.BACK_BUTTON_TEXT} />
           </div>
 
           {/* Home Link */}
           <div
             onClick={handleHomeClick}
             className="mx-4 my-2 py-3 cursor-pointer transition-colors font-mono text-lg text-gray-300 text-center rounded-lg hover:opacity-80"
-            style={!selectedId ? { backgroundColor: "#603b61" } : undefined}
+            style={!selectedId ? { backgroundColor: COLORS.BACK_BUTTON_PURPLE } : undefined}
           >
             Home
           </div>
@@ -184,7 +195,7 @@ const PDFSidebarPage: React.FC<PDFSidebarPageProps> = ({
                   key={item.id}
                   onClick={() => handleItemClick(item.id)}
                   className="py-2 sm:py-3 px-2 sm:px-3 my-1 cursor-pointer transition-colors text-gray-300 hover:opacity-80 rounded-lg overflow-hidden"
-                  style={selectedId === item.id ? { backgroundColor: "#603b61" } : undefined}
+                  style={selectedId === item.id ? { backgroundColor: COLORS.BACK_BUTTON_PURPLE } : undefined}
                 >
                   <div className="text-[8px] sm:text-xs text-gray-500 font-mono mb-1">{formatDate(item.date)}</div>
                   <div className="text-[10px] sm:text-sm font-mono leading-tight break-words">{item.title}</div>
@@ -235,7 +246,7 @@ const PDFSidebarPage: React.FC<PDFSidebarPageProps> = ({
               >
                 {Array.from(new Array(numPages), (_, index) => (
                   pageBreaks ? (
-                    <div key={`break_${index + 1}`} style={{ backgroundColor: "#1e1e1e", padding: "10px 0" }}>
+                    <div key={`break_${index + 1}`} style={{ backgroundColor: COLORS.SURFACE_DARK, padding: "10px 0" }}>
                       <Page
                         pageNumber={index + 1}
                         width={containerWidth > 0 ? containerWidth : undefined}
@@ -267,6 +278,9 @@ const PDFSidebarPage: React.FC<PDFSidebarPageProps> = ({
                   <ReactMarkdown rehypePlugins={[rehypeRaw]} remarkPlugins={[remarkGfm]}>
                     {homeContent}
                   </ReactMarkdown>
+                  <div className="mt-8">
+                    <NewsletterSubscription currentTopic={currentTopic} />
+                  </div>
                 </div>
               </div>
             </div>
@@ -275,7 +289,7 @@ const PDFSidebarPage: React.FC<PDFSidebarPageProps> = ({
       </div>
 
       {/* Footer area with fixed height */}
-      <div className="h-8 flex-shrink-0 relative" style={{ backgroundColor: "#1e1e1e" }}>
+      <div className="h-8 flex-shrink-0 relative" style={{ backgroundColor: COLORS.SURFACE_DARK }}>
         <Footer />
       </div>
     </div>

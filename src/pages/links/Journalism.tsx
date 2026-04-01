@@ -13,11 +13,12 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 import React from "react";
 import SierpinskiHexagon, { HexagonConfig } from "../../components/SierpinskiHexagon";
+import { COLORS } from "../../Constants";
 
 const sharedConfig = {
   styles: {
     default: {
-      fill: "#603b61",
+      fill: COLORS.BACK_BUTTON_PURPLE,
       opacity: 0.6
     }
   },
@@ -69,7 +70,7 @@ const pageConfig: HexagonConfig = {
   backButton: {
     exists: true,
     to: "/links",
-    textColor: "#4c0013"
+    textColor: COLORS.DARK_MAROON
   },
   confusedButton: {
     link: "/about/links/journalism"

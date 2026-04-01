@@ -20,6 +20,7 @@ import { appConfig as africaConfig } from "./photography/Africa";
 import { appConfig as mexicoConfig } from "./photography/Mexico";
 import { appConfig as europeConfig } from "./photography/Europe";
 import { appConfig as japanConfig } from "./photography/Japan";
+import { COLORS } from "../Constants";
 
 const mexicoConfigClone: HexagonConfig = structuredClone(mexicoConfig);
 mexicoConfigClone.title = "";
@@ -35,7 +36,7 @@ japanConfigClone.title = "";
 const sharedConfig = {
   styles: {
     default: {
-      fill: "#603b61",
+      fill: COLORS.BACK_BUTTON_PURPLE,
       opacity: 0.6
     }
   },
@@ -92,7 +93,7 @@ const pageConfig: HexagonConfig = {
   backButton: {
     exists: true,
     to: "/",
-    textColor: "#4c0013"
+    textColor: COLORS.DARK_MAROON
   },
   confusedButton: {
     link: "/writing/about/photography"
