@@ -291,14 +291,14 @@ const NewsletterSubscription: React.FC<NewsletterSubscriptionProps> = ({ current
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               placeholder="Enter your email"
-              className="w-2/3 px-3 py-2 font-mono text-sm bg-transparent text-[#ffebcd] rounded-md focus:outline-none"
+              className="w-2/3 px-1.5 sm:px-3 py-2 font-mono text-[clamp(8px,2.2vw,14px)] bg-transparent text-[#ffebcd] rounded-md focus:outline-none"
               aria-label="Email address"
               disabled={isAnyLoading}
             />
             <button
               type="button"
               onClick={openSubscribeModal}
-              className="ml-2 w-[calc(33.333%-0.5rem)] px-3 py-1.5 font-mono text-sm text-[#ffebcd] rounded-md"
+              className="ml-1 sm:ml-2 w-[calc(33.333%-0.25rem)] sm:w-[calc(33.333%-0.5rem)] px-1.5 sm:px-3 py-1.5 font-mono text-[clamp(8px,2.2vw,14px)] text-[#ffebcd] rounded-md"
               style={{ backgroundColor: BACK_BUTTON_PURPLE, border: "1px solid #4B5563" }}
               disabled={isAnyLoading}
             >
@@ -373,7 +373,7 @@ const NewsletterSubscription: React.FC<NewsletterSubscriptionProps> = ({ current
               <button
                 type="button"
                 onClick={closeModal}
-                className="px-3 py-2 font-mono text-sm rounded-md border border-gray-500 text-[#ffebcd]"
+                className="px-3 py-2 font-mono text-xs sm:text-sm rounded-md border border-gray-500 text-[#ffebcd]"
                 disabled={isSubmitLoading}
               >
                 Cancel
@@ -381,7 +381,7 @@ const NewsletterSubscription: React.FC<NewsletterSubscriptionProps> = ({ current
               <button
                 type="button"
                 onClick={handleModalSubmit}
-                className="px-3 py-2 font-mono text-sm rounded-md text-[#ffebcd]"
+                className="px-3 py-2 font-mono text-xs sm:text-sm rounded-md text-[#ffebcd]"
                 style={{ backgroundColor: BACK_BUTTON_PURPLE }}
                 disabled={isSubmitLoading}
               >
