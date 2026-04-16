@@ -1,3 +1,5 @@
+g
+
 | Recipe    | Photo                                     | Studio Clay                          |
 | --------- | ----------------------------------------- | ------------------------------------ |
 | [g.G](/trades/ceramics/glazes/g.G)   | <img src="/glazeAssets/Pasted%20image%2020260306201604.png" width="189" /> | <img src="/glazeAssets/gG_tile.jpg" width="379" />                |
