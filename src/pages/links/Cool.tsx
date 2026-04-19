@@ -24,7 +24,7 @@ const sharedConfig = {
   },
   targetLevels: {
     right: 3,
-    bottomRight: 0,
+    bottomRight: 3,
     bottomLeft: 0,
     left: 3,
     topLeft: 0,
@@ -32,7 +32,8 @@ const sharedConfig = {
   },
   images: {
     left: "/Covers/recipetsplitterVertical.png",
-    right: "/Covers/ribozoneVertical.png"
+    right: "/Covers/ribozoneVertical.png",
+    bottomRight: "/Covers/17776Vertical.jpg"
   }
 };
 
@@ -61,6 +62,7 @@ const pageConfig: HexagonConfig = {
   images: sharedConfig.images,
   text: {
     4: "Receipt Splitter",
+    2: "17776",
     1: "Ribo.zone"
   },
   title: "Cool Websites",
@@ -81,7 +83,10 @@ const CoolWebsites: React.FC = () => {
     },
     right: () => {
       window.open("https://ribo.zone/", "_blank");
-    }
+    },
+    bottomRight: () => {
+      window.open("https://www.sbnation.com/a/17776-football/chapter-1", "_blank");
+    },
   };
 
   return <SierpinskiHexagon config={pageConfig} />;
