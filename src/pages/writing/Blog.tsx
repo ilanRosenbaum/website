@@ -23,6 +23,12 @@ const blogArticles: PDFItem[] = [
     title: "Structured Notes, Assets, or whatever other marketing word bankers have come up with; Will I regret it?",
     date: "2026-01-16",
     pdfPath: "/content/blog/1.pdf"
+  },
+  {
+    id: "ai-inequality-and-us",
+    title: "AI, Inequality, and Us",
+    date: "2026-04-27",
+    pdfPath: "/content/blog/AIInequalityAndUs.pdf"
   }
 ];
 
