@@ -13,11 +13,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 import React from "react";
 import { useParams } from "react-router-dom";
-import PDFSidebarPage, { PDFItem } from "../../components/PDFSidebarPage";
+import WritingSidebarPage, { WritingItem } from "../../components/WritingSidebarPage";
 
 // Blog articles configuration - add new articles here
-// PDFs should be placed in public/content/blog/
-const blogArticles: PDFItem[] = [
+// HTML files should be placed in public/content/blog/
+const blogArticles: WritingItem[] = [
   {
     id: "structured-notes",
     title: "Structured Notes, Assets, or whatever other marketing word bankers have come up with; Will I regret it?",
@@ -28,7 +28,7 @@ const blogArticles: PDFItem[] = [
     id: "ai-inequality-and-us",
     title: "AI, Inequality, and Us",
     date: "2026-04-27",
-    pdfPath: "/content/blog/AIInequalityAndUs.pdf"
+    htmlPath: "/content/blog/AIInequalityAndUs.html"
   }
 ];
 
@@ -36,7 +36,7 @@ const Blog: React.FC = () => {
   const { articleId } = useParams<{ articleId?: string }>();
 
   return (
-    <PDFSidebarPage
+    <WritingSidebarPage
       items={blogArticles}
       selectedId={articleId}
       basePath="/writing/blog"

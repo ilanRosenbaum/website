@@ -13,11 +13,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 import React from "react";
 import { useParams } from "react-router-dom";
-import PDFSidebarPage, { PDFItem } from "../../components/PDFSidebarPage";
+import WritingSidebarPage, { WritingItem } from "../../components/WritingSidebarPage";
 
 // Research papers configuration - add new papers here
 // PDFs should be placed in public/content/research/
-const researchPapers: PDFItem[] = [
+const researchPapers: WritingItem[] = [
   {
     id: "ai-alignment-intractability",
     title: "AI Alignment Intractability",
@@ -40,7 +40,7 @@ const Research: React.FC = () => {
   const { paperId } = useParams<{ paperId?: string }>();
 
   return (
-    <PDFSidebarPage
+    <WritingSidebarPage
       items={researchPapers}
       selectedId={paperId}
       basePath="/writing/research"

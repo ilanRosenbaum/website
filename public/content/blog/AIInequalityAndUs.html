@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI, Inequality, and Us</title>
+    <style>
+      body {
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 16px;
+        line-height: 1.7;
+        color: #dcccb8;
+        max-width: 680px;
+        margin: 0 auto;
+        padding: 32px 24px;
+        background-color: #1e1e1e;
+      }
+      h1 {
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 4px;
+      }
+      h2 {
+        font-size: 22px;
+        font-weight: bold;
+        margin-top: 40px;
+        margin-bottom: 12px;
+      }
+      p {
+        margin: 0 0 16px 0;
+      }
+      em {
+        font-style: italic;
+      }
+      strong {
+        font-weight: bold;
+      }
+      .byline {
+        font-size: 13px;
+        color: #a69980;
+        font-style: italic;
+        margin-bottom: 32px;
+        line-height: 1.5;
+        border-left: 3px solid #5a4f42;
+        padding-left: 12px;
+      }
+      .callout-bold {
+        font-weight: bold;
+        font-style: italic;
+      }
+      a {
+        color: #7ab8f5;
+        text-decoration: underline;
+      }
+      hr {
+        border: none;
+        border-top: 6px double #5a4f42;
+        margin: 40px 0;
+      }
+      ol.references {
+        font-size: 13px;
+        color: #b0a090;
+        padding-left: 20px;
+        line-height: 1.8;
+      }
+      ol.references li {
+        margin-bottom: 4px;
+      }
+
+      /* Margin decoration */
+      #margin-ruled {
+        position: relative;
+      }
+      .hex-canvas {
+        position: absolute;
+        top: 0;
+        pointer-events: none;
+        display: block;
+      }
+      .hex-canvas-left {
+        left: calc(-10%);
+      }
+      .hex-canvas-right {
+        right: calc(-10%);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>AI, Inequality, and Us</h1>
+
+    <div id="margin-ruled">
+      <canvas class="hex-canvas hex-canvas-left" id="hex-left"></canvas>
+      <canvas class="hex-canvas hex-canvas-right" id="hex-right"></canvas>
+      <div class="byline">
+        The below is entirely written by me, Ilan Rosenbaum, with no editing, advice, or writing done by any LLM or algorithmic help beyond spellcheck
+        &amp; the algorithms involved in the search tools I use for the research that went into this article.
+      </div>
+
+      <p>
+        AI, specifically Large Language Models (LLMs) are easily the most talked about anything in the country right now. In a country where the top
+        1% own 41.2% <sup>[<a href="https://www.nber.org/papers/w33823">1</a>]</sup> of all the businesses. Those same businesses are giving us a
+        worse deal than any time in recent history; the average markup on products has skyrocketed from 20% in the 1980s to 55% by 2020
+        <sup>[<a href="https://www.econstor.eu/handle/10419/330289">2</a>]</sup>. It is with this backdrop that I'd like to approach the discussion of
+        what AI is, what it can do, and its positioning in our cultural zeitgeist.
+      </p>
+
+      <p>
+        LLMs in white collar work is today's Chinese manufacturing boom, but with adoption moving at a substantially higher clip. Remember, accepting
+        Chinese goods lead to the loss of domestic manufacturing and the expertise that made it possible. Replacing white-collar jobs and forcing
+        reliance on AI to make up for lost productivity will lead to a similar loss of expertise and ability. This is outsourcing, it has the same
+        benefits and downsides as it always does. This willing transfer of power is a classic Machiavellian misstep.
+        <strong
+          ><em
+            >If you need them, but they do not need you, you are at their mercy be you the U.S. military, a tech giant, or a tiny startup.</em
+          ></strong
+        >
+      </p>
+
+      <p>
+        <em>In order to make something with AI, you have to be able to describe it.</em> As anyone who works in software knows, the customer can not
+        accurately describe the full extent of what they need. If your company builds software your customers can easily describe, you're hosed. If
+        what you make is truly complex, difficult to describe in its totality, and requires many decisions that have no objectively correct easily
+        defined answer, you're going to be ok. Certain tasks, such as large migrations between products, languages, and frameworks have gotten
+        substantially easier. But deciding on data structures, building roadmaps, and deciding on new features based all take just as long as it used
+        to. In a world where switching is easier &amp; new feature buildout is faster, but product &amp; architecture decisions are as difficult as
+        ever, the highest quality products will win more converts. For any good software team making complex and useful products, this is a growth
+        opportunity, not an existential threat.
+      </p>
+
+      <p>
+        You need to be as good or better than the model is at whatever you are asking to get the best out of it. Regardless of the task — math,
+        science, or software engineering — if you are not as skilled as the model, what it produces will be of unknown value to you. Why is that?
+        Because model outputs are jagged. They may have extensive knowledge in a specific aspect of a subject but almost none in a seemingly similar,
+        neighboring idea, or the same exact idea they knew a ton about prompted a second time. See
+        <sup>[<a href="https://arxiv.org/abs/2601.07573">4</a>]</sup> for more details on the nature of model jaggedness. This is one cause of
+        something all regular LLM users have seen hundreds of times: blatant and confident lies. This fact rules out usage of AI without oversight in
+        any realm where one wrong answer is unacceptable. Or at least it should. Important examples of this would be, but are not limited to,
+        healthcare, war, security, and law. These are realms AI is already penetrating. Jaggedness should be unacceptable in the
+        <a href="https://www.aljazeera.com/news/2024/4/4/ai-assisted-genocide-israel-reportedly-used-database-for-gaza-kill-lists"
+          >drawing up kill lists</a
+        >. It leads to
+        <a href="https://reason.com/volokh/2024/02/16/2000-sanction-in-another-ai-hallucinated-citation-case/"
+          >citing cases that do not exist in legal motions</a
+        >. This is not just a political issue, if you use AI to do something you personally don't understand and it spits out plausible looking
+        garbage, then you present it as your own work, you will look like a fool. Worse than looking like a fool, it will show the people you work
+        with you are the person AI should replace. Would you hire the lawyer that submitted AI generated motions on your behalf?
+        <strong>If you are no better than a ChatGPT wrapper, what value do you provide?</strong>
+      </p>
+
+      <p>
+        Today's LLMs are many things, but to me, first and foremost, they are incredibly powerful search engines. They have the ability to synthesize
+        and repeat novel combinations of more or less everything humans have written and maintained. This was made possible by AI companies taking the
+        sum of human knowledge as it existed on the internet — almost all of which they did not have the author(s) permission to take
+        <sup
+          >[<a href="https://www.businessinsider.com/openais-latest-chatgpt-version-hides-training-on-copyrighted-material-2023-8">16</a>] [<a
+            href="https://en.wikipedia.org/wiki/Authors_Guild,_Inc._v._Google,_Inc."
+            >17</a
+          >] [<a href="https://arstechnica.com/tech-policy/2025/02/meta-defends-its-vast-book-torrenting-were-just-a-leech-no-proof-of-seeding/">18</a
+          >] [<a href="https://herman.bearblog.dev/the-great-scrape/">19</a>]</sup
+        >
+        — and running it through algorithms that then store a complex and impossible to fully decipher version of that information within the confines
+        of massive matrices. I am not an expert on the 'how'. If you want a better understanding I'd recommend
+        <a href="https://www.3blue1brown.com/topics/neural-networks">3 Brown 1 Blue's series on Deep Learning</a>. What's important to understand is
+        these models are not made: nobody decides exactly how they choose to spit out what they spit out, instead we grow them by punishing wrong
+        answers and rewarding correct ones. When trying to synthesize general intelligence, some incredibly important questions come up. What is a
+        right answer? For math, coding, and some of the sciences this is simple: the right answer is the one you can prove. But what about the arts,
+        or any question without a definitive, provable answer? Well I guess the right answer is some average of all the text humans have ever written,
+        guided of course in the direction corporations find most palatable. Does that mean directly spitting out the words of famous authors?
+        Repeating the opinions of Redditors, LinkedIn warriors, 4Chan users?? What about the increasing amount of the internet that is itself AI
+        generated. That is an open question. Whatever they decide is the 'correct' answer that these models will be emulating is going to shape
+        writing, culture, and human thought in profound and unknowable ways.
+      </p>
+
+      <p>
+        Due to the fact AI is trained on human data, it is flawed in the same ways as the data and can systematize bias against minorities. Sorry, not
+        it can, it has, "researchers found that race, gender, income, and housing status influenced evaluation and treatment recommendations — even
+        when patients had the same health conditions"
+        <sup
+          >[<a href="https://codex.ucsf.edu/news/editors-pick-study-finds-ai-medical-tools-show-bias-potential-misdiagnosis-and-patient-harm">7</a
+          >]</sup
+        >. Again not only do these findings have horrific societal implications, but it also means that leaning too heavily on this will lead to worse
+        care overall. If we harken back to the example of Chinese manufacturing, we may have more goods now but lots of it is way worse. This is ok in
+        some industries: quick, almost free, and mediocre is ok for analyzing data small business owners didn't used to get any insights from. It's
+        great for throwing together a prototype for an idea you have to see if it's got legs. But as
+        <a href="https://www.cbsnews.com/news/ai-executive-dario-amodei-on-the-red-lines-anthropic-would-not-cross/">a mass surveillance apparatus</a
+        >? Being ok with government surveillance is a stretch for many of us as is, but what if you knew, for certain, that the surveillance was both
+        biased and confidently wrong? Misuse won't just be cruel and vindictive, it would be arbitrary and pointless.
+      </p>
+
+      <p>
+        Finally, a point that can not be ignored is that these systems rely on massive data centers. The centers are worse for air quality than
+        natural gas power plants <sup>[<a href="https://scholarscompass.vcu.edu/cgi/viewcontent.cgi?article=1003&context=isee_pubs/">10</a>]</sup>.
+        But unlike a power plant, they increase your power bill
+        <sup>[<a href="https://www.eesi.org/articles/view/data-center-power-demands-are-contributing-to-higher-energy-bills">11</a>]</sup>. This hits
+        close to home for me as QTS was threatening to build a power plant near where I live — a plant that would have consumed more than twice the
+        power of Dane county, home of over half a million people. Because of how quickly they are rushing to build out capacity, and the amount of
+        money pouring into the buildout effort, the cost effectiveness and energy efficiency of these data centers doesn't seem to matter. This isn't
+        just conjecture, "The carbon intensity of electricity used by data centers [is] 48% higher than the US average." per James O'Donnell and Casey
+        Crownhart at the MIT Technology Review
+        <sup>[<a href="https://www.technologyreview.com/2025/05/20/1116327/ai-energy-usage-climate-footprint-big-tech">12</a>]</sup>. Sadly that is
+        not where it ends. These things are so damn loud "You feel it in your bones"
+        <sup
+          >[<a
+            href="https://abc7chicago.com/post/what-is-data-center-expect-more-centers-illinois-like-cyrusone-aurora-il-amid-noise-electric-bill-complaints/18610141/"
+            >20</a
+          >]</sup
+        >. Constant noise is not simply annoying, it has real health effects. There is decades of research showing noise pollution causes chronic
+        heart issue and heart attacks along with links to schizophrenia, anxiety, and depression
+        <sup>[<a href="https://coeh.ucdavis.edu/research/how-noise-pollution-quietly-affects-your-health">21</a>]</sup>. There is plenty more from
+        land and water use, to the fact these things are ugly as hell. I'm certain there is at least one aspect of AI data centers that would make you
+        hesitant before inviting one into your back yard.
+        <strong
+          ><em
+            >If you don't want your power bill to go up, your air to be polluted, or to literally have a heart attack you are in favor of slowing down
+            this buildout so we can regulate how these behemoths are built.</em
+          ></strong
+        >
+      </p>
+
+      <p>
+        I am not advocating for the halting of AI development, this is a breakthrough to be sure, but let's build these data centers responsibly with
+        high standards for energy efficiency, limited noise levels, and in a way that doesn't pass on the economic and health costs to the already
+        financially stretched and unhealthy middle American.
+      </p>
+
+      <p>
+        We have the power to shape the direction of this industry. An industry claiming to have the capacity to further centralize power into the
+        hands of the few who already have so much. If we regulate the buildout of data centers, there will be better infrastructure for us all. If we
+        use, and <em>push our employees to use</em> AI responsibly, we will become more productive without sacrificing our current and future
+        abilities as people and as corporations. If we disallow uses of LLM technology without oversight in fields where there truly is no room for
+        error, we save ourselves from the dystopia that is Shein healthcare and Temu legal representation. To think the effects of AI will be as
+        overwhelmingly positive as the gilded dreams of those whose careers rely on selling it, would be, well, hallucinogenic.
+      </p>
+
+      <hr />
+
+      <h2>Now what?</h2>
+
+      <p>
+        Find out if a data center is being built near you. If one is, work with your local community to fight against it or to fight to make sure it's
+        built in a way that helps you more than it hurts. I promise there are already groups locally that are trying to do this. Join them.
+      </p>
+
+      <p>
+        Don't blindly trust your representatives. In my city it was found those on the board who accepted the deal initially were in the pocket of the
+        developers. Send emails to your state and federal representatives — I know it sounds silly and seems like it'd be a lot of work but almost
+        nobody does it. Your voice will not be heard if you do not speak up. Want specific templates for reaching out to your representatives? Future
+        of Life has a wonderful page dedicated to this:
+        <a href="https://futureoflife.org/take-action/contact-your-legislator/">https://futureoflife.org/take-action/contact-your-legislator/</a>.
+        Tell the people in power what you care about.
+      </p>
+
+      <p>
+        Maybe you worry about water but you think the benefits of AI in healthcare outweigh the costs. That's ok. Maybe you care about an issue I did
+        not bring up and think I'm fear mongering about half the stuff I wrote. That's ok too — hell I managed not to bring up deepfakes once and
+        they're being used to propagandize the world in a way never seen before. This isn't about exclusively solving the issues I care about, let
+        alone the few I wrote about here. We need to make sure this new, transformational technology is regulated so that it helps us. That means
+        speaking up about what matters to you. If you have the means, donate to groups in support of well written legislation. Democracy only works if
+        we participate. In this day in age that means money, but it also means time.
+      </p>
+
+      <p>
+        If you have the authority to represent an organization, please read this and sign on behalf of said organization if you agree with it:
+        <a href="https://humanstatement.org/">https://humanstatement.org/</a>
+      </p>
+
+      <p>
+        Finally, and most importantly, talk to your friends and co-workers. See if they are worried about this, share your viewpoints. Even just one
+        person. No set of isolated actions solve this. Only together can we solve issues this big.
+      </p>
+    </div>
+    <!-- /#margin-ruled -->
+
+    <hr />
+
+    <ol class="references">
+      <li><a href="https://www.nber.org/papers/w33823">https://www.nber.org/papers/w33823</a></li>
+      <li><a href="https://www.econstor.eu/handle/10419/330289">https://www.econstor.eu/handle/10419/330289</a></li>
+      <li><a href="https://www.pnas.org/doi/epub/10.1073/pnas.2400698121">https://www.pnas.org/doi/epub/10.1073/pnas.2400698121</a></li>
+      <li><a href="https://arxiv.org/abs/2601.07573">https://arxiv.org/abs/2601.07573</a></li>
+      <li>
+        <a href="https://www.aljazeera.com/news/2024/4/4/ai-assisted-genocide-israel-reportedly-used-database-for-gaza-kill-lists"
+          >https://www.aljazeera.com/news/2024/4/4/ai-assisted-genocide-israel-reportedly-used-database-for-gaza-kill-lists</a
+        >
+      </li>
+      <li><a href="https://mashable.com/article/samsung-chatgpt-leak-details">https://mashable.com/article/samsung-chatgpt-leak-details</a></li>
+      <li>
+        <a href="https://codex.ucsf.edu/news/editors-pick-study-finds-ai-medical-tools-show-bias-potential-misdiagnosis-and-patient-harm"
+          >https://codex.ucsf.edu/news/editors-pick-study-finds-ai-medical-tools-show-bias-potential-misdiagnosis-and-patient-harm</a
+        >
+      </li>
+      <li>
+        <a href="https://www.cbsnews.com/news/ai-executive-dario-amodei-on-the-red-lines-anthropic-would-not-cross/"
+          >https://www.cbsnews.com/news/ai-executive-dario-amodei-on-the-red-lines-anthropic-would-not-cross/</a
+        >
+      </li>
+      <li>
+        <a href="https://reason.com/volokh/2024/02/16/2000-sanction-in-another-ai-hallucinated-citation-case/"
+          >https://reason.com/volokh/2024/02/16/2000-sanction-in-another-ai-hallucinated-citation-case/</a
+        >
+      </li>
+      <li>
+        <a href="https://scholarscompass.vcu.edu/cgi/viewcontent.cgi?article=1003&context=isee_pubs/"
+          >https://scholarscompass.vcu.edu/cgi/viewcontent.cgi?article=1003&amp;context=isee_pubs/</a
+        >
+      </li>
+      <li>
+        <a href="https://www.eesi.org/articles/view/data-center-power-demands-are-contributing-to-higher-energy-bills"
+          >https://www.eesi.org/articles/view/data-center-power-demands-are-contributing-to-higher-energy-bills</a
+        >
+      </li>
+      <li>
+        <a href="https://www.technologyreview.com/2025/05/20/1116327/ai-energy-usage-climate-footprint-big-tech"
+          >https://www.technologyreview.com/2025/05/20/1116327/ai-energy-usage-climate-footprint-big-tech</a
+        >
+      </li>
+      <li>
+        <a href="https://water.usgs.gov/vizlab/water-availability/03-vulnerability"
+          >https://water.usgs.gov/vizlab/water-availability/03-vulnerability</a
+        >
+      </li>
+      <li>
+        <a href="https://www.npr.org/2025/08/17/nx-s1-5461467/ai-is-driving-a-data-center-boom-in-rural-america-locals-are-divided-on-the-benefits"
+          >https://www.npr.org/2025/08/17/nx-s1-5461467/ai-is-driving-a-data-center-boom-in-rural-america-locals-are-divided-on-the-benefits</a
+        >
+      </li>
+      <li><a href="https://www.youtube.com/watch?v=-ndTTdOW_i4">https://www.youtube.com/watch?v=-ndTTdOW_i4</a></li>
+      <li>
+        <a href="https://people.cs.rutgers.edu/~dd903/assets/papers/sigmod23.pdf">https://people.cs.rutgers.edu/~dd903/assets/papers/sigmod23.pdf</a>
+      </li>
+      <li>
+        <a href="https://en.wikipedia.org/wiki/Authors_Guild,_Inc._v._Google,_Inc."
+          >https://en.wikipedia.org/wiki/Authors_Guild,_Inc._v._Google,_Inc.</a
+        >
+      </li>
+      <li>
+        <a href="https://arstechnica.com/tech-policy/2025/02/meta-defends-its-vast-book-torrenting-were-just-a-leech-no-proof-of-seeding/"
+          >https://arstechnica.com/tech-policy/2025/02/meta-defends-its-vast-book-torrenting-were-just-a-leech-no-proof-of-seeding/</a
+        >
+      </li>
+      <li><a href="https://herman.bearblog.dev/the-great-scrape/">https://herman.bearblog.dev/the-great-scrape/</a></li>
+      <li>
+        <a
+          href="https://abc7chicago.com/post/what-is-data-center-expect-more-centers-illinois-like-cyrusone-aurora-il-amid-noise-electric-bill-complaints/18610141/"
+          >https://abc7chicago.com/post/what-is-data-center-expect-more-centers-illinois-like-cyrusone-aurora-il-amid-noise-electric-bill-complaints/18610141/</a
+        >
+      </li>
+      <li>
+        <a href="https://coeh.ucdavis.edu/research/how-noise-pollution-quietly-affects-your-health"
+          >https://coeh.ucdavis.edu/research/how-noise-pollution-quietly-affects-your-health</a
+        >
+      </li>
+    </ol>
+
+    <script>
+      const HEX_COLOR = "#603b61";
+      const STROKE_WIDTH = 1.5;
+      const STRIP_W = 38; // px — canvas / strip width
+      const TOP_OFFSET = 30; // px from div top where strip begins
+      const BOTTOM_EXTEND = 16; // px strip extends below div bottom
+
+      function drawHexStrip(canvas) {
+        const container = document.getElementById("margin-ruled");
+        const divH = container.getBoundingClientRect().height;
+
+        const W = STRIP_W;
+        const H = divH - TOP_OFFSET + BOTTOM_EXTEND;
+
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = W * dpr;
+        canvas.height = H * dpr;
+        canvas.style.width = W + "px";
+        canvas.style.height = H + "px";
+        canvas.style.top = TOP_OFFSET + "px";
+
+        const ctx = canvas.getContext("2d");
+        ctx.scale(dpr, dpr);
+        ctx.clearRect(0, 0, W, H);
+
+        const r = W / 3.5;
+        const h = (r * Math.sqrt(3)) / 2;
+        const row = r * Math.sqrt(3); // full row step        (= r√3)
+
+        // Column definitions: [center-x, starting-cy-offset]
+        const cols = [
+          { cx: r, cy0: 0 }, // col 0 — no stagger
+          { cx: 2.5 * r, cy0: h } // col 1 — stagger down by r√3/2
+        ];
+
+        ctx.strokeStyle = HEX_COLOR;
+        ctx.lineWidth = STROKE_WIDTH;
+
+        function hexOutline(cx, cy) {
+          ctx.beginPath();
+          ctx.moveTo(cx - r, cy); // left
+          ctx.lineTo(cx - r / 2, cy + h); // bottom-left
+          ctx.lineTo(cx + r / 2, cy + h); // bottom-right
+          ctx.lineTo(cx + r, cy); // right
+          ctx.lineTo(cx + r / 2, cy - h); // top-right
+          ctx.lineTo(cx - r / 2, cy - h); // top-left
+          ctx.closePath();
+          ctx.stroke();
+        }
+
+        for (const col of cols) {
+          // How many rows needed to cover the full canvas height
+          const numRows = Math.ceil((H - col.cy0) / row) + 2;
+          for (let n = -1; n < numRows; n++) {
+            const cy = col.cy0 + n * row;
+            // Skip if entirely outside the canvas
+            if (cy + h < 0 || cy - h > H) continue;
+            hexOutline(col.cx, cy);
+          }
+        }
+      }
+
+      function initHexStrips() {
+        requestAnimationFrame(() => {
+          drawHexStrip(document.getElementById("hex-left"));
+          drawHexStrip(document.getElementById("hex-right"));
+        });
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initHexStrips);
+      } else {
+        setTimeout(initHexStrips, 0);
+      }
+      window.addEventListener("resize", initHexStrips);
+    </script>
+  </body>
+</html>
