@@ -83,6 +83,23 @@
       .hex-canvas-right {
         right: calc(-10%);
       }
+
+      /* Mobile responsive */
+      @media (max-width: 820px) {
+        body {
+          font-size: 14px;
+          padding: 24px 44px;
+          max-width: 100%;
+        }
+        h1 { font-size: 22px; }
+        h2 { font-size: 18px; }
+        .hex-canvas-left {
+          left: calc(-12%);
+        }
+        .hex-canvas-right {
+          right: calc(-10%);
+        }
+      }
     </style>
   </head>
   <body>
@@ -355,15 +372,20 @@
     <script>
       const HEX_COLOR = "#603b61";
       const STROKE_WIDTH = 1.5;
-      const STRIP_W = 38; // px — canvas / strip width
+      const STRIP_W_DESKTOP = 38;
+      const STRIP_W_MOBILE = 22;
       const TOP_OFFSET = 30; // px from div top where strip begins
       const BOTTOM_EXTEND = 16; // px strip extends below div bottom
+
+      function isMobile() {
+        return window.innerWidth <= 820;
+      }
 
       function drawHexStrip(canvas) {
         const container = document.getElementById("margin-ruled");
         const divH = container.getBoundingClientRect().height;
-
-        const W = STRIP_W;
+        const mobile = isMobile();
+        const W = mobile ? STRIP_W_MOBILE : STRIP_W_DESKTOP;
         const H = divH - TOP_OFFSET + BOTTOM_EXTEND;
 
         const dpr = window.devicePixelRatio || 1;
@@ -377,39 +399,47 @@
         ctx.scale(dpr, dpr);
         ctx.clearRect(0, 0, W, H);
 
-        const r = W / 3.5;
-        const h = (r * Math.sqrt(3)) / 2;
-        const row = r * Math.sqrt(3); // full row step        (= r√3)
-
-        // Column definitions: [center-x, starting-cy-offset]
-        const cols = [
-          { cx: r, cy0: 0 }, // col 0 — no stagger
-          { cx: 2.5 * r, cy0: h } // col 1 — stagger down by r√3/2
-        ];
-
         ctx.strokeStyle = HEX_COLOR;
         ctx.lineWidth = STROKE_WIDTH;
 
-        function hexOutline(cx, cy) {
+        function hexOutline(cx, cy, r) {
+          const h = (r * Math.sqrt(3)) / 2;
           ctx.beginPath();
-          ctx.moveTo(cx - r, cy); // left
-          ctx.lineTo(cx - r / 2, cy + h); // bottom-left
-          ctx.lineTo(cx + r / 2, cy + h); // bottom-right
-          ctx.lineTo(cx + r, cy); // right
-          ctx.lineTo(cx + r / 2, cy - h); // top-right
-          ctx.lineTo(cx - r / 2, cy - h); // top-left
+          ctx.moveTo(cx - r, cy);
+          ctx.lineTo(cx - r / 2, cy + h);
+          ctx.lineTo(cx + r / 2, cy + h);
+          ctx.lineTo(cx + r, cy);
+          ctx.lineTo(cx + r / 2, cy - h);
+          ctx.lineTo(cx - r / 2, cy - h);
           ctx.closePath();
           ctx.stroke();
         }
 
-        for (const col of cols) {
-          // How many rows needed to cover the full canvas height
-          const numRows = Math.ceil((H - col.cy0) / row) + 2;
+        if (mobile) {
+          // Single column
+          const r = W / 2.2;
+          const h = (r * Math.sqrt(3)) / 2;
+          const row = r * Math.sqrt(3);
+          const numRows = Math.ceil(H / row) + 2;
           for (let n = -1; n < numRows; n++) {
-            const cy = col.cy0 + n * row;
-            // Skip if entirely outside the canvas
-            if (cy + h < 0 || cy - h > H) continue;
-            hexOutline(col.cx, cy);
+            hexOutline(W / 2, n * row, r);
+          }
+        } else {
+          // Two columns
+          const r = W / 3.5;
+          const h = (r * Math.sqrt(3)) / 2;
+          const row = r * Math.sqrt(3);
+          const cols = [
+            { cx: r, cy0: 0 },
+            { cx: 2.5 * r, cy0: h }
+          ];
+          for (const col of cols) {
+            const numRows = Math.ceil((H - col.cy0) / row) + 2;
+            for (let n = -1; n < numRows; n++) {
+              const cy = col.cy0 + n * row;
+              if (cy + h < 0 || cy - h > H) continue;
+              hexOutline(col.cx, cy, r);
+            }
           }
         }
       }

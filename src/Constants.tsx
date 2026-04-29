@@ -13,9 +13,9 @@ export const COLORS = {
 
 export const Footer = () => {
   return (
-    <>
-      <div className="ml-2 fixed bottom-2 left-2 text-[10px] sm:text-xs text-white opacity-50">{VERSION_TEXT}</div>
-      <div className="mr-2 fixed bottom-2 right-2 text-[10px] sm:text-xs text-white opacity-50">{COPYRIGHT_TEXT} </div>
-    </>
+    <div className="flex justify-between px-2 py-0.5 text-[6px] sm:text-xs text-white opacity-40">
+      <span>{VERSION_TEXT}</span>
+      <span>{COPYRIGHT_TEXT}</span>
+    </div>
   );
 };

@@ -11,7 +11,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import BackButton from "./BackButton";
 import { COLORS, Footer } from "../Constants";
@@ -62,9 +62,15 @@ const WritingSidebarPage: React.FC<WritingSidebarPageProps> = ({
   const [homeContent, setHomeContent] = useState<string>("");
   const [numPages, setNumPages] = useState<number>(0);
   const [containerWidth, setContainerWidth] = useState<number>(0);
-  const [isMobileView, setIsMobileView] = useState<boolean>(false);
-  const [mobilePdfStatus, setMobilePdfStatus] = useState<"idle" | "loading" | "loaded" | "error">("idle");
-  const containerRef = React.useRef<HTMLDivElement>(null);
+  const [isMobileView, setIsMobileView] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    const ua = window.navigator.userAgent;
+    const isTouchDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+    return window.innerWidth <= 820 || isTouchDevice;
+  });
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const sidebarRef = useRef<HTMLDivElement>(null);
   const selectedItem = selectedId ? items.find((item) => item.id === selectedId) : null;
   const isHtmlContent = selectedItem?.htmlPath != null;
   const pdfBg = selectedItem?.bgColor ?? COLORS.SURFACE_DARK;
@@ -116,14 +122,6 @@ const WritingSidebarPage: React.FC<WritingSidebarPageProps> = ({
     return () => window.removeEventListener("resize", detectMobile);
   }, []);
 
-  useEffect(() => {
-    if (selectedItem && isMobileView && !isHtmlContent) {
-      setMobilePdfStatus("loading");
-    } else {
-      setMobilePdfStatus("idle");
-    }
-  }, [selectedItem, isMobileView, isHtmlContent]);
-
   // Reset page count when the selected item changes
   useEffect(() => {
     setNumPages(0);
@@ -169,11 +167,25 @@ const WritingSidebarPage: React.FC<WritingSidebarPageProps> = ({
 
   const handleItemClick = (id: string) => {
     navigate(`${basePath}/${id}`);
+    if (isMobileView) setSidebarOpen(false);
   };
 
   const handleHomeClick = () => {
     navigate(basePath);
+    if (isMobileView) setSidebarOpen(false);
   };
+
+  // Close sidebar when clicking outside on mobile
+  useEffect(() => {
+    if (!isMobileView || !sidebarOpen) return;
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(e.target as Node)) {
+        setSidebarOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, [isMobileView, sidebarOpen]);
 
   const formatDate = (dateStr: string) => {
     const [year, month, day] = dateStr.split("-").map(Number);
@@ -201,30 +213,6 @@ const WritingSidebarPage: React.FC<WritingSidebarPageProps> = ({
   };
 
   const renderPdfContent = () => {
-    if (isMobileView) {
-      return (
-        <div className="h-full flex flex-col" style={{ backgroundColor: containerBg }}>
-          <iframe
-            title={selectedItem!.title}
-            src={contentUrl}
-            className="flex-1 w-full"
-            style={{ border: "none", minHeight: "100%" }}
-            onLoad={() => setMobilePdfStatus("loaded")}
-            onError={() => setMobilePdfStatus("error")}
-          />
-          {mobilePdfStatus === "error" && (
-            <div className="p-4 text-center text-gray-400 font-mono text-xs">
-              Trouble loading?{" "}
-              <a className="underline" href={contentUrl} target="_blank" rel="noopener noreferrer">
-                Open the PDF in a new tab
-              </a>
-              .
-            </div>
-          )}
-        </div>
-      );
-    }
-
     return (
       <Document
         file={contentUrl}
@@ -270,10 +258,53 @@ const WritingSidebarPage: React.FC<WritingSidebarPageProps> = ({
 
   return (
     <div className="flex flex-col h-screen w-screen" style={{ backgroundColor: COLORS.SURFACE_DARK }}>
+      {/* Mobile header bar */}
+      {isMobileView && (
+        <div
+          className="flex items-center justify-between h-11 px-3 flex-shrink-0"
+          style={{ backgroundColor: COLORS.SURFACE_DARK_ALT }}
+        >
+          <button
+            onClick={() => setSidebarOpen((prev) => !prev)}
+            className="w-9 h-9 flex items-center justify-center rounded-full text-gray-200 text-base"
+            style={{ backgroundColor: COLORS.BACK_BUTTON_PURPLE }}
+            aria-label={sidebarOpen ? "Close sidebar" : "Open sidebar"}
+          >
+            {sidebarOpen ? "✕" : "☰"}
+          </button>
+          {selectedItem && !isHtmlContent && (
+            <a
+              className="w-9 h-9 flex items-center justify-center rounded-full text-gray-200 text-base no-underline"
+              style={{ backgroundColor: COLORS.BACK_BUTTON_PURPLE }}
+              href={contentUrl}
+              download
+              aria-label="Download PDF"
+            >
+              ⤓
+            </a>
+          )}
+        </div>
+      )}
+
       {/* Main content area - takes up all space except footer */}
       <div className="flex flex-1 overflow-hidden">
+        {/* Overlay backdrop for mobile */}
+        {isMobileView && sidebarOpen && (
+          <div className="fixed inset-0 bg-black/50 z-30" onClick={() => setSidebarOpen(false)} />
+        )}
+
         {/* Left Sidebar Panel */}
-        <div className="w-[25%] sm:w-[15%] h-full border-r border-gray-700 flex flex-col overflow-hidden" style={{ backgroundColor: COLORS.SURFACE_DARK_ALT }}>
+        <div
+          ref={sidebarRef}
+          className={`
+            ${isMobileView
+              ? `fixed top-11 left-0 h-[calc(100%-2.75rem)] z-40 w-[70%] max-w-[300px] transform transition-transform duration-300 ease-in-out ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`
+              : "w-[25%] sm:w-[15%] h-full"
+            }
+            border-r border-gray-700 flex flex-col overflow-hidden
+          `}
+          style={{ backgroundColor: COLORS.SURFACE_DARK_ALT }}
+        >
           {/* Back Button */}
           <div className="p-4 flex justify-center">
             <BackButton to={backTo} color={COLORS.BACK_BUTTON_PURPLE} textColor={COLORS.BACK_BUTTON_TEXT} />
@@ -294,17 +325,19 @@ const WritingSidebarPage: React.FC<WritingSidebarPageProps> = ({
           {/* Items List */}
           <div className="flex-1 overflow-y-auto overflow-x-hidden px-4 py-2">
             {sortedItems.length === 0 ? (
-              <div className="py-3 text-gray-500 text-[10px] sm:text-sm font-mono italic">{emptyText}</div>
+              <div className="py-3 text-gray-500 text-sm font-mono italic">{emptyText}</div>
             ) : (
               sortedItems.map((item) => (
                 <div
                   key={item.id}
                   onClick={() => handleItemClick(item.id)}
-                  className="py-2 sm:py-3 px-2 sm:px-3 my-1 cursor-pointer transition-colors text-gray-300 hover:opacity-80 rounded-lg overflow-hidden"
+                  className={`my-1 cursor-pointer transition-colors text-gray-300 hover:opacity-80 rounded-lg overflow-hidden ${
+                    isMobileView ? "py-3 px-3" : "py-2 sm:py-3 px-2 sm:px-3"
+                  }`}
                   style={selectedId === item.id ? { backgroundColor: COLORS.BACK_BUTTON_PURPLE } : undefined}
                 >
-                  <div className="text-[8px] sm:text-xs text-gray-500 font-mono mb-1">{formatDate(item.date)}</div>
-                  <div className="text-[10px] sm:text-sm font-mono leading-tight break-words">{item.title}</div>
+                  <div className={`text-gray-500 font-mono mb-1 ${isMobileView ? "text-xs" : "text-[8px] sm:text-xs"}`}>{formatDate(item.date)}</div>
+                  <div className={`font-mono leading-tight break-words ${isMobileView ? "text-sm" : "text-[10px] sm:text-sm"}`}>{item.title}</div>
                 </div>
               ))
             )}
@@ -312,13 +345,13 @@ const WritingSidebarPage: React.FC<WritingSidebarPageProps> = ({
         </div>
 
         {/* Main Content Area */}
-        <div ref={containerRef} className="flex-1 h-full overflow-y-auto overflow-x-hidden pb-16" style={{ backgroundColor: containerBg }}>
+        <div ref={containerRef} className="flex-1 h-full overflow-y-auto overflow-x-hidden" style={{ backgroundColor: containerBg }}>
           {selectedItem ? (
             isHtmlContent ? renderHtmlContent() : renderPdfContent()
           ) : (
             /* Home/Intro Content */
-            <div className="h-full overflow-y-auto pb-16">
-              <div className="markdown-container p-8">
+            <div className="h-full overflow-y-auto">
+              <div className={`markdown-container ${isMobileView ? "px-4 py-6" : "p-8"}`}>
                 <div className="markdown font-mono text-[#ffebcd]">
                   <ReactMarkdown rehypePlugins={[rehypeRaw]} remarkPlugins={[remarkGfm]}>
                     {homeContent}
@@ -333,8 +366,8 @@ const WritingSidebarPage: React.FC<WritingSidebarPageProps> = ({
         </div>
       </div>
 
-      {/* Footer area with fixed height */}
-      <div className="h-8 flex-shrink-0 relative" style={{ backgroundColor: COLORS.SURFACE_DARK }}>
+      {/* Footer */}
+      <div className="flex-shrink-0" style={{ backgroundColor: COLORS.SURFACE_DARK }}>
         <Footer />
       </div>
     </div>
