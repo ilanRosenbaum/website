@@ -213,6 +213,19 @@ const WritingSidebarPage: React.FC<WritingSidebarPageProps> = ({
   };
 
   const renderPdfContent = () => {
+    if (isMobileView) {
+      return (
+        <div className="h-full flex flex-col" style={{ backgroundColor: containerBg }}>
+          <iframe
+            title={selectedItem!.title}
+            src={`${contentUrl}#toolbar=0`}
+            className="flex-1 w-full"
+            style={{ border: "none", minHeight: "100%" }}
+          />
+        </div>
+      );
+    }
+
     return (
       <Document
         file={contentUrl}
