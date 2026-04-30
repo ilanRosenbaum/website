@@ -12,6 +12,8 @@ interface NewsletterPreferences {
 
 interface NewsletterSubscriptionProps {
   currentTopic: NewsletterTopic | null;
+  mobileHeaderMode?: boolean;
+  onSubscriptionChange?: (isSubscribed: boolean) => void;
 }
 
 const BACK_BUTTON_PURPLE = "#603b61";
@@ -100,7 +102,7 @@ const readRemotePreferences = async (value: string): Promise<{ blog: boolean; re
   };
 };
 
-const NewsletterSubscription: React.FC<NewsletterSubscriptionProps> = ({ currentTopic }) => {
+const NewsletterSubscription: React.FC<NewsletterSubscriptionProps> = ({ currentTopic, mobileHeaderMode = false, onSubscriptionChange }) => {
   const [email, setEmail] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -122,6 +124,18 @@ const NewsletterSubscription: React.FC<NewsletterSubscriptionProps> = ({ current
     return isSettingsMode ? "Submit" : "Subscribe";
   }, [hasSelectedTopics, isSettingsMode]);
   const modalEmail = isSettingsMode ? subscribedEmail : "";
+
+  // Notify parent of subscription state changes
+  useEffect(() => {
+    onSubscriptionChange?.(isSubscribed);
+  }, [isSubscribed, onSubscriptionChange]);
+
+  // Listen for external trigger to open settings modal (from mobile header)
+  useEffect(() => {
+    const handleOpenSettings = () => openSettingsModal();
+    window.addEventListener("openNewsletterSettings", handleOpenSettings);
+    return () => window.removeEventListener("openNewsletterSettings", handleOpenSettings);
+  });
 
   useEffect(() => {
     const preferences = readPreferences();
@@ -309,7 +323,7 @@ const NewsletterSubscription: React.FC<NewsletterSubscriptionProps> = ({ current
           {error && <div className="mt-2 text-xs font-mono text-red-300">{error}</div>}
         </div>
       ) : (
-        <div className="absolute mr-1 top-2 right-2 z-20 flex items-center">
+        <div className={mobileHeaderMode ? "hidden" : "absolute mr-1 top-2 right-2 z-20 flex items-center"}>
           <button
             type="button"
             onClick={openSettingsModal}

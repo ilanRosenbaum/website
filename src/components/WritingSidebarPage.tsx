@@ -69,6 +69,15 @@ const WritingSidebarPage: React.FC<WritingSidebarPageProps> = ({
     return window.innerWidth <= 820 || isTouchDevice;
   });
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+  const [isNewsletterSubscribed, setIsNewsletterSubscribed] = useState<boolean>(() => {
+    if (typeof document === "undefined") return false;
+    const cookie = document.cookie.split(";").find(c => c.trim().startsWith("newsletter_preferences="));
+    if (!cookie) return false;
+    try {
+      const val = JSON.parse(decodeURIComponent(cookie.trim().split("=").slice(1).join("=")));
+      return !!(val?.email && (val?.blog || val?.research));
+    } catch { return false; }
+  });
   const containerRef = useRef<HTMLDivElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const selectedItem = selectedId ? items.find((item) => item.id === selectedId) : null;
@@ -285,17 +294,30 @@ const WritingSidebarPage: React.FC<WritingSidebarPageProps> = ({
           >
             {sidebarOpen ? "✕" : "☰"}
           </button>
-          {selectedItem && !isHtmlContent && (
-            <a
-              className="w-9 h-9 flex items-center justify-center rounded-full text-gray-200 text-base no-underline"
-              style={{ backgroundColor: COLORS.BACK_BUTTON_PURPLE }}
-              href={contentUrl}
-              download
-              aria-label="Download PDF"
-            >
-              ⤓
-            </a>
-          )}
+          <div className="flex items-center gap-2">
+            {isNewsletterSubscribed && (
+              <button
+                onClick={() => window.dispatchEvent(new Event("openNewsletterSettings"))}
+                className="w-9 h-9 flex items-center justify-center"
+                aria-label="Newsletter settings"
+              >
+                <span
+                  className="block w-7 h-7"
+                  style={{
+                    backgroundColor: COLORS.BACK_BUTTON_PURPLE,
+                    WebkitMaskImage: "url('/settings.svg')",
+                    WebkitMaskRepeat: "no-repeat",
+                    WebkitMaskPosition: "center",
+                    WebkitMaskSize: "contain",
+                    maskImage: "url('/settings.svg')",
+                    maskRepeat: "no-repeat",
+                    maskPosition: "center",
+                    maskSize: "contain",
+                  }}
+                />
+              </button>
+            )}
+          </div>
         </div>
       )}
 
@@ -370,7 +392,7 @@ const WritingSidebarPage: React.FC<WritingSidebarPageProps> = ({
                     {homeContent}
                   </ReactMarkdown>
                   <div className="mt-8">
-                    <NewsletterSubscription currentTopic={currentTopic} />
+                    <NewsletterSubscription currentTopic={currentTopic} mobileHeaderMode={isMobileView} onSubscriptionChange={setIsNewsletterSubscribed} />
                   </div>
                 </div>
               </div>
