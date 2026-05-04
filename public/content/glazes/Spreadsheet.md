@@ -7,8 +7,8 @@ g
 | [g.O.1](/trades/ceramics/glazes/g.O.1) | <img src="/glazeAssets/Pasted%20image%2020260306201803.png" width="314" /> | <img src="/glazeAssets/gO1_tile.jpg" width="379" />               |
 | [g.O.2](/trades/ceramics/glazes/g.O.2) | <img src="/glazeAssets/Pasted%20image%2020260306201735.png" width="325" /> | <img src="/glazeAssets/gO2_tile.jpg" width="379" />               |
 | [p.G.1](/trades/ceramics/glazes/p.G.1) | <img src="/glazeAssets/Pasted%20image%2020260306201829.png" width="313" /> | <img src="/glazeAssets/pG1_2.jpg" width="369" />                  |
-| [p.P](/trades/ceramics/glazes/p.P)   | <img src="/glazeAssets/Pasted%20image%2020260306201838.png" width="343" /> | <img src="/glazeAssets/pP_2%201.jpg" width="379" />                 |
-| [p.P.1](/trades/ceramics/glazes/p.P.1) | <img src="/glazeAssets/Pasted%20image%2020260306201821.png" width="339" /> | <img src="/glazeAssets/pP1_2.jpg" width="379" />                  |
+| [p1.P](/trades/ceramics/glazes/p1.P)   | <img src="/glazeAssets/Pasted%20image%2020260306201838.png" width="343" /> | <img src="/glazeAssets/pP_2%201.jpg" width="379" />                 |
+| [p1.P.1](/trades/ceramics/glazes/p1.P.1) | <img src="/glazeAssets/Pasted%20image%2020260306201821.png" width="339" /> | <img src="/glazeAssets/pP1_2.jpg" width="379" />                  |
 | [g._](/trades/ceramics/glazes/g._)   |                                           | <img src="/glazeAssets/PXL_20260306_172941290.jpg" width="397" /> |
 | [g._.1](/trades/ceramics/glazes/g._.1) |                                           | <img src="/glazeAssets/PXL_20260306_172922497.jpg" width="397" /> |
 | [d.O.1](/trades/ceramics/glazes/d.O.1) | <img src="/glazeAssets/dO1.jpg" width="307" />                         | <img src="/glazeAssets/dO1Tile.jpg" width="379" />                |

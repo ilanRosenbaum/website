@@ -1,7 +1,7 @@
 # p.G.1
 
 Silica - 32.50  
-Ferro Frit 3134 - 25.00  
+Ferro Frit 3124 - 25.00  
 Nepheline Syenite - 20.00  
 EPK - 12.50  
 Whiting - 10.00 
