@@ -27,11 +27,12 @@ const sharedConfig = {
     bottomRight: 3,
     bottomLeft: 0,
     left: 3,
-    topLeft: 0,
+    topLeft: 3,
     topRight: 0
   },
   images: {
     left: "/Covers/recipetsplitterVertical.png",
+    topLeft: "/Covers/aaronBeckerVertical.png",
     right: "/Covers/ribozoneVertical.png",
     bottomRight: "/Covers/17776Vertical.jpg"
   }
@@ -61,6 +62,7 @@ const pageConfig: HexagonConfig = {
   actions: {},
   images: sharedConfig.images,
   text: {
+    5: "Aaron Becker",
     4: "Receipt Splitter",
     2: "17776",
     1: "Ribo.zone"
@@ -87,6 +89,9 @@ const CoolWebsites: React.FC = () => {
     bottomRight: () => {
       window.open("https://www.sbnation.com/a/17776-football/chapter-1", "_blank");
     },
+    topLeft: () => {
+      window.open("https://ambecker.com", "_blank");
+    }
   };
 
   return <SierpinskiHexagon config={pageConfig} />;
