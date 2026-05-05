@@ -13,7 +13,7 @@ export const COLORS = {
 
 export const Footer = () => {
   return (
-    <div className="flex justify-between px-2 py-0.5 text-[6px] sm:text-xs text-white opacity-40">
+    <div className="w-full flex justify-between px-2 py-0.5 text-[6px] sm:text-xs text-white opacity-40">
       <span>{VERSION_TEXT}</span>
       <span>{COPYRIGHT_TEXT}</span>
     </div>

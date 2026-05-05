@@ -404,7 +404,7 @@ const TiledPlaneFolders: React.FC<TiledPlaneFoldersProps> = ({ parentFolders, ba
         <BackButton textColor={COLORS.BACK_BUTTON_TEXT} color={COLORS.BACK_BUTTON_PURPLE} to={backTo || ""} />
       </div>
 
-      <div ref={containerRef} className="w-screen h-[calc(80dvh)] mt-[max(9vw,9vh)] mb-[calc(6dvh)] custom-scrollbar overflow-auto">
+      <div ref={containerRef} className="w-screen flex-1 mt-[max(9vw,9vh)] mb-1 custom-scrollbar overflow-auto">
         {(() => {
           const { width, height } = containerSize;
           if (!width || !height || hexData.length === 0) return null;
