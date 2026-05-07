@@ -255,7 +255,6 @@ const NewsletterSubscription: React.FC<NewsletterSubscriptionProps> = ({ current
           set(ref(realtimeDb, `/research/${emailKey}`), false),
         ]);
 
-        // TODO: Trigger unsubscribe action against backend/API.
         clearPreferences();
         setIsSubscribed(false);
         setSubscribedEmail("");

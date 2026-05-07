@@ -41,7 +41,6 @@ interface CustomTableProps {
 
 const RestaurantTable: React.FC<CustomTableProps> = ({
   data,
-  fullWidth = false
 }) => {
   const formatPrice = (price: string) => {
     return "$" + price.replace(/^\$/, "");

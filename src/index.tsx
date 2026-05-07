@@ -16,7 +16,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
-import MarkdownPage from "./components/MarkdownPage";
+import MarkdownPage from "./components/Markdown";
 
 // Writing
 import About from "./pages/writing/About";
@@ -62,7 +62,6 @@ import WestCoast from "./pages/photography/WestCoast";
 import South from "./pages/photography/South";
 import Sunbelt from "./pages/photography/Sunbelt";
 
-import TiledPlaneFolders from "./components/TiledPlaneFolders";
 import Midwest from "./pages/photography/Midwest";
 import Japan from "./pages/photography/Japan";
 // import SierpinskiExport from "./pages/SierpinskiExport";
@@ -134,18 +133,18 @@ root.render(
         <Route path="/trades" element={<Art />} />
         <Route path="/trades/cooking" element={<TiledPlane photoPath={"Cooking"} backTo="/trades" />} />
         <Route path="/trades/ceramics" element={<Ceramics />} />
-        <Route path="/trades/ceramics/works" element={<TiledPlaneFolders parentFolders={"Ceramics"} backTo="/trades/ceramics" />} />
+        <Route path="/trades/ceramics/works" element={<TiledPlane parentFolders={"Ceramics"} backTo="/trades/ceramics" />} />
         <Route path="/trades/ceramics/glazes" element={<MarkdownPage source="/content/glazes/Spreadsheet.md" backTo="/trades/ceramics" />} />
         <Route path="/trades/ceramics/glazes/:glazeId" element={<GlazeRecipe />} />
-        <Route path="/trades/richAndFrank" element={<TiledPlaneFolders parentFolders={"RichAndFrank"} backTo="/trades" />} />
+        <Route path="/trades/richAndFrank" element={<TiledPlane parentFolders={"RichAndFrank"} backTo="/trades" />} />
         <Route path="/trades/misc" element={<Misc />} />
-        <Route path="/trades/misc/wood" element={<TiledPlaneFolders parentFolders={"Wood"} backTo="/trades/misc" />} />
-        <Route path="/trades/misc/leather" element={<TiledPlaneFolders parentFolders={"Leather"} backTo="/trades/misc" />} />
-        <Route path="/trades/misc/jewelry" element={<TiledPlaneFolders parentFolders={"Jewelry"} backTo="/trades/misc" />} />
+        <Route path="/trades/misc/wood" element={<TiledPlane parentFolders={"Wood"} backTo="/trades/misc" />} />
+        <Route path="/trades/misc/leather" element={<TiledPlane parentFolders={"Leather"} backTo="/trades/misc" />} />
+        <Route path="/trades/misc/jewelry" element={<TiledPlane parentFolders={"Jewelry"} backTo="/trades/misc" />} />
         <Route
           path="/trades/favorites"
           element={
-            <TiledPlaneFolders
+            <TiledPlane
               parentFolders={[
                 "RichAndFrank/The Coolest Planter Ever",
                 "Ceramics/Porcelain Mug?!",

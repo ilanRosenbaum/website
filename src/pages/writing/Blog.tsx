@@ -13,7 +13,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 import React from "react";
 import { useParams } from "react-router-dom";
-import WritingSidebarPage, { WritingItem } from "../../components/WritingSidebarPage";
+import WritingSidebarPage, { WritingItem } from "../../components/Writing";
 
 // Blog articles configuration - add new articles here
 // HTML files should be placed in public/content/blog/

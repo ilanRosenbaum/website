@@ -13,7 +13,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 import React from "react";
 import { useParams } from "react-router-dom";
-import WritingSidebarPage, { WritingItem } from "../../components/WritingSidebarPage";
+import WritingSidebarPage, { WritingItem } from "../../components/Writing";
 
 // Research papers configuration - add new papers here
 // PDFs should be placed in public/content/research/

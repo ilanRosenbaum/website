@@ -13,7 +13,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 import React from "react";
 import { useParams } from "react-router-dom";
-import MarkdownPage from "../../../components/MarkdownPage";
+import MarkdownPage from "../../../components/Markdown";
 
 /**
  * Renders a single glaze recipe by loading
