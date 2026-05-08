@@ -1,0 +1,37 @@
+shared:
+  targetLevels:
+    right: 0
+    bottomRight: 0
+    bottomLeft: 3
+    left: 3
+    topLeft: 3
+    topRight: 0
+  images:
+    bottomLeft: /Covers/leatherVertical.jpg
+    left: /Covers/woodVertical.jpeg
+    topLeft: /Covers/jewelryVertical.jpg
+app:
+  actions:
+    default:
+      type: reload
+      to: /trades/misc
+page:
+  title: Misc
+  text:
+    bottomLeft: Leather
+    left: Wood
+    topLeft: Jewelry
+  backButton:
+    exists: true
+    to: /trades
+    textColor: '#4c0013'
+  actions:
+    bottomLeft:
+      type: navigate
+      to: /trades/misc/leather
+    left:
+      type: navigate
+      to: /trades/misc/wood
+    topLeft:
+      type: navigate
+      to: /trades/misc/jewelry

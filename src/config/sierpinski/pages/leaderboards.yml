@@ -1,0 +1,47 @@
+shared:
+  targetLevels:
+    right: 0
+    bottomRight: 0
+    bottomLeft: 3
+    left: 0
+    topLeft: 0
+    topRight: 3
+app:
+  title: Leaderboards
+  titleSize: max(0.7vw, 0.7vh)
+  actions:
+    default:
+      type: reload
+      to: /leaderboards
+  configRefs:
+    left:
+      pageId: leaderboards/places
+      view: app
+page:
+  title: Leaderboards
+  text:
+    bottomLeft: Restaurants
+    topRight: Books
+  backButton:
+    exists: true
+    to: /
+    textColor: '#4c0013'
+  confusedButton:
+    link: /writing/about/leaderboards
+  actions:
+    left:
+      type: transition
+      to: /leaderboards/places
+    bottomLeft:
+      type: navigate
+      to: /leaderboards/restaurants
+    topRight:
+      type: navigate
+      to: /leaderboards/books
+  configRefs:
+    left:
+      pageId: leaderboards/places
+      view: app
+      overrides:
+        title: Places
+        titleSize: 0.9vw

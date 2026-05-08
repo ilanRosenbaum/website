@@ -1,0 +1,37 @@
+shared:
+  targetLevels:
+    right: 3
+    bottomRight: 0
+    bottomLeft: 0
+    left: 3
+    topLeft: 3
+    topRight: 3
+app:
+  actions:
+    default:
+      type: reload
+      to: /writing/about/thisWebsite
+page:
+  title: This Website
+  titleSize: 2vw
+  text:
+    right: How
+    left: Versioning
+    topLeft: What
+    topRight: Why
+  backButton:
+    exists: true
+    to: /writing/about
+  actions:
+    topLeft:
+      type: navigate
+      to: /writing/about/thisWebsite/what
+    topRight:
+      type: navigate
+      to: /writing/about/thisWebsite/why
+    right:
+      type: navigate
+      to: /writing/about/thisWebsite/how
+    left:
+      type: navigate
+      to: /writing/about/thisWebsite/versioning

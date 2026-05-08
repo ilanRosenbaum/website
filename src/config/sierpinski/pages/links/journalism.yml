@@ -1,0 +1,41 @@
+shared:
+  targetLevels:
+    right: 3
+    bottomRight: 3
+    bottomLeft: 0
+    left: 3
+    topLeft: 0
+    topRight: 0
+  images:
+    right: /Covers/goodgoodgoodVertical.jpg
+    left: /Covers/slowjournalismVertical.jpg
+    bottomRight: /Covers/cherrybonesVertical.jpg
+app:
+  title: Journalism
+  titleSize: max(0.7vw, 0.7vh)
+  actions:
+    default:
+      type: reload
+      to: /links/journalism
+page:
+  title: Journalism
+  text:
+    right: GoodGoodGood
+    left: Slow Journalism
+    bottomRight: Cherry Bones
+  backButton:
+    exists: true
+    to: /links
+    textColor: '#4c0013'
+  confusedButton:
+    link: /writing/about/links/journalism
+  actions:
+    right:
+      type: external
+      url: https://www.goodgoodgood.co/
+    left:
+      type: external
+      url: https://www.slow-journalism.com/
+    bottomRight:
+      type: external
+      url: https://cherrybonesmag.com/

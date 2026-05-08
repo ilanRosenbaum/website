@@ -1,0 +1,26 @@
+shared:
+  targetLevels:
+    right: 0
+    bottomRight: 0
+    bottomLeft: 0
+    left: 3
+    topLeft: 0
+    topRight: 0
+  images:
+    left: /Covers/sedonaVertical.jpeg
+app:
+  title: Sunbelt
+  imageId: Sunbelt
+page:
+  title: Sunbelt
+  text:
+    left: Arizona
+  backButton:
+    exists: true
+    to: /photography/usa
+  confusedButton:
+    link: /writing/about/photography
+  actions:
+    left:
+      type: navigate
+      to: /photography/usa/sunbelt/arizona

@@ -3676,10 +3676,10 @@ Author: Ben Coe
 Package: yallist@3.1.1\
 Author: Isaac Z. Schlueter
 
-Package: yaml@1.10.2\
+Package: yaml@1.10.3\
 Author: Eemeli Aro
 
-Package: yaml@2.4.4\
+Package: yaml@2.8.4\
 Author: Eemeli Aro
 
 Package: yargs-parser@20.2.9\

@@ -25,7 +25,8 @@
   },
   "scripts": {
     "ci": "npm i react-scripts",
-    "start": "GENERATE_SOURCEMAP=false react-scripts start",
+    "generate-registry": "node scripts/generate_sierpinski_registry.js",
+    "start": "node scripts/start_with_sierpinski_watch.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

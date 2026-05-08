@@ -1,0 +1,41 @@
+shared:
+  targetLevels:
+    right: 3
+    bottomRight: 0
+    bottomLeft: 0
+    left: 0
+    topLeft: 0
+    topRight: 0
+  images:
+    right: /Covers/seattleVertical.jpg
+app:
+  title: West Coast
+  imageId: WestCoast
+  configRefs:
+    topLeft:
+      pageId: photography/usa/westCoast/california
+      view: app
+      overrides:
+        title: ''
+page:
+  title: West Coast
+  text:
+    right: Washington
+  backButton:
+    exists: true
+    to: /photography/usa
+  confusedButton:
+    link: /writing/about/photography
+  actions:
+    topLeft:
+      type: transition
+      to: /photography/usa/westCoast/california
+    right:
+      type: navigate
+      to: /photography/usa/westCoast/washington
+  configRefs:
+    topLeft:
+      pageId: photography/usa/westCoast/california
+      view: app
+      overrides:
+        titleSize: max(0.8vw, 0.7vh)

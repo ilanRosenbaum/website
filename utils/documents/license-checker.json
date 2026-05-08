@@ -11933,21 +11933,21 @@
     "path": "/Users/irosenba/website/node_modules/yallist",
     "licenseFile": "/Users/irosenba/website/node_modules/yallist/LICENSE"
   },
-  "yaml@1.10.2": {
+  "yaml@1.10.3": {
+    "licenses": "ISC",
+    "repository": "https://github.com/eemeli/yaml",
+    "publisher": "Eemeli Aro",
+    "email": "eemeli@gmail.com",
+    "path": "/Users/irosenba/website/node_modules/cosmiconfig/node_modules/yaml",
+    "licenseFile": "/Users/irosenba/website/node_modules/cosmiconfig/node_modules/yaml/LICENSE"
+  },
+  "yaml@2.8.4": {
     "licenses": "ISC",
     "repository": "https://github.com/eemeli/yaml",
     "publisher": "Eemeli Aro",
     "email": "eemeli@gmail.com",
     "path": "/Users/irosenba/website/node_modules/yaml",
     "licenseFile": "/Users/irosenba/website/node_modules/yaml/LICENSE"
-  },
-  "yaml@2.4.4": {
-    "licenses": "ISC",
-    "repository": "https://github.com/eemeli/yaml",
-    "publisher": "Eemeli Aro",
-    "email": "eemeli@gmail.com",
-    "path": "/Users/irosenba/website/node_modules/postcss-load-config/node_modules/yaml",
-    "licenseFile": "/Users/irosenba/website/node_modules/postcss-load-config/node_modules/yaml/LICENSE"
   },
   "yargs-parser@20.2.9": {
     "licenses": "ISC",

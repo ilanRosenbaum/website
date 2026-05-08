@@ -1,0 +1,43 @@
+shared:
+  targetLevels:
+    right: 3
+    bottomRight: 0
+    bottomLeft: 0
+    left: 3
+    topLeft: 3
+    topRight: 3
+  styles:
+    default:
+      fill: '#4c0013'
+      opacity: 0.6
+  textColor: '#F2EFDE'
+  dropShadow: '#F2EFDE'
+app:
+  actions:
+    default:
+      type: reload
+      to: /software/rooms
+page:
+  title: roōms
+  titleSize: 5vw
+  text:
+    right: How
+    left: Press
+    topLeft: What
+    topRight: Why
+  backButton:
+    exists: true
+    to: /software
+  actions:
+    left:
+      type: external
+      url: https://innovate.wisc.edu/business-entrepreneurship-clinic-a-room-with-a-view-ilan-rosenbaums-app-helps-students-find-housing/
+    topLeft:
+      type: navigate
+      to: /software/rooms/what
+    topRight:
+      type: navigate
+      to: /software/rooms/why
+    right:
+      type: navigate
+      to: /software/rooms/how

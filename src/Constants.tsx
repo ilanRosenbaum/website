@@ -1,5 +1,5 @@
 export const COPYRIGHT_TEXT = `© Ilan Rosenbaum ${new Date().getFullYear()}`;
-export const VERSION_TEXT = "Version 4.1.1";
+export const VERSION_TEXT = "Version 4.2.0";
 
 export const COLORS = {
   BACK_BUTTON_PURPLE: "#603b61",

@@ -1,0 +1,46 @@
+shared:
+  targetLevels:
+    right: 0
+    bottomRight: 3
+    bottomLeft: 3
+    left: 3
+    topLeft: 3
+    topRight: 3
+  images:
+    topLeft: /Covers/yosemiteVertical.jpg
+    topRight: /Covers/tahoeVertical.jpg
+    left: /Covers/bayAreaVertical.jpg
+    bottomLeft: /Covers/sacramentoVertical.jpg
+    bottomRight: /Covers/sequoiaVertical.jpg
+app:
+  title: California
+  imageId: California
+page:
+  title: California
+  text:
+    bottomRight: Sequoia
+    bottomLeft: Sacramento
+    left: Bay Area
+    topLeft: Yosemite
+    topRight: Tahoe
+  backButton:
+    exists: true
+    to: /photography/usa/westCoast
+  confusedButton:
+    link: /writing/about/photography
+  actions:
+    left:
+      type: navigate
+      to: /photography/usa/westCoast/california/bayArea
+    bottomLeft:
+      type: navigate
+      to: /photography/usa/westCoast/california/sacramento
+    topRight:
+      type: navigate
+      to: /photography/usa/westCoast/california/tahoe
+    topLeft:
+      type: navigate
+      to: /photography/usa/westCoast/california/yosemite
+    bottomRight:
+      type: navigate
+      to: /photography/usa/westCoast/california/sequoia

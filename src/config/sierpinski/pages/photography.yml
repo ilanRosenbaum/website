@@ -1,0 +1,84 @@
+shared:
+  targetLevels:
+    right: 0
+    bottomRight: 0
+    bottomLeft: 0
+    left: 0
+    topLeft: 3
+    topRight: 0
+  images:
+    topLeft: /Covers/planeVertical.jpg
+app:
+  title: Photography
+  titleSize: max(0.8vw, 0.8vh)
+  configRefs:
+    left:
+      pageId: photography/mexico
+      view: app
+      overrides:
+        title: ''
+    bottomLeft:
+      pageId: photography/africa
+      view: app
+      overrides:
+        title: ''
+    bottomRight:
+      pageId: photography/europe
+      view: app
+      overrides:
+        title: ''
+    right:
+      pageId: photography/usa
+      view: app
+      overrides:
+        title: ''
+    topRight:
+      pageId: photography/japan
+      view: app
+      overrides:
+        title: ''
+page:
+  title: Photography
+  text:
+    topLeft: In Between
+  backButton:
+    exists: true
+    to: /
+    textColor: '#4c0013'
+  confusedButton:
+    link: /writing/about/photography
+  actions:
+    right:
+      type: transition
+      to: /photography/usa
+    topRight:
+      type: transition
+      to: /photography/japan
+    topLeft:
+      type: navigate
+      to: /photography/InBetween
+    left:
+      type: transition
+      to: /photography/mexico
+    bottomLeft:
+      type: transition
+      to: /photography/africa
+    bottomRight:
+      type: transition
+      to: /photography/europe
+  configRefs:
+    left:
+      pageId: photography/mexico
+      view: app
+    bottomLeft:
+      pageId: photography/africa
+      view: app
+    bottomRight:
+      pageId: photography/europe
+      view: app
+    right:
+      pageId: photography/usa
+      view: app
+    topRight:
+      pageId: photography/japan
+      view: app

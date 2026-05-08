@@ -1,0 +1,36 @@
+shared:
+  targetLevels:
+    right: 0
+    bottomRight: 0
+    bottomLeft: 3
+    left: 0
+    topLeft: 0
+    topRight: 3
+  images:
+    topRight: /Covers/neocitiesCover.png
+    bottomLeft: /Covers/melonlandVertical.png
+app:
+  title: Aggregators
+  titleSize: max(1.2vw, 1.2vh)
+  actions:
+    default:
+      type: reload
+      to: /links/aggregators
+page:
+  title: Aggregators
+  text:
+    bottomLeft: MelonLand
+    topRight: Neocities
+  backButton:
+    exists: true
+    to: /links
+    textColor: '#4c0013'
+  confusedButton:
+    link: /writing/about/links/aggregators
+  actions:
+    bottomLeft:
+      type: external
+      url: https://melonland.net/surf-club
+    topRight:
+      type: external
+      url: https://neocities.org/browse

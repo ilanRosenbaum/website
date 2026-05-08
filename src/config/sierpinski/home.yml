@@ -1,0 +1,58 @@
+presetsFile: presets.yml
+pages:
+  home:
+    file: pages/home.yml
+  writing:
+    file: pages/writing.yml
+    about:
+      file: pages/writing/about.yml
+      thisWebsite:
+        file: pages/writing/about/thisWebsite.yml
+      links:
+        file: pages/writing/about/links.yml
+  software:
+    file: pages/software.yml
+    rooms:
+      file: pages/software/rooms.yml
+  links:
+    file: pages/links.yml
+    aggregators:
+      file: pages/links/aggregators.yml
+    journalism:
+      file: pages/links/journalism.yml
+    cool:
+      file: pages/links/cool.yml
+  leaderboards:
+    file: pages/leaderboards.yml
+    places:
+      file: pages/leaderboards/places.yml
+  trades:
+    file: pages/trades.yml
+    ceramics:
+      file: pages/trades/ceramics.yml
+    misc:
+      file: pages/trades/misc.yml
+  photography:
+    file: pages/photography.yml
+    africa:
+      file: pages/photography/africa.yml
+    europe:
+      file: pages/photography/europe.yml
+    japan:
+      file: pages/photography/japan.yml
+    mexico:
+      file: pages/photography/mexico.yml
+    usa:
+      file: pages/photography/usa.yml
+      midwest:
+        file: pages/photography/usa/midwest.yml
+      northEast:
+        file: pages/photography/usa/northEast.yml
+      south:
+        file: pages/photography/usa/south.yml
+      sunbelt:
+        file: pages/photography/usa/sunbelt.yml
+      westCoast:
+        file: pages/photography/usa/westCoast.yml
+        california:
+          file: pages/photography/usa/westCoast/california.yml

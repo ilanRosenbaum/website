@@ -1,0 +1,43 @@
+shared:
+  targetLevels:
+    right: 0
+    bottomRight: 0
+    bottomLeft: 3
+    left: 3
+    topLeft: 3
+    topRight: 3
+  images:
+    left: /Covers/kyotoVertical.JPG
+    topLeft: /Covers/mtFujiVertical.JPG
+    bottomLeft: /Covers/tokyoVertical.JPG
+    topRight: /Covers/osakaVertical.JPG
+app:
+  title: Japan
+  titleSize: max(1.2vw, 1.2vh)
+  imageId: Japan
+page:
+  title: Japan
+  titleSize: 2vw
+  text:
+    left: Kyoto
+    topLeft: Mt. Fuji
+    bottomLeft: Tokyo
+    topRight: Osaka
+  backButton:
+    exists: true
+    to: /photography
+  confusedButton:
+    link: /writing/about/photography
+  actions:
+    left:
+      type: navigate
+      to: /photography/japan/kyoto
+    topLeft:
+      type: navigate
+      to: /photography/japan/mountFuji
+    bottomLeft:
+      type: navigate
+      to: /photography/japan/tokyo
+    topRight:
+      type: navigate
+      to: /photography/japan/osaka

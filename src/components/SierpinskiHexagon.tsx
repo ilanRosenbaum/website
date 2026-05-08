@@ -19,12 +19,18 @@ import { imageCache } from "./ImageCache";
 import { COLORS, Footer } from "../Constants";
 import FastModeToggle from "./FastModeToggle";
 
+export type HexSection = "right" | "bottomRight" | "bottomLeft" | "left" | "topLeft" | "topRight";
+
+export const HEX_SECTION_ORDER: HexSection[] = ["right", "bottomRight", "bottomLeft", "left", "topLeft", "topRight"];
+
+type HexTextMap = Partial<Record<HexSection, string>> & Partial<Record<number, string>> & Record<string, string>;
+
 export interface HexagonConfig {
-  targetLevels: Record<string, number>;
+  targetLevels: Record<HexSection, number>;
   styles: Record<string, { fill: string; opacity: number }>;
   actions: Record<string, (hexagonId: number) => void>;
   images: Record<string, string>;
-  text: Record<number, string>;
+  text: HexTextMap;
   textSize?: string;
   title?: string;
   titleSize?: string;
@@ -64,6 +70,19 @@ export const minConfig: HexagonConfig = {
     exists: false
   }
 };
+
+function getSectionByIndex(index: number): HexSection {
+  return HEX_SECTION_ORDER[index];
+}
+
+function getTextForSection(text: HexTextMap, section: string): string {
+  const sectionIndex = HEX_SECTION_ORDER.findIndex((position) => position === section);
+  if (sectionIndex === -1) {
+    return "";
+  }
+
+  return text[section as HexSection] || text[String(sectionIndex + 1)] || text[sectionIndex + 1] || "";
+}
 
 // Keep existing helper functions the same...
 function preloadImages(config: HexagonConfig) {
@@ -272,7 +291,14 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
   useEffect(() => {
     if (!svgRef.current) return;
 
+    isTransitioningRef.current = false;
+
     const svg = d3.select(svgRef.current);
+    svg.interrupt();
+    svg.classed("transitioning", false);
+    svg.style("transition", null).style("transform", null).style("transform-origin", null);
+    svgRef.current.removeAttribute("data-nav-transition");
+
     const width = window.innerWidth;
     const height = window.innerHeight;
 
@@ -295,7 +321,7 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
       if (level <= 0) return;
 
       const currentHexagonId = hexagonCounter;
-      const targetLevel = currentConfig.targetLevels[section];
+      const targetLevel = currentConfig.targetLevels[section as HexSection];
       const groupClass = `hexagon-group-${level < 4 ? currentHexagonId : (hexIdOverride ?? 0)}`;
       const group = svg.append("g").attr("class", groupClass);
 
@@ -304,7 +330,7 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
 
       if (level > 3) {
         offsets.forEach(([dx, dy], index) => {
-          const newSection = Object.keys(currentConfig.targetLevels)[index];
+          const newSection = getSectionByIndex(index);
           drawHexagon(x + dx, y + dy, size / 3, level - 1, newSection, currentConfig, isMainHexagon, currentConfig, sectionPath);
         });
       } else if (level > targetLevel) {
@@ -354,7 +380,7 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
           .style("pointer-events", "fill");
 
         group.on("click", () => {
-          const possibleSection = Object.keys(currentConfig.targetLevels)[currentHexagonId - 1];
+          const possibleSection = getSectionByIndex(currentHexagonId - 1);
           const action = config.actions[possibleSection] || config.actions.default;
           action(currentHexagonId);
           isTransitioningRef.current = true;
@@ -381,7 +407,7 @@ const SierpinskiHexagon: React.FC<{ config: HexagonConfig }> = ({ config }) => {
           .style("font-family", "Courier new, monospace")
           .style("font-weight", "500")
           .style("text-shadow", "0em 0em 0.1em rgba(0, 0, 0, 1)")
-          .text(currentConfig.text[hexagonCounter] || "")
+          .text(getTextForSection(currentConfig.text, section))
           .style("opacity", 0)
           .transition()
           .duration(500)

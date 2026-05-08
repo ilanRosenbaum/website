@@ -1,0 +1,42 @@
+shared:
+  targetLevels:
+    right: 3
+    bottomRight: 0
+    bottomLeft: 3
+    left: 3
+    topLeft: 3
+    topRight: 0
+  images:
+    left: /Covers/amsterdamVertical.jpg
+    bottomLeft: /Covers/lyonVertical.jpg
+    topLeft: /Covers/gironaVertical.jpg
+    right: /Covers/copenhagenVertical.jpg
+app:
+  title: Europe
+  titleSize: max(1.2vw, 1.2vh)
+  imageId: Europe
+page:
+  title: Europe
+  text:
+    right: Denmark
+    bottomLeft: France
+    left: Netherlands
+    topLeft: Spain
+  backButton:
+    exists: true
+    to: /photography
+  confusedButton:
+    link: /writing/about/photography
+  actions:
+    left:
+      type: navigate
+      to: /photography/europe/netherlands
+    bottomLeft:
+      type: navigate
+      to: /photography/europe/france
+    topLeft:
+      type: navigate
+      to: /photography/europe/spain
+    right:
+      type: navigate
+      to: /photography/europe/denmark

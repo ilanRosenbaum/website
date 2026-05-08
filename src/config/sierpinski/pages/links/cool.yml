@@ -1,0 +1,46 @@
+shared:
+  targetLevels:
+    right: 3
+    bottomRight: 3
+    bottomLeft: 0
+    left: 3
+    # topLeft: 3
+    topRight: 0
+  images:
+    left: /Covers/recipetsplitterVertical.png
+    # topLeft: /Covers/aaronBeckerVertical.png
+    right: /Covers/ribozoneVertical.png
+    bottomRight: /Covers/17776Vertical.jpg
+app:
+  title: Cool
+  titleSize: max(2vw, 2vh)
+  actions:
+    default:
+      type: reload
+      to: /links/cool
+page:
+  title: Cool
+  text:
+    # topLeft: Aaron Becker
+    left: Receipt Splitter
+    bottomRight: '17776'
+    right: Ribo.zone
+  backButton:
+    exists: true
+    to: /links
+    textColor: '#4c0013'
+  confusedButton:
+    link: /writing/about/links/cool
+  actions:
+    left:
+      type: external
+      url: https://receiptsplitter.org/
+    right:
+      type: external
+      url: https://ribo.zone/
+    bottomRight:
+      type: external
+      url: https://www.sbnation.com/a/17776-football/chapter-1
+    # topLeft:
+    #   type: external
+    #   url: https://ambecker.com

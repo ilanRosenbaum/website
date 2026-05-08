@@ -1,0 +1,37 @@
+shared:
+  targetLevels:
+    right: 3
+    bottomRight: 3
+    bottomLeft: 0
+    left: 3
+    topLeft: 0
+    topRight: 3
+app:
+  actions:
+    default:
+      type: reload
+      to: /writing/about/links
+page:
+  title: Links
+  titleSize: 4vw
+  text:
+    right: Aggregators
+    bottomRight: Journalism
+    left: Cool
+    topRight: Why
+  backButton:
+    exists: true
+    to: /writing/about
+  actions:
+    right:
+      type: navigate
+      to: /writing/about/links/aggregators
+    bottomRight:
+      type: navigate
+      to: /writing/about/links/journalism
+    left:
+      type: navigate
+      to: /writing/about/links/cool
+    topRight:
+      type: external
+      url: https://thoughts.melonking.net/thoughts/every-site-needs-a-links-page-why-linking-matters

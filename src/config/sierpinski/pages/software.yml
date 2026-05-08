@@ -1,0 +1,39 @@
+shared:
+  targetLevels:
+    right: 0
+    bottomRight: 0
+    bottomLeft: 3
+    left: 0
+    topLeft: 0
+    topRight: 0
+app:
+  title: Software
+  titleSize: max(1.4vw, 1.4vh)
+  actions:
+    default:
+      type: reload
+      to: /software
+  configRefs:
+    topLeft:
+      pageId: software/rooms
+      view: app
+page:
+  title: Software
+  text:
+    topLeft: roōms
+    bottomLeft: Open Source
+  backButton:
+    exists: true
+    to: /
+    textColor: '#4c0013'
+  actions:
+    topLeft:
+      type: transition
+      to: /software/rooms
+    bottomLeft:
+      type: navigate
+      to: /software/openSource
+  configRefs:
+    topLeft:
+      pageId: software/rooms
+      view: app

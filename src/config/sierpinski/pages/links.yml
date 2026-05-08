@@ -1,0 +1,60 @@
+shared:
+  targetLevels:
+    right: 0
+    bottomRight: 0
+    bottomLeft: 0
+    left: 0
+    topLeft: 0
+    topRight: 0
+app:
+  title: Links
+  titleSize: max(1.2vw, 1.2vh)
+  actions:
+    default:
+      type: reload
+      to: /links
+  configRefs:
+    right:
+      pageId: links/aggregators
+      view: app
+      overrides:
+        title: ''
+    bottomRight:
+      pageId: links/journalism
+      view: app
+      overrides:
+        title: ''
+    left:
+      pageId: links/cool
+      view: app
+      overrides:
+        title: ''
+page:
+  title: Links
+  titleSize: max(3vw, 3vh)
+  backButton:
+    exists: true
+    to: /
+    textColor: '#4c0013'
+  confusedButton:
+    link: https://thoughts.melonking.net/thoughts/every-site-needs-a-links-page-why-linking-matters
+  actions:
+    right:
+      type: transition
+      to: /links/aggregators
+    bottomRight:
+      type: transition
+      to: /links/journalism
+    left:
+      type: transition
+      to: /links/cool
+  configRefs:
+    right:
+      pageId: links/aggregators
+      view: app
+    bottomRight:
+      pageId: links/journalism
+      view: app
+    left:
+      pageId: links/cool
+      view: app

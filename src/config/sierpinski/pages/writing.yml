@@ -1,0 +1,44 @@
+shared:
+  targetLevels:
+    right: 0
+    bottomRight: 0
+    bottomLeft: 3
+    left: 3
+    topLeft: 0
+    topRight: 0
+app:
+  title: Writing
+  titleSize: max(1.2vw, 1.2vh)
+  actions:
+    default:
+      type: reload
+      to: /writing
+  configRefs:
+    topRight:
+      pageId: writing/about
+      view: app
+page:
+  title: Writing
+  titleSize: 3vw
+  text:
+    left: Blog
+    bottomLeft: Research
+    topRight: About
+  backButton:
+    exists: true
+    to: /
+    textColor: '#4c0013'
+  actions:
+    topRight:
+      type: transition
+      to: /writing/about
+    left:
+      type: navigate
+      to: /writing/blog
+    bottomLeft:
+      type: navigate
+      to: /writing/research
+  configRefs:
+    topRight:
+      pageId: writing/about
+      view: app

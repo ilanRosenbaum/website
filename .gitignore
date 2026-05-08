@@ -11,6 +11,9 @@
 # production
 /build
 
+# generated source
+/src/config/sierpinski/registry.generated.ts
+
 # misc
 .DS_Store
 .env.local

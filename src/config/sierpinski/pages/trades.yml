@@ -1,0 +1,63 @@
+shared:
+  targetLevels:
+    right: 0
+    bottomRight: 3
+    bottomLeft: 0
+    left: 3
+    topLeft: 0
+    topRight: 3
+  images:
+    bottomRight: /Covers/RichAndFrankVertical.jpg
+    left: /Covers/chickenPastaVertical.jpg
+    topRight: /Covers/mugVertical.jpg
+app:
+  title: Trades
+  titleSize: max(1.2vw, 1.2vh)
+  actions:
+    default:
+      type: reload
+      to: /trades
+  configRefs:
+    bottomLeft:
+      pageId: trades/misc
+      view: app
+    right:
+      pageId: trades/ceramics
+      view: app
+page:
+  title: Trades
+  text:
+    left: Cooking
+    bottomRight: Rich & Frank
+    bottomLeft: Misc
+    topRight: Favorites
+  backButton:
+    exists: true
+    to: /
+    textColor: '#4c0013'
+  actions:
+    right:
+      type: transition
+      to: /trades/ceramics
+    bottomRight:
+      type: navigate
+      to: /trades/richAndFrank
+    left:
+      type: navigate
+      to: /trades/cooking
+    bottomLeft:
+      type: transition
+      to: /trades/misc
+    topRight:
+      type: navigate
+      to: /trades/favorites
+  configRefs:
+    bottomLeft:
+      pageId: trades/misc
+      view: app
+    right:
+      pageId: trades/ceramics
+      view: app
+      overrides:
+        title: Ceramics
+        titleSize: max(1vw, 1vh)

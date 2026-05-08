@@ -1,0 +1,52 @@
+page:
+  targetLevels:
+    right: 0
+    bottomRight: 0
+    bottomLeft: 0
+    left: 0
+    topLeft: 0
+    topRight: 0
+  title: Ilan Rosenbaum
+  titleSize: max(1.8vw, 1.6vh)
+  images:
+    right: /Covers/birdVertical.jpg
+  actions:
+    right:
+      type: transition
+      to: /photography
+    bottomRight:
+      type: transition
+      to: /leaderboards
+    bottomLeft:
+      type: transition
+      to: /trades
+    left:
+      type: transition
+      to: /software
+    topLeft:
+      type: transition
+      to: /links
+    topRight:
+      type: transition
+      to: /writing
+  configRefs:
+    right:
+      pageId: photography
+      view: app
+    bottomRight:
+      pageId: leaderboards
+      view: app
+    bottomLeft:
+      pageId: trades
+      view: app
+    left:
+      pageId: software
+      view: app
+    topLeft:
+      pageId: links
+      view: app
+    topRight:
+      pageId: writing
+      view: app
+  backButton:
+    exists: false

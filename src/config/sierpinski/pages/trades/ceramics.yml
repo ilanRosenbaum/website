@@ -1,0 +1,27 @@
+shared:
+  targetLevels:
+    right: 3
+    bottomRight: 0
+    bottomLeft: 0
+    left: 0
+    topLeft: 0
+    topRight: 3
+  images:
+    right: /Covers/garlicVertical.jpg
+    topRight: /Covers/glazeCoverVertical.jpg
+page:
+  title: Ceramics
+  text:
+    right: Works
+    topRight: Glazes
+  backButton:
+    exists: true
+    to: /trades
+    textColor: '#4c0013'
+  actions:
+    right:
+      type: navigate
+      to: /trades/ceramics/works
+    topRight:
+      type: navigate
+      to: /trades/ceramics/glazes

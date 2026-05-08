@@ -1,0 +1,26 @@
+shared:
+  targetLevels:
+    right: 3
+    bottomRight: 0
+    bottomLeft: 0
+    left: 0
+    topLeft: 0
+    topRight: 0
+  images:
+    right: /Covers/charlotteVertical.jpg
+app:
+  title: South
+  imageId: South
+page:
+  title: South
+  text:
+    right: North Carolina
+  backButton:
+    exists: true
+    to: /photography/usa
+  confusedButton:
+    link: /writing/about/photography
+  actions:
+    topRight:
+      type: navigate
+      to: /photography/usa/south/northCarolina

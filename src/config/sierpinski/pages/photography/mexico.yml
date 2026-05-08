@@ -1,0 +1,33 @@
+shared:
+  targetLevels:
+    right: 3
+    bottomRight: 0
+    bottomLeft: 0
+    left: 3
+    topLeft: 0
+    topRight: 0
+  images:
+    left: /Covers/PuertoVallartaVertical.JPG
+    right: /Covers/CancunVertical.jpg
+app:
+  title: Mexico
+  titleSize: max(1.2vw, 1.2vh)
+  imageId: Mexico
+page:
+  title: Mexico
+  titleSize: 2vw
+  text:
+    left: Puerto Vallarta
+    right: Cancun
+  backButton:
+    exists: true
+    to: /photography
+  confusedButton:
+    link: /writing/about/photography
+  actions:
+    left:
+      type: navigate
+      to: /photography/mexico/puertoVallarta
+    right:
+      type: navigate
+      to: /photography/mexico/cancun

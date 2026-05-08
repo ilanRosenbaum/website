@@ -1,0 +1,40 @@
+shared:
+  targetLevels:
+    right: 3
+    bottomRight: 3
+    bottomLeft: 0
+    left: 3
+    topLeft: 3
+    topRight: 0
+app:
+  actions:
+    default:
+      type: reload
+      to: /leaderboards/places
+page:
+  title: Places
+  titleSize: 4vw
+  text:
+    right: Lived
+    topLeft: To Visit
+    left: Visited
+    bottomRight: To Live
+  backButton:
+    exists: true
+    to: /leaderboards
+    textColor: '#F2EFDE'
+  confusedButton:
+    link: /writing/about/leaderboards
+  actions:
+    left:
+      type: navigate
+      to: /leaderboards/places/visited
+    topLeft:
+      type: navigate
+      to: /leaderboards/places/toVisit
+    bottomRight:
+      type: navigate
+      to: /leaderboards/places/toLive
+    right:
+      type: navigate
+      to: /leaderboards/places/lived

@@ -1,0 +1,95 @@
+shared:
+  targetLevels:
+    right: 0
+    bottomRight: 0
+    bottomLeft: 3
+    left: 0
+    topLeft: 0
+    topRight: 0
+  images:
+    bottomLeft: /Covers/hawaiiVertical.jpg
+app:
+  title: United States
+  titleSize: max(0.9vw, 0.9vh)
+  imageId: UnitedStates
+  configRefs:
+    bottomRight:
+      pageId: photography/usa/westCoast
+      view: app
+      overrides:
+        title: ''
+    right:
+      pageId: photography/usa/midwest
+      view: app
+      overrides:
+        title: ''
+    topRight:
+      pageId: photography/usa/northEast
+      view: app
+      overrides:
+        title: ''
+    topLeft:
+      pageId: photography/usa/south
+      view: app
+      overrides:
+        title: ''
+    left:
+      pageId: photography/usa/sunbelt
+      view: app
+      overrides:
+        title: ''
+page:
+  title: United States
+  titleSize: 2vw
+  text:
+    bottomLeft: Hawaii
+  backButton:
+    exists: true
+    to: /photography
+  confusedButton:
+    link: /writing/about/photography
+  actions:
+    right:
+      type: transition
+      to: /photography/usa/midwest
+    bottomRight:
+      type: transition
+      to: /photography/usa/westCoast
+    bottomLeft:
+      type: navigate
+      to: /photography/usa/hawaii
+    left:
+      type: transition
+      to: /photography/usa/sunbelt
+    topLeft:
+      type: transition
+      to: /photography/usa/south
+    topRight:
+      type: transition
+      to: /photography/usa/northEast
+  configRefs:
+    bottomRight:
+      pageId: photography/usa/westCoast
+      view: app
+      overrides:
+        titleSize: max(0.8vw, 0.7vh)
+    right:
+      pageId: photography/usa/midwest
+      view: app
+      overrides:
+        titleSize: max(0.9vw, 0.8vh)
+    topRight:
+      pageId: photography/usa/northEast
+      view: app
+      overrides:
+        titleSize: max(0.9vw, 0.8vh)
+    topLeft:
+      pageId: photography/usa/south
+      view: app
+      overrides:
+        titleSize: max(0.9vw, 0.8vh)
+    left:
+      pageId: photography/usa/sunbelt
+      view: app
+      overrides:
+        titleSize: max(0.9vw, 0.8vh)

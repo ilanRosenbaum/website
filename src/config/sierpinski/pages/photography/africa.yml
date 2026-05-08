@@ -1,0 +1,28 @@
+shared:
+  targetLevels:
+    right: 0
+    bottomRight: 0
+    bottomLeft: 0
+    left: 3
+    topLeft: 0
+    topRight: 0
+  images:
+    left: /Covers/moroccoVertical.jpg
+app:
+  title: Africa
+  titleSize: max(1.2vw, 1.2vh)
+  imageId: Africa
+page:
+  title: Africa
+  titleSize: 2vw
+  text:
+    left: Morocco
+  backButton:
+    exists: true
+    to: /photography
+  confusedButton:
+    link: /writing/about/photography
+  actions:
+    left:
+      type: navigate
+      to: /photography/africa/morocco
