@@ -1,6 +1,6 @@
 shared:
   targetLevels:
-    right: 0
+    right: 3
     bottomRight: 3
     bottomLeft: 3
     left: 3
@@ -12,6 +12,7 @@ shared:
     left: /Covers/bayAreaVertical.jpg
     bottomLeft: /Covers/sacramentoVertical.jpg
     bottomRight: /Covers/sequoiaVertical.jpg
+    right: /Covers/redwoodsVertical.jpg
 app:
   title: California
   imageId: California
@@ -23,6 +24,7 @@ page:
     left: Bay Area
     topLeft: Yosemite
     topRight: Tahoe
+    right: Redwoods
   backButton:
     exists: true
     to: /photography/usa/westCoast
@@ -44,3 +46,6 @@ page:
     bottomRight:
       type: navigate
       to: /photography/usa/westCoast/california/sequoia
+    right:
+      type: navigate
+      to: /photography/usa/westCoast/california/redwoods

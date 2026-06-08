@@ -191,6 +191,10 @@ root.render(
           element={<TiledPlane photoPath={"/Photography/UnitedStates/California/Yosemite"} backTo={"/photography/usa/westCoast/california"} />}
         />
         <Route
+          path="/photography/usa/westCoast/california/redwoods"
+          element={<TiledPlane photoPath={"/Photography/UnitedStates/California/Redwood Parks"} backTo={"/photography/usa/westCoast/california"} />}
+        />
+        <Route
           path="/photography/usa/westCoast/washington"
           element={<TiledPlane photoPath={"/Photography/UnitedStates/Washington"} backTo={"/photography/usa/westCoast"} />}
         />
