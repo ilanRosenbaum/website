@@ -130,12 +130,11 @@ I chose to include more or less any written words that exceeded 100 pages or had
 
 ## Reading List
 
-| Title                                                | Author(s)          |
-| ---------------------------------------------------- | ------------------ |
-| The Handmaids Tale                                   | Margaret Atwood    |
-| Little Women                                         | Louisa May Alcott  |
-| Zen and the art of motorcycle maintenance            | Robert M. Pirsig   |
-| The Complete Guide to Mid-Range Glazes               | John Brit          |
-| Capitalism                                           | Sven Beckert       |
-| One Day, Everyone Will Have Always Been Against This | Omar El Akkad      |
+| Title                                                | Author(s)         |
+| ---------------------------------------------------- | ----------------- |
+| The Handmaids Tale                                   | Margaret Atwood   |
+| Little Women                                         | Louisa May Alcott |
+| The Complete Guide to Mid-Range Glazes               | John Brit         |
+| Capitalism                                           | Sven Beckert      |
+| One Day, Everyone Will Have Always Been Against This | Omar El Akkad     |
 

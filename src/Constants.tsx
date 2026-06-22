@@ -1,11 +1,12 @@
 export const COPYRIGHT_TEXT = `© Ilan Rosenbaum ${new Date().getFullYear()}`;
-export const VERSION_TEXT = "Version 4.2.1";
+export const VERSION_TEXT = "Version 4.2.2";
 
 export const COLORS = {
   BACK_BUTTON_PURPLE: "#603b61",
   BACK_BUTTON_TEXT: "#ffefdb",
   MARKDOWN_TEXT: "#ffebcd",
   DARK_MAROON: "#4c0013",
+  GOT_NEXT_ORANGE: "#E8762C",
   SURFACE_DARK: "#1e1e1e",
   SURFACE_DARK_ALT: "#2d2d2d",
   ACCENT_LINK_PURPLE: "#c084fc",

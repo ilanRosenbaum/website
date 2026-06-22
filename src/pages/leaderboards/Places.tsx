@@ -22,7 +22,7 @@ const VISITED_COLUMNS: ReadonlyArray<TableColumn> = [
     accessor: "WantToReturn",
     sortable: true,
     sortType: "number",
-    default: "asc" // Higher numbers first
+    default: "asc" 
   },
   {
     header: "Enjoyment",

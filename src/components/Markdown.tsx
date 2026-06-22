@@ -28,6 +28,7 @@ interface MarkdownPageProps {
   backTo?: string;
   backButtonFill?: string;
   textColor?: string;
+  linkColor?: string;
   googleSheetId?: string;
   googleSheetGids?: string[];
   useWideContainer?: boolean;
@@ -38,6 +39,7 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({
   backTo,
   backButtonFill,
   textColor,
+  linkColor,
   googleSheetId,
   googleSheetGids,
   useWideContainer = false
@@ -178,7 +180,7 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({
         return (
           <a
             href={href}
-              style={{ color: COLORS.ACCENT_LINK_PURPLE }}
+            style={{ color: linkColor || COLORS.ACCENT_LINK_PURPLE }}
             onClick={(e) => { e.preventDefault(); navigate(href); }}
             {...props}
           >
@@ -187,7 +189,7 @@ const MarkdownPage: React.FC<MarkdownPageProps> = ({
         );
       }
       return (
-        <a href={href} target="_blank" rel="noopener noreferrer" style={{ color: COLORS.ACCENT_LINK_PURPLE }} {...props}>
+        <a href={href} target="_blank" rel="noopener noreferrer" style={{ color: linkColor || COLORS.ACCENT_LINK_PURPLE }} {...props}>
           {children}
         </a>
       );

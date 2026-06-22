@@ -1,0 +1,41 @@
+shared:
+  targetLevels:
+    right: 3
+    bottomRight: 0
+    bottomLeft: 0
+    left: 0
+    topLeft: 3
+    topRight: 3
+  styles:
+    default:
+      fill: '#E8762C'
+      opacity: 0.6
+  textColor: '#F2EFDE'
+  dropShadow: '#F2EFDE'
+app:
+  title: Got Next
+  titleSize: max(1.1vw, 1.1vh)
+  actions:
+    default:
+      type: reload
+      to: /software/gotNext
+page:
+  title: Got Next
+  titleSize: 3.3vw
+  text:
+    right: How
+    topLeft: What
+    topRight: Why
+  backButton:
+    exists: true
+    to: /software
+  actions:
+    topLeft:
+      type: navigate
+      to: /software/gotNext/what
+    topRight:
+      type: navigate
+      to: /software/gotNext/why
+    right:
+      type: navigate
+      to: /software/gotNext/how

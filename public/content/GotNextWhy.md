@@ -1,0 +1,3 @@
+# Got Next — Why
+
+I love basketball, to a point of obsession. It is one of the great joys of my life. I have a wonderful community of folks in Madison I play with and on a random day while playing I proposed the idea of having an app that tracks wins/losses and making a league/tournament out of it while still being able to keep the scheduling flexibility that makes pickup work for everyone. I didn't really intend to actually make the app but one day when I had two hours carved out for glasses shopping a tornado decided I had to stay in and figure out what to do with my time. So I made the app. 

@@ -18,6 +18,7 @@ import App from "./App";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import MarkdownPage from "./components/Markdown";
 import SierpinskiPage from "./components/SierpinskiPage";
+import { COLORS } from "./Constants";
 
 import Books from "./pages/leaderboards/Books";
 import { Lived, ToVisit, Visited } from "./pages/leaderboards/Places";
@@ -50,15 +51,33 @@ root.render(
         <Route path="/writing/about" element={<SierpinskiPage pageId="writing/about" />} />
         <Route path="/writing/about/me" element={<MarkdownPage source={"/content/Me.md"} backTo="/writing/about" />} />
         <Route path="/writing/about/thisWebsite" element={<SierpinskiPage pageId="writing/about/thisWebsite" />} />
-        <Route path="/writing/about/thisWebsite/what" element={<MarkdownPage source={"/content/ThisWebsiteWhat.md"} backTo="/writing/about/thisWebsite" />} />
-        <Route path="/writing/about/thisWebsite/why" element={<MarkdownPage source={"/content/ThisWebsiteWhy.md"} backTo="/writing/about/thisWebsite" />} />
-        <Route path="/writing/about/thisWebsite/how" element={<MarkdownPage source={"/content/ThisWebsiteHow.md"} backTo="/writing/about/thisWebsite" />} />
-        <Route path="/writing/about/thisWebsite/versioning" element={<MarkdownPage source={"/content/Versioning.md"} backTo="/writing/about/thisWebsite"  />} />
+        <Route
+          path="/writing/about/thisWebsite/what"
+          element={<MarkdownPage source={"/content/ThisWebsiteWhat.md"} backTo="/writing/about/thisWebsite" />}
+        />
+        <Route
+          path="/writing/about/thisWebsite/why"
+          element={<MarkdownPage source={"/content/ThisWebsiteWhy.md"} backTo="/writing/about/thisWebsite" />}
+        />
+        <Route
+          path="/writing/about/thisWebsite/how"
+          element={<MarkdownPage source={"/content/ThisWebsiteHow.md"} backTo="/writing/about/thisWebsite" />}
+        />
+        <Route
+          path="/writing/about/thisWebsite/versioning"
+          element={<MarkdownPage source={"/content/Versioning.md"} backTo="/writing/about/thisWebsite" />}
+        />
         <Route path="/writing/about/photography" element={<MarkdownPage source={"/content/PhotographyInfo.md"} backTo="/writing/about" />} />
         <Route path="/writing/about/leaderboards" element={<MarkdownPage source={"/content/Leaderboards.md"} backTo="/writing/about" />} />
         <Route path="/writing/about/links" element={<SierpinskiPage pageId="writing/about/links" />} />
-        <Route path="/writing/about/links/aggregators" element={<MarkdownPage source={"/content/LinksAggregators.md"} backTo="/writing/about/links" />} />
-        <Route path="/writing/about/links/journalism" element={<MarkdownPage source={"/content/LinksJournalism.md"} backTo="/writing/about/links" />} />
+        <Route
+          path="/writing/about/links/aggregators"
+          element={<MarkdownPage source={"/content/LinksAggregators.md"} backTo="/writing/about/links" />}
+        />
+        <Route
+          path="/writing/about/links/journalism"
+          element={<MarkdownPage source={"/content/LinksJournalism.md"} backTo="/writing/about/links" />}
+        />
         <Route path="/writing/about/links/products" element={<MarkdownPage source={"/content/LinksProducts.md"} backTo="/writing/about/links" />} />
         <Route path="/writing/about/links/cool" element={<MarkdownPage source={"/content/LinksCool.md"} backTo="/writing/about/links" />} />
 
@@ -68,6 +87,40 @@ root.render(
         <Route path="/software/rooms/what" element={<MarkdownPage source={"/content/RoomsWhat.md"} backTo="/software/rooms" />} />
         <Route path="/software/rooms/why" element={<MarkdownPage source={"/content/RoomsWhy.md"} backTo="/software/rooms" />} />
         <Route path="/software/rooms/how" element={<MarkdownPage source={"/content/RoomsHow.md"} backTo="/software/rooms" />} />
+        <Route path="/software/gotNext" element={<SierpinskiPage pageId="software/gotNext" />} />
+        <Route
+          path="/software/gotNext/what"
+          element={
+            <MarkdownPage
+              source={"/content/GotNextWhat.md"}
+              backTo="/software/gotNext"
+              backButtonFill={COLORS.GOT_NEXT_ORANGE}
+              linkColor={COLORS.GOT_NEXT_ORANGE}
+            />
+          }
+        />
+        <Route
+          path="/software/gotNext/why"
+          element={
+            <MarkdownPage
+              source={"/content/GotNextWhy.md"}
+              backTo="/software/gotNext"
+              backButtonFill={COLORS.GOT_NEXT_ORANGE}
+              linkColor={COLORS.GOT_NEXT_ORANGE}
+            />
+          }
+        />
+        <Route
+          path="/software/gotNext/how"
+          element={
+            <MarkdownPage
+              source={"/content/GotNextHow.md"}
+              backTo="/software/gotNext"
+              backButtonFill={COLORS.GOT_NEXT_ORANGE}
+              linkColor={COLORS.GOT_NEXT_ORANGE}
+            />
+          }
+        />
 
         <Route path="/links" element={<SierpinskiPage pageId="links" />} />
         <Route path="/links/aggregators" element={<SierpinskiPage pageId="links/aggregators" />} />
@@ -100,7 +153,7 @@ root.render(
         <Route path="/trades/ceramics/works" element={<TiledPlane parentFolders={"Ceramics"} backTo="/trades/ceramics" />} />
         <Route path="/trades/ceramics/glazes" element={<MarkdownPage source="/content/glazes/Spreadsheet.md" backTo="/trades/ceramics" />} />
         <Route path="/trades/ceramics/glazes/:glazeId" element={<GlazeRecipe />} />
-        <Route path="/trades/richAndFrank" element={<TiledPlane parentFolders={"RichAndFrank"} backTo="/trades" />} />
+        <Route path="/trades/richAndFrank" element={<TiledPlane parentFolders={["RichAndFrank", "Wood/Kitchen Towel Roll"]} backTo="/trades" />} />
         <Route path="/trades/misc" element={<SierpinskiPage pageId="trades/misc" />} />
         <Route path="/trades/misc/wood" element={<TiledPlane parentFolders={"Wood"} backTo="/trades/misc" />} />
         <Route path="/trades/misc/leather" element={<TiledPlane parentFolders={"Leather"} backTo="/trades/misc" />} />
