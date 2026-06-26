@@ -20,6 +20,8 @@ app:
     topRight:
       pageId: software/gotNext
       view: app
+      overrides:
+        title: ''
 page:
   title: Software
   text:
