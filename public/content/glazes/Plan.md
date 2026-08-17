@@ -1,6 +1,6 @@
 # Plan
 
-re-dip 2/3 coats thick dips [g.G](/trades/ceramics/glazes/g.G), [g.G.1](/trades/ceramics/glazes/g.G.1), [g.O.1](/trades/ceramics/glazes/g.O.1), [g.O.2](/trades/ceramics/glazes/g.O.2), [p.G.1](/trades/ceramics/glazes/p.G.1), [p1.P](/trades/ceramics/glazes/p1.P), [p1.P.1](/trades/ceramics/glazes/p1.P.1)
+re-dip 2/3 coats thick dips [g.G](/trades/ceramics/glazes/g.G), [g.G.1](/trades/ceramics/glazes/g.G.1), [g.O.1](/trades/ceramics/glazes/g.O.1), [g.O.2](/trades/ceramics/glazes/g.O.2), [Moss](/trades/ceramics/glazes/Moss), [p1.P](/trades/ceramics/glazes/p1.P), [p1.P.1](/trades/ceramics/glazes/p1.P.1)
 
 Add 2.2% (of original dry weight) iron oxide & 4% rutile to [g.O.1](/trades/ceramics/glazes/g.O.1) to make [g.O.3](/trades/ceramics/glazes/g.O.3)  
 Add 5% tin and 1.5% cobalt to [g.O.2](/trades/ceramics/glazes/g.O.2) to make [g.P.1](/trades/ceramics/glazes/g.P.1)
@@ -21,4 +21,4 @@ Add 6% iron oxide & 1% titanium (of original dry weight) to Dune to make [d.O.7]
 [p1.P](/trades/ceramics/glazes/p1.P) - Really nice light blue  
 I want a purple  
 I want an orange  
-both [g.G.1](/trades/ceramics/glazes/g.G.1) & [p.G.1](/trades/ceramics/glazes/p.G.1) are promising as greens
+both [g.G.1](/trades/ceramics/glazes/g.G.1) & [Moss](/trades/ceramics/glazes/Moss) are promising as greens

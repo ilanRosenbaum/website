@@ -1,0 +1,14 @@
+# Maroon
+
+Silica - 32.50  
+Ferro Frit 3134 - 25.00  
+Nepheline Syenite - 20.00  
+China Clay - 12.50  
+Whiting - 10.00 
+
+Tin Oxide - 5.00  
+Cobalt Carbonate - 0.25  
+Chrome Oxide - 0.375
+
+0.8:1  
+water:solids by weight
